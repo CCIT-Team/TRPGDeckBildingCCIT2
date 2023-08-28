@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using Random = System.Random;
 
 namespace csDelaunay {
 
 	public class Voronoi {
 
-		private SiteList sites;
+		private SiteList siteList;
 		private List<Triangle> triangles;
 
 		private List<Edge> edges;
@@ -14,17 +15,17 @@ namespace csDelaunay {
 
 		// TODO generalize this so it doesn't have to be a rectangle;
 		// then we can make the fractal voronois-within-voronois
-		private Rectf plotBounds;
-		public Rectf PlotBounds {get{return plotBounds;}}
+		private Rect plotBounds;
+		public Rect PlotBounds {get{return plotBounds;}}
 		
-		private Dictionary<Vector2f,Site> sitesIndexedByLocation;
-		public Dictionary<Vector2f,Site> SitesIndexedByLocation {get{return sitesIndexedByLocation;}}
+		private Dictionary<Vector2,Site> sitesIndexedByLocation;
+		public Dictionary<Vector2,Site> SitesIndexedByLocation {get{return sitesIndexedByLocation;}}
 
 		private Random weigthDistributor;
 
 		public void Dispose() {
-			sites.Dispose();
-			sites = null;
+			siteList.Dispose();
+			siteList = null;
 
 			foreach (Triangle t in triangles) {
 				t.Dispose();
@@ -36,25 +37,38 @@ namespace csDelaunay {
 			}
 			edges.Clear();
 
-			plotBounds = Rectf.zero;
+			plotBounds = Rect.zero;
 			sitesIndexedByLocation.Clear();
 			sitesIndexedByLocation = null;
 		}
 
-		public Voronoi(List<Vector2f> points, Rectf plotBounds) {
+		public Voronoi(List<Vector2> points, Rect plotBounds) {
 			weigthDistributor = new Random();
 			Init(points,plotBounds);
 		}
 
-		public Voronoi(List<Vector2f> points, Rectf plotBounds, int lloydIterations) {
+		public Voronoi(List<Vector2> points, Rect plotBounds, int lloydIterations) {
 			weigthDistributor = new Random();
 			Init(points,plotBounds);
 			LloydRelaxation(lloydIterations);
 		}
 
-		private void Init(List<Vector2f> points, Rectf plotBounds) {
-			sites = new SiteList();
-			sitesIndexedByLocation = new Dictionary<Vector2f, Site>();
+		public List<Site> Sites => siteList.sites;
+
+		public Edge FindEdgeFromAdjacentPolygons(Site a, Site b)
+        {
+			foreach (var edge in a.Edges)
+			{
+				if (edge.LeftSite.Equals(b) || edge.RightSite.Equals(b))
+					return edge;
+			}
+
+			return null;
+        }
+
+		private void Init(List<Vector2> points, Rect plotBounds) {
+			siteList = new SiteList();
+			sitesIndexedByLocation = new Dictionary<Vector2, Site>();
 			AddSites(points);
 			this.plotBounds = plotBounds;
 			triangles = new List<Triangle>();
@@ -63,50 +77,53 @@ namespace csDelaunay {
 			FortunesAlgorithm();
 		}
 
-		private void AddSites(List<Vector2f> points) {
+		private void AddSites(List<Vector2> points) {
 			for (int i = 0; i < points.Count; i++) {
 				AddSite(points[i], i);
 			}
 		}
 
-		private void AddSite(Vector2f p, int index) {
+		private void AddSite(Vector2 p, int index) {
 			float weigth = (float)weigthDistributor.NextDouble() * 100;
 			Site site = Site.Create(p, index, weigth);
-			sites.Add(site);
+			siteList.Add(site);
 			sitesIndexedByLocation[p] = site;
 		}
 
-		public List<Vector2f> Region (Vector2f p) {
-			Site site;
-			if (sitesIndexedByLocation.TryGetValue(p, out site)) {
-				return site.Region(plotBounds);
-			} else {
-				return new List<Vector2f>();
-			}
-		}
+		public List<Vector2> Region (Vector2 p) {
+            if (sitesIndexedByLocation.TryGetValue(p, out Site site))
+            {
+                return site.Region(plotBounds);
+            }
+            else
+            {
+                return new List<Vector2>();
+            }
+        }
 
-		public List<Vector2f> NeighborSitesForSite(Vector2f coord) {
-			List<Vector2f> points = new List<Vector2f>();
-			Site site;
-			if (sitesIndexedByLocation.TryGetValue(coord, out site)) {
-				List<Site> sites = site.NeighborSites();
-				foreach (Site neighbor in sites) {
-					points.Add(neighbor.Coord);
-				}
-			}
+		public List<Vector2> NeighborSiteCoordsForSite(Vector2 coord) {
+			List<Vector2> points = new List<Vector2>();
+            if (sitesIndexedByLocation.TryGetValue(coord, out var site))
+            {
+                List<Site> sites = site.NeighborSites();
+                foreach (Site neighbor in sites)
+                {
+                    points.Add(neighbor.Coord);
+                }
+            }
 
-			return points;
+            return points;
 		}
 
 		public List<Circle> Circles() {
-			return sites.Circles();
+			return siteList.Circles();
 		}
 
-		public List<LineSegment> VoronoiBoundarayForSite(Vector2f coord) {
+		public List<LineSegment> VoronoiBoundarayForSite(Vector2 coord) {
 			return LineSegment.VisibleLineSegments(Edge.SelectEdgesForSitePoint(coord, edges));
 		}
 		/*
-		public List<LineSegment> DelaunayLinesForSite(Vector2f coord) {
+		public List<LineSegment> DelaunayLinesForSite(Vector2 coord) {
 			return DelaunayLinesForEdges(Edge.SelectEdgesForSitePoint(coord, edges));
 		}*/
 
@@ -122,10 +139,10 @@ namespace csDelaunay {
 			return edges.FindAll(edge=>edge.IsPartOfConvexHull());
 		}
 
-		public List<Vector2f> HullPointsInOrder() {
+		public List<Vector2> HullPointsInOrder() {
 			List<Edge> hullEdges = HullEdges();
 
-			List<Vector2f> points = new List<Vector2f>();
+			List<Vector2> points = new List<Vector2>();
 			if (hullEdges.Count == 0) {
 				return points;
 			}
@@ -144,32 +161,32 @@ namespace csDelaunay {
 			return points;
 		}
 
-		public List<List<Vector2f>> Regions() {
-			return sites.Regions(plotBounds);
+		public List<List<Vector2>> Regions() {
+			return siteList.Regions(plotBounds);
 		}
 
-		public List<Vector2f> SiteCoords() {
-			return sites.SiteCoords();
+		public List<Vector2> SiteCoords() {
+			return siteList.SiteCoords();
 		}
 
 		private void FortunesAlgorithm() {
 			Site newSite, bottomSite, topSite, tempSite;
 			Vertex v, vertex;
-			Vector2f newIntStar = Vector2f.zero;
+			Vector2 newIntStar = Vector2.zero;
 			LR leftRight;
 			Halfedge lbnd, rbnd, llbnd, rrbnd, bisector;
 			Edge edge;
 
-			Rectf dataBounds = sites.GetSitesBounds();
+			Rect dataBounds = siteList.GetSitesBounds();
 
-			int sqrtSitesNb = (int)Math.Sqrt(sites.Count() + 4);
+			int sqrtSitesNb = (int)Math.Sqrt(siteList.Count() + 4);
 			HalfedgePriorityQueue heap = new HalfedgePriorityQueue(dataBounds.y, dataBounds.height, sqrtSitesNb);
 			EdgeList edgeList = new EdgeList(dataBounds.x, dataBounds.width, sqrtSitesNb);
 			List<Halfedge> halfEdges = new List<Halfedge>();
 			List<Vertex> vertices = new List<Vertex>();
 
-			Site bottomMostSite = sites.Next();
-			newSite = sites.Next();
+			Site bottomMostSite = siteList.Next();
+			newSite = siteList.Next();
 
 			while (true) {
 				if (!heap.Empty()) {
@@ -206,7 +223,7 @@ namespace csDelaunay {
 						vertices.Add(vertex);
 						heap.Remove(lbnd);
 						lbnd.vertex = vertex;
-						lbnd.ystar = vertex.y + newSite.Dist(vertex);
+						lbnd.ystar = vertex.Y + newSite.Dist(vertex);
 						heap.Insert(lbnd);
 					}
 
@@ -221,11 +238,11 @@ namespace csDelaunay {
 					if ((vertex = Vertex.Intersect(bisector, rbnd)) != null) {
 						vertices.Add(vertex);
 						bisector.vertex = vertex;
-						bisector.ystar = vertex.y + newSite.Dist(vertex);
+						bisector.ystar = vertex.Y + newSite.Dist(vertex);
 						heap.Insert(bisector);
 					}
 
-					newSite = sites.Next();
+					newSite = siteList.Next();
 				} else if (!heap.Empty()) {
 					// Intersection is smallest
 					lbnd = heap.ExtractMin();
@@ -246,7 +263,7 @@ namespace csDelaunay {
 					heap.Remove(rbnd);
 					edgeList.Remove(rbnd);
 					leftRight = LR.LEFT;
-					if (bottomSite.y > topSite.y) {
+					if (bottomSite.Y > topSite.Y) {
 						tempSite = bottomSite;
 						bottomSite = topSite;
 						topSite = tempSite;
@@ -262,13 +279,13 @@ namespace csDelaunay {
 						vertices.Add(vertex);
 						heap.Remove(llbnd);
 						llbnd.vertex = vertex;
-						llbnd.ystar = vertex.y + bottomSite.Dist(vertex);
+						llbnd.ystar = vertex.Y + bottomSite.Dist(vertex);
 						heap.Insert(llbnd);
 					}
 					if ((vertex = Vertex.Intersect(bisector, rrbnd)) != null) {
 						vertices.Add(vertex);
 						bisector.vertex = vertex;
-						bisector.ystar = vertex.y + bottomSite.Dist(vertex);
+						bisector.ystar = vertex.Y + bottomSite.Dist(vertex);
 						heap.Insert(bisector);
 					}
 				} else {
@@ -289,30 +306,27 @@ namespace csDelaunay {
 			foreach (Edge e in edges) {
 				e.ClipVertices(plotBounds);
 			}
-			// But we don't actually ever use them again!
-			foreach (Vertex ve in vertices) {
-				ve.Dispose();
-			}
+
 			vertices.Clear();
 		}
 
 		public void LloydRelaxation(int nbIterations) {
 			// Reapeat the whole process for the number of iterations asked
 			for (int i = 0; i < nbIterations; i++) {
-				List<Vector2f> newPoints = new List<Vector2f>();
+				List<Vector2> newPoints = new List<Vector2>();
 				// Go thourgh all sites
-				sites.ResetListIndex();
-				Site site = sites.Next();
+				siteList.ResetListIndex();
+				Site site = siteList.Next();
 
 				while (site != null) {
 					// Loop all corners of the site to calculate the centroid
-					List<Vector2f> region = site.Region(plotBounds);
+					List<Vector2> region = site.Region(plotBounds);
 					if (region.Count < 1) {
-						site = sites.Next();
+						site = siteList.Next();
 						continue;
 					}
 					
-					Vector2f centroid = Vector2f.zero;
+					Vector2 centroid = Vector2.zero;
 					float signedArea = 0;
 					float x0 = 0;
 					float y0 = 0;
@@ -345,12 +359,12 @@ namespace csDelaunay {
 					centroid.y /= (6*signedArea);
 					// Move site to the centroid of its Voronoi cell
 					newPoints.Add(centroid);
-					site = sites.Next();
+					site = siteList.Next();
 				}
 
 				// Between each replacement of the cendroid of the cell,
 				// we need to recompute Voronoi diagram:
-				Rectf origPlotBounds = this.plotBounds;
+				Rect origPlotBounds = this.plotBounds;
 				Dispose();
 				Init(newPoints,origPlotBounds);
 			}
@@ -373,18 +387,18 @@ namespace csDelaunay {
 		}
 
 		public static int CompareByYThenX(Site s1, Site s2) {
-			if (s1.y < s2.y) return -1;
-			if (s1.y > s2.y) return 1;
-			if (s1.x < s2.x) return -1;
-			if (s1.x > s2.x) return 1;
+			if (s1.Y < s2.Y) return -1;
+			if (s1.Y > s2.Y) return 1;
+			if (s1.X < s2.X) return -1;
+			if (s1.X > s2.X) return 1;
 			return 0;
 		}
 		
-		public static int CompareByYThenX(Site s1, Vector2f s2) {
-			if (s1.y < s2.y) return -1;
-			if (s1.y > s2.y) return 1;
-			if (s1.x < s2.x) return -1;
-			if (s1.x > s2.x) return 1;
+		public static int CompareByYThenX(Site s1, Vector2 s2) {
+			if (s1.Y < s2.y) return -1;
+			if (s1.Y > s2.y) return 1;
+			if (s1.X < s2.x) return -1;
+			if (s1.X > s2.x) return 1;
 			return 0;
 		}
 	}

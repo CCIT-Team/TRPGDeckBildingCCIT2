@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace csDelaunay {
 
@@ -25,11 +26,11 @@ namespace csDelaunay {
 			float absdx, absdy;
 			float a, b, c;
 
-			dx = s1.x - s0.x;
-			dy = s1.y - s0.y;
+			dx = s1.X - s0.X;
+			dy = s1.Y - s0.Y;
 			absdx = dx > 0 ? dx : -dx;
 			absdy = dy > 0 ? dy : -dy;
-			c = s0.x * dx + s0.y * dy + (dx*dx + dy*dy) * 0.5f;
+			c = s0.X * dx + s0.Y * dy + (dx*dx + dy*dy) * 0.5f;
 
 			if (absdx > absdy) {
 				a = 1;
@@ -41,7 +42,7 @@ namespace csDelaunay {
 				c/= dy;
 			}
 
-			Edge edge = Edge.Create();
+			Edge edge = Create();
 
 			edge.LeftSite = s0;
 			edge.RightSite = s1;
@@ -68,7 +69,7 @@ namespace csDelaunay {
 		}
 		#endregion
 
-		public static List<Edge> SelectEdgesForSitePoint(Vector2f coord, List<Edge> edgesToTest) {
+		public static List<Edge> SelectEdgesForSitePoint(Vector2 coord, List<Edge> edgesToTest) {
 			return edgesToTest.FindAll(
 			delegate(Edge e) {
 				if (e.LeftSite != null) {
@@ -132,8 +133,8 @@ namespace csDelaunay {
 
 		// Once clipVertices() is called, this Disctinary will hold two Points
 		// representing the clipped coordinates of the left and the right ends...
-		private LRCollection<Vector2f> clippedVertices;
-		public LRCollection<Vector2f> ClippedEnds {get{return clippedVertices;}}
+		private Dictionary<LR, Vector2> clippedVertices;
+		public Dictionary<LR, Vector2> ClippedVertices {get{return clippedVertices;}}
 
 		// Unless the entire Edge is outside the bounds.
 		// In that case visible will be false:
@@ -142,7 +143,7 @@ namespace csDelaunay {
 		}
 
 		// The two input Sites for which this Edge is a bisector:
-		private LRCollection<Site> sites;
+		private Dictionary<LR, Site> sites;
 		public Site LeftSite {get{return sites[LR.LEFT];} set{sites[LR.LEFT]=value;}}
 		public Site RightSite {get{return sites[LR.RIGHT];} set{sites[LR.RIGHT]=value;}}
 
@@ -172,7 +173,7 @@ namespace csDelaunay {
 		}
 
 		public Edge Init() {
-			sites = new LRCollection<Site>();
+			sites = new Dictionary<LR, Site>();
 
 			return this;
 		}
@@ -188,11 +189,11 @@ namespace csDelaunay {
 		 * within the bounds. If no part of the Edge falls within the bounds, leave clippedVertices null
 		 * @param bounds
 		 */ 
-		public void ClipVertices(Rectf bounds) {
+		public void ClipVertices(Rect bounds) {
 			float xmin = bounds.x;
 			float ymin = bounds.y;
-			float xmax = bounds.right;
-			float ymax = bounds.bottom;
+			float xmax = bounds.xMax;
+			float ymax = bounds.yMax;
 
 			Vertex vertex0, vertex1;
 			float x0, x1, y0, y1;
@@ -207,8 +208,8 @@ namespace csDelaunay {
 
 			if (a == 1) {
 				y0 = ymin;
-				if (vertex0 != null && vertex0.y > ymin) {
-					y0 = vertex0.y;
+				if (vertex0 != null && vertex0.Y > ymin) {
+					y0 = vertex0.Y;
 				}
 				if (y0 > ymax) {
 					return;
@@ -216,8 +217,8 @@ namespace csDelaunay {
 				x0 = c - b * y0;
 
 				y1 = ymax;
-				if (vertex1 != null && vertex1.y < ymax) {
-					y1 = vertex1.y;
+				if (vertex1 != null && vertex1.Y < ymax) {
+					y1 = vertex1.Y;
 				}
 				if (y1 < ymin) {
 					return;
@@ -245,8 +246,8 @@ namespace csDelaunay {
 				}
 			} else {
 				x0 = xmin;
-				if (vertex0 != null && vertex0.x > xmin) {
-					x0 = vertex0.x;
+				if (vertex0 != null && vertex0.X > xmin) {
+					x0 = vertex0.X;
 				}
 				if (x0 > xmax) {
 					return;
@@ -254,8 +255,8 @@ namespace csDelaunay {
 				y0 = c - a * x0;
 
 				x1 = xmax;
-				if (vertex1 != null && vertex1.x < xmax) {
-					x1 = vertex1.x;
+				if (vertex1 != null && vertex1.X < xmax) {
+					x1 = vertex1.X;
 				}
 				if (x1 < xmin) {
 					return;
@@ -283,13 +284,13 @@ namespace csDelaunay {
 				}
 			}
 
-			clippedVertices = new LRCollection<Vector2f>();
+			clippedVertices = new Dictionary<LR, Vector2>();
 			if (vertex0 == leftVertex) {
-				clippedVertices[LR.LEFT] = new Vector2f(x0, y0);
-				clippedVertices[LR.RIGHT] = new Vector2f(x1, y1);
+				clippedVertices[LR.LEFT] = new Vector2(x0, y0);
+				clippedVertices[LR.RIGHT] = new Vector2(x1, y1);
 			} else {
-				clippedVertices[LR.RIGHT] = new Vector2f(x0, y0);
-				clippedVertices[LR.LEFT] = new Vector2f(x1, y1);
+				clippedVertices[LR.RIGHT] = new Vector2(x0, y0);
+				clippedVertices[LR.LEFT] = new Vector2(x1, y1);
 			}
 		}
 		#endregion
