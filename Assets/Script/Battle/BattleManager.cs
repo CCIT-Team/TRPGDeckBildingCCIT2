@@ -7,7 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     public List<CharacterDummy> characters;
-    CharacterDummy freeSlot;
+    CharacterDummy currentCharacter;
 
     void Awake()
     {
@@ -33,16 +33,14 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            SortSpeed();
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            GiveTurn();
-
-        if (Input.GetKeyDown(KeyCode.Q))
-            for (int i = 0; i < characters.Count; i++)
-                Debug.Log(i + "번째 캐릭터 : " + characters[i]);
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
             ChangeTurn();
+
+        if (Input.GetKeyDown(KeyCode.Return))
+            SortSpeed();
+
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            print("현재 캐릭터 : " + currentCharacter.name);
+        
     }
 
     void StartBattle()
@@ -62,26 +60,25 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    void GiveTurn()
-    {
-        foreach (CharacterDummy character in characters)
-        {
-            if (character.State != State.Dead)
-                character.State = State.Wait;
-        }
-        characters[0].State = State.MyTurn;
-
-        //ChangeTurn(characters[0]);
-    }
+    //void GiveTurn()
+    //{
+    //    foreach (CharacterDummy character in characters)
+    //    {
+    //        if (character.State != State.Dead)
+    //            character.State = State.Wait;
+    //    }
+    //    characters[0].State = State.MyTurn;
+    //}
 
     public void ChangeTurn(CharacterDummy character, int inputNum = -1)
     {
-        character.State = State.Wait;
+        //character.State = State.Wait;
         characters.Remove(character);
         if (inputNum == -1)
             characters.Insert(characters.Count, character);
         else
             characters.Insert(inputNum, character);
+        currentCharacter = characters[0];
     }
     public void ChangeTurn(int listNum = 0, int inputNum = -1)
     {
@@ -91,5 +88,6 @@ public class BattleManager : MonoBehaviour
             characters.Insert(characters.Count, characters[listNum]);
         else
             characters.Insert(inputNum, characters[listNum]);
+        currentCharacter = characters[0];
     }
 }
