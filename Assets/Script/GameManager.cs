@@ -25,8 +25,5 @@ public class GameManager : MonoBehaviour
         avatar[0].SetUnitData(DataBase.instance.stat[0]);
         avatar[1].SetUnitData(DataBase.instance.stat[1]);
         avatar[2].SetUnitData(DataBase.instance.stat[2]);
-        //avatar.Add();
-        //avatar.Add();
-        //avatar.Add();
     }
 }

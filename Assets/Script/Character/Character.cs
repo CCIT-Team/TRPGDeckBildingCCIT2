@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Character : Unit
 {
+    public enum WorldState
+    {
+        None,
+        Idle,
+        Walking,
+        Death
+    }
     public int playerNum;
     [SerializeField] private PlayerStat.AvatarType type;
     [SerializeField] private PlayerStat.Major major;
@@ -16,18 +23,8 @@ public class Character : Unit
     public float def;
     public int cost;
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    SetUnitData(DataBase.instance.stat[0]);
-        //}
-    }
+    public bool isMyturn;
+    public WorldState worldState;
 
 
     public void SetUnitData(PlayerStat stat)

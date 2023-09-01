@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public enum State
+    public enum BattleState
     {
         None,
         Idle,
@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     }
 
     [SerializeField]
-    protected State CurrentState;
+    protected BattleState CurrentState;
 
     [SerializeField]
     protected float hp;
@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
         {
             if(value <= 0)
             {
-                CurrentState = State.Death;
+                CurrentState = BattleState.Death;
             }
             else
             {
