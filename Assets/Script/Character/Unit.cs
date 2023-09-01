@@ -16,6 +16,7 @@ public class Unit : MonoBehaviour
 
     [SerializeField]
     protected State CurrentState;
+
     [SerializeField]
     protected float hp;
     protected virtual float Hp
@@ -36,6 +37,8 @@ public class Unit : MonoBehaviour
             }
         }
     }
+
+    [SerializeField] protected float maxHp = 0.0f;
 
     public float Damaged(float atk)
     {

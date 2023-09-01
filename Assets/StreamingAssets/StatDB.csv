@@ -1,0 +1,4 @@
+playerNum,type,major,strength,intelligence,luck,speed,hp,atk,def,cost
+1,Human,Fighter,50,50,50,50,101,10,10,5
+2,Elf,Magician,50,50,50,50,102,10,10,5
+3,DarkElf,Cleric,50,50,50,50,103,10,10,5

@@ -4,25 +4,45 @@ using UnityEngine;
 
 public class Character : Unit
 {
-    public enum AvatarType
+    public int playerNum;
+    [SerializeField] private PlayerStat.AvatarType type;
+    [SerializeField] private PlayerStat.Major major;
+    public int strength;
+    public int intelligence;
+    public int luck;
+    public int speed;
+
+    public float atk;
+    public float def;
+    public int cost;
+
+    private void Start()
     {
-        None,
-        Human,
-        Elf,
-        DarkElf,
-        HalfOrc
+
     }
 
-    public enum Major
+    private void Update()
     {
-        None,
-        Fighter,
-        Magician,
-        Cleric
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    SetUnitData(DataBase.instance.stat[0]);
+        //}
     }
 
-    [SerializeField]
-    private AvatarType type;
-    [SerializeField]
-    private Major major;
+
+    public void SetUnitData(PlayerStat stat)
+    {
+        playerNum = stat.playerNum;
+        type = stat.type;
+        major = stat.major;
+        maxHp = stat.hp;
+        hp = maxHp;
+        strength = stat.strength;
+        intelligence = stat.intelligence;
+        luck = stat.luck;
+        speed = stat.speed;
+        atk = stat.atk;
+        def = stat.def;
+        cost = stat.cost;
+    }
 }
