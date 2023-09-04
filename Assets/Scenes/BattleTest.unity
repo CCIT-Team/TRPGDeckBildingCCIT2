@@ -476,15 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326996f3d7ea5b049975f19543a3e069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 1794843474}
-  - {fileID: 230344958}
-  - {fileID: 758721982}
-  - {fileID: 473758532}
-  - {fileID: 1643399996}
-  - {fileID: 277008785}
-  - {fileID: 1167211750}
-  - {fileID: 641425888}
+  characters: []
   EndTurnBtn: {fileID: 69479468}
 --- !u!4 &286005178
 Transform:

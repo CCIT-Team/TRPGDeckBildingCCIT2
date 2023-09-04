@@ -9,6 +9,19 @@ public class BattleManager : MonoBehaviour
     public List<CharacterDummy> characters;
     CharacterDummy currentCharacter;
 
+    bool isBattle = false;
+    public bool Battle
+    {
+        get { return isBattle; }
+        set
+        {
+            if (value = isBattle)
+                StartBattle();
+            else
+                EndBattle();
+        }
+    }
+
     void Awake()
     {
         if (instance == null)
@@ -25,7 +38,8 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        EndTurnBtn.onClick.AddListener(()=>ChangeTurn());
+        if(EndTurnBtn != null)
+            EndTurnBtn.onClick.AddListener(()=>ChangeTurn());
     }
 
 
@@ -45,19 +59,34 @@ public class BattleManager : MonoBehaviour
 
     void StartBattle()
     {
-
+        //characters.Add();
+        SortSpeed();
+        currentCharacter = characters[0];
     }
+
+    void EndBattle()
+    {
+        
+    }
+
+    void JoinBattle(CharacterDummy joinCharacter)
+    {
+        for(int i = 0; i<= characters.Count;i++)
+        {
+            if(characters[i].SPD < joinCharacter.SPD)
+            {
+                characters.Add(joinCharacter);
+                return;
+            }
+        }
+    }
+
 
     void SortSpeed()
     {
         characters.Sort((a, b) => a.SPD > b.SPD ? 1 : -1);
         foreach (CharacterDummy character in characters)
             print(character.gameObject.name);
-    }
-
-    void Battle()
-    {
-
     }
 
     //void GiveTurn()
@@ -82,12 +111,20 @@ public class BattleManager : MonoBehaviour
     }
     public void ChangeTurn(int listNum = 0, int inputNum = -1)
     {
-        characters[listNum].State = State.Wait;
-        characters.Remove(characters[listNum]);
+        //characters[listNum].State = State.Wait;
+        if (currentCharacter == null)
+            currentCharacter = characters[listNum];
+        
         if (inputNum == -1)
-            characters.Insert(characters.Count, characters[listNum]);
+        {
+            characters.Remove(currentCharacter);
+            characters.Insert(characters.Count, currentCharacter);
+        }   
         else
+        {
+            characters.Remove(characters[listNum]);
             characters.Insert(inputNum, characters[listNum]);
+        }    
         currentCharacter = characters[0];
     }
 }
