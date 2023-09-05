@@ -29,15 +29,13 @@ public class Map : MonoBehaviour
     private int _seed = 0;
 
     public GameObject hexagon;
-    public GameObject empty;
     GameObject tileObject;
-    GameObject xwidth;
-    public int xNum = 0;
     int tileNum = 0;
-    public GameObject[] tile = new GameObject[1];
+    public GameObject[] tile = new GameObject[3800];
 
     private void Awake()
     {
+        tile = new GameObject[3800];
         var voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = MapDraw.DrawVoronoiToSprite(voronoi);
         GenerateMap();
@@ -81,10 +79,7 @@ public class Map : MonoBehaviour
         var mask = MapDraw.GetRadialGradientMask(size, noiseMaskRadius);
         float[] colorDatas = new float[size.x * size.y];
         var index = 0;
-        //test
-        tile = new GameObject[size.x * size.y];
-        xwidth = Instantiate(empty, gameObject.transform);
-        xwidth.gameObject.name = "x" + xNum;
+
         for (int x = 0; x < size.x; ++x)
         {
             for (int y = 0; y < size.y; ++y)
@@ -98,38 +93,18 @@ public class Map : MonoBehaviour
                 {
                     if (x % 2 == 0)
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity);
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
                         tileObject.name = "Tile" + tileNum;
                         tile[tileNum] = tileObject;
+                        tileNum += 1;
                     }
                     else
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity);
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
                         tileObject.name = "Tile" + tileNum;
                         tile[tileNum] = tileObject;
-                    }
-                    //GameObject tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity);
-                    //tileObject.name = "Tile" + tileNum;
-                    //tile[tileNum] = tileObject;
-
-                    if (tileNum > 0)
-                    {
-                        if (tile[tileNum].transform.position.x == tile[tileNum - 1].transform.position.x)
-                        {
-                            tile[tileNum - 1].gameObject.transform.parent = xwidth.transform;
-                            tileNum += 1;
-                        }
-                        else
-                        {
-                            Debug.Log("1");
-                            xwidth = Instantiate(empty, gameObject.transform);
-                            xwidth.gameObject.name = "x" + xNum;
-                            tileObject.gameObject.transform.parent = xwidth.transform;
-                            xNum += 1;
-                            tileNum += 1;
-                        }
-                    }
-                    else { tileNum += 1; }
+                        tileNum += 1;
+                    }             
                 }
                 ++index;
             }
