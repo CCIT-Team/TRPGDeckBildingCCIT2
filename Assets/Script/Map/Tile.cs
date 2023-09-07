@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// Tile's coordinates.
     /// </summary>
-    public Vector3 position;
+    public Vector3Int position;
 
     /// <summary>
     /// References to all adjacent tiles.
@@ -33,4 +34,9 @@ public class Tile : MonoBehaviour
     /// If true - Tile is an obstacle impossible to pass.
     /// </summary>
     public bool isObstacle;
+
+    private void Awake()
+    {
+        position = new Vector3Int(Convert.ToInt32(transform.position.x), Convert.ToInt32(transform.position.y), Convert.ToInt32(transform.position.z));
+    }
 }

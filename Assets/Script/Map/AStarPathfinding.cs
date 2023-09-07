@@ -97,8 +97,8 @@ public class AStarPathfinding
     /// </summary>
     /// <param name="startPosition">Start position.</param>
     /// <param name="targetPosition">Destination position.</param>
-    protected static int GetEstimatedPathCost(Vector3 startPosition, Vector3 targetPosition)
+    protected static int GetEstimatedPathCost(Vector3Int startPosition, Vector3Int targetPosition)
     {
-        return (int)Mathf.Max(Mathf.Abs(startPosition.z - targetPosition.z), Mathf.Max(Mathf.Abs(startPosition.x - targetPosition.x), Mathf.Abs(startPosition.y - targetPosition.y)));
+        return Mathf.Max(Mathf.Abs(startPosition.z - targetPosition.z), Mathf.Max(Mathf.Abs(startPosition.x - targetPosition.x), Mathf.Abs(startPosition.y - targetPosition.y)));
     }
 }
