@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: bee6dd2c56a28b2429bc9533e8b6978f
+  - enabled: 1
+    path: Assets/Scenes/Character.unity
+    guid: a7d1ee2ffc2309649999d8ee7fb0e289
   m_configObjects: {}
