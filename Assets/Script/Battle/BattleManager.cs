@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
-    public List<Character> characters;  //주석 달린부분 Character class 지워서 생기는 부분 수정 필요
+    public List<Character> characters;
     Character currentCharacter;
 
     bool isBattle = false;
@@ -27,7 +27,6 @@ public class BattleManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
         }
         else if (instance != this)
             Destroy(this);
@@ -64,7 +63,8 @@ public class BattleManager : MonoBehaviour
 
     void EndBattle()
     {
-        
+        characters.Clear();
+        currentCharacter = null;
     }
 
     public void JoinBattle(Character character)     //소환, 부활 등 캐릭터 난입용
@@ -92,7 +92,7 @@ public class BattleManager : MonoBehaviour
             print(character.gameObject.name);
     }
 
-    public void ChangeTurn(Character character, int turn = -1)      //지정된 캐릭터를 turn 턴으로 변경, turn 미지정시 가장 뒤로 변경
+    public void ChangeTurn(Character character, int turn = -1)      //지정된 캐릭터의 턴을 turn으로 변경, turn 미지정시 가장 뒤로 변경
     {
         characters.Remove(character);
         if (turn == -1)
@@ -101,7 +101,7 @@ public class BattleManager : MonoBehaviour
             characters.Insert(turn, character);
         currentCharacter = characters[0];
     }
-    public void ChangeTurn(int listNum = 0, int turn = -1)      //지정된 캐릭터를 turn 턴으로 변경,  turn 미지정시 가장 뒤로 변경, listNum 미지정시 현재 턴의 캐릭터 지정
+    public void ChangeTurn(int listNum = 0, int turn = -1)      //지정된 캐릭터의 턴을 turn으로 변경,  turn 미지정시 가장 뒤로 변경, listNum 미지정시 현재 턴의 캐릭터 지정
     {
         if (currentCharacter == null)
             currentCharacter = characters[listNum];
@@ -118,4 +118,20 @@ public class BattleManager : MonoBehaviour
         }
         currentCharacter = characters[0];
     }
+
+
+    void DoAction()
+    {
+        float daf = 4;
+        string dk = "d";
+        Dictionary<float, string> jkj = new();
+        jkj.TryGetValue(daf,out dk);
+        jkj[daf] = "jh";
+        Character c;
+        this.TryGetComponent<Character>(out c);
+    }
+
+
+
 }
+

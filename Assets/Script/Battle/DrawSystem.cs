@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrawSystem : MonoBehaviour
 {
-    public List<Card> tester;
+    public List<string> Deck;
     public int cardCount;
 
     List<Card> deck;
@@ -19,8 +19,8 @@ public class DrawSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            DrawCard(tester,cardCount);
+        //if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            //DrawCard(Deck,cardCount);
     }
 
     void EnterBattle(List<Card> inputDeck)
@@ -40,6 +40,14 @@ public class DrawSystem : MonoBehaviour
             int cardNumber = Random.Range(0, deck.Count);
             hand.Add(deck[cardNumber]);
             deck.RemoveAt(cardNumber);
+        }
+    }
+
+    void CheckHand(int handlimit = 7)
+    {
+        if(hand.Count >= handlimit)
+        {
+
         }
     }
 }
