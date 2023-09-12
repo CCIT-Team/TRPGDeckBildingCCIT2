@@ -38,5 +38,6 @@ public class Tile : MonoBehaviour
     private void Awake()
     {
         position = new Vector3Int(Convert.ToInt32(transform.position.x), Convert.ToInt32(transform.position.y), Convert.ToInt32(transform.position.z));
+        
     }
 }
