@@ -62,8 +62,8 @@ public class DataBase : MonoBehaviour
         while(dataReader.Read())
         {
             int playerNum = dataReader.GetInt32(0);
-            PlayerStat.AvatarType type = (PlayerStat.AvatarType)Enum.Parse(typeof(PlayerStat.AvatarType), dataReader.GetString(1));
-            PlayerStat.Major major = (PlayerStat.Major)Enum.Parse(typeof(PlayerStat.Major), dataReader.GetString(2));
+            //PlayerStat.AvatarType type = (PlayerStat.AvatarType)Enum.Parse(typeof(PlayerStat.AvatarType), dataReader.GetString(1));
+            //PlayerStat.Major major = (PlayerStat.Major)Enum.Parse(typeof(PlayerStat.Major), dataReader.GetString(2));
             int strength = dataReader.GetInt32(3);
             int intelligence = dataReader.GetInt32(4);
             int luck = dataReader.GetInt32(5);
@@ -73,15 +73,13 @@ public class DataBase : MonoBehaviour
             float def = dataReader.GetFloat(9);
             int cost = dataReader.GetInt32(10);
 
-            stat.Add(new PlayerStat(playerNum, type, major, strength, intelligence, luck, speed, hp, atk, def, cost));
+            stat.Add(new PlayerStat(playerNum, strength, intelligence, luck, speed, hp, atk, def, cost));
         }
         dataReader.Close();
     }
 }
-
-
 [Serializable]
-public class PlayerStat
+public class PlayerType
 {
     public enum AvatarType
     {
@@ -104,9 +102,24 @@ public class PlayerStat
         female
     }
 
-    public int playerNum;
-    [SerializeField] public AvatarType type;
+    public string nickname;
     [SerializeField] public Major major;
+    [SerializeField] public Sex sex;
+    [SerializeField] public AvatarType type;
+    public Color skinColor;
+
+    public PlayerType(string _nickname, Major _major, Sex _sex, AvatarType _avatartype)
+    {
+        nickname = _nickname;
+        major = _major;
+        sex = _sex;
+        //skinColor = _skinColor;
+    }
+}
+[Serializable]
+public class PlayerStat
+{
+    public int playerNum;
     public int strength;
     public int intelligence;
     public int luck;
@@ -121,8 +134,6 @@ public class PlayerStat
     {
         int count = 0;
         playerNum = int.Parse(data[count++]);
-        type = (AvatarType)Enum.Parse(typeof(AvatarType), data[count++]);
-        major = (Major)Enum.Parse(typeof(Major), data[count++]);
         strength = int.Parse(data[count++]);
         intelligence = int.Parse(data[count++]);
         luck = int.Parse(data[count++]);
@@ -132,11 +143,9 @@ public class PlayerStat
         def = float.Parse(data[count++]);
         cost = int.Parse(data[count++]);
     }
-    public PlayerStat(int _playerNum, AvatarType _type, Major _major, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _atk, float _def, int _cost)
+    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _atk, float _def, int _cost)
     {
         playerNum = _playerNum;
-        type = _type;
-        major = _major;
         strength = _strength;
         intelligence = _intelligence;
         luck = _luck;
