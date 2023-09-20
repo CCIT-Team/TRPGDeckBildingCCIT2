@@ -927,6 +927,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1655284412}
   - component: {fileID: 1655284411}
+  - component: {fileID: 1655284413}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -975,6 +976,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1655284413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655284409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631cfa3b6e91d154494880f7ed93a43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSprite: {fileID: 21300000, guid: 89fb7e34eafa254458190c6ca9a4716b, type: 3}
+  _goalSprite: {fileID: 21300000, guid: 96905eeec77649241b7da2750dfb29a6, type: 3}
+  _unitPrefab: {fileID: 920996666364659096, guid: ff1baa9d98e6c1740847175b765ededf,
+    type: 3}
+  _scriptableGrid: {fileID: 11400000, guid: 9203d5d76aab5c94ca9cbeb3b986c6b0, type: 2}
+  _drawConnections: 0
 --- !u!1 &1729443541
 GameObject:
   m_ObjectHideFlags: 0
