@@ -26,7 +26,6 @@ public class Card : MonoBehaviour
         set
         {
             damage = value;
-            
         }
     }
 

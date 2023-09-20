@@ -15,7 +15,7 @@ public class BattleManager : MonoBehaviour
         get { return isBattle; }
         set
         {
-            if (value = isBattle)
+            if (isBattle = value)
                 StartBattle();
             else
                 EndBattle();
@@ -45,9 +45,16 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Battle = !isBattle;
+            print("Battle : " + Battle+"("+isBattle+")");
+        }
+            
+
+        if (Input.GetKeyDown(KeyCode.C))
             ChangeTurn();
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.S))
             SortSpeed();
 
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -73,10 +80,11 @@ public class BattleManager : MonoBehaviour
         {
             if (characters[i].speed < character.speed)
             {
-                characters.Add(character);
+                characters.Insert(i, character);
                 return;
             }
         }
+        characters.Add(character);
     }
 
     public void ExitBattle(Character character)     //사망 등으로 인한 제거
