@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     }
 
     [SerializeField]
-    protected BattleState CurrentState;
+    protected BattleState battleState;
 
     [SerializeField]
     protected float hp;
@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
         {
             if(value <= 0)
             {
-                CurrentState = BattleState.Death;
+                battleState = BattleState.Death;
             }
             else
             {
