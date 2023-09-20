@@ -29,7 +29,7 @@ public class DataBase : MonoBehaviour
     private void Start()
     {
         //LoadStatDB(statPath);
-        ConnectionTestDB(dbPath);
+        //ConnectionTestDB(dbPath);
     }
 
     private void LoadStatDB(string path) //csv파일 읽기 방식

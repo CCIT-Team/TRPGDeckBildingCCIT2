@@ -71,6 +71,7 @@ public class LobbyUI_Manager : MonoBehaviour
             if(avatarSet[i].gameObject.activeSelf)
             {
                 avatarSet[i].SetType(i);
+                GameManager.instance.avatarCounter++;
             }
         }
     }

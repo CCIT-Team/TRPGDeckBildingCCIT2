@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]public List<string> avatar_0 = new List<string>();
     [SerializeField]public List<string> avatar_1 = new List<string>();
     [SerializeField]public List<string> avatar_2 = new List<string>();
+    public int avatarCounter = 0;
     private string sceneName = null; //scene변경
 
     private void Awake()
@@ -32,13 +33,34 @@ public class GameManager : MonoBehaviour
         //avatar[2].SetUnitData(DataBase.instance.stat[2]);
         //LoadScenceName("Character");
     }
+    #region 로비씬 아바타 세팅 -> 오브젝트 화
 
-    public void CreateAvatar(int index)
+    public void GetLobbyAvatar()
     {
+        for (int i = 0; i < avatarCounter; i++)
+        {
+            CreateAvatar(i);
+        }
+    }
+    private void CreateAvatar(int index)
+    {        
         GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
         unit.transform.position = Vector3.zero;//나중에 맵 포지션 받아올거임
-        unit.GetComponent<Character_type>().SetUnitType(avatar_0[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_0[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_0[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_0[3]));
+        switch (index)
+        {
+            case 0:
+                unit.GetComponent<Character_type>().SetUnitType(avatar_0[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_0[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_0[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_0[3]));
+                break;
+            case 1:
+                unit.GetComponent<Character_type>().SetUnitType(avatar_1[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_1[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_1[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_1[3]));
+                break;
+            case 2:
+                unit.GetComponent<Character_type>().SetUnitType(avatar_2[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_2[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_2[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_2[3]));
+                break;
+        }
     }
+
+    #endregion
 
     #region 비동기 씬전환
 
@@ -64,5 +86,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
+
     #endregion
 }
