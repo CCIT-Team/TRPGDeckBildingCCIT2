@@ -22,38 +22,55 @@ public class DataBase : MonoBehaviour
         }
     }
     public List<PlayerStat> stat = new List<PlayerStat>();
-    private const string statPath = "/StatDB.csv";  //csv파일 읽기 방식
-    private const string dbPath = "/testDB.db";
-
+    private const string StatdbPath = "/StatDB.db";
+    private const string table = "BasicStat";
+    private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
 
     private void Start()
     {
-        //LoadStatDB(statPath);
-        //ConnectionTestDB(dbPath);
+        ConnectionDB(StatdbPath);
+        GameManager.instance.GetLobbyAvatar(); //test용
     }
 
-    private void LoadStatDB(string path) //csv파일 읽기 방식
-    {
-        string[] statDB = File.ReadAllLines(Application.streamingAssetsPath + path);
 
-        for(int i = 1; i < statDB.Length; i++)
-        {
-            stat.Add(new PlayerStat(statDB[i].Split(',')));
-        }
-    }
-
-    private void ConnectionTestDB(string path)
+    private void ConnectionDB(string path)
     {
-        string testDB = "URI=file:" + Application.streamingAssetsPath + path;
-        IDbConnection dbConnection = new SqliteConnection(testDB);
+        string statDB = "URI=file:" + Application.streamingAssetsPath + path;
+        IDbConnection dbConnection = new SqliteConnection(statDB);
         dbConnection.Open();
 
-        LoadTestDB(dbConnection);
+        LoadStartStatDB(dbConnection);
     }
 
-    private void LoadTestDB(IDbConnection dbConnection)
+    public void Deliver_column(string typeQuery, string statQuery)
     {
-        string tableName = "StatDB";
+        UpdateDB(playerDataPath_1, typeQuery, statQuery); //디비 경로 설정
+    }
+
+    private void UpdateDB(string path, string typeQuery, string statQuery)
+    {
+        string playerdataDB = "URI=file:" + Application.streamingAssetsPath + path;
+        IDbConnection dbConnection = new SqliteConnection(playerdataDB);
+        dbConnection.Open();
+
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = typeQuery;
+        dbCommand.ExecuteNonQuery();
+        dbCommand.Dispose();
+
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = statQuery;
+        dbCommand.ExecuteNonQuery();
+        dbCommand.Dispose();
+        //스텟데이터 칼럼 추가
+
+        dbConnection.Close();
+    }
+
+    private void LoadStartStatDB(IDbConnection dbConnection)
+    {
+        string tableName = table;
 
         IDbCommand dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = "SELECT * FROM " + tableName;
@@ -61,23 +78,26 @@ public class DataBase : MonoBehaviour
 
         while(dataReader.Read())
         {
-            int playerNum = dataReader.GetInt32(0);
-            //PlayerStat.AvatarType type = (PlayerStat.AvatarType)Enum.Parse(typeof(PlayerStat.AvatarType), dataReader.GetString(1));
-            //PlayerStat.Major major = (PlayerStat.Major)Enum.Parse(typeof(PlayerStat.Major), dataReader.GetString(2));
-            int strength = dataReader.GetInt32(3);
-            int intelligence = dataReader.GetInt32(4);
-            int luck = dataReader.GetInt32(5);
-            int speed = dataReader.GetInt32(6);
-            float hp = dataReader.GetFloat(7);
-            float atk = dataReader.GetFloat(8);
-            float def = dataReader.GetFloat(9);
+            PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(0));
+            int strength = dataReader.GetInt32(1);
+            int intelligence = dataReader.GetInt32(2);
+            int luck = dataReader.GetInt32(3);
+            int speed = dataReader.GetInt32(4);
+            float hp = dataReader.GetFloat(5);
+            float atk = dataReader.GetFloat(6);
+            float ap = dataReader.GetFloat(7);
+            float def = dataReader.GetFloat(8);
+            float apdef = dataReader.GetFloat(9);
             int cost = dataReader.GetInt32(10);
 
-            stat.Add(new PlayerStat(playerNum, strength, intelligence, luck, speed, hp, atk, def, cost));
+            stat.Add(new PlayerStat(major, strength, intelligence, luck, speed, hp, atk, ap, def, apdef, cost));
         }
         dataReader.Close();
     }
 }
+
+#region 플레이어 타입
+
 [Serializable]
 public class PlayerType
 {
@@ -99,7 +119,7 @@ public class PlayerType
     public enum Sex
     {
         Male,
-        female
+        Female
     }
 
     public string nickname;
@@ -116,10 +136,15 @@ public class PlayerType
         //skinColor = _skinColor;
     }
 }
+
+#endregion
+
+#region 플레이어 스텟
+
 [Serializable]
 public class PlayerStat
 {
-    public int playerNum;
+    public PlayerType.Major major;
     public int strength;
     public int intelligence;
     public int luck;
@@ -127,32 +152,25 @@ public class PlayerStat
 
     public float hp;
     public float atk;
+    public float ap;
     public float def;
+    public float apdef;
     public int cost;
 
-    public PlayerStat(string[] data) //csv파일 읽기 방식
+    public PlayerStat(PlayerType.Major _major, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _atk, float _ap, float _def, float _apdef, int _cost)
     {
-        int count = 0;
-        playerNum = int.Parse(data[count++]);
-        strength = int.Parse(data[count++]);
-        intelligence = int.Parse(data[count++]);
-        luck = int.Parse(data[count++]);
-        speed = int.Parse(data[count++]);
-        hp = float.Parse(data[count++]);
-        atk = float.Parse(data[count++]);
-        def = float.Parse(data[count++]);
-        cost = int.Parse(data[count++]);
-    }
-    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _atk, float _def, int _cost)
-    {
-        playerNum = _playerNum;
+        major = _major;
         strength = _strength;
         intelligence = _intelligence;
         luck = _luck;
         speed = _speed;
         hp = _hp;
         atk = _atk;
+        ap = _ap;
         def = _def;
+        apdef = _apdef;
         cost = _cost;
     }
 }
+
+#endregion

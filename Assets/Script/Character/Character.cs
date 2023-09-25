@@ -11,23 +11,25 @@ public class Character : Unit
         Walking,
         Death
     }
-    public int playerNum;
     public int strength;
     public int intelligence;
     public int luck;
     public int speed;
 
     public float atk;
+    public float ap;
     public float def;
+    public float apdef;
+    private int currentCost;
     public int cost;
 
     public bool isMyturn;
     public WorldState worldState;
 
+    private string insertQuery;
 
     public void SetUnitData(PlayerStat stat)
     {
-        playerNum = stat.playerNum;
         maxHp = stat.hp;
         hp = maxHp;
         strength = stat.strength;
@@ -35,7 +37,17 @@ public class Character : Unit
         luck = stat.luck;
         speed = stat.speed;
         atk = stat.atk;
+        ap = stat.ap;
         def = stat.def;
+        apdef = stat.apdef;
         cost = stat.cost;
+        currentCost = cost;
+    }
+
+    public string GetStatDBQuery()
+    {//current hp ÇÊ¿ä;;
+        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, hp, atk, ap, def, apdef, currentCost, cost) VALUES " +
+            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {atk}, {ap}, {def}, {apdef}, {currentCost}, {cost})";
+        return insertQuery;
     }
 }
