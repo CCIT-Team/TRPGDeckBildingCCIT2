@@ -5,8 +5,7 @@ using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
-    [SerializeField]
-    private Vector2Int size;
+    public Vector2Int size;
     [SerializeField]
     private int nodeAmount = 0;
     [SerializeField]
@@ -65,7 +64,7 @@ public class Map : MonoBehaviour
         var voronoi = new Voronoi(centroids, Rect, lloydIterationCount);
         return voronoi;
     }
-
+    float color;
     private float[] CreateMapShape(Vector2Int size, float frequency, int octave)
     {
         var seed = (_seed == 0) ? Random.Range(1, int.MaxValue) : _seed;
@@ -87,24 +86,27 @@ public class Map : MonoBehaviour
                 var noiseColorFactor = noise.GetNoise(x, y);
                 noiseColorFactor = (noiseColorFactor + 1) * 0.5f;
                 noiseColorFactor *= mask[index];
-                var color = noiseColorFactor > landNoiseThreshold ? 1f : 0f;
+                color = noiseColorFactor > landNoiseThreshold ? 1f : 0f;
                 colorDatas[index] = color;
+                GetColorFloat(color);
                 if (color > 0)
                 {
                     if (x % 2 == 0)
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
+                        tileObject = Instantiate(hexagon, new Vector2(x * 1.5f, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
+                        tileObject.transform.Rotate(new Vector3(-90, 0, 0));
                         tileObject.name = "Tile" + tileNum;
                         tile[tileNum] = tileObject;
                         tileNum += 1;
                     }
                     else
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
+                        tileObject = Instantiate(hexagon, new Vector2(x * 1.5f, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
+                        tileObject.transform.Rotate(new Vector3(-90, 0, 0));
                         tileObject.name = "Tile" + tileNum;
                         tile[tileNum] = tileObject;
                         tileNum += 1;
-                    }             
+                    }
                 }
                 ++index;
             }
@@ -112,6 +114,11 @@ public class Map : MonoBehaviour
         return colorDatas;
     }
 
+    public float GetColorFloat(float color)
+    {
+        color = this.color;
+        return color;
+    }
     private void OnValidate()
     {
         //GenerateMap();
