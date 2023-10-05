@@ -3,43 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour   //
 {
+    public delegate void CardAction();
+    public CardAction cardEffect;
+
     public int cardID;
     public string cardName;
-    public string cardInfo;
     public int cost;
-    public int tokenCount;
+    public CARDRARITY rarity;
+    public Sprite cardImage;
+    public string cardText;
+    public int tokenAmount;
     public bool[] tokens;
-    public CARDTYPE cardType;
-    public Sprite sprite;
 
-    public Image CardImage;
-    public Text CardText;
-    
+    CardData cardData;
 
-    [SerializeField]
-    float damage = 1;
-    public float Damage
+    public GameObject cardTarget;
+
+    public Image image;
+    public Text text;
+
+
+    public void CardEffect()
     {
-        get { return damage; }
-        set
-        {
-            damage = value;
-        }
-    }
-
-    public enum CARDTYPE
-    {
-        None = -1,
-        Attack,
-        Support,
-        Draw
-    }
-
-    void CardEffect()
-    {
-
+        print(cardTarget.name+"¿¡°Ô" + this.gameObject.name + "½ÇÇàµÊ");
     }
 
     void UseCost(Character character)
@@ -49,7 +37,9 @@ public class Card : MonoBehaviour
 
     void OnEnable()
     {
-        CardImage.sprite = sprite;
-        CardText.text = cardInfo;
+        cardData = CardDataBase.instance.cards[cardID];
+        image.sprite = cardImage;
+        text.text = cardText;
+        cardEffect += CardEffect;
     }
 }
