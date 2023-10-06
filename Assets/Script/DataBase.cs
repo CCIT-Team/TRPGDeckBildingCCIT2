@@ -49,6 +49,30 @@ public class DataBase : MonoBehaviour
         UpdateDB(playerDataPath_1, typeQuery, statQuery);
     }
 
+    public bool EmptyDB()
+    {
+        string tableName = "Type";
+        string playerdataDB = "URI=file:" + Application.streamingAssetsPath + playerDataPath_1;
+        IDbConnection dbConnection = new SqliteConnection(playerdataDB);
+        dbConnection.Open();
+
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+
+        IDataReader dataReader = dbCommand.ExecuteReader();
+        if (dataReader.IsDBNull(0))
+        {
+            Debug.Log(dataReader.IsDBNull(0) + " Empty DB");
+            return true;
+        }
+        else
+        {
+            Debug.Log(dataReader.IsDBNull(0) + " Not Empty DB");
+            return false;
+        }
+
+
+    }
     private void UpdateDB(string path, string typeQuery, string statQuery)
     {
         string playerdataDB = "URI=file:" + Application.streamingAssetsPath + path;
@@ -74,10 +98,13 @@ public class DataBase : MonoBehaviour
         string tableName = table;
 
         IDbCommand dbCommand = dbConnection.CreateCommand();
+        
         dbCommand.CommandText = "SELECT * FROM " + tableName;
         IDataReader dataReader = dbCommand.ExecuteReader();
+        
 
-        while(dataReader.Read())
+
+        while (dataReader.Read())
         {
             PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(0));
             int strength = dataReader.GetInt32(1);
