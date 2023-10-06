@@ -43,7 +43,7 @@ public class Map1 : MonoBehaviour
     private void Awake()
     {
         var voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
-        voronoiMapRenderer.sprite = MapDraw.DrawVoronoiToSprite(voronoi);
+        //voronoiMapRenderer.sprite = MapDraw.DrawVoronoiToSprite(voronoi);
         GenerateMap();
     }
 
@@ -51,7 +51,7 @@ public class Map1 : MonoBehaviour
     {
         var noiseColors = CreateMapShape(size, noiseFrequency, noiseOctave);
 
-        noiseMapRenderer.sprite = MapDraw.DrawSprite(size, noiseColors);
+       // noiseMapRenderer.sprite = MapDraw.DrawSprite(size, noiseColors);
     }
 
     private Voronoi GenerateVoronoi(Vector2Int size, int nodeAmount, int lloydIterationCount)
@@ -83,7 +83,7 @@ public class Map1 : MonoBehaviour
         noise.SetFrequency(frequency);
         noise.SetFractalOctaves(octave);
         noise.SetSeed(seed);
-        var mask = MapDraw.GetRadialGradientMask(size, noiseMaskRadius);
+       // var mask = MapDraw.GetRadialGradientMask(size, noiseMaskRadius);
         float[] colorDatas = new float[size.x * size.y];
         var index = 0;
         _cells = new Dictionary<Vector2, Cell>();
@@ -93,7 +93,7 @@ public class Map1 : MonoBehaviour
             {
                 var noiseColorFactor = noise.GetNoise(x, y);
                 noiseColorFactor = (noiseColorFactor + 1) * 0.5f;
-                noiseColorFactor *= mask[index];
+                //noiseColorFactor *= mask[index];
                 color = noiseColorFactor > landNoiseThreshold ? 1f : 0f;
                 colorDatas[index] = color;
                 if (color > 0)

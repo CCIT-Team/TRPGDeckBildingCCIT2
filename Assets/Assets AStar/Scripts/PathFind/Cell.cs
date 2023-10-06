@@ -6,9 +6,9 @@ public class Cell : MonoBehaviour
     public Vector2 Point { get; private set; }
     public bool IsWall { get; private set; }
     public int Weight { get; private set; }
-    public int Heuristic { get; private set; }
-    public int Distance { get; private set; }
-    public int Summ => (Distance + Heuristic) * Weight;
+    public float Heuristic { get; private set; }
+    public float Distance { get; private set; }
+    public float Summ => (Distance + Heuristic) * Weight;
 
     public void Cells(Vector2 point)
     {
@@ -31,12 +31,12 @@ public class Cell : MonoBehaviour
         Weight = 1 + weight;
     }
 
-    public void SetHeuristic(int heuristic)
+    public void SetHeuristic(float heuristic)
     {
         Heuristic = heuristic;
     }
 
-    public void SetDistance(int distance)
+    public void SetDistance(float distance)
     {
         Distance = distance;
     }

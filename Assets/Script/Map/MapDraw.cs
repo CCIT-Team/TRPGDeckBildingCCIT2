@@ -6,10 +6,10 @@ public class MapDraw
 {
     public static Sprite DrawVoronoiToSprite(Voronoi voronoi)
     {
-        var rect = voronoi.PlotBounds;
-        var width = Mathf.RoundToInt(rect.width);
-        var height = Mathf.RoundToInt(rect.height);
-        var pixelColors = Enumerable.Repeat(Color.white, width * height).ToArray();
+        Rect rect = voronoi.PlotBounds;
+        int width = Mathf.RoundToInt(rect.width);
+        int height = Mathf.RoundToInt(rect.height);
+        Color[] pixelColors = Enumerable.Repeat(Color.white, width * height).ToArray();
         var siteCoords = voronoi.SiteCoords();
 
         // 무게중심 그리기

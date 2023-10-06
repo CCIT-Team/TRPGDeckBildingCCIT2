@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 41468293181959626}
   - component: {fileID: 446939725157096953}
   - component: {fileID: 8930374371357479334}
-  - component: {fileID: -6483901066954331575}
   - component: {fileID: 7195773762090071371}
-  - component: {fileID: 832114072221407898}
+  - component: {fileID: -1646583571643292904}
+  - component: {fileID: 2595751232033944689}
   m_Layer: 0
-  m_Name: HexTile
-  m_TagString: Untagged
+  m_Name: DefaultTile
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2161697517619763039}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.4624805, y: 0.00000011920929, z: 1.3141439}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,18 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-6483901066954331575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161697517619763039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a528eeeb773d64b97adaa2ae792632, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &7195773762090071371
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113,13 +101,13 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1464467, y: 0.5828666, z: 1.4976413}
-  m_Center: {x: -0.003325224, y: 0.2914333, z: 0.006511092}
---- !u!114 &832114072221407898
+  m_Size: {x: 2.136968, y: 0.5, z: 1.893338}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1646583571643292904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,6 +116,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 2161697517619763039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd6e238e18eb7544a8589bf6bbd6fe5, type: 3}
+  m_Script: {fileID: 11500000, guid: 70f24ae6a94e666469bbf565359130e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tiles: []
+  g: 0
+  h: 0
+  position: {x: 0, y: 0, z: 0}
+  adjacentTiles: []
+  isObstacle: 0
+  isSpawnTile: 0
+  isBossTile: 0
+  isKingdomTile: 0
+  isVillageTile: 0
+  isSelect: 0
+--- !u!54 &2595751232033944689
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2161697517619763039}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

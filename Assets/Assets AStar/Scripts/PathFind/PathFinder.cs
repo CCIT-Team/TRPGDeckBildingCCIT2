@@ -80,9 +80,9 @@ public class PathFinder : MonoBehaviour
                     Cell element = mapDic[movePosition];
                     if (closed.Contains(element) == false && element.IsWall == false)
                     {
-                        var isOpened = opened.Contains(element);
-                        var addDistance = 10;
-                        var distance = minOpened.Distance + addDistance;
+                        bool isOpened = opened.Contains(element);
+                        float addDistance = 10;
+                        float distance = minOpened.Distance + addDistance;
 
                         if (isOpened)
                         {
@@ -99,8 +99,8 @@ public class PathFinder : MonoBehaviour
                             element.SetParent(minOpened);
                         }
 
-                        var HeurX = element.Point.x > cellEnd.Point.x ? element.Point.x - cellEnd.Point.x : cellEnd.Point.x - element.Point.x;
-                        var HeurY = element.Point.y > cellEnd.Point.y ? element.Point.y - cellEnd.Point.y : cellEnd.Point.y - element.Point.y;
+                        float HeurX = element.Point.x > cellEnd.Point.x ? element.Point.x - cellEnd.Point.x : cellEnd.Point.x - element.Point.x;
+                        float HeurY = element.Point.y > cellEnd.Point.y ? element.Point.y - cellEnd.Point.y : cellEnd.Point.y - element.Point.y;
                         element.SetHeuristic((int)Math.Sqrt(HeurX * HeurX + HeurY * HeurY) * addDistance);
 
                         if (element == cellEnd)
