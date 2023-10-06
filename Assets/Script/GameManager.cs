@@ -49,14 +49,31 @@ public class GameManager : MonoBehaviour
         switch (index)
         {
             case 0:
-                unit.GetComponent<Character_type>().SetUnitType(avatar_0[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_0[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_0[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_0[3]));
+                unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_0[0]), avatar_0[1],(PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_0[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_0[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_0[4]));
+                AvatarStatSetting(unit);
+                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
                 break;
             case 1:
-                unit.GetComponent<Character_type>().SetUnitType(avatar_1[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_1[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_1[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_1[3]));
+                unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_1[0]), avatar_1[1], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_1[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_1[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_1[4]));
+                AvatarStatSetting(unit);
+                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
                 break;
             case 2:
-                unit.GetComponent<Character_type>().SetUnitType(avatar_2[0], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_2[1]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_2[2]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_2[3]));
+                unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_2[0]), avatar_2[1], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_2[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_2[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_2[4]));
+                AvatarStatSetting(unit);
+                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
                 break;
+        }
+    }
+
+    private void AvatarStatSetting(GameObject unit)
+    {
+        for (int i = 0; i < DataBase.instance.stat.Count; i++)
+        {
+            if (unit.GetComponent<Character_type>().major == DataBase.instance.stat[i].major)
+            {
+                unit.GetComponent<Character>().SetUnitData(DataBase.instance.stat[i]);
+            }
         }
     }
 
