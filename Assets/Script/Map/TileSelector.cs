@@ -81,27 +81,59 @@ public class TileSelector : MonoBehaviour
                         if (!isEndTileSelect) { endPoint = null; }
                     }
                 }
-                if (mouseButton == MouseButton.Right)
-                {
-                    isEndTileSelect = true;
-                    endPoint = tiles;
-                    endPoint.isSelect = true;
-                    endPoint.IsSelect(Color.blue);
-                    Debug.Log("EndTile!" + endPoint.gameObject.name);
-                    astarPath.OnEndCellSelect(endPoint);
+                //if (mouseButton == MouseButton.Right)
+                //{
+                //    isEndTileSelect = true;
+                //    endPoint = tiles;
+                //    endPoint.isSelect = true;
+                //    endPoint.IsSelect(Color.blue);
+                //    Debug.Log("EndTile!" + endPoint.gameObject.name);
+                //    astarPath.OnEndCellSelect(endPoint);
 
-                    if (startPoint != null)
-                    {
-                        tilePath = astar.FindPath(startPoint, endPoint);
-                        foreach (Tile game in tilePath)
-                        {
-                            Material material = game.gameObject.GetComponent<MeshRenderer>().material;
-                            material.color = Color.cyan;
-                            map.PlayerMovePath(game);
-                        }
-                        astarPath.OnFindPath(tilePath);
-                    }
+                //    if (startPoint != null)
+                //    {
+                //        tilePath = astar.FindPath(startPoint, endPoint);
+                //        foreach (Tile game in tilePath)
+                //        {
+                //            Material material = game.gameObject.GetComponent<MeshRenderer>().material;
+                //            material.color = Color.cyan;
+                //            map.PlayerMovePath(game);
+                //        }
+                //        astarPath.OnFindPath(tilePath);
+                //    }
+                //}
+            }
+        }
+        if (mouseButton == MouseButton.Right)
+        {
+            Ray ray = m_camera.ScreenPointToRay(Input.mousePosition);
+            Tile tile = Raycast(ray);
+            Tile tiles = tile;
+            isEndTileSelect = true;
+            endPoint = tiles;
+            endPoint.isSelect = true;
+            endPoint.IsSelect(Color.blue);
+            Debug.Log("EndTile!" + endPoint.gameObject.name);
+            astarPath.OnEndCellSelect(endPoint);
+            startPoint = null;
+            if (startPoint == null)
+            {
+                startPoint = map.startTile;
+                startPoint.isSelect = true;
+                startPoint.IsSelect(Color.red);
+                Debug.Log("StartTile!" + startPoint.gameObject.name);
+                astarPath.OnStartCellSelect(startPoint);
+            }
+            if (startPoint != null)
+            {
+                tilePath = astar.FindPath(startPoint, endPoint);
+                foreach (Tile game in tilePath)
+                {
+                    Material material = game.gameObject.GetComponent<MeshRenderer>().material;
+                    material.color = Color.cyan;
+                    map.PlayerMovePath(game);
                 }
+                astarPath.OnFindPath(tilePath);
             }
         }
         if (map.isPlayerOnEndTile)
