@@ -35,17 +35,17 @@ public class GameManager : MonoBehaviour
     }
     #region 로비씬 아바타 세팅 -> 오브젝트 화
 
-    public void GetLobbyAvatar()
+    public void GetLobbyAvatar(Vector3 position)
     {
         for (int i = 0; i < avatarCounter; i++)
         {
-            CreateAvatar(i);
+            CreateAvatar(i, position);
         }
     }
-    private void CreateAvatar(int index)
+    private void CreateAvatar(int index, Vector3 position)
     {        
         GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
-        unit.transform.position = Vector3.zero;//나중에 맵 포지션 받아올거임
+        unit.transform.position = position;//나중에 맵 포지션 받아올거임
         switch (index)
         {
             case 0:

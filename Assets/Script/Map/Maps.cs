@@ -45,7 +45,8 @@ public class Maps : MonoBehaviour
 
     private void Start()
     {
-        player = Instantiate(playerprefab, tileObjectList[0].transform.position, Quaternion.identity, transform);
+        GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
+        //player = Instantiate(playerprefab, tileObjectList[0].transform.position, Quaternion.identity, transform);
     }
 
     public void PlayerMovePath(Tile objects)

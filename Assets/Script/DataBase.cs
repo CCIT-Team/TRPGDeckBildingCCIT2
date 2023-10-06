@@ -32,7 +32,7 @@ public class DataBase : MonoBehaviour
     private void Start()
     {
         ConnectionDB(StatdbPath);
-        GameManager.instance.GetLobbyAvatar(); //test¿ë
+        //GameManager.instance.GetLobbyAvatar(); //test¿ë
     }
 
     private void ConnectionDB(string path)
