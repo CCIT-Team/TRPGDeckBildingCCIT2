@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Data;
 using Mono.Data.Sqlite;
 
@@ -25,13 +26,14 @@ public class DataBase : MonoBehaviour
     private const string StatdbPath = "/StatDB.db";
     private const string table = "BasicStat";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
+    private const string playerDataPath_2 = "/Save/Slot2/PlayerData.db";
+    private const string playerDataPath_3 = "/Save/Slot3/PlayerData.db";
 
     private void Start()
     {
         ConnectionDB(StatdbPath);
         GameManager.instance.GetLobbyAvatar(); //test용
     }
-
 
     private void ConnectionDB(string path)
     {
@@ -44,7 +46,7 @@ public class DataBase : MonoBehaviour
 
     public void Deliver_column(string typeQuery, string statQuery)
     {
-        UpdateDB(playerDataPath_1, typeQuery, statQuery); //디비 경로 설정
+        UpdateDB(playerDataPath_1, typeQuery, statQuery);
     }
 
     private void UpdateDB(string path, string typeQuery, string statQuery)
@@ -63,7 +65,6 @@ public class DataBase : MonoBehaviour
         dbCommand.CommandText = statQuery;
         dbCommand.ExecuteNonQuery();
         dbCommand.Dispose();
-        //스텟데이터 칼럼 추가
 
         dbConnection.Close();
     }
@@ -95,6 +96,52 @@ public class DataBase : MonoBehaviour
         dataReader.Close();
     }
 }
+
+//public static class SaveSystem
+//{
+//    public static void Save(MapData map, string filepath)
+//    {
+//        BinaryFormatter formatter = new BinaryFormatter();
+//        FileStream stream = new FileStream(filepath, FileMode.Create);
+
+//        formatter.Serialize(stream, map);
+//        stream.Close();
+//    }
+
+//    public static MapData Load(string filepath)
+//    {
+//        if (File.Exists(filepath))
+//        {
+//            BinaryFormatter formatter = new BinaryFormatter();
+//            FileStream stream = new FileStream(filepath, FileMode.Open);
+
+//            MapData data = formatter.Deserialize(stream) as MapData;
+
+//            stream.Close();
+
+//            return data;
+//        }
+//        else
+//        {
+//            return null;
+//        }
+
+//    }
+//}
+
+//[System.Serializable]
+//public class MapData
+//{
+//    public float[] mappositiondata = new float[3];
+
+//    public void SetMapData(GameObject mapPrefab)
+//    {
+//        mappositiondata[0] = mapPrefab.transform.position.x;
+//        mappositiondata[1] = mapPrefab.transform.position.y;
+//        mappositiondata[2] = mapPrefab.transform.position.z;
+//        Debug.Log("저장");
+//    }
+//}
 
 #region 플레이어 타입
 

@@ -647,6 +647,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataBase
       objectReference: {fileID: 0}
+    - target: {fileID: 4273459642268489088, guid: 357bb62e174ade64d88727722cac0a16,
+        type: 3}
+      propertyPath: testscript
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6269204202168693529, guid: 357bb62e174ade64d88727722cac0a16,
         type: 3}
       propertyPath: m_LocalPosition.x

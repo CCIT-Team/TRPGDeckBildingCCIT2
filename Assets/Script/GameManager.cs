@@ -56,10 +56,12 @@ public class GameManager : MonoBehaviour
             case 1:
                 unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_1[0]), avatar_1[1], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_1[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_1[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_1[4]));
                 AvatarStatSetting(unit);
+                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
                 break;
             case 2:
                 unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_2[0]), avatar_2[1], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_2[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_2[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_2[4]));
                 AvatarStatSetting(unit);
+                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
                 break;
         }
     }

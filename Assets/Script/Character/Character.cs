@@ -24,7 +24,7 @@ public class Character : Unit
     public int cost;
 
     public bool isMyturn;
-    public WorldState worldState;
+    public WorldState worldState = WorldState.Idle;
 
     private string insertQuery;
 
@@ -45,9 +45,9 @@ public class Character : Unit
     }
 
     public string GetStatDBQuery()
-    {//current hp ÇÊ¿ä;;
-        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, hp, atk, ap, def, apdef, currentCost, cost) VALUES " +
-            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {atk}, {ap}, {def}, {apdef}, {currentCost}, {cost})";
+    {
+        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, atk, ap, def, apdef, cost) VALUES " +
+            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {atk}, {ap}, {def}, {apdef}, {cost})";
         return insertQuery;
     }
 }
