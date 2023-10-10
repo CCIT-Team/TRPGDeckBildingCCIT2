@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Map : MonoBehaviour
+public class Map_old : MonoBehaviour
 {
     public Vector2Int size;
     [SerializeField]
