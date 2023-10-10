@@ -1,46 +1,76 @@
 using csDelaunay;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using System.Linq;
 using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
-    [SerializeField]
-    private Vector2Int size;
-    [SerializeField]
-    private int nodeAmount = 0;
-    [SerializeField]
-    private SpriteRenderer voronoiMapRenderer = null;
-    [SerializeField]
-    private int lloydIterationCount = 0;
-    [SerializeField, Range(0f, 0.4f)]
-    private float noiseFrequency = 0;
-    [SerializeField]
-    private int noiseOctave = 0;
-    [SerializeField]
-    private int noiseMaskRadius = 0;
-    [SerializeField, Range(0f, 0.5f)]
-    private float landNoiseThreshold = 0;
-    [SerializeField]
-    private SpriteRenderer noiseMapRenderer = null;
-    [SerializeField]
-    private bool lockSeed = true;
-    [SerializeField]
-    private int _seed = 0;
-
+    public static Map instance;
+    public Vector2Int size;
+    [SerializeField] private int nodeAmount = 0;
+    [SerializeField] List<Vector2> centroids;
+    [SerializeField] private SpriteRenderer voronoiMapRenderer = null;
+    [SerializeField] private int lloydIterationCount = 0;
+    [SerializeField, Range(0f, 0.4f)] private float noiseFrequency = 0;
+    [SerializeField] private int noiseOctave = 0;
+    [SerializeField] private int noiseMaskRadius = 0;
+    [SerializeField, Range(0f, 0.5f)] private float landNoiseThreshold = 0;
+    [SerializeField] private SpriteRenderer noiseMapRenderer = null;
+    [SerializeField] private bool lockSeed = true;
+    [SerializeField] private int _seed = 0;
+    
     public GameObject hexagon;
-    public GameObject empty;
+    public GameObject playerprefab;
+    public GameObject testPlayer;
     GameObject tileObject;
-    GameObject xwidth;
-    public int xNum = 0;
+    [HideInInspector] public GameObject player;
+
+    public bool isPlayerOnEndTile = false;
+    public Tile startTile;
+
+    public float playerMoveSpeed;
     int tileNum = 0;
-    public GameObject[] tile = new GameObject[1];
+    public List<GameObject> tileObjectList;
+    public List<Tile> pathTileObjectList;
+    Voronoi voronoi;
 
     private void Awake()
     {
-        var voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
+        instance = this;
+        voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = MapDraw.DrawVoronoiToSprite(voronoi);
         GenerateMap();
+    }
+
+    private void Start()
+    {
+        //GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
+        player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
+    }
+
+    public void PlayerMovePath(Tile objects)
+    {
+        // player.transform.position = new Vector3(objects.gameObject.transform.position.x,0, objects.gameObject.transform.position.z);
+        pathTileObjectList.Add(objects);
+    }
+    int movePoint;
+    int currentPoint = -1;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            currentPoint += 1;
+            player.transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (player.transform.position == pathTileObjectList.Last().transform.position)
+            {
+                Debug.Log("Finished");
+                currentPoint = -1;
+                pathTileObjectList.Clear();
+                isPlayerOnEndTile = true;
+            }
+        }
     }
 
     public void GenerateMap()
@@ -52,19 +82,19 @@ public class Map : MonoBehaviour
 
     private Voronoi GenerateVoronoi(Vector2Int size, int nodeAmount, int lloydIterationCount)
     {
-        var centroids = new List<Vector2>();
+        centroids = new List<Vector2>();
 
         // 무게 중심을 nodeAmount만큼 생성
-        for (var i = 0; i < nodeAmount; ++i)
+        for (int i = 0; i < nodeAmount; ++i)
         {
-            var x = Random.Range(0, size.x);
-            var y = Random.Range(0, size.y);
+            int x = Random.Range(0, size.x);
+            int y = Random.Range(0, size.y);
 
             centroids.Add(new Vector2(x, y));
         }
 
-        var Rect = new Rect(0f, 0f, size.x, size.y);
-        var voronoi = new Voronoi(centroids, Rect, lloydIterationCount);
+        Rect Rect = new Rect(0f, 0f, size.x, size.y);
+        Voronoi voronoi = new Voronoi(centroids, Rect, lloydIterationCount);
         return voronoi;
     }
 
@@ -81,10 +111,7 @@ public class Map : MonoBehaviour
         var mask = MapDraw.GetRadialGradientMask(size, noiseMaskRadius);
         float[] colorDatas = new float[size.x * size.y];
         var index = 0;
-        //test
-        tile = new GameObject[size.x * size.y];
-        xwidth = Instantiate(empty, gameObject.transform);
-        xwidth.gameObject.name = "x" + xNum;
+
         for (int x = 0; x < size.x; ++x)
         {
             for (int y = 0; y < size.y; ++y)
@@ -92,44 +119,29 @@ public class Map : MonoBehaviour
                 var noiseColorFactor = noise.GetNoise(x, y);
                 noiseColorFactor = (noiseColorFactor + 1) * 0.5f;
                 noiseColorFactor *= mask[index];
-                var color = noiseColorFactor > landNoiseThreshold ? 1f : 0f;
+                float color = noiseColorFactor > landNoiseThreshold ? 1f : 0f;
                 colorDatas[index] = color;
+                int num = 0;
                 if (color > 0)
                 {
                     if (x % 2 == 0)
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity);
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
+                        Tile tile = tileObject.GetComponent<Tile>();
+                        tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
                         tileObject.name = "Tile" + tileNum;
-                        tile[tileNum] = tileObject;
+                        tileObjectList.Add(tileObject);  
+                        tileNum += 1;
                     }
                     else
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity);
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
+                        Tile tile = tileObject.GetComponent<Tile>();
+                        tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
                         tileObject.name = "Tile" + tileNum;
-                        tile[tileNum] = tileObject;
+                        tileObjectList.Add(tileObject);        
+                        tileNum += 1;
                     }
-                    //GameObject tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity);
-                    //tileObject.name = "Tile" + tileNum;
-                    //tile[tileNum] = tileObject;
-
-                    if (tileNum > 0)
-                    {
-                        if (tile[tileNum].transform.position.x == tile[tileNum - 1].transform.position.x)
-                        {
-                            tile[tileNum - 1].gameObject.transform.parent = xwidth.transform;
-                            tileNum += 1;
-                        }
-                        else
-                        {
-                            Debug.Log("1");
-                            xwidth = Instantiate(empty, gameObject.transform);
-                            xwidth.gameObject.name = "x" + xNum;
-                            tileObject.gameObject.transform.parent = xwidth.transform;
-                            xNum += 1;
-                            tileNum += 1;
-                        }
-                    }
-                    else { tileNum += 1; }
                 }
                 ++index;
             }
@@ -137,8 +149,8 @@ public class Map : MonoBehaviour
         return colorDatas;
     }
 
-    private void OnValidate()
-    {
-        //GenerateMap();
-    }
+    //private void OnValidate()
+    //{
+    //     //GenerateMap();
+    //}
 }
