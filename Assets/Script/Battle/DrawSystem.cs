@@ -20,12 +20,7 @@ public class DrawSystem : MonoBehaviour //드로우, 셔플, 패 갱신 등 덱,카드 관련 
         
     }
 
-    public void SyncronizeCard()
-    {
-
-    }
-
-    public void EnterBattle(Deck inputDeck)
+    public void EnterBattle(Deck inputDeck = null)
     {
         playerDeck = inputDeck;
         DrawCard(startHandCount);

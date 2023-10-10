@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +11,16 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     Character currentCharacter;
 
     public List<Character> PlayerDummy; //할당 구현 전 임시적용
+    public List<Character> EnemyDummy;
 
     public DrawSystem drawSystem;
 
     Card selectedCard;
+
+    bool rayOn= true;
+
+    bool playerAlive = false;
+    bool monsterAlive = false;
 
     bool isBattle = false;
     public bool Battle
@@ -64,8 +71,14 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
             characters.Add(character);
             drawSystem.EnterBattle(character.GetComponent<Deck>());
         }
+        foreach (Character character in EnemyDummy)
+        {
+            characters.Add(character);
+        }
+        playerAlive = true;
+        monsterAlive = true;
         SortSpeed();
-        currentCharacter = characters[0];
+        StartTurn();
     }
 
     void EndBattle()
@@ -95,6 +108,25 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     public void ExitBattle(Character character)     //사망 등으로 인한 제거
     {
         characters.Remove(character);
+
+
+        foreach (Character c in PlayerDummy)
+        {
+            if (characters.Contains(c))
+                playerAlive = true;
+            else
+                playerAlive = false;
+        }
+        foreach (Character c in EnemyDummy)
+        {
+            if (characters.Contains(c))
+                monsterAlive = true;
+            else
+                monsterAlive = false;
+        }
+        Debug.Log("플레이어"+ playerAlive+", 몬스터" +monsterAlive +", 비교"+ (playerAlive ^ monsterAlive));
+        if (playerAlive ^ monsterAlive)
+            EndBattle();
     }
 
 
@@ -112,6 +144,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     public void StartTurn()
     {
         currentCharacter = characters[0];
+        currentCharacter.isMyturn = true;
         drawSystem.DrawCard();
     }
 
@@ -120,9 +153,10 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
         if (currentCharacter == null)
             currentCharacter = characters[0];
 
+        currentCharacter.isMyturn = false;
         characters.Remove(currentCharacter);
         characters.Add(currentCharacter);
-        currentCharacter = characters[0];
+        StartTurn();
     }
     public void ChangeTurn(Character character, int turn = -1)      //지정된 캐릭터의 턴을 turn으로 변경, turn 미지정시 가장 뒤로 변경
     {
@@ -156,6 +190,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     public void CardSelect(Card card)
     {
         selectedCard = card;
+        rayOn = true;
         Debug.Log(selectedCard.gameObject.name+"선택됨");
         StartCoroutine(TargetSelect());
     }
@@ -165,6 +200,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
 
     public void DoAction()
     {
+        rayOn = false;
         selectedCard.cardEffect();
         
         selectedCard = null;
@@ -172,8 +208,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
 
     IEnumerator TargetSelect()
     {
-        bool isrunning = true;
-        while(isrunning)
+        while(rayOn)
         {
             if(Input.GetMouseButtonDown(0))
             {
@@ -184,7 +219,6 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
                 {
                     Debug.Log(hit.transform.name + "레이 맞음");
                     selectedCard.cardTarget = hit.transform.gameObject;
-                    isrunning = false;
                 }
                 else
                 {

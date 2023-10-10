@@ -13,7 +13,6 @@ public class Card : MonoBehaviour   //
     public int cost;
     public CARDRARITY rarity;
     public Sprite cardImage;
-    public string cardText;
     public int tokenAmount;
     public bool[] tokens;
 
@@ -21,25 +20,42 @@ public class Card : MonoBehaviour   //
 
     public GameObject cardTarget;
 
-    public Image image;
-    public Text text;
-
-
-    public void CardEffect()
-    {
-        print(cardTarget.name+"¿¡°Ô" + this.gameObject.name + "½ÇÇàµÊ");
-    }
-
-    void UseCost(Character character)
-    {
-        character.cost -= cost;
-    }
+    [SerializeField]
+    Image image;
+    [SerializeField]
+    Text text;
 
     void OnEnable()
     {
         cardData = CardDataBase.instance.cards[cardID];
-        image.sprite = cardImage;
-        text.text = cardText;
+
+        image.sprite = Resources.Load<Sprite>(cardData.cardImage);
+        text.text = cardData.cardText;
+
+        cardEffect = null;
         cardEffect += CardEffect;
+        switch(cardData.effect1)
+        {
+            case CARDEFFECT.SingleAttack:
+                //cardEffect += CardAttack;
+                break;
+            case CARDEFFECT.Buff:
+                break;
+            case CARDEFFECT.Draw:
+                break;
+        }
+        
+    }
+
+    public void CardEffect()
+    {
+        print(cardTarget.name+"¿¡°Ô" + this.gameObject.name + "½ÇÇàµÊ");
+        cardTarget.GetComponent<Unit>().Damaged(10);
+    }
+
+
+    void UseCost(Character character)
+    {
+        character.cost -= cost;
     }
 }
