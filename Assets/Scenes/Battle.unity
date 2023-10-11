@@ -578,18 +578,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efaed4db47f5656418828df899ddf319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  battleState: 0
   hp: 0
   maxHp: 10
-  playerNum: 0
-  type: 0
-  major: 0
   strength: 0
   intelligence: 0
   luck: 0
   speed: 5
   atk: 0
+  ap: 0
   def: 0
+  apdef: 0
   cost: 0
   isMyturn: 0
   worldState: 0
@@ -702,9 +701,9 @@ RectTransform:
   - {fileID: 1064872773}
   m_Father: {fileID: 1493892701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 591, y: -361}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -91, y: 29}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &207824808
@@ -2535,18 +2534,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7742fd09b4734074fa94a7e50b6bbd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  battleState: 0
   hp: 0
   maxHp: 0
-  playerNum: 0
-  type: 0
-  major: 0
   strength: 0
   intelligence: 0
   luck: 0
   speed: 2
   atk: 0
+  ap: 0
   def: 0
+  apdef: 0
   cost: 0
   isMyturn: 0
   worldState: 0
@@ -2813,18 +2811,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7742fd09b4734074fa94a7e50b6bbd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  battleState: 0
   hp: 0
   maxHp: 0
-  playerNum: 0
-  type: 0
-  major: 0
   strength: 0
   intelligence: 0
   luck: 0
   speed: 1
   atk: 0
+  ap: 0
   def: 0
+  apdef: 0
   cost: 0
   isMyturn: 0
   worldState: 0
@@ -3033,9 +3030,9 @@ RectTransform:
   - {fileID: 1619775935}
   m_Father: {fileID: 1493892701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 593, y: -308}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -89, y: 82}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1078923627
@@ -3921,18 +3918,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efaed4db47f5656418828df899ddf319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  battleState: 0
   hp: 0
   maxHp: 10
-  playerNum: 0
-  type: 0
-  major: 0
   strength: 0
   intelligence: 0
   luck: 0
   speed: 5
   atk: 0
+  ap: 0
   def: 0
+  apdef: 0
   cost: 0
   isMyturn: 0
   worldState: 0
@@ -6166,18 +6162,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efaed4db47f5656418828df899ddf319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  battleState: 0
   hp: 0
   maxHp: 10
-  playerNum: 0
-  type: 0
-  major: 0
   strength: 0
   intelligence: 0
   luck: 0
   speed: 5
   atk: 0
+  ap: 0
   def: 0
+  apdef: 0
   cost: 0
   isMyturn: 0
   worldState: 0
@@ -6226,18 +6221,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7742fd09b4734074fa94a7e50b6bbd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  battleState: 0
   hp: 0
   maxHp: 0
-  playerNum: 0
-  type: 0
-  major: 0
   strength: 0
   intelligence: 0
   luck: 0
   speed: 3
   atk: 0
+  ap: 0
   def: 0
+  apdef: 0
   cost: 0
   isMyturn: 0
   worldState: 0
