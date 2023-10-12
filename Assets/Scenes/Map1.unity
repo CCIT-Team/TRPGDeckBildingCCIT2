@@ -1651,6 +1651,8 @@ MonoBehaviour:
   hexagon: {fileID: 2161697517619763039, guid: eba933b3f795b7442a91f933e7ebbb2f, type: 3}
   playerprefab: {fileID: 6183435776240876501, guid: e2e869c651597624cb5d00241d7688e6,
     type: 3}
+  testPlayer: {fileID: 1653242806444412461, guid: 442fe253e344d154290a51f3bce7a387,
+    type: 3}
   player: {fileID: 0}
   isPlayerOnEndTile: 0
   startTile: {fileID: 0}

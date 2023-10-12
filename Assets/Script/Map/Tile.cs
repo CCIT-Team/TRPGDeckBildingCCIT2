@@ -84,8 +84,8 @@ public class Tile : MonoBehaviour
         }
         if (col.CompareTag("Player"))
         {
-            Maps.instance.startTile = this;
-            if (Maps.instance.startTile = this) { Debug.Log("Find Player"); }
+            Map.instance.startTile = this;
+            if (Map.instance.startTile = this) { Debug.Log("Find Player"); }
         }
     }
 }

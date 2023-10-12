@@ -5,9 +5,9 @@ using UnityEngine;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public class Maps : MonoBehaviour
+public class Map : MonoBehaviour
 {
-    public static Maps instance;
+    public static Map instance;
     public Vector2Int size;
     [SerializeField] private int nodeAmount = 0;
     [SerializeField] List<Vector2> centroids;
@@ -23,6 +23,7 @@ public class Maps : MonoBehaviour
     
     public GameObject hexagon;
     public GameObject playerprefab;
+    public GameObject testPlayer;
     GameObject tileObject;
     [HideInInspector] public GameObject player;
 
@@ -45,8 +46,8 @@ public class Maps : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
-        //player = Instantiate(playerprefab, tileObjectList[0].transform.position, Quaternion.identity, transform);
+        //GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
+        player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
     }
 
     public void PlayerMovePath(Tile objects)

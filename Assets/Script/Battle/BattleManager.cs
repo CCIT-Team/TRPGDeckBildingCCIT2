@@ -1,130 +1,233 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BattleManager : MonoBehaviour
+public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
 {
     public static BattleManager instance;
-    //public List<CharacterDummy> characters;  //주석 달린부분 CharacterDummy class 지워서 생기는 부분 수정 필요
-    //CharacterDummy currentCharacter;
+    public List<Character> characters;
+    Character currentCharacter;
+
+    public List<Character> PlayerDummy; //할당 구현 전 임시적용
+    public List<Character> EnemyDummy;
+
+    public DrawSystem drawSystem;
+
+    Card selectedCard;
+
+    bool rayOn= true;
+
+    bool playerAlive = false;
+    bool monsterAlive = false;
 
     bool isBattle = false;
-    //public bool Battle
-    //{
-    //    get { return isBattle; }
-    //    set
-    //    {
-    //        if (value = isBattle)
-    //            StartBattle();
-    //        else
-    //            EndBattle();
-    //    }
-    //}
+    public bool Battle
+    {
+        get { return isBattle; }
+        set
+        {
+            if (isBattle = value)
+                StartBattle();
+            else
+                EndBattle();
+        }
+    }
 
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
         }
         else if (instance != this)
             Destroy(this);
     }
 
     public Button EndTurnBtn;
-    
 
-    //void Start()
-    //{
-    //    if(EndTurnBtn != null)
-    //        EndTurnBtn.onClick.AddListener(()=>ChangeTurn());
-    //}
+    void Start()
+    {
+        if (EndTurnBtn != null)
+            EndTurnBtn.onClick.AddListener(() => EndTurn());
+    }
 
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //        ChangeTurn();
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+            EndTurn();
 
-    //    if (Input.GetKeyDown(KeyCode.Return))
-    //        SortSpeed();
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            print("현재 캐릭터 : " + currentCharacter.name);
+    }
 
-    //    if (Input.GetKeyDown(KeyCode.KeypadEnter))
-    //        print("현재 캐릭터 : " + currentCharacter.name);
-        
-    //}
-
-    //void StartBattle()
-    //{
-    //    //characters.Add();
-    //    SortSpeed();
-    //    currentCharacter = characters[0];
-    //}
+    void StartBattle()
+    {
+        print("Battle Start!");
+        foreach(Character character in PlayerDummy)
+        {
+            characters.Add(character);
+            drawSystem.EnterBattle(character.GetComponent<Deck>());
+        }
+        foreach (Character character in EnemyDummy)
+        {
+            characters.Add(character);
+        }
+        playerAlive = true;
+        monsterAlive = true;
+        SortSpeed();
+        StartTurn();
+    }
 
     void EndBattle()
     {
-        
+        foreach (Character character in characters)
+        {
+            drawSystem.EndBattle(character.GetComponent<Deck>());
+        }
+        characters.Clear();
+        currentCharacter = null;
+        print("Battle is Finish!");
     }
 
-    //void JoinBattle(CharacterDummy joinCharacter)
-    //{
-    //    for(int i = 0; i<= characters.Count;i++)
-    //    {
-    //        if(characters[i].SPD < joinCharacter.SPD)
-    //        {
-    //            characters.Add(joinCharacter);
-    //            return;
-    //        }
-    //    } 
-    //}
+    public void JoinBattle(Character character)     //소환, 부활 등 캐릭터 난입용
+    {
+        for (int i = 0; i <= characters.Count; i++)
+        {
+            if (characters[i].speed < character.speed)
+            {
+                characters.Insert(i, character);
+                return;
+            }
+        }
+        characters.Add(character);
+    }
+
+    public void ExitBattle(Character character)     //사망 등으로 인한 제거
+    {
+        characters.Remove(character);
 
 
-    //void SortSpeed()
-    //{
-    //    characters.Sort((a, b) => a.SPD > b.SPD ? 1 : -1);
-    //    foreach (CharacterDummy character in characters)
-    //        print(character.gameObject.name);
-    //}
+        foreach (Character c in PlayerDummy)
+        {
+            if (characters.Contains(c))
+                playerAlive = true;
+            else
+                playerAlive = false;
+        }
+        foreach (Character c in EnemyDummy)
+        {
+            if (characters.Contains(c))
+                monsterAlive = true;
+            else
+                monsterAlive = false;
+        }
+        Debug.Log("플레이어"+ playerAlive+", 몬스터" +monsterAlive +", 비교"+ (playerAlive ^ monsterAlive));
+        if (playerAlive ^ monsterAlive)
+            EndBattle();
+    }
 
-    //void GiveTurn()
-    //{
-    //    foreach (CharacterDummy character in characters)
-    //    {
-    //        if (character.State != State.Dead)
-    //            character.State = State.Wait;
-    //    }
-    //    characters[0].State = State.MyTurn;
-    //}
 
-    //public void ChangeTurn(CharacterDummy character, int inputNum = -1)
-    //{
-    //    //character.State = State.Wait;
-    //    characters.Remove(character);
-    //    if (inputNum == -1)
-    //        characters.Insert(characters.Count, character);
-    //    else
-    //        characters.Insert(inputNum, character);
-    //    currentCharacter = characters[0];
-    //}
-    //public void ChangeTurn(int listNum = 0, int inputNum = -1)
-    //{
-    //    //characters[listNum].State = State.Wait;
-    //    if (currentCharacter == null)
-    //        currentCharacter = characters[listNum];
+    void SortSpeed()    //속도에 따른 캐릭터 정렬
+    {
+        characters.Sort((a, b) => a.speed < b.speed ? 1 : -1);
+        //아래는 디버깅용
+        int debugInt = 1;
+        foreach (Character character in characters)
+        {
+            print(debugInt++ +"번째 : "+character.gameObject.name+"(속도: "+character.speed+")");
+        }
+    }
+
+    public void StartTurn()
+    {
+        currentCharacter = characters[0];
+        currentCharacter.isMyturn = true;
+        drawSystem.DrawCard();
+    }
+
+    public void EndTurn()    //턴 종료
+    {
+        if (currentCharacter == null)
+            currentCharacter = characters[0];
+
+        currentCharacter.isMyturn = false;
+        characters.Remove(currentCharacter);
+        characters.Add(currentCharacter);
+        StartTurn();
+    }
+    public void ChangeTurn(Character character, int turn = -1)      //지정된 캐릭터의 턴을 turn으로 변경, turn 미지정시 가장 뒤로 변경
+    {
+        characters.Remove(character);
+        if (turn == -1)
+            characters.Insert(characters.Count, character);
+        else
+            characters.Insert(turn, character);
+        currentCharacter = characters[0];
+    }
+    public void ChangeTurn(int listNum, int turn = -1)      //지정된 캐릭터의 턴을 turn으로 변경,  turn 미지정시 가장 뒤로 변경, listNum 미지정시 현재 턴의 캐릭터 지정
+    {
+        if (turn == -1)
+        {
+            characters.Remove(characters[listNum]);
+            characters.Add(characters[listNum]);
+        }
+        else
+        {
+            characters.Remove(characters[listNum]);
+            characters.Insert(turn, characters[listNum]);
+        }
+        currentCharacter = characters[0];
+    }
+
+    public void SettingForCurrentPlayer()
+    {
+
+    }
+
+    public void CardSelect(Card card)
+    {
+        selectedCard = card;
+        rayOn = true;
+        Debug.Log(selectedCard.gameObject.name+"선택됨");
+        StartCoroutine(TargetSelect());
+    }
+
+    
+
+
+    public void DoAction()
+    {
+        rayOn = false;
+        selectedCard.cardEffect();
         
-    //    if (inputNum == -1)
-    //    {
-    //        characters.Remove(currentCharacter);
-    //        characters.Insert(characters.Count, currentCharacter);
-    //    }   
-    //    else
-    //    {
-    //        characters.Remove(characters[listNum]);
-    //        characters.Insert(inputNum, characters[listNum]);
-    //    }    
-    //    currentCharacter = characters[0];
-    //}
+        selectedCard = null;
+    }
+
+    IEnumerator TargetSelect()
+    {
+        while(rayOn)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Debug.Log("레이 나감");
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log(hit.transform.name + "레이 맞음");
+                    selectedCard.cardTarget = hit.transform.gameObject;
+                }
+                else
+                {
+                    Debug.Log("타겟없음");
+                }
+            }
+            yield return null;
+        }
+    }
+
 }
+
