@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour   //
+public class Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 {
     public delegate void CardAction();
     public CardAction cardEffect;
@@ -51,6 +51,12 @@ public class Card : MonoBehaviour   //
     {
         print(cardTarget.name+"에게" + this.gameObject.name + "실행됨");
         cardTarget.GetComponent<Unit>().Damaged(10);
+        gameObject.SetActive(false);
+    }
+
+    public void CardSelect()
+    {
+        BattleManager.instance.CardSelect(this);
     }
 
 
