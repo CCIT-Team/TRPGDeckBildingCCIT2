@@ -22,6 +22,16 @@ public class Character_type : MonoBehaviour
         avatarType = _avatarType;
         //피부색
     }
+    public void SetUnitType(PlayerType type)
+    {
+        playerNum = type.playerNum;
+        nickname = type.nickname;
+        major = type.major;
+        sex = type.sex;
+        avatarType = type.type;
+        //피부색
+    }
+
 
     public string GetTypeDBQuery()
     {

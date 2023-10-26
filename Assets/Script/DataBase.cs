@@ -22,156 +22,161 @@ public class DataBase : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public List<PlayerStat> stat = new List<PlayerStat>();
-    private const string StatdbPath = "/StatDB.db";
-    private const string table = "BasicStat";
+    public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
+    public List<PlayerType> typeData = new List<PlayerType>();
+    private const string defaultDatadbPath = "/DefaultData.db";
+    private const string playerDataTable = "PlayerData";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
-    private const string playerDataPath_2 = "/Save/Slot2/PlayerData.db";
-    private const string playerDataPath_3 = "/Save/Slot3/PlayerData.db";
 
     private void Start()
     {
-        ConnectionDB(StatdbPath);
-        //GameManager.instance.GetLobbyAvatar(); //test용
+        InitDB();
     }
 
-    private void ConnectionDB(string path)
+    private IDbConnection ConnectionDB(string path)
     {
-        string statDB = "URI=file:" + Application.streamingAssetsPath + path;
-        IDbConnection dbConnection = new SqliteConnection(statDB);
+        string currentDB = "URI=file:" + Application.streamingAssetsPath + path;
+        IDbConnection dbConnection = new SqliteConnection(currentDB);        
         dbConnection.Open();
+        
+        return dbConnection;
+    }
 
-        LoadStartStatDB(dbConnection);
+    private void InsertQuery(IDbConnection dbConnection, string _query)
+    {
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = _query;
+        dbCommand.ExecuteNonQuery();
+        dbCommand.Dispose();
     }
 
     public void Deliver_column(string typeQuery, string statQuery)
     {
-        UpdateDB(playerDataPath_1, typeQuery, statQuery);
+        SaveDB(typeQuery, statQuery);
     }
 
-    public bool EmptyDB()
+    public bool IsEmptyDB()
     {
-        string tableName = "Type";
-        string playerdataDB = "URI=file:" + Application.streamingAssetsPath + playerDataPath_1;
-        IDbConnection dbConnection = new SqliteConnection(playerdataDB);
-        dbConnection.Open();
-
+        IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
         IDbCommand dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dbCommand.CommandText = "SELECT * FROM Type";
 
         IDataReader dataReader = dbCommand.ExecuteReader();
+        dbCommand.Dispose();
+
         if (dataReader.IsDBNull(0))
         {
             Debug.Log(dataReader.IsDBNull(0) + " Empty DB");
+            dataReader.Close();
+            dbConnection.Close();
             return true;
         }
         else
         {
             Debug.Log(dataReader.IsDBNull(0) + " Not Empty DB");
+            dataReader.Close();
+            dbConnection.Close();
             return false;
         }
-
-
     }
-    private void UpdateDB(string path, string typeQuery, string statQuery)
+
+    public void ResetDB()
     {
-        string playerdataDB = "URI=file:" + Application.streamingAssetsPath + path;
-        IDbConnection dbConnection = new SqliteConnection(playerdataDB);
-        dbConnection.Open();
+        IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
 
         IDbCommand dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText = typeQuery;
-        dbCommand.ExecuteNonQuery();
-        dbCommand.Dispose();
+        dbCommand.CommandText = "DELETE FROM Stat";
+        using (IDataReader dataReader = dbCommand.ExecuteReader())
+        {
+            dbCommand.Dispose();
+            dataReader.Close();
+            dbConnection.Close();
+        }
 
-
+        dbConnection = ConnectionDB(playerDataPath_1);
         dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText = statQuery;
-        dbCommand.ExecuteNonQuery();
-        dbCommand.Dispose();
+
+        dbCommand.CommandText = "DELETE FROM Type";
+        using (IDataReader dataReader = dbCommand.ExecuteReader())
+        {
+            dbCommand.Dispose();
+            dataReader.Close();
+            dbConnection.Close();
+        }
+    }
+
+    public void LoadData()
+    {
+        string tableName = "Type";
+
+        IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        IDataReader dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int playerNo = dataReader.GetInt32(0);
+            string nickname = dataReader.GetString(1);
+            PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(2));
+            PlayerType.Sex sex = (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), dataReader.GetString(3));
+            PlayerType.AvatarType avatarType = (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), dataReader.GetString(4));
+
+            typeData.Add(new PlayerType(playerNo, nickname, major, sex, avatarType));
+        }
+        dataReader.Close();
+        dbConnection.Close();
+    }
+    private void SaveDB(string typeQuery, string statQuery)
+    {
+        IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
+
+        InsertQuery(dbConnection, typeQuery);
+        InsertQuery(dbConnection, statQuery);
 
         dbConnection.Close();
     }
 
-    private void LoadStartStatDB(IDbConnection dbConnection)
+    private void InitDB()
     {
-        string tableName = table;
+        string tableName = playerDataTable;
 
-        IDbCommand dbCommand = dbConnection.CreateCommand();
-        
+        IDbConnection dbConnection = ConnectionDB(defaultDatadbPath);
+        IDbCommand dbCommand = dbConnection.CreateCommand();        
         dbCommand.CommandText = "SELECT * FROM " + tableName;
         IDataReader dataReader = dbCommand.ExecuteReader();
         
-
-
         while (dataReader.Read())
         {
-            PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(0));
-            int strength = dataReader.GetInt32(1);
-            int intelligence = dataReader.GetInt32(2);
-            int luck = dataReader.GetInt32(3);
-            int speed = dataReader.GetInt32(4);
-            float hp = dataReader.GetFloat(5);
-            float atk = dataReader.GetFloat(6);
-            float ap = dataReader.GetFloat(7);
-            float def = dataReader.GetFloat(8);
-            float apdef = dataReader.GetFloat(9);
-            int cost = dataReader.GetInt32(10);
+            int no = dataReader.GetInt32(0);
+            PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(1));
+            float hp = dataReader.GetFloat(2);
+            int hpRise = dataReader.GetInt32(3);
+            int strength = dataReader.GetInt32(4);
+            int intelligence = dataReader.GetInt32(5);
+            int luck = dataReader.GetInt32(6);
+            int speed = dataReader.GetInt32(7);
+            int cost = dataReader.GetInt32(8);
 
-            stat.Add(new PlayerStat(major, strength, intelligence, luck, speed, hp, atk, ap, def, apdef, cost));
+            int card1 = dataReader.GetInt32(9);
+            int card1Count = dataReader.GetInt32(10);
+            int card2 = dataReader.GetInt32(11);
+            int card2Count = dataReader.GetInt32(12);
+            int card3 = dataReader.GetInt32(13);
+            int card3Count = dataReader.GetInt32(14);
+            int weapon1 = dataReader.GetInt32(15);
+            int weapon2 = dataReader.GetInt32(16);
+
+            defaultData.Add(new PlayerDefaultData(no, major, hp, hpRise, strength, intelligence, luck, speed, cost, 
+                card1, card1Count, card2, card2Count, card3, card3Count, weapon1, weapon2));
         }
         dataReader.Close();
+        dbConnection.Close();
     }
 }
 
-//public static class SaveSystem
-//{
-//    public static void Save(MapData map, string filepath)
-//    {
-//        BinaryFormatter formatter = new BinaryFormatter();
-//        FileStream stream = new FileStream(filepath, FileMode.Create);
-
-//        formatter.Serialize(stream, map);
-//        stream.Close();
-//    }
-
-//    public static MapData Load(string filepath)
-//    {
-//        if (File.Exists(filepath))
-//        {
-//            BinaryFormatter formatter = new BinaryFormatter();
-//            FileStream stream = new FileStream(filepath, FileMode.Open);
-
-//            MapData data = formatter.Deserialize(stream) as MapData;
-
-//            stream.Close();
-
-//            return data;
-//        }
-//        else
-//        {
-//            return null;
-//        }
-
-//    }
-//}
-
-//[System.Serializable]
-//public class MapData
-//{
-//    public float[] mappositiondata = new float[3];
-
-//    public void SetMapData(GameObject mapPrefab)
-//    {
-//        mappositiondata[0] = mapPrefab.transform.position.x;
-//        mappositiondata[1] = mapPrefab.transform.position.y;
-//        mappositiondata[2] = mapPrefab.transform.position.z;
-//        Debug.Log("저장");
-//    }
-//}
 
 #region 플레이어 타입
-
 [Serializable]
 public class PlayerType
 {
@@ -186,7 +191,7 @@ public class PlayerType
     public enum Major
     {
         Fighter,
-        Magician,
+        Wizard,
         Cleric
     }
 
@@ -196,55 +201,69 @@ public class PlayerType
         Female
     }
 
+    public int playerNum;
     public string nickname;
     [SerializeField] public Major major;
     [SerializeField] public Sex sex;
     [SerializeField] public AvatarType type;
     public Color skinColor;
 
-    public PlayerType(string _nickname, Major _major, Sex _sex, AvatarType _avatartype)
+    public PlayerType(int _playerNum, string _nickname, Major _major, Sex _sex, AvatarType _avatartype)
     {
+        playerNum = _playerNum;
         nickname = _nickname;
         major = _major;
         sex = _sex;
         //skinColor = _skinColor;
     }
 }
-
 #endregion
 
-#region 플레이어 스텟
-
+#region 플레이어 기본 세팅데이터
 [Serializable]
-public class PlayerStat
+public class PlayerDefaultData
 {
+    public int no;
     public PlayerType.Major major;
+    public float hp;
+    public int hpRise;
     public int strength;
     public int intelligence;
     public int luck;
     public int speed;
-
-    public float hp;
-    public float atk;
-    public float ap;
-    public float def;
-    public float apdef;
     public int cost;
 
-    public PlayerStat(PlayerType.Major _major, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _atk, float _ap, float _def, float _apdef, int _cost)
+    public int card1;
+    public int card1Count;
+    public int card2;
+    public int card2Count;
+    public int card3;
+    public int card3Count;
+
+    public int weapon1;
+    public int weapon2;
+
+
+    public PlayerDefaultData(int _no, PlayerType.Major _major, float _hp, int _hpRise, int _strength, int _intelligence, int _luck, int _speed, int _cost,
+                            int _card1, int _card1Count, int _card2, int _card2Count, int _card3, int _card3Count, int _weapon1, int _weapon2)
     {
+        no = _no;
         major = _major;
+        hp = _hp;
+        hpRise = _hpRise; 
         strength = _strength;
         intelligence = _intelligence;
         luck = _luck;
         speed = _speed;
-        hp = _hp;
-        atk = _atk;
-        ap = _ap;
-        def = _def;
-        apdef = _apdef;
         cost = _cost;
+        card1 = _card1;
+        card1Count = _card1Count;
+        card2 = _card2;
+        card2Count = _card2Count;
+        card3 = _card3;
+        card3Count = _card3Count;
+        weapon1 = _weapon1;
+        weapon2 = _weapon2;
     }
 }
-
 #endregion

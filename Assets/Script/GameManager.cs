@@ -33,6 +33,13 @@ public class GameManager : MonoBehaviour
         //avatar[2].SetUnitData(DataBase.instance.stat[2]);
         //LoadScenceName("Character");
     }
+
+    public void LoadAvatar()
+    {
+
+
+    }
+
     #region 로비씬 아바타 세팅 -> 오브젝트 화
 
     public void GetLobbyAvatar(Vector3 position)
@@ -68,12 +75,19 @@ public class GameManager : MonoBehaviour
 
     private void AvatarStatSetting(GameObject unit)
     {
-        for (int i = 0; i < DataBase.instance.stat.Count; i++)
+        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
         {
-            if (unit.GetComponent<Character_type>().major == DataBase.instance.stat[i].major)
+            if (unit.GetComponent<Character_type>().major == DataBase.instance.defaultData[i].major)
             {
-                unit.GetComponent<Character>().SetUnitData(DataBase.instance.stat[i]);
+                unit.GetComponent<Character>().SetUnitData(DataBase.instance.defaultData[i]);
             }
+        }
+    }
+    private void AvatarTypeSetting(GameObject unit)
+    {
+        for (int i = 0; i < DataBase.instance.typeData.Count; i++)
+        {
+            unit.GetComponent<Character_type>().SetUnitType(DataBase.instance.typeData[i]);
         }
     }
 
