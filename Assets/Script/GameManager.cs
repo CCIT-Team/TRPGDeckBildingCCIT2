@@ -34,10 +34,13 @@ public class GameManager : MonoBehaviour
         //LoadScenceName("Character");
     }
 
-    public void LoadAvatar()
+    public void LoadAvatar(int index, Vector3 position)
     {
+        GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
+        unit.transform.position = position;//나중에 맵 포지션 받아올거임
 
-
+        AvatarTypeSetting(unit, index);
+        AvatarStatSetting(unit, index);
     }
 
     #region 로비씬 아바타 세팅 -> 오브젝트 화
@@ -49,6 +52,14 @@ public class GameManager : MonoBehaviour
             CreateAvatar(i, position);
         }
     }
+    public void GetLoadAvatar(Vector3 position)
+    {
+        for (int i = 0; i < DataBase.instance.loadTypeData.Count; i++)
+        {
+            LoadAvatar(i, position);
+        }
+    }
+
     private void CreateAvatar(int index, Vector3 position)
     {        
         GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
@@ -83,12 +94,13 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    private void AvatarTypeSetting(GameObject unit)
+    private void AvatarTypeSetting(GameObject unit, int index)
     {
-        for (int i = 0; i < DataBase.instance.typeData.Count; i++)
-        {
-            unit.GetComponent<Character_type>().SetUnitType(DataBase.instance.typeData[i]);
-        }
+        unit.GetComponent<Character_type>().SetUnitType(DataBase.instance.loadTypeData[index]);
+    }
+    private void AvatarStatSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<Character>().SetUnitData(DataBase.instance.loadStatData[index]);
     }
 
     #endregion

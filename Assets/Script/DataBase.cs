@@ -23,7 +23,9 @@ public class DataBase : MonoBehaviour
         }
     }
     public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
-    public List<PlayerType> typeData = new List<PlayerType>();
+    public List<CardData_> cardData = new List<CardData_>();
+    public List<PlayerType> loadTypeData = new List<PlayerType>();
+    public List<PlayerStat> loadStatData = new List<PlayerStat>();
     private const string defaultDatadbPath = "/DefaultData.db";
     private const string playerDataTable = "PlayerData";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
@@ -107,9 +109,9 @@ public class DataBase : MonoBehaviour
 
     public void LoadData()
     {
-        string tableName = "Type";
-
         IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
+
+        string tableName = "Type";
         IDbCommand dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = "SELECT * FROM " + tableName;
         IDataReader dataReader = dbCommand.ExecuteReader();
@@ -122,11 +124,33 @@ public class DataBase : MonoBehaviour
             PlayerType.Sex sex = (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), dataReader.GetString(3));
             PlayerType.AvatarType avatarType = (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), dataReader.GetString(4));
 
-            typeData.Add(new PlayerType(playerNo, nickname, major, sex, avatarType));
+            loadTypeData.Add(new PlayerType(playerNo, nickname, major, sex, avatarType));
         }
+        dataReader.Close();
+
+        tableName = "Stat";
+        //dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int playerNo = dataReader.GetInt32(0);
+            int strength = dataReader.GetInt32(1);
+            int intelligence = dataReader.GetInt32(2);
+            int luck = dataReader.GetInt32(3);
+            int speed = dataReader.GetInt32(4);
+            float hp = dataReader.GetFloat(5);
+            float maxHp = dataReader.GetFloat(6);
+            int cost = dataReader.GetInt32(7);
+
+            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost));
+        }
+
         dataReader.Close();
         dbConnection.Close();
     }
+
     private void SaveDB(string typeQuery, string statQuery)
     {
         IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
@@ -169,6 +193,60 @@ public class DataBase : MonoBehaviour
 
             defaultData.Add(new PlayerDefaultData(no, major, hp, hpRise, strength, intelligence, luck, speed, cost, 
                 card1, card1Count, card2, card2Count, card3, card3Count, weapon1, weapon2));
+        }
+        dataReader.Close();
+
+        tableName = "Fighter_CardData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
+            string description = dataReader.GetString(3);
+            int defaultXvalue = dataReader.GetInt32(4);
+            string effect = dataReader.GetString(5);
+            int useCost = dataReader.GetInt32(6);
+
+            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+        }
+        dataReader.Close();
+
+        tableName = "Wizard_CardData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
+            string description = dataReader.GetString(3);
+            int defaultXvalue = dataReader.GetInt32(4);
+            string effect = dataReader.GetString(5);
+            int useCost = dataReader.GetInt32(6);
+
+            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+        }
+        dataReader.Close();
+
+        tableName = "Cleric_CardData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
+            string description = dataReader.GetString(3);
+            int defaultXvalue = dataReader.GetInt32(4);
+            string effect = dataReader.GetString(5);
+            int useCost = dataReader.GetInt32(6);
+
+            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
         }
         dataReader.Close();
         dbConnection.Close();
@@ -219,6 +297,33 @@ public class PlayerType
 }
 #endregion
 
+#region 플레이어 스텟
+[Serializable]
+public class PlayerStat
+{
+    public int playerNum;
+    public int strength;
+    public int intelligence;
+    public int luck;
+    public int speed;
+    public float hp;
+    public float maxHp;
+    public int cost;
+
+    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost)
+    {
+        playerNum = _playerNum;
+        strength = _strength;
+        intelligence = _intelligence;
+        luck = _luck;
+        speed = _speed;
+        hp = _hp;
+        maxHp = _maxHp;
+        cost = _cost;
+    }
+}
+#endregion
+
 #region 플레이어 기본 세팅데이터
 [Serializable]
 public class PlayerDefaultData
@@ -264,6 +369,37 @@ public class PlayerDefaultData
         card3Count = _card3Count;
         weapon1 = _weapon1;
         weapon2 = _weapon2;
+    }
+}
+#endregion
+
+#region 카드 데이터
+[Serializable]
+public class CardData_
+{
+    public enum CardType
+    {
+        Attack,
+        Defense,
+        Special
+    }
+    public int no;
+    public string name;
+    public CardType type;
+    public string description;
+    public int defaultXvalue;
+    public string effect;
+    public int useCost;
+
+    public CardData_(int _no, string _name, CardType _type, string _description, int _defaultXvalue, string _effect, int _useCost)
+    {
+        no = _no;
+        name = _name;
+        type = _type;
+        description = _description;
+        defaultXvalue = _defaultXvalue;
+        effect = _effect;
+        useCost = _useCost;
     }
 }
 #endregion

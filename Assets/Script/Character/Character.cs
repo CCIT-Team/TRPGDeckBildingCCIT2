@@ -35,6 +35,18 @@ public class Character : Unit
         cost = maxCost;
     }
 
+    public void SetUnitData(PlayerStat stat)
+    {
+        maxHp = stat.maxHp;
+        hp = stat.hp;
+        strength = stat.strength;
+        intelligence = stat.intelligence;
+        luck = stat.luck;
+        speed = stat.speed;
+        maxCost = stat.cost;
+        cost = maxCost;
+    }
+
     public string GetStatDBQuery()
     {
         insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost) VALUES " +

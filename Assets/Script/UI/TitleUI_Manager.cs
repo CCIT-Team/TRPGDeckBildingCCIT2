@@ -33,6 +33,7 @@ public class TitleUI_Manager : MonoBehaviour
 
     public void LoadButton(string sceneName)
     {
+        DataBase.instance.LoadData();
         GameManager.instance.LoadScenceName(sceneName);
     }
 
