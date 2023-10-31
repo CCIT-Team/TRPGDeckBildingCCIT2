@@ -18,6 +18,10 @@ public class Character : Unit
     public int cost;
     private int maxCost;
 
+    public int level;
+    public int exp;
+    public int maxExp;
+
     public bool isMyturn;
     public WorldState worldState = WorldState.Idle;
 
@@ -33,6 +37,9 @@ public class Character : Unit
         speed = stat.speed;
         maxCost = stat.cost;
         cost = maxCost;
+        level = stat.level;
+        exp = stat.exp;
+        maxExp = stat.maxExp;
     }
 
     public void SetUnitData(PlayerStat stat)
@@ -45,12 +52,15 @@ public class Character : Unit
         speed = stat.speed;
         maxCost = stat.cost;
         cost = maxCost;
+        level = stat.level;
+        exp = stat.exp;
+        maxExp = stat.maxExp;
     }
 
     public string GetStatDBQuery()
     {
-        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost) VALUES " +
-            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost})";
+        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp) VALUES " +
+            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp})";
         return insertQuery;
     }
 }

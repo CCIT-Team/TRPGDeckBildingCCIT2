@@ -143,8 +143,11 @@ public class DataBase : MonoBehaviour
             float hp = dataReader.GetFloat(5);
             float maxHp = dataReader.GetFloat(6);
             int cost = dataReader.GetInt32(7);
+            int level = dataReader.GetInt32(8);
+            int exp = dataReader.GetInt32(9);
+            int maxExp = dataReader.GetInt32(10);
 
-            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost));
+            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp));
         }
 
         dataReader.Close();
@@ -177,22 +180,30 @@ public class DataBase : MonoBehaviour
             float hp = dataReader.GetFloat(2);
             int hpRise = dataReader.GetInt32(3);
             int strength = dataReader.GetInt32(4);
-            int intelligence = dataReader.GetInt32(5);
-            int luck = dataReader.GetInt32(6);
-            int speed = dataReader.GetInt32(7);
-            int cost = dataReader.GetInt32(8);
+            int strengthRise = dataReader.GetInt32(5);
+            int intelligence = dataReader.GetInt32(6);
+            int intelligenceRise = dataReader.GetInt32(7);
+            int luck = dataReader.GetInt32(8);
+            int luckRise = dataReader.GetInt32(9);
+            int speed = dataReader.GetInt32(10);
+            int speedRise = dataReader.GetInt32(11);
+            int cost = dataReader.GetInt32(12);
 
-            int card1 = dataReader.GetInt32(9);
-            int card1Count = dataReader.GetInt32(10);
-            int card2 = dataReader.GetInt32(11);
-            int card2Count = dataReader.GetInt32(12);
-            int card3 = dataReader.GetInt32(13);
-            int card3Count = dataReader.GetInt32(14);
-            int weapon1 = dataReader.GetInt32(15);
-            int weapon2 = dataReader.GetInt32(16);
+            int card1 = dataReader.GetInt32(13);
+            int card1Count = dataReader.GetInt32(14);
+            int card2 = dataReader.GetInt32(15);
+            int card2Count = dataReader.GetInt32(16);
+            int card3 = dataReader.GetInt32(17);
+            int card3Count = dataReader.GetInt32(18);
+            int weapon1 = dataReader.GetInt32(19);
+            int weapon2 = dataReader.GetInt32(20);
 
-            defaultData.Add(new PlayerDefaultData(no, major, hp, hpRise, strength, intelligence, luck, speed, cost, 
-                card1, card1Count, card2, card2Count, card3, card3Count, weapon1, weapon2));
+            int level = dataReader.GetInt32(21);
+            int exp = dataReader.GetInt32(22);
+            int maxExp = dataReader.GetInt32(23);
+
+            defaultData.Add(new PlayerDefaultData(no, major, hp, hpRise, strength, strengthRise, intelligence, intelligenceRise, luck, luckRise, speed, speedRise, cost, 
+                card1, card1Count, card2, card2Count, card3, card3Count, weapon1, weapon2, level, exp, maxExp));
         }
         dataReader.Close();
 
@@ -309,8 +320,11 @@ public class PlayerStat
     public float hp;
     public float maxHp;
     public int cost;
+    public int level;
+    public int exp;
+    public int maxExp;
 
-    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost)
+    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp)
     {
         playerNum = _playerNum;
         strength = _strength;
@@ -320,6 +334,9 @@ public class PlayerStat
         hp = _hp;
         maxHp = _maxHp;
         cost = _cost;
+        level = _level;
+        exp = _exp;
+        maxExp = _maxExp;
     }
 }
 #endregion
@@ -333,9 +350,13 @@ public class PlayerDefaultData
     public float hp;
     public int hpRise;
     public int strength;
+    public int strengthRise;
     public int intelligence;
+    public int intelligenceRise;
     public int luck;
+    public int luckRise;
     public int speed;
+    public int speedRise;
     public int cost;
 
     public int card1;
@@ -348,27 +369,41 @@ public class PlayerDefaultData
     public int weapon1;
     public int weapon2;
 
+    public int level;
+    public int exp;
+    public int maxExp;
 
-    public PlayerDefaultData(int _no, PlayerType.Major _major, float _hp, int _hpRise, int _strength, int _intelligence, int _luck, int _speed, int _cost,
-                            int _card1, int _card1Count, int _card2, int _card2Count, int _card3, int _card3Count, int _weapon1, int _weapon2)
+
+    public PlayerDefaultData(int _no, PlayerType.Major _major, float _hp, int _hpRise, int _strength, int _strengthRise, int _intelligence, int _intelligenceRise, int _luck, int _luckRise, int _speed, int _speedRise, int _cost,
+                            int _card1, int _card1Count, int _card2, int _card2Count, int _card3, int _card3Count, int _weapon1, int _weapon2, int _level, int _exp, int _maxExp)
     {
         no = _no;
         major = _major;
         hp = _hp;
         hpRise = _hpRise; 
         strength = _strength;
+        strengthRise = _strengthRise;
         intelligence = _intelligence;
+        intelligenceRise = _intelligenceRise;
         luck = _luck;
+        luckRise = _luckRise;
         speed = _speed;
+        speedRise = _speedRise;
         cost = _cost;
+
         card1 = _card1;
         card1Count = _card1Count;
         card2 = _card2;
         card2Count = _card2Count;
         card3 = _card3;
         card3Count = _card3Count;
+
         weapon1 = _weapon1;
         weapon2 = _weapon2;
+
+        level = _level;
+        exp = _exp;
+        maxExp = _maxExp;
     }
 }
 #endregion
