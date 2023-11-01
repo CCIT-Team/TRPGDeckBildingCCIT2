@@ -7,18 +7,10 @@ using System.Linq;
 public class Tile : MonoBehaviour
 {
     public List<GameObject> tiles = new List<GameObject>(6);
-    public Material[] climateMaterials = new Material[3];
-
+    int i = 0;
+    [SerializeField] Material[] climateMaterials = new Material[3];
     Material material;
     Color defaultColor;
-
-    [SerializeField] GameObject kingdomObject;
-    [SerializeField] GameObject vileageObject;
-    [SerializeField] GameObject monsterObject;
-    [SerializeField] GameObject bossObject;
-
-
-
     public Climate climate;
     public TileState tileState;
 
@@ -31,7 +23,6 @@ public class Tile : MonoBehaviour
 
     public enum TileState
     {
-        Default,
         SpawnTile,
         MonsterTile,
         BossTile,
@@ -42,11 +33,6 @@ public class Tile : MonoBehaviour
     void Awake()
     {
        defaultColor = GetComponent<MeshRenderer>().material.color;
-
-        kingdomObject.SetActive(false);
-        vileageObject.SetActive(false);
-        monsterObject.SetActive(false);
-        bossObject.SetActive(false);
     }
 
     private void Start()
@@ -58,34 +44,20 @@ public class Tile : MonoBehaviour
         else if(tileState == TileState.MonsterTile)
         {
             isMonsterTile = true;
-            monsterObject.SetActive(true);
         }
         else if(tileState == TileState.BossTile)
         {
             isBossTile = true;
-            bossObject.SetActive(true);
+            material = gameObject.GetComponent<MeshRenderer>().material;
+            material.color = Color.cyan;
         }
         else if(tileState == TileState.KingdomTile)
         {
             isKingdomTile = true;
-            kingdomObject.SetActive(true);
         }
         else if (tileState == TileState.VillageTile)
         {
             isVillageTile = true;
-            vileageObject.SetActive(true);
-        }
-        else
-        {
-            isSpawnTile = false;
-
-            isMonsterTile = false;
-
-            isBossTile = false;
-
-            isKingdomTile = false;
-
-            isVillageTile = false;
         }
     }
     /// <summary>
