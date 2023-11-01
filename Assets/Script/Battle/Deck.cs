@@ -26,19 +26,30 @@ public class Deck : MonoBehaviour   //덱 정보를 소지하고 플레이어의 장비에서 카�
         }
     }
 
+    private void Awake()
+    {
+        
+    }
+
     private void OnEnable()
     {
-
+        Debug.Log(gameObject.name + " On");
+        for (int i = 0; i < deck.Count; i++)//임시코드
+        {
+            Debug.Log(gameObject.name+":"+CardDataBase.instance.cards.Count);
+            deck[i] = Random.Range(0, CardDataBase.instance.cards.Count);
+        }
     }
 
     private void OnDisable()
     {
-        DeckUI.SetActive(false);
+        if(DeckUI != null)
+            DeckUI.SetActive(false);
     }
 
     void Start()
     {
-        LoadDeck();
+        
     }
 
     public void BIndUI(GameObject ui)
