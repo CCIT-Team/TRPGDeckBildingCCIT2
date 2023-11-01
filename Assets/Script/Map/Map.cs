@@ -35,7 +35,7 @@ public class Map : MonoBehaviour
     public GameObject playerprefab;
     public GameObject testPlayer;
     GameObject tileObject;
-    [HideInInspector] public GameObject player;
+    public GameObject player;
 
     public bool isPlayerOnEndTile = false;
     public Tile startTile;
@@ -65,8 +65,8 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-        //GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
-        player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
+        GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
+        //player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
         wolrdRect = new Rect(22.2f, 24.2f, 47, 51);
         TestClimate();
     }

@@ -159,7 +159,7 @@ public class Tile : MonoBehaviour
             }
             else if (isMonsterTile)
             {
-                Map.instance.ChangeScene(2);
+                Map.instance.ChangeScene(4);
             }
             else if (isBossTile)
             {

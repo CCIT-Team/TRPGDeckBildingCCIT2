@@ -15,6 +15,10 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public List<Unit> units;
     public Unit currentUnit;
 
+   public GameObject player;
+    public GameObject playerPosition;
+    public GameObject monsterPosition;
+
     public int startHandCount = 5;
 
     private void Awake()
@@ -116,13 +120,19 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         CheckBattleState();
     }
 
+    void SetUnitPosition()
+    {
+
+    }
+
 
     //--------------------------------------
 
     void AddTurnPool()//유닛 추가용 코드, 미완
     {
         int uiNum = 0;
-        foreach(Unit unit in units)
+        GameManager.instance.GetLoadAvatar(playerPosition.transform.position);
+        foreach (Unit unit in units)
         {
             if (unit.TryGetComponent(out Character character))
             {
