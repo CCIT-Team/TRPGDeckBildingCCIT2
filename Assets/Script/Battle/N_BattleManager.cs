@@ -131,7 +131,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void AddTurnPool()//유닛 추가용 코드, 미완
     {
         int uiNum = 0;
-        //GameManager.instance.GetLoadAvatar(playerPosition.position);
+        GameManager.instance.GetLoadAvatar(playerPosition.position);
         GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i< playerarray.Length;i++)
         {
