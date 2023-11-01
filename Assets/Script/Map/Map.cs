@@ -25,6 +25,9 @@ public class Map : MonoBehaviour
     [SerializeField] Rect wolrdRect;
     [SerializeField] float wolrdRectx = 45;
     [SerializeField] float wolrdRecty = 49.36345f;
+    [SerializeField] Rect grassRect;
+    [SerializeField] Rect desertRect;
+    [SerializeField] Rect jungleRect;
     int wolrdRectNum = 1;
     int wolrdRectNum1 = 1;
 
@@ -32,18 +35,25 @@ public class Map : MonoBehaviour
     public GameObject desert;
     public GameObject jungle;
     public GameObject hexagon;
-    public GameObject playerprefab;
     public GameObject testPlayer;
     GameObject tileObject;
-    public GameObject player;
+    public List<GameObject> players;
 
     public bool isPlayerOnEndTile = false;
+    public bool isFirst = true;
+
     public Tile startTile;
 
     public float playerMoveSpeed;
     int tileNum = 0;
-    public List<GameObject> tileObjectList;
+    public List<GameObject> totalTileObjectList;
+    public List<GameObject> grassTileObjectList;
+    public List<GameObject> desertTileObjectList;
+    public List<GameObject> junglelTileObjectList;
+
     public List<Tile> pathTileObjectList;
+
+    public GameObject[] areaPoints = new GameObject[12];
 
     public Vector3 centerPosition;
     public List<Vector3> linePoint;
@@ -57,18 +67,27 @@ public class Map : MonoBehaviour
     {
         instance = this;
         wolrdRect = new Rect(22.5f, 25.114f, 47, 51);
-        GenerateMap();
+        grassRect = new Rect(22.5f, 25.114f, 22, 25);
+        desertRect = new Rect(22.5f, 25.114f, 22, 25);
+        jungleRect = new Rect(22.5f, 25.114f, 45, 22);
+        if (isFirst) { GenerateMap(); }
+        else { SaveMap(); }
         voronoi = GenerateVoronoi(new Vector2(wolrdRect.width, wolrdRect.height), nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
-        tileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        //TestClimate();
     }
 
     private void Start()
     {
-        GameManager.instance.GetLobbyAvatar(tileObjectList[0].transform.position);
+        GameManager.instance.GetLobbyAvatar(totalTileObjectList[0].transform.position);
         //player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
         wolrdRect = new Rect(22.2f, 24.2f, 47, 51);
-        TestClimate();
+    }
+
+    void SaveMap()
+    {
+
     }
 
     public void PlayerMovePath(Tile objects)
@@ -80,11 +99,35 @@ public class Map : MonoBehaviour
     int currentPoint = -1;
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            currentPoint += 1;
+            players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (players[0].transform.position == pathTileObjectList.Last().transform.position)
+            {
+                Debug.Log("Finished");
+                currentPoint = -1;
+                pathTileObjectList.Clear();
+                isPlayerOnEndTile = true;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.K))
         {
             currentPoint += 1;
-            player.transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
-            if (player.transform.position == pathTileObjectList.Last().transform.position)
+            players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (players[0].transform.position == pathTileObjectList.Last().transform.position)
+            {
+                Debug.Log("Finished");
+                currentPoint = -1;
+                pathTileObjectList.Clear();
+                isPlayerOnEndTile = true;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            currentPoint += 1;
+            players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (players[0].transform.position == pathTileObjectList.Last().transform.position)
             {
                 Debug.Log("Finished");
                 currentPoint = -1;
@@ -94,64 +137,40 @@ public class Map : MonoBehaviour
         }
     }
     int a = 0;
-    void TestClimate()
-    {
-        bool fineCenter = false;
-        Transform a;
+    //void TestClimate()
+    //{
+    //    foreach (var site in voronoi.Sites)
+    //    {
+    //        var neighbors = site.NeighborSites();
+    //        foreach (var neighbor in neighbors)
+    //        {
+    //            var edge = voronoi.FindEdgeFromAdjacentPolygons(site, neighbor);
 
-        foreach (var site in voronoi.Sites)
-        {
-            var neighbors = site.NeighborSites();
-            foreach (var neighbor in neighbors)
-            {
-                var edge = voronoi.FindEdgeFromAdjacentPolygons(site, neighbor);
+    //            if (edge.ClippedVertices is null)
+    //            {
+    //                continue;
+    //            }
 
-                if (edge.ClippedVertices is null)
-                {
-                    continue;
-                }
+    //            Vector2 corner1 = edge.ClippedVertices[LR.LEFT];
+    //            Vector2 corner2 = edge.ClippedVertices[LR.RIGHT];
 
-                Vector2 corner1 = edge.ClippedVertices[LR.LEFT];
-                Vector2 corner2 = edge.ClippedVertices[LR.RIGHT];
-
-                Vector3 p0 = new Vector3(corner1.x, 0, corner1.y);
-                Vector3 p1 = new Vector3(corner2.x, 0, corner2.y);
-                Vector3 p01 = p1-p0;
-                //Gizmos.color = Color.black;
-                //Gizmos.DrawLine(p0, p1);
-                Debug.Log(p0 + "P0");
-                Debug.Log(p1 + "P1");
-                GameObject aa = Instantiate(testCube,new Vector3(p0.x, p0.y+0.1f, p0.z),Quaternion.identity);
-                GameObject bb = Instantiate(testCube1,new Vector3(p1.x, p1.y + 0.1f, p1.z),Quaternion.identity);
-                GameObject cc = Instantiate(testCube1,new Vector3(p01.x, p01.y + 0.1f, p01.z),Quaternion.identity);
-                cc.transform.localScale = new Vector3(p01.x, p01.y + 0.1f, p01.z);
-                aa.name = "p0";
-                bb.name = "p1";
-                cc.name = "cc";
-                //linePoint.Add(p1);
-                //if (!fineCenter)
-                //{
-                //    centerPosition = p0;
-                //    fineCenter = true;
-                //}
-                //if (linePoint0.Count <= 3)
-                //{
-                //    linePoint0.Add(p0);
-                //    linePoint0.Add(p1);
-                //}
-                //else if (linePoint0.Count >= 4 && linePoint1.Count <= 3)
-                //{
-                //    linePoint1.Add(p0);
-                //    linePoint1.Add(p1);
-                //}
-                //else if (linePoint1.Count >= 4 && linePoint2.Count <= 3)
-                //{
-                //    linePoint2.Add(p0);
-                //    linePoint2.Add(p1);
-                //}
-            }
-        }
-    }
+    //            Vector3 p0 = new Vector3(corner1.x, 0, corner1.y);
+    //            Vector3 p1 = new Vector3(corner2.x, 0, corner2.y);
+    //            Vector3 p01 = p1 - p0;
+    //            //Gizmos.color = Color.black;
+    //            //Gizmos.DrawLine(p0, p1);
+    //            Debug.Log(p0 + "P0");
+    //            Debug.Log(p1 + "P1");
+    //            GameObject aa = Instantiate(testCube, new Vector3(p0.x, p0.y + 0.1f, p0.z), Quaternion.identity);
+    //            GameObject bb = Instantiate(testCube1, new Vector3(p1.x, p1.y + 0.1f, p1.z), Quaternion.identity);
+    //            aa.name = a + "p0";
+    //            bb.name = a + "p1";
+    //            areaPoints[a] = aa;
+    //            areaPoints[a + 1] = bb;
+    //            a += 2;
+    //        }
+    //    }
+    //}
 
     void CaculateS()
     {
@@ -234,7 +253,7 @@ public class Map : MonoBehaviour
                         Tile tile = tileObject.GetComponent<Tile>();
                         tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
                         tileObject.name = "Tile" + tileNum;
-                        tileObjectList.Add(tileObject);
+                        totalTileObjectList.Add(tileObject);
                         //if (tileNum > 1)
                         //{
                         //    if (tileObjectList[wolrdRectNum].transform.localPosition.x > tileObjectList[wolrdRectNum - 1].transform.localPosition.x)
@@ -262,7 +281,7 @@ public class Map : MonoBehaviour
                         Tile tile = tileObject.GetComponent<Tile>();
                         tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
                         tileObject.name = "Tile" + tileNum;
-                        tileObjectList.Add(tileObject);
+                        totalTileObjectList.Add(tileObject);
                         //if (tileNum > 1)
                         //{
                         //    if (tileObjectList[wolrdRectNum].transform.localPosition.x > tileObjectList[wolrdRectNum - 1].transform.localPosition.x)
@@ -300,11 +319,13 @@ public class Map : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector3(22.5f, 0, 22.5f), new Vector3(wolrdRectx, 0, wolrdRecty));
-        Gizmos.color = Color.green;
         Gizmos.DrawWireCube(new Vector3(22.2f, 0, 24.2f), new Vector3(wolrdRect.width, 0, wolrdRect.height));
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(size.x, 0, size.y));
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(grassRect.width, 0, grassRect.height));
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(desertRect.width, 0, desertRect.height));
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(jungleRect.width, 0, jungleRect.height));
         //Gizmos.color = Color.black;
         //TestClimate();
     }
