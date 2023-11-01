@@ -80,7 +80,7 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.GetLobbyAvatar(totalTileObjectList[0].transform.position);
+        GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
         //player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
         wolrdRect = new Rect(22.2f, 24.2f, 47, 51);
     }
@@ -102,8 +102,8 @@ public class Map : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             currentPoint += 1;
-            players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
-            if (players[0].transform.position == pathTileObjectList.Last().transform.position)
+            GameManager.instance.players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (GameManager.instance.players[0].transform.position == pathTileObjectList.Last().transform.position)
             {
                 Debug.Log("Finished");
                 currentPoint = -1;
@@ -114,8 +114,8 @@ public class Map : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             currentPoint += 1;
-            players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
-            if (players[0].transform.position == pathTileObjectList.Last().transform.position)
+            GameManager.instance.players[1].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (GameManager.instance.players[1].transform.position == pathTileObjectList.Last().transform.position)
             {
                 Debug.Log("Finished");
                 currentPoint = -1;
@@ -126,8 +126,8 @@ public class Map : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             currentPoint += 1;
-            players[0].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
-            if (players[0].transform.position == pathTileObjectList.Last().transform.position)
+            GameManager.instance.players[2].transform.position = new Vector3(pathTileObjectList[currentPoint].gameObject.transform.position.x, 0, pathTileObjectList[currentPoint].gameObject.transform.position.z);
+            if (GameManager.instance.players[2].transform.position == pathTileObjectList.Last().transform.position)
             {
                 Debug.Log("Finished");
                 currentPoint = -1;
