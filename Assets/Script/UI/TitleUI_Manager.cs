@@ -33,7 +33,6 @@ public class TitleUI_Manager : MonoBehaviour
 
     public void LoadButton(string sceneName)
     {
-        DataBase.instance.LoadData();
         GameManager.instance.LoadScenceName(sceneName);
     }
 
@@ -57,6 +56,7 @@ public class TitleUI_Manager : MonoBehaviour
         }
         else
         {
+            DataBase.instance.LoadData();
             loadButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             loadButton.GetComponent<Button>().enabled = true;
         }
