@@ -42,8 +42,8 @@ public class Unit : MonoBehaviour
 
     public float Damaged(float atk)
     {
-        hp = hp - atk;
-        return hp;
+        Hp = Hp - atk;
+        return Hp;
     }
 
 }

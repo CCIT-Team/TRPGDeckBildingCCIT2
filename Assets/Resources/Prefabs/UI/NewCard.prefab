@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 7761547435388745894}
   - component: {fileID: 6885798371438040764}
   - component: {fileID: 3866745606124921709}
+  - component: {fileID: 310997900398861569}
   m_Layer: 5
   m_Name: NewCard
   m_TagString: Untagged
@@ -305,5 +306,21 @@ MonoBehaviour:
   tokenAmount: 0
   tokens: 
   cardTarget: {fileID: 0}
-  image: {fileID: 7981894247378070760}
-  text: {fileID: 6286388788943058658}
+--- !u!114 &310997900398861569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6560460090638647257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f1e82b21a9a2a349a65f55783618caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  bindCard: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 192

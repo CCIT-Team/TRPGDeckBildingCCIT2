@@ -15,9 +15,9 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public List<Unit> units;
     public Unit currentUnit;
 
-   public GameObject player;
-    public GameObject playerPosition;
-    public GameObject monsterPosition;
+    public GameObject player;
+    public Transform playerPosition;
+    public Transform monsterPosition;
 
     public int startHandCount = 5;
 
@@ -40,9 +40,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            currentUnit.GetComponent<MonsterDummy>().isMyturn = false;
+            currentUnit.GetComponent<Monster>().isMyturn = false;
         if (Input.GetKeyDown(KeyCode.Return))
             ExitBattle(currentUnit);
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            EndBattle();
     }
 
     void StartBattle()
@@ -61,7 +63,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void EndBattle()
     {
         StopCoroutine(PlayTurn());
-        SceneManager.LoadScene("Map1");
+        GameManager.instance.LoadScenceName("Map1");
+        //SceneManager.LoadScene("Map1");
     }
 
     void CheckBattleState()
@@ -89,7 +92,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (joinUnit.TryGetComponent<Character>(out Character joinCharacter))
             joinUnitSpeed = joinCharacter.speed;
         else
-            joinUnitSpeed = joinUnit.GetComponent<MonsterDummy>().speed;
+            joinUnitSpeed = joinUnit.GetComponent<Monster>().speed;
 
         int unitSpeed;
         for (int i = 0; i< units.Count;i++)
@@ -97,7 +100,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (units[i].TryGetComponent<Character>(out Character character))
                 unitSpeed = character.speed;
             else
-                unitSpeed = units[i].GetComponent<MonsterDummy>().speed;
+                unitSpeed = units[i].GetComponent<Monster>().speed;
 
             if(joinUnitSpeed < unitSpeed)
             {
@@ -131,7 +134,19 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void AddTurnPool()//유닛 추가용 코드, 미완
     {
         int uiNum = 0;
-        GameManager.instance.GetLoadAvatar(playerPosition.transform.position);
+        GameManager.instance.GetLoadAvatar(playerPosition.position);
+        GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
+        for(int i = 0; i< playerarray.Length;i++)
+        {
+            playerarray[i].transform.SetParent(playerPosition);
+            playerarray[i].transform.localPosition = new Vector3(3*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
+            units.Add(playerarray[i].GetComponent<Unit>());
+        }
+        for (int i = 0; i < monsterPosition.transform.childCount; i++)
+        {
+            units.Add(monsterPosition.transform.GetChild(i).GetComponent<Unit>());
+        }
+
         foreach (Unit unit in units)
         {
             if (unit.TryGetComponent(out Character character))
@@ -139,7 +154,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 Debug.Log(uiNum);
                 characterUIs[uiNum++].GetComponent<N_DrawSystem>().BindCharacter(character);
             }
-                
         }
     }
 
@@ -151,12 +165,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (a.TryGetComponent(out Character characterA))
                 speedA = characterA.speed;
             else
-                speedA = a.GetComponent<MonsterDummy>().speed;
+                speedA = a.GetComponent<Monster>().speed;
 
             if (b.TryGetComponent(out Character characterB))
                 speedB = characterB.speed;
             else
-                speedB = b.GetComponent<MonsterDummy>().speed;
+                speedB = b.GetComponent<Monster>().speed;
 
             if (speedA >= speedB)
                 return -1;
@@ -180,7 +194,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             
         else
         {
-            MonsterDummy monster = currentUnit.GetComponent<MonsterDummy>();
+            Monster monster = currentUnit.GetComponent<Monster>();
             monster.isMyturn = true;
             yield return new WaitUntil(() => !monster.isMyturn);
         }

@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetTypeDBQuery());
                 DataBase.instance.SaveDB(players[i].GetComponent<Character>().GetStatDBQuery());
             }
+            DataBase.instance.LoadData();
         }
 
         while(!op.isDone)
