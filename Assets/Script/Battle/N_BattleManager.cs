@@ -43,6 +43,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             currentUnit.GetComponent<Monster>().isMyturn = false;
         if (Input.GetKeyDown(KeyCode.Return))
             ExitBattle(currentUnit);
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            EndBattle();
     }
 
     void StartBattle()
@@ -61,7 +63,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void EndBattle()
     {
         StopCoroutine(PlayTurn());
-        SceneManager.LoadScene("Map1");
+        GameManager.instance.LoadScenceName("Map1");
+        //SceneManager.LoadScene("Map1");
     }
 
     void CheckBattleState()
