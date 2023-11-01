@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    [SerializeField] public List<GameObject> players = new List<GameObject>();
+
     [SerializeField]public List<string> avatar_0 = new List<string>();
     [SerializeField]public List<string> avatar_1 = new List<string>();
     [SerializeField]public List<string> avatar_2 = new List<string>();
@@ -34,67 +36,22 @@ public class GameManager : MonoBehaviour
         //LoadScenceName("Character");
     }
 
-    public void LoadAvatar(int index, Vector3 position)
-    {
-        GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
-        //N_BattleManager.instance.player = unit;
-        unit.transform.position = position;//나중에 맵 포지션 받아올거임
-
-        AvatarTypeSetting(unit, index);
-        AvatarStatSetting(unit, index);
-    }
-
-    #region 로비씬 아바타 세팅 -> 오브젝트 화
-
-    public void GetLobbyAvatar(Vector3 position)
-    {
-        for (int i = 0; i < avatarCounter; i++)
-        {
-            CreateAvatar(i, position);
-        }
-    }
     public void GetLoadAvatar(Vector3 position)
     {
+        players.Clear();
         for (int i = 0; i < DataBase.instance.loadTypeData.Count; i++)
         {
             LoadAvatar(i, position);
         }
     }
 
-    private void CreateAvatar(int index, Vector3 position)
-    {        
-        GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
-        //Map.instance.players =  unit;
-        unit.transform.position = position;//나중에 맵 포지션 받아올거임
-        switch (index)
-        {
-            case 0:
-                unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_0[0]), avatar_0[1],(PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_0[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_0[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_0[4]));
-                AvatarStatSetting(unit);
-                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
-                break;
-            case 1:
-                unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_1[0]), avatar_1[1], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_1[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_1[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_1[4]));
-                AvatarStatSetting(unit);
-                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
-                break;
-            case 2:
-                unit.GetComponent<Character_type>().SetUnitType(int.Parse(avatar_2[0]), avatar_2[1], (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), avatar_2[2]), (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), avatar_2[3]), (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), avatar_2[4]));
-                AvatarStatSetting(unit);
-                DataBase.instance.Deliver_column(unit.GetComponent<Character_type>().GetTypeDBQuery(), unit.GetComponent<Character>().GetStatDBQuery());
-                break;
-        }
-    }
-
-    private void AvatarStatSetting(GameObject unit)
+    private void LoadAvatar(int index, Vector3 position)
     {
-        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
-        {
-            if (unit.GetComponent<Character_type>().major == DataBase.instance.defaultData[i].major)
-            {
-                unit.GetComponent<Character>().SetUnitData(DataBase.instance.defaultData[i]);
-            }
-        }
+        GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
+        unit.transform.position = position;//나중에 맵 포지션 받아올거임
+        AvatarTypeSetting(unit, index);
+        AvatarStatSetting(unit, index);
+        players.Add(unit);
     }
     private void AvatarTypeSetting(GameObject unit, int index)
     {
@@ -103,6 +60,54 @@ public class GameManager : MonoBehaviour
     private void AvatarStatSetting(GameObject unit, int index)
     {
         unit.GetComponent<Character>().SetUnitData(DataBase.instance.loadStatData[index]);
+    }
+
+    #region 로비씬 아바타 세팅 -> 오브젝트 화
+
+    public void GetLobbyAvatar()
+    {
+        for (int i = 0; i < avatarCounter; i++)
+        {
+            CreateDataAvatar(i);
+        }
+        DataBase.instance.LoadData();
+    }
+
+    private void CreateDataAvatar(int index)
+    {
+        string insertQuery = null;
+        switch (index)
+        {
+            case 0:
+                insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_0[0]}, '{avatar_0[1]}', '{avatar_0[2]}', '{avatar_0[3]}', '{avatar_0[4]}')";
+                DataBase.instance.SaveDB(insertQuery);
+                DataBase.instance.SaveDB(AvatarStatSetting(avatar_0[0], avatar_0[2]));
+                break;
+            case 1:
+                insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_1[0]}, '{avatar_1[1]}', '{avatar_1[2]}', '{avatar_1[3]}', '{avatar_1[4]}')";
+                DataBase.instance.SaveDB(insertQuery);
+                DataBase.instance.SaveDB(AvatarStatSetting(avatar_1[0], avatar_1[2]));
+                break;
+            case 2:
+                insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_2[0]}, '{avatar_2[1]}', '{avatar_2[2]}', '{avatar_2[3]}', '{avatar_2[4]}')";
+                DataBase.instance.SaveDB(insertQuery);
+                DataBase.instance.SaveDB(AvatarStatSetting(avatar_2[0], avatar_2[2]));
+                break;
+        }
+    }
+
+    private string AvatarStatSetting(string playerNum, string major)
+    {
+        string insertQuery;
+        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
+        {
+            if(major == DataBase.instance.defaultData[i].major.ToString())
+            {
+               return insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp) VALUES " +
+            $"({playerNum}, {DataBase.instance.defaultData[i].strength}, {DataBase.instance.defaultData[i].intelligence}, {DataBase.instance.defaultData[i].luck}, {DataBase.instance.defaultData[i].speed}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].cost}, {DataBase.instance.defaultData[i].level}, {DataBase.instance.defaultData[i].exp}, {DataBase.instance.defaultData[i].maxExp})";
+            }
+        }
+        return null;
     }
 
     #endregion
@@ -120,6 +125,16 @@ public class GameManager : MonoBehaviour
         //yield return new WaitForSeconds(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length); //씬전환 연출 애니메이션
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
+
+        if (players.Count != 0)
+        {
+            DataBase.instance.ResetDB();
+            for (int i = 0; i < players.Count; i++)
+            {
+                DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetTypeDBQuery());
+                DataBase.instance.SaveDB(players[i].GetComponent<Character>().GetStatDBQuery());
+            }
+        }
 
         while(!op.isDone)
         {

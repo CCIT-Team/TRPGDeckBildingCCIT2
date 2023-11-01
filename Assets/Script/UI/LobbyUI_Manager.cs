@@ -43,6 +43,7 @@ public class LobbyUI_Manager : MonoBehaviour
         if(Input_Exception())
         {
             AvatarSetting();
+            GameManager.instance.GetLobbyAvatar();
             panel.SetActive(true);
 
             GameManager.instance.LoadScenceName(sceneName);

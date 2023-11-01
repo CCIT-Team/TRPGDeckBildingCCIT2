@@ -54,7 +54,7 @@ public class DataBase : MonoBehaviour
 
     public void Deliver_column(string typeQuery, string statQuery)
     {
-        SaveDB(typeQuery, statQuery);
+        //SaveDB(typeQuery, statQuery);
     }
 
     public bool IsEmptyDB()
@@ -105,6 +105,9 @@ public class DataBase : MonoBehaviour
             dataReader.Close();
             dbConnection.Close();
         }
+
+        loadStatData.Clear();
+        loadTypeData.Clear();
     }
 
     public void LoadData()
@@ -154,12 +157,11 @@ public class DataBase : MonoBehaviour
         dbConnection.Close();
     }
 
-    private void SaveDB(string typeQuery, string statQuery)
+    public void SaveDB(string query)
     {
         IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
 
-        InsertQuery(dbConnection, typeQuery);
-        InsertQuery(dbConnection, statQuery);
+        InsertQuery(dbConnection, query);
 
         dbConnection.Close();
     }
