@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         unit.transform.position = position;//나중에 맵 포지션 받아올거임
         AvatarTypeSetting(unit, index);
         AvatarStatSetting(unit, index);
+        AvatarCardSetting(unit, index);
         players.Add(unit);
     }
     private void AvatarTypeSetting(GameObject unit, int index)
@@ -61,7 +62,10 @@ public class GameManager : MonoBehaviour
     {
         unit.GetComponent<Character>().SetUnitData(DataBase.instance.loadStatData[index]);
     }
-
+    private void AvatarCardSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<Character_Card>().SetUnitCard(DataBase.instance.loadCardData[index]);
+    }
     #region 로비씬 아바타 세팅 -> 오브젝트 화
 
     public void GetLobbyAvatar()
@@ -82,16 +86,19 @@ public class GameManager : MonoBehaviour
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_0[0]}, '{avatar_0[1]}', '{avatar_0[2]}', '{avatar_0[3]}', '{avatar_0[4]}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_0[0], avatar_0[2]));
+                DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[2]));
                 break;
             case 1:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_1[0]}, '{avatar_1[1]}', '{avatar_1[2]}', '{avatar_1[3]}', '{avatar_1[4]}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_1[0], avatar_1[2]));
+                DataBase.instance.SaveDB(AvatarCardSetting(avatar_1[2]));
                 break;
             case 2:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_2[0]}, '{avatar_2[1]}', '{avatar_2[2]}', '{avatar_2[3]}', '{avatar_2[4]}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_2[0], avatar_2[2]));
+                DataBase.instance.SaveDB(AvatarCardSetting(avatar_2[2]));
                 break;
         }
     }
@@ -109,7 +116,43 @@ public class GameManager : MonoBehaviour
         }
         return null;
     }
+    private string[] AvatarCardSetting(string playerNum, string major)
+    {
+        List<int> cardID = new List<int>();
+        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
+        {
+            if (major == DataBase.instance.defaultData[i].major.ToString())
+            {
+                int cardNo = DataBase.instance.defaultData[i].card1;
+                int cardCount = DataBase.instance.defaultData[i].card1Count;
 
+                for (int j = 0; j < cardCount; j++)
+                {
+                    cardID.Add(cardNo);
+                }
+                cardNo = DataBase.instance.defaultData[i].card2;
+                cardCount = DataBase.instance.defaultData[i].card2Count;
+
+                for (int j = 0; j < cardCount; j++)
+                {
+                    cardID.Add(cardNo);
+                }
+                cardNo = DataBase.instance.defaultData[i].card3;
+                cardCount = DataBase.instance.defaultData[i].card3Count;
+
+                for (int j = 0; j < cardCount; j++)
+                {
+                    cardID.Add(cardNo);
+                }
+            }
+        }
+        string[] insertQuerys = new string[cardID.Count];
+        for (int i = 0; i < cardID.Count; i++)
+        {
+            insertQuerys[i] = $"INSERT INTO Deck (playerNum, No) VALUES ({cardID[i]})";
+        }
+        return insertQuerys;
+    }
     #endregion
 
     #region 비동기 씬전환

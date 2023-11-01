@@ -26,6 +26,7 @@ public class DataBase : MonoBehaviour
     public List<CardData_> cardData = new List<CardData_>();
     public List<PlayerType> loadTypeData = new List<PlayerType>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
+    public List<PlayerCard> loadCardData = new List<PlayerCard>();
     private const string defaultDatadbPath = "/DefaultData.db";
     private const string playerDataTable = "PlayerData";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
@@ -135,7 +136,6 @@ public class DataBase : MonoBehaviour
         //dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = "SELECT * FROM " + tableName;
         dataReader = dbCommand.ExecuteReader();
-
         while (dataReader.Read())
         {
             int playerNo = dataReader.GetInt32(0);
@@ -154,6 +154,25 @@ public class DataBase : MonoBehaviour
         }
 
         dataReader.Close();
+
+        tableName = "Deck";
+        //dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+        int[] no = new int[dataReader.FieldCount - 1];
+
+        while (dataReader.Read())
+        {
+            int player = dataReader.GetInt32(0);
+            for(int i = 1; i < dataReader.FieldCount; i++)
+            {
+                no[i] = dataReader.GetInt32(i);
+            }
+
+            loadCardData.Add(new PlayerCard(player, no));
+        }
+
+        dataReader.Close();
         dbConnection.Close();
     }
 
@@ -163,6 +182,15 @@ public class DataBase : MonoBehaviour
 
         InsertQuery(dbConnection, query);
 
+        dbConnection.Close();
+    }
+    public void SaveDB(string[] querys)
+    {
+        IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
+        for (int i = 0; i < querys.Length; i++)
+        {
+            InsertQuery(dbConnection, querys[i]);
+        }
         dbConnection.Close();
     }
 
@@ -309,6 +337,26 @@ public class PlayerType
     }
 }
 #endregion
+[Serializable]
+public class PlayerCard
+{
+    public int playerNum;
+    public int[] no = new int[40];
+
+    public PlayerCard(int _playerNum, int[] _no)
+    {
+        for(int i = 0; i < no.Length; i++)
+        {
+            no[i] = 0;
+        }
+
+        playerNum = _playerNum;
+        for (int i = 0; i < _no.Length; i++)
+        {
+            no[i] = _no[i];
+        }
+    }
+}
 
 #region 플레이어 스텟
 [Serializable]
