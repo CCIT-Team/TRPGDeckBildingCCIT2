@@ -187,7 +187,8 @@ public class Tile : MonoBehaviour
             }
             else if (isMonsterTile)
             {
-                Map.instance.ChangeScene(4);
+                //Map.instance.ChangeScene(4);
+                GameManager.instance.LoadScenceName("New Battle");
             }
             else if (isBossTile)
             {

@@ -25,11 +25,6 @@ public class Map : MonoBehaviour
     [SerializeField] Rect wolrdRect;
     [SerializeField] float wolrdRectx = 45;
     [SerializeField] float wolrdRecty = 49.36345f;
-    [SerializeField] Rect grassRect;
-    [SerializeField] Rect desertRect;
-    [SerializeField] Rect jungleRect;
-    int wolrdRectNum = 1;
-    int wolrdRectNum1 = 1;
 
     public GameObject grass;
     public GameObject desert;
@@ -37,8 +32,7 @@ public class Map : MonoBehaviour
     public GameObject hexagon;
     public GameObject testPlayer;
     GameObject tileObject;
-    public List<GameObject> players;
-    Transform[] playersTrasnform = new Transform[3];
+    public List<GameObject> players = new List<GameObject>();
 
     public bool isPlayerOnEndTile = false;
     public bool isFirst = true;
@@ -55,6 +49,7 @@ public class Map : MonoBehaviour
     public List<Tile> pathTileObjectList;
 
     public GameObject[] areaPoints = new GameObject[12];
+    public MapUI mapUI;
 
     public Vector3 centerPosition;
     public List<Vector3> linePoint;
@@ -68,9 +63,6 @@ public class Map : MonoBehaviour
     {
         instance = this;
         wolrdRect = new Rect(22.5f, 25.114f, 47, 51);
-        grassRect = new Rect(22.5f, 25.114f, 22, 25);
-        desertRect = new Rect(22.5f, 25.114f, 22, 25);
-        jungleRect = new Rect(22.5f, 25.114f, 45, 22);
         if (isFirst) { GenerateMap(); }
         else { SaveMap(); }
         voronoi = GenerateVoronoi(new Vector2(wolrdRect.width, wolrdRect.height), nodeAmount, lloydIterationCount);
@@ -82,8 +74,11 @@ public class Map : MonoBehaviour
     private void Start()
     {
         GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+
+        players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         //player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
         wolrdRect = new Rect(22.2f, 24.2f, 47, 51);
+        mapUI.SetTurnSlider(players);
     }
 
     void SaveMap()
@@ -303,7 +298,7 @@ public class Map : MonoBehaviour
                         //    }
                         //}
                         tileNum += 1;
-                        wolrdRectNum += 1;
+                        //wolrdRectNum += 1;
                     }
                 }
                 ++index;
@@ -316,11 +311,7 @@ public class Map : MonoBehaviour
     public void ChangeScene(int mapNum)
     {
         SceneManager.LoadScene(mapNum);
-        for(int i  = 0; i <3; i++)
-        {
-            if (players[i] == null) { players[i] = null; }
-            else { playersTrasnform[i]  = players[i].transform; }
-        }
+
     }
     private void OnDrawGizmos()
     {
