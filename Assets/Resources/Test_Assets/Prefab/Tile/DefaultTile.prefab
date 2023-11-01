@@ -120,6 +120,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles: []
+  climateMaterials:
+  - {fileID: 2100000, guid: 814db20667abd004ebd95766942306ed, type: 2}
+  - {fileID: 2100000, guid: 2cca4f1814311e741b9d414285251971, type: 2}
+  - {fileID: 2100000, guid: 1e5983dba0a5e3142bcaeb9cecad40ae, type: 2}
   g: 0
   h: 0
   position: {x: 0, y: 0, z: 0}
