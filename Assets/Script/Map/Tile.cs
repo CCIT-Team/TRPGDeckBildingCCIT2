@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     Material material;
     Color defaultColor;
     public Climate climate;
+    public TileState tileState;
 
     public enum Climate
     {
@@ -20,10 +21,42 @@ public class Tile : MonoBehaviour
         JUNGLE
     };
 
+    public enum TileState
+    {
+        SpawnTile,
+        MonsterTile,
+        BossTile,
+        KingdomTile,
+        VillageTile
+    };
+
     void Awake()
     {
+       defaultColor = GetComponent<MeshRenderer>().material.color;
+    }
 
-        defaultColor = GetComponent<MeshRenderer>().material.color;
+    private void Start()
+    {
+        if(tileState == TileState.SpawnTile)
+        {
+            isSpawnTile = true;
+        }
+        else if(tileState == TileState.MonsterTile)
+        {
+            isMonsterTile = true;
+        }
+        else if(tileState == TileState.BossTile)
+        {
+            isBossTile = true;
+        }
+        else if(tileState == TileState.KingdomTile)
+        {
+            isKingdomTile = true;
+        }
+        else if (tileState == TileState.VillageTile)
+        {
+            isVillageTile = true;
+        }
     }
     /// <summary>
     /// Sum of G and H.
