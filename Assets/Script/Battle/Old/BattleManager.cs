@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     public List<Character> PlayerDummy; //할당 구현 전 임시적용
     public List<Character> EnemyDummy;
 
-    public DrawSystem drawSystem;
+    public GameObject playerUI;
 
     Card selectedCard;
 
@@ -45,22 +45,15 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
             Destroy(this);
     }
 
-    public Button EndTurnBtn;
-
     void Start()
     {
-        if (EndTurnBtn != null)
-            EndTurnBtn.onClick.AddListener(() => EndTurn());
+
     }
 
-
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-            EndTurn();
-
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            print("현재 캐릭터 : " + currentCharacter.name);
+        if (Input.GetKeyDown(KeyCode.Space))
+            EndTurn(); 
     }
 
     void StartBattle()
@@ -69,7 +62,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
         foreach(Character character in PlayerDummy)
         {
             characters.Add(character);
-            drawSystem.EnterBattle(character.GetComponent<Deck>());
+            character.GetComponent<DrawSystem>().EnterBattle(character.GetComponent<Deck>());
         }
         foreach (Character character in EnemyDummy)
         {
@@ -85,7 +78,8 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     {
         foreach (Character character in characters)
         {
-            drawSystem.EndBattle(character.GetComponent<Deck>());
+            if(PlayerDummy.Contains(character))
+                character.GetComponent<DrawSystem>().EndBattle(character.GetComponent<Deck>());
         }
         characters.Clear();
         currentCharacter = null;
@@ -109,21 +103,25 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     {
         characters.Remove(character);
 
+        if (EnemyDummy.Contains(character))
+            foreach (Character c in PlayerDummy)
+            {
+                if (characters.Contains(c))
+                    monsterAlive = true;
+                else
+                    monsterAlive = false;
+            }
+        else
+            foreach (Character c in EnemyDummy)
+            {
+                if (characters.Contains(c))
+                    playerAlive = true;
+                else
+                    playerAlive = false;
+            }
 
-        foreach (Character c in PlayerDummy)
-        {
-            if (characters.Contains(c))
-                playerAlive = true;
-            else
-                playerAlive = false;
-        }
-        foreach (Character c in EnemyDummy)
-        {
-            if (characters.Contains(c))
-                monsterAlive = true;
-            else
-                monsterAlive = false;
-        }
+
+
         Debug.Log("플레이어"+ playerAlive+", 몬스터" +monsterAlive +", 비교"+ (playerAlive ^ monsterAlive));
         if (playerAlive ^ monsterAlive)
             EndBattle();
@@ -145,7 +143,12 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
     {
         currentCharacter = characters[0];
         currentCharacter.isMyturn = true;
-        drawSystem.DrawCard();
+        if(PlayerDummy.Contains(currentCharacter))
+        {
+            playerUI.SetActive(true);
+            currentCharacter.GetComponent<DrawSystem>().DrawCard();
+        }
+        else  playerUI.SetActive(false);
     }
 
     public void EndTurn()    //턴 종료
@@ -184,7 +187,7 @@ public class BattleManager : MonoBehaviour  //한번 코드정리 해야함. 난잡
 
     public void SettingForCurrentPlayer()
     {
-
+        
     }
 
     public void CardSelect(Card card)

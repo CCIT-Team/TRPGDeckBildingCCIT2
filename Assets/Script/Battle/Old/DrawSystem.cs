@@ -9,10 +9,25 @@ public class DrawSystem : MonoBehaviour //드로우, 셔플, 패 갱신 등 덱,카드 관련 
     int startHandCount = 5;
     [SerializeField]
     List<Card> cards;
-    
+
+    [SerializeField]
+    GameObject CardPrefab;
+
+    Stack<GameObject> CardStack;
+
+    public GameObject CardUI;
+
     void Start()
     {
-        
+        CardStack = new Stack<GameObject>();
+        GameObject card;
+        for (int i = 0; i < 10; i++)
+        {
+            card = Instantiate(CardPrefab,CardUI.transform);
+            CardStack.Push(card);
+            card.SetActive(false);
+        }
+        Debug.Log(CardStack.Count);
     }
 
     void Update()
@@ -42,6 +57,12 @@ public class DrawSystem : MonoBehaviour //드로우, 셔플, 패 갱신 등 덱,카드 관련 
             int cardNumber = Random.Range(0, playerDeck.deck.Count);
             playerDeck.hand.Add(playerDeck.deck[cardNumber]);
             playerDeck.deck.RemoveAt(cardNumber);
+            if (CardStack.Count > 0)
+            {
+                cards.Add(CardStack.Pop().GetComponent<Card>());
+                cards[cards.Count-1].transform.localPosition = new Vector3((cards.Count*125-675),0);
+                cards[cards.Count - 1].gameObject.SetActive(true);
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 ﻿cardID,name,cost,tokenAmount,cardImage,cardText,rarity,effect1,power1,effect2,power2,effect3,power3,effect4,power4,effect5,power5
-0,NormalAttack1,1,1,string,This Card aaaa,Normal,SingleAttack,2,,,,,,,,
+0,카드이름,1,1,이미지이름,카드 설명,Normal,SingleAttack,2,,,,,,,,
 1,SpecialAttack,1,1,,,,Enum AttackBuff,3,,,,,,,,
 2,NormalAttack2,1,1,,,,,,,,,,,,,
 3,NormalAttack3,1,1,,,,,,,,,,,,,
