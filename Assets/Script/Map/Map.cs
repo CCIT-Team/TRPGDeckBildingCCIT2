@@ -38,6 +38,7 @@ public class Map : MonoBehaviour
     public GameObject testPlayer;
     GameObject tileObject;
     public List<GameObject> players;
+    Transform[] playersTrasnform = new Transform[3];
 
     public bool isPlayerOnEndTile = false;
     public bool isFirst = true;
@@ -315,6 +316,11 @@ public class Map : MonoBehaviour
     public void ChangeScene(int mapNum)
     {
         SceneManager.LoadScene(mapNum);
+        for(int i  = 0; i <3; i++)
+        {
+            if (players[i] == null) { players[i] = null; }
+            else { playersTrasnform[i]  = players[i].transform; }
+        }
     }
     private void OnDrawGizmos()
     {
