@@ -60,6 +60,7 @@ public class Map : MonoBehaviour
         GenerateMap();
         voronoi = GenerateVoronoi(new Vector2(wolrdRect.width, wolrdRect.height), nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
+        tileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
     }
 
     private void Start()

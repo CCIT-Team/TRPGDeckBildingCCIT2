@@ -48,6 +48,8 @@ public class Tile : MonoBehaviour
         else if(tileState == TileState.BossTile)
         {
             isBossTile = true;
+            material = gameObject.GetComponent<MeshRenderer>().material;
+            material.color = Color.cyan;
         }
         else if(tileState == TileState.KingdomTile)
         {
