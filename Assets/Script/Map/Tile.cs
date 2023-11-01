@@ -8,11 +8,21 @@ public class Tile : MonoBehaviour
 {
     public List<GameObject> tiles = new List<GameObject>(6);
     int i = 0;
+    [SerializeField] Material[] climateMaterials = new Material[3];
     Material material;
     Color defaultColor;
+    public Climate climate;
 
-     void Awake()
+    public enum Climate
     {
+        GRASS,
+        DESERT,
+        JUNGLE
+    };
+
+    void Awake()
+    {
+
         defaultColor = GetComponent<MeshRenderer>().material.color;
     }
     /// <summary>
@@ -47,6 +57,8 @@ public class Tile : MonoBehaviour
 
     public bool isSpawnTile = false;
 
+    public bool isMonsterTile = false;
+
     public bool isBossTile = false;
 
     public bool isKingdomTile = false;
@@ -69,6 +81,25 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void SelectClimate(int ClimateNum)
+    {
+        switch (ClimateNum)
+        {
+            case 0:
+                climate = Climate.GRASS;
+                material = climateMaterials[ClimateNum];
+                break;
+            case 1:
+                climate = Climate.DESERT;
+                material = climateMaterials[ClimateNum];
+                break;
+            case 2:
+                climate = Climate.JUNGLE;
+                material = climateMaterials[ClimateNum];
+                break;
+        }
+    }
+
     private void OnTriggerEnter(Collider col)
     {
         if (tiles.Count < 7)
@@ -86,6 +117,31 @@ public class Tile : MonoBehaviour
         {
             Map.instance.startTile = this;
             if (Map.instance.startTile = this) { Debug.Log("Find Player"); }
+
+            if (isSpawnTile)
+            {
+
+            }
+            else if (isMonsterTile)
+            {
+                Map.instance.ChangeScene(2);
+            }
+            else if (isBossTile)
+            {
+
+            }
+            else if (isKingdomTile)
+            {
+
+            }
+            else if (isVillageTile)
+            {
+
+            }
+            else
+            {
+
+            }
         }
     }
 }
