@@ -33,6 +33,16 @@ public class GameManager : MonoBehaviour
         //avatar[2].SetUnitData(DataBase.instance.stat[2]);
         //LoadScenceName("Character");
     }
+
+    public void LoadAvatar(int index, Vector3 position)
+    {
+        GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
+        unit.transform.position = position;//나중에 맵 포지션 받아올거임
+
+        AvatarTypeSetting(unit, index);
+        AvatarStatSetting(unit, index);
+    }
+
     #region 로비씬 아바타 세팅 -> 오브젝트 화
 
     public void GetLobbyAvatar(Vector3 position)
@@ -42,6 +52,14 @@ public class GameManager : MonoBehaviour
             CreateAvatar(i, position);
         }
     }
+    public void GetLoadAvatar(Vector3 position)
+    {
+        for (int i = 0; i < DataBase.instance.loadTypeData.Count; i++)
+        {
+            LoadAvatar(i, position);
+        }
+    }
+
     private void CreateAvatar(int index, Vector3 position)
     {        
         GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Avatar", typeof(GameObject))) as GameObject;
@@ -68,13 +86,21 @@ public class GameManager : MonoBehaviour
 
     private void AvatarStatSetting(GameObject unit)
     {
-        for (int i = 0; i < DataBase.instance.stat.Count; i++)
+        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
         {
-            if (unit.GetComponent<Character_type>().major == DataBase.instance.stat[i].major)
+            if (unit.GetComponent<Character_type>().major == DataBase.instance.defaultData[i].major)
             {
-                unit.GetComponent<Character>().SetUnitData(DataBase.instance.stat[i]);
+                unit.GetComponent<Character>().SetUnitData(DataBase.instance.defaultData[i]);
             }
         }
+    }
+    private void AvatarTypeSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<Character_type>().SetUnitType(DataBase.instance.loadTypeData[index]);
+    }
+    private void AvatarStatSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<Character>().SetUnitData(DataBase.instance.loadStatData[index]);
     }
 
     #endregion
