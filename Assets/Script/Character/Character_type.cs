@@ -5,7 +5,7 @@ using UnityEngine;
 public class Character_type : MonoBehaviour
 {
     [SerializeField] public int playerNum;
-    [SerializeField] private string nickname;
+    [SerializeField] public string nickname;
     [SerializeField] public PlayerType.Major major;
     [SerializeField] private PlayerType.Sex sex;
     [SerializeField] private PlayerType.AvatarType avatarType;
