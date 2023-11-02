@@ -14,7 +14,6 @@ public class TileSelector : MonoBehaviour
 
     [SerializeField] private Camera m_camera;
     public AStarPathfinding astar = new AStarPathfinding();
-    public AstarPath astarPath;
     public Map map;
 
     enum MouseButton
@@ -39,16 +38,12 @@ public class TileSelector : MonoBehaviour
                     startPoint = map.startTile;
                     startPoint.isSelect = true;
                     startPoint.IsSelect(Color.red);
-                    astarPath.OnStartCellSelect(startPoint);
                 }
                 if (!isEndTileSelect)
                 {
                     if (endPoint == null)
                     {
                         endPoint = tiles;
-                        //endPoint.isSelect = true;
-                        //endPoint.IsSelect(Color.blue);
-                        astarPath.OnEndCellSelect(endPoint);
                         tilePath = astar.FindPath(startPoint, endPoint);
 
                         tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
@@ -84,7 +79,6 @@ public class TileSelector : MonoBehaviour
                         //tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
                         //walkNum += 1;
                         //}
-                        astarPath.OnFindPath(tilePath);
                     }
                     if (endPoint != tiles)
                     {
@@ -105,7 +99,6 @@ public class TileSelector : MonoBehaviour
         {
             isEndTileSelect = true;
             endPoint.isSelect = true;
-            astarPath.OnEndCellSelect(endPoint);
             tilePath.Clear();
             tilePath = astar.FindPath(startPoint, endPoint);
             tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
@@ -130,7 +123,6 @@ public class TileSelector : MonoBehaviour
                     map.PlayerMovePath(tilePath[i]);
                 }
             }
-            astarPath.OnFindPath(tilePath);
         }
         if (map.isPlayerOnEndTile)
         {

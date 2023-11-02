@@ -11,7 +11,6 @@ public class MapUI : MonoBehaviour
     List<Slider> turnSlider = new List<Slider>();
     List<GameObject> uiUnits = new List<GameObject>();
     [SerializeField] WolrdTurn wolrdTurn;
-    public TMP_Text nickName;
 
     void Start()
     {
@@ -31,9 +30,9 @@ public class MapUI : MonoBehaviour
         {
             uiUnits.Add(players[i]); 
             Slider icon = Instantiate(slider, this.transform);
+            icon.handleRect.GetComponentInChildren<TMP_Text>().text = players[i].name;
             icon.name = "Unit" + (i + 1);
-            icon.maxValue = players.Count - 1;
-            icon.handleRect.gameObject.GetComponent<Image>().color = new Color(1 * (float)i / players.Count, 1 * (float)i / players.Count, 1 * (float)i / players.Count);
+            icon.maxValue = players.Count - 1; 
             turnSlider.Add(icon);
             icon.gameObject.SetActive(true);
         }
@@ -50,7 +49,7 @@ public class MapUI : MonoBehaviour
                 if (uiUnits[i] == wolrdTurn.currentPlayer)
                     turnSlider[i].value = 0;
                 else
-                    turnSlider[i].value = 1 + wolrdTurn.players.IndexOf(uiUnits[i]);
+                    turnSlider[i].value = wolrdTurn.players.IndexOf(uiUnits[i]);
             }
         }
     }

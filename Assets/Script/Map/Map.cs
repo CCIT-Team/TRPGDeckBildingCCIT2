@@ -77,7 +77,7 @@ public class Map : MonoBehaviour
         players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].name = "Player" + i;
+            players[i].name = players[i].GetComponent<Character_type>().nickname; 
         }
         mapUI.SetTurnSlider(players);
         totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
