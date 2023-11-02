@@ -22,20 +22,38 @@ public class Character_Card : MonoBehaviour
         }
     }
 
+    public void ChangeCard(int[] _deleteCardID, int[] _addCardID )
+    {
+        DeleteCard(_deleteCardID);
+        AddCardData(_addCardID);
+    }
+
+    public void DeleteCard(int[] _cardID)
+    {
+        for(int i = 0; i < _cardID.Length; i++)
+            cardID.Remove(_cardID[i]);
+    }
+
+    public void AddCardData(int[] _cardID)
+    {
+        cardID.AddRange(_cardID);
+    }
+
     public string GetCardDBQuery()
     {
-        string query = "INSERT INTO Deck (playerNum";
+        string query = "INSERT INTO Deck playerNum";
         for (int i = 1; i < cardID.Count+1; i++)
         {
             query += ", no" +i.ToString();
         }
-        //query += ") VALUES + (" + { GetComponent<Character_type>().playerNum};
+        query += " VALUES " + GetComponent<Character_type>().playerNum;
 
-
-
-
-
-        insertQuery = $"INSERT INTO Deck (playerNum, No1) VALUES + ({GetComponent<Character_type>().playerNum}, {cardID[0]})";
+        for (int i = 1; i < cardID.Count + 1; i++)
+        {
+            query += ", " + cardID[i];
+        }
+        query += ")";
+        insertQuery = query;
         return insertQuery;
     }
 
