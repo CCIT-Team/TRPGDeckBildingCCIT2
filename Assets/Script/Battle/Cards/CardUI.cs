@@ -40,7 +40,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("OPD");
+        Debug.Log("PointerDown");
         defaultPosition = transform.position;
         transform.position = Input.mousePosition;
         isselected = true;
@@ -49,27 +49,32 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("OPU");
-        transform.position = defaultPosition;
-        bindCard.cardTarget = target;
-        bindCard.UseCard();
-        isselected = false;
+        Debug.Log("PointerUp");
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80, layerMask))
+        {
+            target = hit.transform.gameObject;
+            bindCard.cardTarget = target;
+            bindCard.UseCard();
+            isselected = false;
+        }
+        else
+        {
+            target = null;
+            transform.position = defaultPosition;
+            isselected = false;
+        }
     }
 
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OBD");
-    }
-
-    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
-    {
-        Debug.Log("OED");
+        Debug.Log("BeginDrag");
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        Debug.Log("ODg");
+        Debug.Log("Drag");
         transform.position = Input.mousePosition;
         RaycastHit hit;
         
@@ -77,5 +82,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         {
             target = hit.transform.gameObject;
         }
+    }
+
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+    {
+        Debug.Log("EndDrag");
     }
 }

@@ -26,7 +26,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     void OnEnable()
     {
-        cardOwner = transform.parent.parent.GetComponentInParent<N_DrawSystem>().bindedCharacter;
+        cardOwner = transform.parent.parent.GetComponentInParent<PlayerBattleUI>().boundCharacter;
         cardData = CardDataBase.instance.cards[cardID];
         //image.sprite = Resources.Load<Sprite>(cardData.cardImage);
         //text.text = cardData.cardText;
@@ -55,8 +55,9 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void CardEffect()
     {
-        print(cardOwner.name+"가 "+cardTarget.name+"에게" + cardName + "을 사용");
-        CardSkills.PhysicalAttack.SingleAttack(cardTarget.GetComponent<Unit>(), 10);
+        print(cardOwner.name+"이(가) "+cardTarget.name+"에게" + cardName + "을(를) 사용");
+        var skill = CardSkills.SearchSkill(cardName);
+        skill.Invoke(null, new object[] { cardTarget.GetComponent<Unit>(), 10 });
         this.gameObject.SetActive(false);
     }
 

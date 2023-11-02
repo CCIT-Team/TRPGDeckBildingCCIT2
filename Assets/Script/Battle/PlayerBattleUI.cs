@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class N_DrawSystem : MonoBehaviour
+public class PlayerBattleUI : MonoBehaviour
 {
     public Character boundCharacter;
-    public Deck boundDeck;
+    Deck boundDeck;
 
     [SerializeField]
     GameObject cardPrefab;
@@ -16,10 +16,15 @@ public class N_DrawSystem : MonoBehaviour
     List<GameObject> cardInstant = new List<GameObject>();
     public GameObject handUI;
 
+    private void Awake()
+    {
+        boundDeck = GetComponent<Deck>();
+        cardWidth = cardPrefab.GetComponent<RectTransform>().rect.width;
+    }
 
     void Start()
     {
-        cardWidth = cardPrefab.GetComponent<RectTransform>().rect.width;
+        
         GameObject card;
         for (int i = 0; i < 10; i++)
         {
@@ -74,11 +79,10 @@ public class N_DrawSystem : MonoBehaviour
     public void BindCharacter(Character character)
     {
         boundCharacter = character;
-        boundDeck = boundCharacter.GetComponent<Deck>();
-        CheckTurn();
+        name = boundCharacter.name;
     }
 
-    void UnBindCharacter()
+    public void UnBindCharacter()
     {
         boundCharacter = null;
     }

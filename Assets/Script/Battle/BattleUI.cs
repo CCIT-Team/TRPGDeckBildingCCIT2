@@ -5,13 +5,25 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
+    [Header("TurnDisplay")]
+
+    [SerializeField]
+    GameObject turnDisplay;
+
     [SerializeField]
     Slider slider;
     List<Slider> turnSlider = new List<Slider>();
-    List<Unit> uiUnits = new List<Unit>();
+
+
+    List<Unit> boundUnits = new List<Unit>();
+
+    [Header("Player")]
+    public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];
+
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -20,16 +32,25 @@ public class BattleUI : MonoBehaviour
         
     }
 
+    public void BindPlayer(GameObject[] playerarray)
+    {
+        for(int i = 0; i < playerarray.Length; i++)
+        {
+            playerUI[i].BindCharacter(playerarray[i].GetComponent<Character>());
+        }
+    }
 
+    #region 턴 슬라이더
     public void SetTurnSlider(List<Unit> units)
     {
         for(int i = 0; i < units.Count; i++)
         {
-            uiUnits.Add(units[i]); 
-            Slider icon = Instantiate(slider, this.transform);
-            icon.name = "Unit" + (i + 1);
+            boundUnits.Add(units[i]); 
+            Slider icon = Instantiate(slider, turnDisplay.transform);
+            icon.name = (units[i]+" Icon");
             icon.maxValue = units.Count - 1;
-            icon.handleRect.gameObject.GetComponent<Image>().color = new Color(1 * (float)i / units.Count, 1 * (float)i / units.Count, 1 * (float)i / units.Count);
+            icon.handleRect.gameObject.GetComponent<Image>().color = new Color(1 * (float)i / units.Count, 1 * (float)i / units.Count, 1 * (float)i / units.Count); //아이콘으로 변경 예정
+            icon.handleRect.transform.GetComponentInChildren<Text>().text = units[i].gameObject.name;   //아이콘 변경 후 제거 예정
             turnSlider.Add(icon);
             icon.gameObject.SetActive(true);
         }
@@ -43,11 +64,12 @@ public class BattleUI : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             for (int i = 0; i < turnSlider.Count; i++)
             {
-                if (uiUnits[i] == N_BattleManager.instance.currentUnit)
+                if (boundUnits[i] == N_BattleManager.instance.currentUnit)
                     turnSlider[i].value = 0;
                 else
-                    turnSlider[i].value = 1 + N_BattleManager.instance.units.IndexOf(uiUnits[i]);
+                    turnSlider[i].value = 1 + N_BattleManager.instance.units.IndexOf(boundUnits[i]);
             }
         }
     }
+    #endregion
 }

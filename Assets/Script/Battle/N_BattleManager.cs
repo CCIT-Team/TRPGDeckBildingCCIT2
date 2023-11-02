@@ -8,14 +8,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     //exitbattle(유닛 퇴장) 코드 수정 필요
     public static N_BattleManager instance;
 
-    [SerializeField]
-    List<GameObject> characterUIs;
     public BattleUI battleUI;
 
     public List<Unit> units;
     public Unit currentUnit;
 
-    public GameObject player;
     public Transform playerPosition;
     public Transform monsterPosition;
 
@@ -49,12 +46,20 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     void StartBattle()
     {
+        /*
+         * 캐릭터 추가
+         * 슬라이더 활성
+         * 턴 정렬
+         * 
+         */
         AddTurnPool();
         battleUI.SetTurnSlider(units);
         SoltSpeed(units);
-        foreach(GameObject characterUI in characterUIs)
+        int debugint = 0;
+        foreach(PlayerBattleUI characterUI in battleUI.playerUI)
         {
-            characterUI.GetComponent<N_DrawSystem>().DrawCard(startHandCount);
+            Debug.Log(debugint++);
+            characterUI.DrawCard(startHandCount);
 
         } 
         StartCoroutine(PlayTurn());
@@ -134,7 +139,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void AddTurnPool()//유닛 추가용 코드, 미완
     {
         int uiNum = 0;
-        GameManager.instance.GetLoadAvatar(playerPosition.position);
+        if(GameManager.instance != null)
+            GameManager.instance.GetLoadAvatar(playerPosition.position);
         GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i< playerarray.Length;i++)
         {
@@ -145,16 +151,9 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         for (int i = 0; i < monsterPosition.transform.childCount; i++)
         {
             units.Add(monsterPosition.transform.GetChild(i).GetComponent<Unit>());
+            monsterPosition.transform.GetChild(i).localPosition = new Vector3(3 * (i - monsterPosition.transform.childCount / 2 + (monsterPosition.transform.childCount + 1) % 2 / 2f), 0, 0);
         }
-
-        foreach (Unit unit in units)
-        {
-            if (unit.TryGetComponent(out Character character))
-            {
-                Debug.Log(uiNum);
-                characterUIs[uiNum++].GetComponent<N_DrawSystem>().BindCharacter(character);
-            }
-        }
+        battleUI.BindPlayer(playerarray);
     }
 
     public void SoltSpeed(List<Unit> units)
@@ -183,12 +182,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     {
         currentUnit = units[0];
         units.Remove(currentUnit);
-        //currentUnit.GetComponent<Deck>().gameObject.SetActive(true);
         if (currentUnit.TryGetComponent(out Character character))
         {
             character.isMyturn = true;
-            foreach (GameObject ui in characterUIs)
-                ui.GetComponent<N_DrawSystem>().CheckTurn();
+            foreach (PlayerBattleUI ui in battleUI.playerUI)
+                ui.CheckTurn();
             yield return new WaitUntil(() => !character.isMyturn);
         }
             
@@ -198,7 +196,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             monster.isMyturn = true;
             yield return new WaitUntil(() => !monster.isMyturn);
         }
-        //currentUnit.GetComponent<Deck>().gameObject.SetActive(false);
         units.Add(currentUnit);
         currentUnit = null;
         StartCoroutine(PlayTurn());
