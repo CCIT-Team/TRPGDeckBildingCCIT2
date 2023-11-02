@@ -1,3 +1,34 @@
+//Weapon
+무기 오브젝트는 WeaponRight와 WeaponLeft에서 활성화와 비활성화를 해주면 됩니다.
+mixamorig:Hips\...\mixamorig:RightHand\WeaponRight
+mixamorig:Hips\...\mixamorig:LeftHand\WeaponLeft
+
+
+//Race
+
+종족에 따라 게임 오브젝트를 활성화와 비활성화해주어야 합니다.
+
+Character\Elf, HalfOrc, Human
+사람(Human) = Human 활성화, 나머지 비활성화
+엘프(Elf) = Elf 활성화, 나머지 비활성화
+드로우(Drow) = Elf 활성화, 나머지 비활성화
+하프오크(HalfOrc) = HarfOrc 활성화, 나머지 비활성화
+
+
+//Sex
+
+성별에 따라 게임 오브젝트를 활성화와 비활성화해주어야하며
+특정 게임 오브젝트들의 컴포넌트 중 Skinned Mesh Renderer의 BlendShapes의 Female 쉐이프키의 값을 변경해주어야합니다.
+
+Character\Female. Male
+GameObject\Skinned Mesh Renderer\BlendShapes\Female
+
+남성 = Male 활성화, 나머지 비활성화, BlendShapes\Female = 0
+여성 = Female 활성화, 나머지 비활성화, BlendShapes\Female = 100
+
+
+//Materials
+ 
 기본적으로 ColorPalette.png 텍스쳐 파일을 사용한 머테리얼들은
 64*64 텍스쳐이기때문에 0.015625씩 offset 조정을 하면 색이 한단계씩 변경됩니다.
 
@@ -25,6 +56,6 @@ offset (0,0) : 휴먼 피부색 1번, skinColor : 0
 PlayerEyeMaterial//
 플레이어가 정할 수 있는 눈동자 색의 갯수는 13개로
 위와 동일하게 y축으로 -0.015625씩 조정하면 눈동자색이 바뀝니다.
-ex) offset(0, 0) = new Vector2(0, -(0.015625*eyeColor))
+ex) offset(0, 0) = new Vector2(0, -(0.015625*eyeColor)-0.234375)
 
 offset(0, 0) : 눈동자 1번 eyeColor:0 ~ 눈동자 13번 eyeColor:12
