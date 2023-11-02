@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MapUI : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MapUI : MonoBehaviour
     List<Slider> turnSlider = new List<Slider>();
     List<GameObject> uiUnits = new List<GameObject>();
     [SerializeField] WolrdTurn wolrdTurn;
+    public TMP_Text nickName;
+
     void Start()
     {
         
