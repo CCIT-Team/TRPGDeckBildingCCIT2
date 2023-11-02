@@ -30,9 +30,14 @@ public class Map : MonoBehaviour
     public GameObject desert;
     public GameObject jungle;
     public GameObject hexagon;
+    public GameObject rowT;
+    public GameObject columnT;
+
     public GameObject testPlayer;
     GameObject tileObject;
     public List<GameObject> players = new List<GameObject>();
+
+    bool isPlayerMoving = false;
 
     public bool isPlayerOnEndTile = false;
     public bool isFirst = true;
@@ -50,6 +55,7 @@ public class Map : MonoBehaviour
 
     public GameObject[] areaPoints = new GameObject[12];
     public MapUI mapUI;
+    public WolrdTurn wolrdTurn;
 
     public Vector3 centerPosition;
     public List<Vector3> linePoint;
@@ -67,18 +73,21 @@ public class Map : MonoBehaviour
         else { SaveMap(); }
         voronoi = GenerateVoronoi(new Vector2(wolrdRect.width, wolrdRect.height), nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
+        GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+        players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].name = "Player" + i;
+        }
+        mapUI.SetTurnSlider(players);
         totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         //TestClimate();
     }
 
     private void Start()
     {
-        GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
-
-        players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         //player = Instantiate(testPlayer, tileObjectList[0].transform.position, Quaternion.identity, transform);
         wolrdRect = new Rect(22.2f, 24.2f, 47, 51);
-        mapUI.SetTurnSlider(players);
     }
 
     void SaveMap()
@@ -86,15 +95,64 @@ public class Map : MonoBehaviour
 
     }
 
+    void SetRowAndColumn()
+    {
+        for(int i =0; i < totalTileObjectList.Count -1; i++)
+        {
+            if(totalTileObjectList[i].transform.position.z == totalTileObjectList[i + 1].transform.position.z)
+            {
+               
+
+            }
+        }
+    }
     public void PlayerMovePath(Tile objects)
     {
         // player.transform.position = new Vector3(objects.gameObject.transform.position.x,0, objects.gameObject.transform.position.z);
         pathTileObjectList.Add(objects);
     }
+    int currentPositionNum = 1;
+    void MovePlayer()
+    {
+        if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
+        {
+            isPlayerMoving = true;
+            wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
+            wolrdTurn.currentPlayer.transform.Translate(new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
+                0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+            //new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
+            //0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z);
+            Debug.Log("Distance" + Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position));
+            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
+            {
+                if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
+                else { currentPositionNum = pathTileObjectList.Count - 1; }
+                isPlayerMoving = false;
+            }
+        }
+        //if (wolrdTurn.currentPlayer.transform.position == pathTileObjectList.Last().transform.position && pathTileObjectList.Count > 0)
+        //{
+        //    wolrdTurn.currentPlayer.isMyturn = false;
+        //    Debug.Log("Finished");
+        //    currentPoint = -1;
+        //    pathTileObjectList.Clear();
+        //    isPlayerOnEndTile = true;
+        //}
+        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f)
+        {
+            wolrdTurn.currentPlayer.isMyturn = false;
+            startTile = null;
+            currentPositionNum = 1;
+            pathTileObjectList.Clear();
+            isPlayerOnEndTile = true;
+            isPlayerMoving = false;
+        }
+    }
     int movePoint;
     int currentPoint = -1;
     private void Update()
     {
+        MovePlayer();
         if (Input.GetKeyDown(KeyCode.J))
         {
             currentPoint += 1;
@@ -208,8 +266,8 @@ public class Map : MonoBehaviour
             float y = Random.Range(0, wolrdRect.height);
 
             centroids.Add(new Vector2(x, y));
-            tileObject = Instantiate(hexagon, new Vector3(centroids[i].x, 0, centroids[i].y), Quaternion.identity, transform);
-            tileObject.name = "centroid" + i;
+            //tileObject = Instantiate(hexagon, new Vector3(centroids[i].x, 0, centroids[i].y), Quaternion.identity, transform);
+            //tileObject.name = "centroid" + i;
         }
 
         Rect Rect = new Rect(0f, 0f, wolrdRect.width, wolrdRect.height);
@@ -231,7 +289,8 @@ public class Map : MonoBehaviour
         var mask = mapDraw.GetRadialGradientMask(size, noiseMaskRadius);
         float[] colorDatas = new float[size.x * size.y];
         var index = 0;
-
+        int row = 0;
+        int column = 0;
         for (int x = 0; x < size.x; ++x)
         {
             for (int y = 0; y < size.y; ++y)
@@ -245,11 +304,13 @@ public class Map : MonoBehaviour
                 {
                     if (x % 2 == 0)
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity, rowT.transform);
                         Tile tile = tileObject.GetComponent<Tile>();
-                        tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
+                        tile.position = new Vector3Int(x, 0, y);
+                        //tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
                         tileObject.name = "Tile" + tileNum;
                         totalTileObjectList.Add(tileObject);
+                        //몇번째 행, 열인지 포지션에 넣어주기
                         //if (tileNum > 1)
                         //{
                         //    if (tileObjectList[wolrdRectNum].transform.localPosition.x > tileObjectList[wolrdRectNum - 1].transform.localPosition.x)
@@ -270,12 +331,14 @@ public class Map : MonoBehaviour
                         //    }
                         //}
                         tileNum += 1;
+                        row += 1;
                     }
                     else
                     {
-                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, columnT.transform);
                         Tile tile = tileObject.GetComponent<Tile>();
-                        tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
+                        tile.position = new Vector3Int(x, 0, y);
+                        //tile.position = new Vector3Int(Convert.ToInt32(tileObject.transform.position.x), 0, Convert.ToInt32(tileObject.transform.position.z));
                         tileObject.name = "Tile" + tileNum;
                         totalTileObjectList.Add(tileObject);
                         //if (tileNum > 1)
@@ -298,6 +361,7 @@ public class Map : MonoBehaviour
                         //    }
                         //}
                         tileNum += 1;
+                        column += 1;
                         //wolrdRectNum += 1;
                     }
                 }

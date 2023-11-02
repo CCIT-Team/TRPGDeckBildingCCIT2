@@ -5,11 +5,12 @@ using UnityEngine;
 public class WolrdTurn : MonoBehaviour
 {
     List<GameObject> characterTurnUIs;
-    public List<GameObject> players;
-    public GameObject currentPlayer;
+    public List<GameObject> players = new List<GameObject>();
+    public Character currentPlayer;
     void Start()
     {
         players = Map.instance.players;
+        StartCoroutine(PlayTurn());
     }
 
     void Update()
@@ -19,12 +20,14 @@ public class WolrdTurn : MonoBehaviour
 
     IEnumerator PlayTurn()
     {
-        currentPlayer = players[0];
-        players.Remove(currentPlayer);
+        //currentPlayer = players[0].GetComponent<Character>();
+        if(currentPlayer == null) { currentPlayer = players[0].GetComponent<Character>(); }
+        else { currentPlayer = players[0].GetComponent<Character>(); }
         currentPlayer.GetComponent<Character>().isMyturn = true;
         yield return new WaitUntil(() => !currentPlayer.GetComponent<Character>().isMyturn);
 
-        players.Add(currentPlayer);
+        players.Remove(currentPlayer.gameObject);
+        players.Add(currentPlayer.gameObject);
         currentPlayer = null;
         StartCoroutine(PlayTurn());
     }

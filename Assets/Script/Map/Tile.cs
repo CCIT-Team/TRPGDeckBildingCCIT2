@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class Tile : MonoBehaviour
 {
     public List<GameObject> tiles = new List<GameObject>(6);
     public Material[] climateMaterials = new Material[3];
+    public TMP_Text walkAbleNumText;
 
+
+    Character player;
     Material material;
     Color defaultColor;
 
@@ -16,7 +20,6 @@ public class Tile : MonoBehaviour
     [SerializeField] GameObject vileageObject;
     [SerializeField] GameObject monsterObject;
     [SerializeField] GameObject bossObject;
-
 
 
     public Climate climate;
@@ -41,7 +44,7 @@ public class Tile : MonoBehaviour
 
     void Awake()
     {
-       defaultColor = GetComponent<MeshRenderer>().material.color;
+        defaultColor = GetComponent<MeshRenderer>().material.color;
 
         kingdomObject.SetActive(false);
         vileageObject.SetActive(false);
@@ -51,21 +54,21 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
-        if(tileState == TileState.SpawnTile)
+        if (tileState == TileState.SpawnTile)
         {
             isSpawnTile = true;
         }
-        else if(tileState == TileState.MonsterTile)
+        else if (tileState == TileState.MonsterTile)
         {
             isMonsterTile = true;
             monsterObject.SetActive(true);
         }
-        else if(tileState == TileState.BossTile)
+        else if (tileState == TileState.BossTile)
         {
             isBossTile = true;
             bossObject.SetActive(true);
         }
-        else if(tileState == TileState.KingdomTile)
+        else if (tileState == TileState.KingdomTile)
         {
             isKingdomTile = true;
             kingdomObject.SetActive(true);
@@ -176,10 +179,19 @@ public class Tile : MonoBehaviour
                 adjacentTiles = adjacentTiles.Distinct().ToList();
             }
         }
+
         if (col.CompareTag("Player"))
         {
-            Map.instance.startTile = this;
-            if (Map.instance.startTile = this) { Debug.Log("Find Player"); }
+            player = col.gameObject.GetComponent<Character>();
+
+            if (Map.instance.startTile == null)
+            {
+                if (player.isMyturn)
+                {
+                    Map.instance.startTile = this;
+                    isSelect = true;
+                }
+            }
 
             if (isSpawnTile)
             {
@@ -205,6 +217,23 @@ public class Tile : MonoBehaviour
             else
             {
 
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            player = other.gameObject.GetComponent<Character>();
+
+            if (Map.instance.startTile == null)
+            {
+                if (player.isMyturn)
+                {
+                    Map.instance.startTile = this;
+                    isSelect = true;
+                }
             }
         }
     }
