@@ -36,8 +36,8 @@ public class Deck : MonoBehaviour   //덱 정보를 소지하고 플레이어의 장비에서 카�
         Debug.Log(gameObject.name + " On");
         for (int i = 0; i < deck.Count; i++)//임시코드
         {
-            Debug.Log(gameObject.name+":"+CardDataBase.instance.cards.Count);
-            deck[i] = Random.Range(0, CardDataBase.instance.cards.Count);
+            //Debug.Log(gameObject.name+":"+CardDataBase.instance.cards.Count);
+            //deck[i] = Random.Range(0, CardDataBase.instance.cards.Count);
         }
     }
 
@@ -61,7 +61,7 @@ public class Deck : MonoBehaviour   //덱 정보를 소지하고 플레이어의 장비에서 카�
     {
         for (int i = 0; i < deck.Count; i++)//임시코드
         {
-            deck[i] = Random.Range(0, CardDataBase.instance.cards.Count);
+            //deck[i] = Random.Range(0, CardDataBase.instance.cards.Count);
         }
         deckCounter = deck.Count;
     }

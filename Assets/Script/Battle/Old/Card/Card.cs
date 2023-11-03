@@ -11,12 +11,12 @@ public class Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     public int cardID;
     public string cardName;
     public int cost;
-    public CARDRARITY rarity;
+    //public CARDRARITY rarity;
     public Sprite cardImage;
     public int tokenAmount;
     public bool[] tokens;
 
-    CardData cardData;
+    //CardData cardData;
 
     public GameObject cardTarget;
 
@@ -27,23 +27,23 @@ public class Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     void OnEnable()
     {
-        cardData = CardDataBase.instance.cards[cardID];
+        //cardData = CardDataBase.instance.cards[cardID];
 
-        image.sprite = Resources.Load<Sprite>(cardData.cardImage);
-        text.text = cardData.cardText;
+        //image.sprite = Resources.Load<Sprite>(cardData.cardImage);
+        //text.text = cardData.cardText;
 
         cardEffect = null;
         cardEffect += CardEffect;
-        switch(cardData.effect1)
-        {
-            case CARDEFFECT.SingleAttack:
-                //cardEffect += CardAttack;
-                break;
-            case CARDEFFECT.Buff:
-                break;
-            case CARDEFFECT.Draw:
-                break;
-        }
+        //switch(cardData.effect1)
+        //{
+        //    case CARDEFFECT.SingleAttack:
+        //        //cardEffect += CardAttack;
+        //        break;
+        //    case CARDEFFECT.Buff:
+        //        break;
+        //    case CARDEFFECT.Draw:
+        //        break;
+        //}
         
     }
 

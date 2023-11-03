@@ -30,11 +30,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //avatar[0].SetUnitData(DataBase.instance.stat[0]);
-        //avatar[1].SetUnitData(DataBase.instance.stat[1]);
-        //avatar[2].SetUnitData(DataBase.instance.stat[2]);
-        //LoadScenceName("Character");
+        
     }
+    #region 아바타 데이타 로딩
 
     public void GetLoadAvatar(Vector3 position)
     {
@@ -66,6 +64,43 @@ public class GameManager : MonoBehaviour
     {
         unit.GetComponent<Character_Card>().SetUnitCard(DataBase.instance.loadCardData[index]);
     }
+
+    #endregion
+
+    #region 맵, 배틀 씬 몬스터 생성
+
+    public void MonsterMapInstance(int index, Vector3 position)
+    {
+        LoadMonster(index, position);
+    }
+
+    public void MonsterInstance(int[] indexs, Vector3 position)
+    {
+        for (int i = 0; i < indexs.Length; i++)
+        {
+            LoadMonster(indexs[i], position);
+        }
+    }
+
+    private void LoadMonster(int index, Vector3 position)
+    {
+        for (int i = 0; i < DataBase.instance.monsterData.Count; i++)
+        {
+            if (DataBase.instance.monsterData[i].no == index)
+            {
+                GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Monster", typeof(GameObject))) as GameObject;
+                unit.transform.position = position;//나중에 맵 포지션 받아올거임
+                MonsterStatSetting(unit, i);
+            }
+        }
+    }
+    private void MonsterStatSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<MonsterStat>().SetMonsterData(DataBase.instance.monsterData[index]);
+    }
+
+    #endregion
+
     #region 로비씬 아바타 세팅 -> 오브젝트 화
 
     public void GetLobbyAvatar()
@@ -110,8 +145,8 @@ public class GameManager : MonoBehaviour
         {
             if(major == DataBase.instance.defaultData[i].major.ToString())
             {
-               return insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp) VALUES " +
-            $"({playerNum}, {DataBase.instance.defaultData[i].strength}, {DataBase.instance.defaultData[i].intelligence}, {DataBase.instance.defaultData[i].luck}, {DataBase.instance.defaultData[i].speed}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].cost}, {DataBase.instance.defaultData[i].level}, {DataBase.instance.defaultData[i].exp}, {DataBase.instance.defaultData[i].maxExp})";
+               return insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, turn) VALUES " +
+            $"({playerNum}, {DataBase.instance.defaultData[i].strength}, {DataBase.instance.defaultData[i].intelligence}, {DataBase.instance.defaultData[i].luck}, {DataBase.instance.defaultData[i].speed}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].cost}, {DataBase.instance.defaultData[i].level}, {DataBase.instance.defaultData[i].exp}, {DataBase.instance.defaultData[i].maxExp}, {0}, {0})";
                 
             }
         }
@@ -161,6 +196,7 @@ public class GameManager : MonoBehaviour
         }
         return null;
     }
+
     #endregion
 
     #region 비동기 씬전환

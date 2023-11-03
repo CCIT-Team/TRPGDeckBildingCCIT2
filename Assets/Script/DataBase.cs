@@ -23,7 +23,7 @@ public class DataBase : MonoBehaviour
         }
     }
     public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
-    public List<CardData_> cardData = new List<CardData_>();
+    public List<CardData> cardData = new List<CardData>();
     public List<MonsterData> monsterData = new List<MonsterData>();
     public List<PlayerType> loadTypeData = new List<PlayerType>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
@@ -160,8 +160,10 @@ public class DataBase : MonoBehaviour
             int level = dataReader.GetInt32(8);
             int exp = dataReader.GetInt32(9);
             int maxExp = dataReader.GetInt32(10);
+            int gold = dataReader.GetInt32(11);
+            int turn = dataReader.GetInt32(12);
 
-            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp));
+            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp, gold, turn));
         }
 
         dataReader.Close();
@@ -247,13 +249,13 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(2));
             string description = dataReader.GetString(3);
             int defaultXvalue = dataReader.GetInt32(4);
             string effect = dataReader.GetString(5);
             int useCost = dataReader.GetInt32(6);
 
-            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, type, description, defaultXvalue, effect, useCost));
         }
         dataReader.Close();
 
@@ -265,13 +267,13 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(2));
             string description = dataReader.GetString(3);
             int defaultXvalue = dataReader.GetInt32(4);
             string effect = dataReader.GetString(5);
             int useCost = dataReader.GetInt32(6);
 
-            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, type, description, defaultXvalue, effect, useCost));
         }
         dataReader.Close();
 
@@ -283,13 +285,13 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(2));
             string description = dataReader.GetString(3);
             int defaultXvalue = dataReader.GetInt32(4);
             string effect = dataReader.GetString(5);
             int useCost = dataReader.GetInt32(6);
 
-            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, type, description, defaultXvalue, effect, useCost));
         }
         dataReader.Close();
 
@@ -389,8 +391,9 @@ public class PlayerStat
     public int level;
     public int exp;
     public int maxExp;
-
-    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp)
+    public int gold;
+    public bool turn;
+    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp, int _gold, int _turn)
     {
         playerNum = _playerNum;
         strength = _strength;
@@ -403,6 +406,8 @@ public class PlayerStat
         level = _level;
         exp = _exp;
         maxExp = _maxExp;
+        gold = _gold;
+        turn = Convert.ToBoolean(_turn);
     }
 }
 #endregion
@@ -499,7 +504,7 @@ public class PlayerDefaultData
 
 #region 카드 데이터
 [Serializable]
-public class CardData_
+public class CardData
 {
     public enum CardType
     {
@@ -515,7 +520,7 @@ public class CardData_
     public string effect;
     public int useCost;
 
-    public CardData_(int _no, string _name, CardType _type, string _description, int _defaultXvalue, string _effect, int _useCost)
+    public CardData(int _no, string _name, CardType _type, string _description, int _defaultXvalue, string _effect, int _useCost)
     {
         no = _no;
         name = _name;
