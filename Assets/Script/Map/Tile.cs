@@ -197,10 +197,12 @@ public class Tile : MonoBehaviour
             {
 
             }
-            else if (isMonsterTile)
+            else if (isMonsterTile && !Map.instance.isBattle)
             {
                 //Map.instance.ChangeScene(4);
                 GameManager.instance.LoadScenceName("New Battle");
+                Map.instance.isBattle = true;
+                Debug.Log("전투진입");
             }
             else if (isBossTile)
             {

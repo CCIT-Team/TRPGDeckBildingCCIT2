@@ -33,9 +33,9 @@ public class Map : MonoBehaviour
     public GameObject rowT;
     public GameObject columnT;
 
-    public GameObject testPlayer;
     GameObject tileObject;
     public List<GameObject> players = new List<GameObject>();
+    public bool isBattle = false;
 
     bool isPlayerMoving = false;
 
@@ -77,7 +77,7 @@ public class Map : MonoBehaviour
         players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].name = players[i].GetComponent<Character_type>().nickname; 
+            players[i].name = players[i].GetComponent<Character_type>().nickname;
         }
         mapUI.SetTurnSlider(players);
         totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
@@ -120,9 +120,7 @@ public class Map : MonoBehaviour
             wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
             wolrdTurn.currentPlayer.transform.Translate(new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
                 0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-            //new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
-            //0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z);
-            Debug.Log("Distance" + Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position));
+  
             if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
             {
                 if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
