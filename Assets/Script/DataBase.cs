@@ -87,8 +87,17 @@ public class DataBase : MonoBehaviour
     public void ResetDB()
     {
         IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
-
         IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "DELETE FROM Deck";
+        using (IDataReader dataReader = dbCommand.ExecuteReader())
+        {
+            dbCommand.Dispose();
+            dataReader.Close();
+            dbConnection.Close();
+        }
+
+        dbConnection = ConnectionDB(playerDataPath_1);
+        dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = "DELETE FROM Stat";
         using (IDataReader dataReader = dbCommand.ExecuteReader())
         {
@@ -108,20 +117,9 @@ public class DataBase : MonoBehaviour
             dbConnection.Close();
         }
 
-        dbConnection = ConnectionDB(playerDataPath_1);
-        dbCommand = dbConnection.CreateCommand();
-
-        dbCommand.CommandText = "DELETE FROM Deck";
-        using (IDataReader dataReader = dbCommand.ExecuteReader())
-        {
-            dbCommand.Dispose();
-            dataReader.Close();
-            dbConnection.Close();
-        }
-
+        loadCardData.Clear();
         loadStatData.Clear();
         loadTypeData.Clear();
-        loadCardData.Clear();
     }
 
     public void LoadData()

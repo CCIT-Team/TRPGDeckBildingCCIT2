@@ -41,14 +41,15 @@ public class Character_Card : MonoBehaviour
 
     public string GetCardDBQuery()
     {
-        string query = "INSERT INTO Deck playerNum";
+        Debug.Log(cardID.Count);
+        string query = "INSERT INTO Deck (playerNum";
         for (int i = 1; i < cardID.Count+1; i++)
         {
             query += ", no" +i.ToString();
         }
-        query += " VALUES " + GetComponent<Character_type>().playerNum;
+        query += ") VALUES (" + GetComponent<Character_type>().playerNum;
 
-        for (int i = 1; i < cardID.Count + 1; i++)
+        for (int i = 0; i < cardID.Count; i++)
         {
             query += ", " + cardID[i];
         }
