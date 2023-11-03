@@ -9,11 +9,11 @@ public class TileSelector : MonoBehaviour
     Tile endPoint;
     List<Tile> tilePath;
 
+
     bool isEndTileSelect = false;
 
     [SerializeField] private Camera m_camera;
     public AStarPathfinding astar = new AStarPathfinding();
-    public AstarPath astarPath;
     public Map map;
 
     enum MouseButton
@@ -38,25 +38,47 @@ public class TileSelector : MonoBehaviour
                     startPoint = map.startTile;
                     startPoint.isSelect = true;
                     startPoint.IsSelect(Color.red);
-                    Debug.Log("StartTile!" + startPoint.gameObject.name);
-                    astarPath.OnStartCellSelect(startPoint);
                 }
                 if (!isEndTileSelect)
                 {
                     if (endPoint == null)
                     {
                         endPoint = tiles;
-                        //endPoint.isSelect = true;
-                        //endPoint.IsSelect(Color.blue);
-                        Debug.Log("EndTile!" + endPoint.gameObject.name);
-                        astarPath.OnEndCellSelect(endPoint);
                         tilePath = astar.FindPath(startPoint, endPoint);
-                        foreach (Tile game in tilePath)
+
+                        tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                        int walkNum = 0;
+                        //foreach (Tile game in tilePath)
+                        //{
+                        if(Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
                         {
-                            Material material = game.gameObject.GetComponent<MeshRenderer>().material;
-                            material.color = Color.red;
+                            for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
+                            {
+                                Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                                material.color = Color.red;
+                                tilePath[i].GetComponent<Tile>().walkAbleNumText.text = walkNum.ToString();
+                                tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                                walkNum += 1;
+                            }
                         }
-                        astarPath.OnFindPath(tilePath);
+                        else
+                        {
+                            for (int i = 0; i < tilePath.Count; i++)
+                            {
+                                Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                                material.color = Color.red;
+                                tilePath[i].GetComponent<Tile>().walkAbleNumText.text = walkNum.ToString();
+                                tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                                walkNum += 1;
+                            }
+                        }
+
+                        //Material material = game.gameObject.GetComponent<MeshRenderer>().material;
+                        //material.color = Color.red;
+                        //game.GetComponent<Tile>().walkAbleNumText.text = walkNum.ToString();
+                        //tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                        //walkNum += 1;
+                        //}
                     }
                     if (endPoint != tiles)
                     {
@@ -64,6 +86,8 @@ public class TileSelector : MonoBehaviour
                         {
                             Material material = game.gameObject.GetComponent<MeshRenderer>().material;
                             material.color = Color.white;
+
+                            game.GetComponent<Tile>().walkAbleNumText.text = "";
                         }
                         tilePath.Clear();
                         endPoint = null;
@@ -75,24 +99,37 @@ public class TileSelector : MonoBehaviour
         {
             isEndTileSelect = true;
             endPoint.isSelect = true;
-            endPoint.IsSelect(Color.blue);
-            Debug.Log("EndTile!" + endPoint.gameObject.name);
-            astarPath.OnEndCellSelect(endPoint);
             tilePath.Clear();
             tilePath = astar.FindPath(startPoint, endPoint);
-            foreach (Tile game in tilePath)
+            tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+            if (Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
             {
-                Material material = game.gameObject.GetComponent<MeshRenderer>().material;
-                material.color = Color.cyan;
-                map.PlayerMovePath(game);
+                endPoint = tilePath[Map.instance.wolrdTurn.currentPlayer.cost];
+                endPoint.IsSelect(Color.blue);
+                for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
+                {
+                    Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                    material.color = Color.cyan;
+                    map.PlayerMovePath(tilePath[i]);
+                }
             }
-            astarPath.OnFindPath(tilePath);
+            else
+            {
+                endPoint.IsSelect(Color.blue);
+                for (int i = 0; i < tilePath.Count; i++)
+                {
+                    Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                    material.color = Color.cyan;
+                    map.PlayerMovePath(tilePath[i]);
+                }
+            }
         }
         if (map.isPlayerOnEndTile)
         {
             foreach (Tile game in tilePath)
             {
                 Material material = game.gameObject.GetComponent<MeshRenderer>().material;
+                game.GetComponent<Tile>().walkAbleNumText.text = "";
                 material.color = Color.white;
             }
             Debug.Log("Clear Path List");

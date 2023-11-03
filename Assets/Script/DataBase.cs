@@ -24,8 +24,10 @@ public class DataBase : MonoBehaviour
     }
     public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
     public List<CardData_> cardData = new List<CardData_>();
+    public List<MonsterData> monsterData = new List<MonsterData>();
     public List<PlayerType> loadTypeData = new List<PlayerType>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
+    public List<PlayerCard> loadCardData = new List<PlayerCard>();
     private const string defaultDatadbPath = "/DefaultData.db";
     private const string playerDataTable = "PlayerData";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
@@ -85,8 +87,17 @@ public class DataBase : MonoBehaviour
     public void ResetDB()
     {
         IDbConnection dbConnection = ConnectionDB(playerDataPath_1);
-
         IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "DELETE FROM Deck";
+        using (IDataReader dataReader = dbCommand.ExecuteReader())
+        {
+            dbCommand.Dispose();
+            dataReader.Close();
+            dbConnection.Close();
+        }
+
+        dbConnection = ConnectionDB(playerDataPath_1);
+        dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = "DELETE FROM Stat";
         using (IDataReader dataReader = dbCommand.ExecuteReader())
         {
@@ -106,6 +117,7 @@ public class DataBase : MonoBehaviour
             dbConnection.Close();
         }
 
+        loadCardData.Clear();
         loadStatData.Clear();
         loadTypeData.Clear();
     }
@@ -135,7 +147,6 @@ public class DataBase : MonoBehaviour
         //dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = "SELECT * FROM " + tableName;
         dataReader = dbCommand.ExecuteReader();
-
         while (dataReader.Read())
         {
             int playerNo = dataReader.GetInt32(0);
@@ -151,6 +162,25 @@ public class DataBase : MonoBehaviour
             int maxExp = dataReader.GetInt32(10);
 
             loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp));
+        }
+
+        dataReader.Close();
+
+        tableName = "Deck";
+        //dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+        int[] no = new int[dataReader.FieldCount - 1];
+        Debug.Log(dataReader.FieldCount);
+        while (dataReader.Read())
+        {
+            int player = dataReader.GetInt32(0);
+            for(int i = 0; i < dataReader.FieldCount-1; i++)
+            {
+                no[i] = dataReader.GetInt32(i+1);
+            }
+
+            loadCardData.Add(new PlayerCard(player, no));
         }
 
         dataReader.Close();
@@ -262,6 +292,40 @@ public class DataBase : MonoBehaviour
             cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
         }
         dataReader.Close();
+
+        tableName = "MonsterData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            int level = dataReader.GetInt32(2);
+            MonsterData.Type type = (MonsterData.Type)Enum.Parse(typeof(MonsterData.Type), dataReader.GetString(3));
+            float hp = dataReader.GetFloat(4);
+            int strength = dataReader.GetInt32(5);
+            int intelligence = dataReader.GetInt32(6);
+            int luck = dataReader.GetInt32(7);
+            int speed = dataReader.GetInt32(8);
+
+            int action1 = dataReader.GetInt32(9);
+            int action2 = dataReader.GetInt32(10);
+            int action3 = dataReader.GetInt32(11);
+
+            int giveExp = dataReader.GetInt32(12);
+            int dropGold = dataReader.GetInt32(13);
+
+            int dropitem1 = dataReader.GetInt32(14);
+            int dropitem1Percentage = dataReader.GetInt32(15);
+            int dropitem2 = dataReader.GetInt32(16);
+            int dropitem2Percentage = dataReader.GetInt32(17);
+            int dropitem3 = dataReader.GetInt32(18);
+            int dropitem3Percentage = dataReader.GetInt32(19);
+
+            monsterData.Add(new MonsterData(no, name, level, type, hp, strength, intelligence, luck, speed, action1, action2, action3, giveExp, dropGold, dropitem1, dropitem1Percentage, dropitem2, dropitem2Percentage, dropitem3, dropitem3Percentage));
+        }
+        dataReader.Close();
         dbConnection.Close();
     }
 }
@@ -339,6 +403,29 @@ public class PlayerStat
         level = _level;
         exp = _exp;
         maxExp = _maxExp;
+    }
+}
+#endregion
+
+#region 플레이어 카드
+[Serializable]
+public class PlayerCard
+{
+    public int playerNum;
+    public int[] no = new int[40];
+
+    public PlayerCard(int _playerNum, int[] _no)
+    {
+        for(int i = 0; i < no.Length; i++)
+        {
+            no[i] = 0;
+        }
+
+        playerNum = _playerNum;
+        for (int i = 0; i < _no.Length; i++)
+        {
+            no[i] = _no[i];
+        }
     }
 }
 #endregion
@@ -437,6 +524,66 @@ public class CardData_
         defaultXvalue = _defaultXvalue;
         effect = _effect;
         useCost = _useCost;
+    }
+}
+#endregion
+
+#region 몬스터 데이터
+[Serializable]
+public class MonsterData
+{
+    public enum Type
+    {
+        Undead
+    }
+    public int no;
+    public string name;
+    public int level;
+    public Type type;
+    public float hp;
+    public int strength;
+    public int intelligence;
+    public int luck;
+    public int speed;
+    public int action1;
+    public int action2;
+    public int action3;
+    public int giveExp;
+    public int dropGold;
+    public int dropitem1;
+    public int dropitem1Percentage;
+    public int dropitem2;
+    public int dropitem2Percentage;
+    public int dropitem3;
+    public int dropitem3Percentage;
+
+    public MonsterData(int _no, string _name, int _level, Type _type, float _hp, int _strength, int _intelligence, int _luck, int _speed, 
+        int _action1, int _action2, int _action3, int _giveExp, int _dropGold, 
+        int _dropitem1, int _dropitem1Percentage, int _dropitem2, int _dropitem2Percentage, int _dropitem3, int _dropitem3Percentage)
+    {
+        no = _no;
+        name = _name;
+        level = _level;
+        type = _type;
+        hp = _hp;
+        strength = _strength;
+        intelligence = _intelligence;
+        luck = _luck;
+        speed = _speed;
+
+        action1 = _action1;
+        action2 = _action2;
+        action3 = _action3;
+
+        giveExp = _giveExp;
+        dropGold = _dropGold;
+
+        dropitem1 = _dropitem1;
+        dropitem1Percentage = _dropitem1Percentage;
+        dropitem2 = _dropitem2;
+        dropitem2Percentage = _dropitem2Percentage;
+        dropitem3 = _dropitem3;
+        dropitem3Percentage = _dropitem3Percentage;
     }
 }
 #endregion

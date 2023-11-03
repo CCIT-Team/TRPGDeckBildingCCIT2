@@ -87,6 +87,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7a77a3d8ff254a9498e4454cc84284c4,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7532698128579950348}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7a77a3d8ff254a9498e4454cc84284c4,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 7268375310674159409}
   m_SourcePrefab: {fileID: 100100000, guid: 7a77a3d8ff254a9498e4454cc84284c4, type: 3}
 --- !u!4 &230518203039142727 stripped
@@ -138,11 +142,10 @@ MonoBehaviour:
   intelligence: 0
   luck: 0
   speed: 0
-  atk: 0
-  ap: 0
-  def: 0
-  apdef: 0
   cost: 0
+  level: 0
+  exp: 0
+  maxExp: 0
   isMyturn: 0
   worldState: 0
 --- !u!114 &1872503627558391205
@@ -188,6 +191,19 @@ MonoBehaviour:
   - {fileID: 1638326910103794280}
   - {fileID: 230518203039142727}
   - {fileID: 4664391144461941068}
+--- !u!114 &7532698128579950348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183435776240876501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76fbb0c85431d444696a50fee7b07d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  i: 0
 --- !u!65 &7268375310674159409
 BoxCollider:
   m_ObjectHideFlags: 0
