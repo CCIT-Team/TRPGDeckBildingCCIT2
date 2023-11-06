@@ -249,13 +249,16 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(2));
-            string description = dataReader.GetString(3);
-            int defaultXvalue = dataReader.GetInt32(4);
-            string effect = dataReader.GetString(5);
-            int useCost = dataReader.GetInt32(6);
+            string variableName = dataReader.GetString(2);
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+            string description = dataReader.GetString(4);
+            int defaultXvalue = dataReader.GetInt32(5);
+            string effect = dataReader.GetString(6);
+            int effectUseTurn = dataReader.GetInt32(7);
+            int useCost = dataReader.GetInt32(8);
+            int token = dataReader.GetInt32(9);
 
-            cardData.Add(new CardData(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
         }
         dataReader.Close();
 
@@ -267,13 +270,16 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(2));
-            string description = dataReader.GetString(3);
-            int defaultXvalue = dataReader.GetInt32(4);
-            string effect = dataReader.GetString(5);
-            int useCost = dataReader.GetInt32(6);
+            string variableName = dataReader.GetString(2);
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+            string description = dataReader.GetString(4);
+            int defaultXvalue = dataReader.GetInt32(5);
+            string effect = dataReader.GetString(6);
+            int effectUseTurn = dataReader.GetInt32(7);
+            int useCost = dataReader.GetInt32(8);
+            int token = dataReader.GetInt32(9);
 
-            cardData.Add(new CardData(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
         }
         dataReader.Close();
 
@@ -285,13 +291,16 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(2));
-            string description = dataReader.GetString(3);
-            int defaultXvalue = dataReader.GetInt32(4);
-            string effect = dataReader.GetString(5);
-            int useCost = dataReader.GetInt32(6);
+            string variableName = dataReader.GetString(2);
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+            string description = dataReader.GetString(4);
+            int defaultXvalue = dataReader.GetInt32(5);
+            string effect = dataReader.GetString(6);
+            int effectUseTurn = dataReader.GetInt32(7);
+            int useCost = dataReader.GetInt32(8);
+            int token = dataReader.GetInt32(9);
 
-            cardData.Add(new CardData(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
         }
         dataReader.Close();
 
@@ -508,27 +517,47 @@ public class CardData
 {
     public enum CardType
     {
-        Attack,
-        Defense,
-        Special
+        Single_Attack,
+        Multi_Attack,
+        All_Attack,
+
+        Single_Defence,
+        Multi_Defence,
+        All_Denfence,
+
+        Single_Increase,
+        Multi_Increase,
+        All_Increase,
+
+        Single_Endow,
+        Multi_Endow,
+        All_Endow,
+
+        Card_Draw
     }
     public int no;
     public string name;
+    public string variableName;
     public CardType type;
     public string description;
     public int defaultXvalue;
     public string effect;
+    public int effectUseTurn;
     public int useCost;
+    public int token;
 
-    public CardData(int _no, string _name, CardType _type, string _description, int _defaultXvalue, string _effect, int _useCost)
+    public CardData(int _no, string _name, string _variableName, CardType _type, string _description, int _defaultXvalue, string _effect, int _effectUseTurn, int _useCost, int _token)
     {
         no = _no;
         name = _name;
+        variableName = _variableName;
         type = _type;
         description = _description;
         defaultXvalue = _defaultXvalue;
         effect = _effect;
+        effectUseTurn = _effectUseTurn;
         useCost = _useCost;
+        token = _token;
     }
 }
 #endregion

@@ -7,13 +7,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    [SerializeField] public List<GameObject> players = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
 
-    [SerializeField]public List<string> avatar_0 = new List<string>();
-    [SerializeField]public List<string> avatar_1 = new List<string>();
-    [SerializeField]public List<string> avatar_2 = new List<string>();
-    public int avatarCounter = 0;
     private string sceneName = null; //scene변경
+
+    #region 싱글턴 Awake
 
     private void Awake()
     {
@@ -28,10 +26,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        
-    }
+    #endregion
+
     #region 아바타 데이타 로딩
 
     public void GetLoadAvatar(Vector3 position)
@@ -97,104 +93,6 @@ public class GameManager : MonoBehaviour
     private void MonsterStatSetting(GameObject unit, int index)
     {
         unit.GetComponent<MonsterStat>().SetMonsterData(DataBase.instance.monsterData[index]);
-    }
-
-    #endregion
-
-    #region 로비씬 아바타 세팅 -> 오브젝트 화
-
-    public void GetLobbyAvatar()
-    {
-        for (int i = 0; i < avatarCounter; i++)
-        {
-            CreateDataAvatar(i);
-        }
-        DataBase.instance.LoadData();
-    }
-
-    private void CreateDataAvatar(int index)
-    {
-        string insertQuery = null;
-        switch (index)
-        {
-            case 0:
-                insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_0[0]}, '{avatar_0[1]}', '{avatar_0[2]}', '{avatar_0[3]}', '{avatar_0[4]}')";
-                DataBase.instance.SaveDB(insertQuery);
-                DataBase.instance.SaveDB(AvatarStatSetting(avatar_0[0], avatar_0[2]));
-                DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_0[2]));
-                break;
-            case 1:
-                insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_1[0]}, '{avatar_1[1]}', '{avatar_1[2]}', '{avatar_1[3]}', '{avatar_1[4]}')";
-                DataBase.instance.SaveDB(insertQuery);
-                DataBase.instance.SaveDB(AvatarStatSetting(avatar_1[0], avatar_1[2]));
-                DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_1[2]));
-                break;
-            case 2:
-                insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type) VALUES ({avatar_2[0]}, '{avatar_2[1]}', '{avatar_2[2]}', '{avatar_2[3]}', '{avatar_2[4]}')";
-                DataBase.instance.SaveDB(insertQuery);
-                DataBase.instance.SaveDB(AvatarStatSetting(avatar_2[0], avatar_2[2]));
-                DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_2[2]));
-                break;
-        }
-    }
-
-    private string AvatarStatSetting(string playerNum, string major)
-    {
-        string insertQuery;
-        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
-        {
-            if(major == DataBase.instance.defaultData[i].major.ToString())
-            {
-               return insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, turn) VALUES " +
-            $"({playerNum}, {DataBase.instance.defaultData[i].strength}, {DataBase.instance.defaultData[i].intelligence}, {DataBase.instance.defaultData[i].luck}, {DataBase.instance.defaultData[i].speed}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].hp}, {DataBase.instance.defaultData[i].cost}, {DataBase.instance.defaultData[i].level}, {DataBase.instance.defaultData[i].exp}, {DataBase.instance.defaultData[i].maxExp}, {0}, {0})";
-                
-            }
-        }
-        return null;
-    }
-    private string AvatarCardSetting(string playerNum, string major)
-    {
-        int[] card = new int[40];
-        for (int i = 0; i < 40; i++)
-        {
-            card[i] = 0;
-        }
-        int cardCount = 0;
-        for (int i = 0; i < DataBase.instance.defaultData.Count; i++)
-        {
-            if (major == DataBase.instance.defaultData[i].major.ToString())
-            {
-                cardCount = DataBase.instance.defaultData[i].card1Count;
-                for (int j = 0; j < cardCount; j++)
-                {
-                    card[j] = DataBase.instance.defaultData[i].card1;
-                }
-                for (int j = cardCount; j < cardCount + DataBase.instance.defaultData[i].card2Count; j++)
-                {
-                    card[j] = DataBase.instance.defaultData[i].card2;
-                }
-                cardCount += DataBase.instance.defaultData[i].card2Count;
-                for (int j = cardCount; j < cardCount + DataBase.instance.defaultData[i].card3Count; j++)
-                {
-                    card[j] = DataBase.instance.defaultData[i].card3;
-                }
-
-                string query = "INSERT INTO Deck (playerNum";
-                for (int j = 1; j < 41; j++)
-                {
-                    query += ", no" + j.ToString();
-                }
-                query += ") VALUES (" + playerNum;
-
-                for (int j = 0; j < 40; j++)
-                {
-                    query += ", " + card[j];
-                }
-                query += ")";
-                return query;
-            }
-        }
-        return null;
     }
 
     #endregion

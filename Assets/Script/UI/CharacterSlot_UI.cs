@@ -12,6 +12,8 @@ public class CharacterSlot_UI : MonoBehaviour
     List<string> avatarSexList = new List<string>();
     List<string> avatarTypeList = new List<string>();
 
+    public LobbyUI_Manager manager;
+
     public GameObject model;
     TMP_InputField avatarNickName;
     TMP_Text majorText;
@@ -110,35 +112,34 @@ public class CharacterSlot_UI : MonoBehaviour
         switch(num)
         {
             case 0:
-                GameManager.instance.avatar_0.Add("1");
-                GameManager.instance.avatar_0.Add(avatarNickName_index);
-                GameManager.instance.avatar_0.Add(majorText.text);
-                GameManager.instance.avatar_0.Add(avatarSexText.text);
-                GameManager.instance.avatar_0.Add(avatarTypeText.text);
+                manager.avatar_0.Add("1");
+                manager.avatar_0.Add(avatarNickName_index);
+                manager.avatar_0.Add(majorText.text);
+                manager.avatar_0.Add(avatarSexText.text);
+                manager.avatar_0.Add(avatarTypeText.text);
                 break;
 
             case 1:
-                GameManager.instance.avatar_1.Add("2");
-                GameManager.instance.avatar_1.Add(avatarNickName_index);
-                GameManager.instance.avatar_1.Add(majorText.text);
-                GameManager.instance.avatar_1.Add(avatarSexText.text);
-                GameManager.instance.avatar_1.Add(avatarTypeText.text);
+                manager.avatar_1.Add("2");
+                manager.avatar_1.Add(avatarNickName_index);
+                manager.avatar_1.Add(majorText.text);
+                manager.avatar_1.Add(avatarSexText.text);
+                manager.avatar_1.Add(avatarTypeText.text);
                 break;
 
             case 2:
-                GameManager.instance.avatar_2.Add("3");
-                GameManager.instance.avatar_2.Add(avatarNickName_index);
-                GameManager.instance.avatar_2.Add(majorText.text);
-                GameManager.instance.avatar_2.Add(avatarSexText.text);
-                GameManager.instance.avatar_2.Add(avatarTypeText.text);
+                manager.avatar_2.Add("3");
+                manager.avatar_2.Add(avatarNickName_index);
+                manager.avatar_2.Add(majorText.text);
+                manager.avatar_2.Add(avatarSexText.text);
+                manager.avatar_2.Add(avatarTypeText.text);
                 break;
         }
-
-        if(GameManager.instance.avatar_1.Count == 0 && GameManager.instance.avatar_2.Count != 0)
+        if (manager.avatar_1.Count == 0 && manager.avatar_2.Count != 0)
         {
-            GameManager.instance.avatar_1 = GameManager.instance.avatar_2.ToList();
-            GameManager.instance.avatar_1[0] = "2";
-            GameManager.instance.avatar_2.Clear();
+            manager.avatar_1 = manager.avatar_2.ToList();
+            manager.avatar_1[0] = "2";
+            manager.avatar_2.Clear();
         }
     }
 

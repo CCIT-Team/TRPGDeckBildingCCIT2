@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Character_type : MonoBehaviour
 {
-    [SerializeField] public int playerNum;
-    [SerializeField] public string nickname;
-    [SerializeField] public PlayerType.Major major;
+    public int playerNum;
+    public string nickname;
+    public PlayerType.Major major;
     [SerializeField] private PlayerType.Sex sex;
     [SerializeField] private PlayerType.AvatarType avatarType;
     private Color skinColor;
@@ -31,7 +31,6 @@ public class Character_type : MonoBehaviour
         avatarType = type.type;
         //ÇÇºÎ»ö
     }
-
 
     public string GetTypeDBQuery()
     {
