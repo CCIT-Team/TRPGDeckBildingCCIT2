@@ -136,10 +136,10 @@ public class DataBase : MonoBehaviour
             int playerNo = dataReader.GetInt32(0);
             string nickname = dataReader.GetString(1);
             PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(2));
-            PlayerType.Sex sex = (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), dataReader.GetString(3));
+            PlayerType.Gender gender = (PlayerType.Gender)Enum.Parse(typeof(PlayerType.Gender), dataReader.GetString(3));
             PlayerType.AvatarType avatarType = (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), dataReader.GetString(4));
 
-            loadTypeData.Add(new PlayerType(playerNo, nickname, major, sex, avatarType));
+            loadTypeData.Add(new PlayerType(playerNo, nickname, major, gender, avatarType));
         }
         dataReader.Close();
 
@@ -361,7 +361,7 @@ public class PlayerType
         Cleric
     }
 
-    public enum Sex
+    public enum Gender
     {
         Male,
         Female
@@ -370,16 +370,16 @@ public class PlayerType
     public int playerNum;
     public string nickname;
     [SerializeField] public Major major;
-    [SerializeField] public Sex sex;
+    [SerializeField] public Gender gender;
     [SerializeField] public AvatarType type;
     public Color skinColor;
 
-    public PlayerType(int _playerNum, string _nickname, Major _major, Sex _sex, AvatarType _avatartype)
+    public PlayerType(int _playerNum, string _nickname, Major _major, Gender _gender, AvatarType _avatartype)
     {
         playerNum = _playerNum;
         nickname = _nickname;
         major = _major;
-        sex = _sex;
+        gender = _gender;
         //skinColor = _skinColor;
     }
 }
