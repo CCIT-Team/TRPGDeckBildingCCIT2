@@ -11,16 +11,14 @@ public class Tile : MonoBehaviour
     public Material[] climateMaterials = new Material[3];
     public TMP_Text walkAbleNumText;
 
-
     Character player;
-    Material material;
+    [SerializeField] MeshRenderer material;
     Color defaultColor;
 
     [SerializeField] GameObject kingdomObject;
     [SerializeField] GameObject vileageObject;
     [SerializeField] GameObject monsterObject;
     [SerializeField] GameObject bossObject;
-
 
     public Climate climate;
     public TileState tileState;
@@ -137,13 +135,13 @@ public class Tile : MonoBehaviour
     {
         if (isSelect)
         {
-            material = gameObject.GetComponent<MeshRenderer>().material;
-            material.color = color;
+            material.material = gameObject.GetComponent<MeshRenderer>().material;
+            material.material.color = color;
         }
         else
         {
-            material = gameObject.GetComponent<MeshRenderer>().material;
-            material.color = defaultColor;
+            material.material = gameObject.GetComponent<MeshRenderer>().material;
+            material.material.color = defaultColor;
         }
     }
 
@@ -151,20 +149,35 @@ public class Tile : MonoBehaviour
     {
         switch (ClimateNum)
         {
-            case 0:
-                climate = Climate.GRASS;
-                material = climateMaterials[ClimateNum];
-                break;
             case 1:
-                climate = Climate.DESERT;
-                material = climateMaterials[ClimateNum];
+                climate = Climate.GRASS;
+                material.material= climateMaterials[0];
                 break;
             case 2:
+                climate = Climate.DESERT;
+                material.material = climateMaterials[1];
+                break;
+            case 3:
                 climate = Climate.JUNGLE;
-                material = climateMaterials[ClimateNum];
+                material.material = climateMaterials[2];
                 break;
         }
     }
+
+    public void MakeKingdom()
+    {
+        if (isKingdomTile)
+        {
+            tileState = TileState.KingdomTile;
+            kingdomObject.SetActive(true);
+            for (int i = 0; i < adjacentTiles.Count; i++)
+            {
+                adjacentTiles[i].climate = climate;
+                adjacentTiles[i].material.material = material.material;
+            }
+        }
+    }
+
 
     private void OnTriggerEnter(Collider col)
     {
@@ -238,5 +251,11 @@ public class Tile : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator FindAdjacentTile()
+    {
+        
+        yield return null;
     }
 }

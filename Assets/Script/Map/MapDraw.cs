@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class MapDraw:MonoBehaviour
+public class MapDraw : MonoBehaviour
 {
     public List<Vector2> siteList;
     public Sprite DrawVoronoiToSprite(Voronoi voronoi)
@@ -15,7 +15,7 @@ public class MapDraw:MonoBehaviour
         Color[] pixelColors = Enumerable.Repeat(Color.white, width * height).ToArray();
         var siteCoords = voronoi.SiteCoords();
         siteList = siteCoords;
-
+        int a = 0;
         // 무게중심 그리기
         foreach (var coord in siteCoords)
         {
@@ -24,6 +24,8 @@ public class MapDraw:MonoBehaviour
 
             var index = x * width + y;
             pixelColors[index] = Color.red;
+            GameObject tileObject = Instantiate(Map.instance.readingStick, new Vector3(siteList[a].x, 0, siteList[a].y), Quaternion.identity);
+            a += 1;
         }
 
         // 모서리 그리기
@@ -71,13 +73,13 @@ public class MapDraw:MonoBehaviour
         return DrawSprite(size, pixelColors);
     }
 
-    public  Sprite DrawSprite(Vector2Int size, float[] monochromeColorDatas)
+    public Sprite DrawSprite(Vector2Int size, float[] monochromeColorDatas)
     {
         var colors = monochromeColorDatas.Select(c => new Color(c, c, c)).ToArray();
         return DrawSprite(size, colors);
     }
 
-    public  Sprite DrawSprite(Vector2Int size, Color[] colorDatas)
+    public Sprite DrawSprite(Vector2Int size, Color[] colorDatas)
     {
         var texture = new Texture2D(size.x, size.y);
         texture.filterMode = FilterMode.Point;
@@ -89,7 +91,7 @@ public class MapDraw:MonoBehaviour
         return sprite;
     }
 
-    public  float[] GetRadialGradientMask(Vector2Int size, int maskRadius)
+    public float[] GetRadialGradientMask(Vector2Int size, int maskRadius)
     {
         var colorData = new float[size.x * size.y];
 

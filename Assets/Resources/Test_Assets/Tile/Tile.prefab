@@ -968,10 +968,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 2cca4f1814311e741b9d414285251971, type: 2}
   - {fileID: 2100000, guid: 1e5983dba0a5e3142bcaeb9cecad40ae, type: 2}
   walkAbleNumText: {fileID: 2901554299077538670}
+  material: {fileID: 8930374371357479334}
   kingdomObject: {fileID: 9098414221162056004}
   vileageObject: {fileID: 6999595973709876128}
   monsterObject: {fileID: 2448469394476614732}
   bossObject: {fileID: 3876452998530037959}
+  kingdomTile: []
   climate: 0
   tileState: 0
   g: 0
