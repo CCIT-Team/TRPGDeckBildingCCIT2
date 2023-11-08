@@ -27,17 +27,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         bindCard = GetComponent<N_Card>();
     }
 
-    IEnumerator SelectCard()
-    {
-
-        yield return new WaitUntil(() => false);
-    }
-
-    private void OnMouseDown()
-    {
-        
-    }
-
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("PointerDown");

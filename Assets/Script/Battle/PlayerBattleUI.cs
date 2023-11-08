@@ -24,7 +24,6 @@ public class PlayerBattleUI : MonoBehaviour
 
     void Start()
     {
-        
         GameObject card;
         for (int i = 0; i < 10; i++)
         {
@@ -46,17 +45,23 @@ public class PlayerBattleUI : MonoBehaviour
         for (int i = 0; i < drawCount; i++)
         {
             int cardIndex = Random.Range(0, boundDeck.deck.Count);
-            boundDeck.hand.Add(boundDeck.deck[cardIndex]);
+            int cardID = boundDeck.deck[cardIndex];
+            boundDeck.hand.Add(cardID);
             boundDeck.deck.RemoveAt(cardIndex);
             boundDeck.DeckCounter--;
+            GameObject cardObject;
             if (waitCardInstant.Count > 0)
             {
-                cardInstant.Add(waitCardInstant.Pop());
+                cardObject = waitCardInstant.Pop();
+                cardInstant.Add(cardObject);
             }
             else
             {
-                cardInstant.Add(Instantiate(cardPrefab, handUI.transform));
+                cardObject = Instantiate(cardPrefab, handUI.transform);
+                cardInstant.Add(cardObject);
             }
+            cardObject.GetComponent<N_Card>().playerUI = this;
+            cardObject.GetComponent<N_Card>().cardID = cardID;
         }
         CompareHand();
     }
@@ -70,7 +75,6 @@ public class PlayerBattleUI : MonoBehaviour
         }
     }
     //-----------------------------------------------
-    // UI로 옮겨야 할듯함
     public void Onclick()
     {
         boundCharacter.isMyturn = false;
@@ -80,6 +84,8 @@ public class PlayerBattleUI : MonoBehaviour
     {
         boundCharacter = character;
         name = boundCharacter.name;
+        boundDeck.deck = boundCharacter.GetComponent<Character_Card>().cardID;
+        boundDeck.deck.RemoveAll(x => x == 0);
     }
 
     public void UnBindCharacter()
@@ -87,20 +93,13 @@ public class PlayerBattleUI : MonoBehaviour
         boundCharacter = null;
     }
 
-    public void CheckTurn()
+    public IEnumerator ActIfTurn()
     {
         if (boundCharacter.isMyturn)
         {
-            StartCoroutine(UI_Control());
+            transform.GetChild(0).gameObject.SetActive(true);
             DrawCard();
-        }
-        else
-            transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    IEnumerator UI_Control()
-    {
-        transform.GetChild(0).gameObject.SetActive(true);
+        }  
         yield return new WaitUntil(() => !boundCharacter.isMyturn);
         transform.GetChild(0).gameObject.SetActive(false);
     }

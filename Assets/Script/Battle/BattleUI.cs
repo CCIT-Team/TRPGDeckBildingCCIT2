@@ -45,30 +45,11 @@ public class BattleUI : MonoBehaviour
     {
         for(int i = 0; i < units.Count; i++)
         {
-            boundUnits.Add(units[i]); 
-            Slider icon = Instantiate(slider, turnDisplay.transform);
-            icon.name = (units[i]+" Icon");
-            icon.maxValue = units.Count - 1;
-            icon.handleRect.gameObject.GetComponent<Image>().color = new Color(1 * (float)i / units.Count, 1 * (float)i / units.Count, 1 * (float)i / units.Count); //아이콘으로 변경 예정
-            icon.handleRect.transform.GetComponentInChildren<Text>().text = units[i].gameObject.name;   //아이콘 변경 후 제거 예정
-            turnSlider.Add(icon);
-            icon.gameObject.SetActive(true);
-        }
-        StartCoroutine(DisplayTurn());
-    }
-
-    IEnumerator DisplayTurn()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(0.1f);
-            for (int i = 0; i < turnSlider.Count; i++)
-            {
-                if (boundUnits[i] == N_BattleManager.instance.currentUnit)
-                    turnSlider[i].value = 0;
-                else
-                    turnSlider[i].value = 1 + N_BattleManager.instance.units.IndexOf(boundUnits[i]);
-            }
+            boundUnits.Add(units[i]);
+            TurnSlider icon = Instantiate(slider, turnDisplay.transform).GetComponent<TurnSlider>();
+            turnSlider.Add(icon.GetComponent<Slider>());
+            icon.BindingUnit(units[i], units.Count - 1);
+            icon.StartCoroutine(icon.DisplayTurn());
         }
     }
     #endregion

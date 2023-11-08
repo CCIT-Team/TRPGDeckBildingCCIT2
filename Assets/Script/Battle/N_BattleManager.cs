@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 {
@@ -17,6 +16,9 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public Transform monsterPosition;
 
     public int startHandCount = 5;
+
+    [Tooltip("직업 별 카드 수\n 0 = 파이터 \n 1 = 위자드 \n 2 = 클레릭")]
+    public int[] majorCardStartNo = { -1,-1,-1 };
 
     private void Awake()
     {
@@ -46,22 +48,10 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     void StartBattle()
     {
-        /*
-         * 캐릭터 추가
-         * 슬라이더 활성
-         * 턴 정렬
-         * 
-         */
-        AddTurnPool();
-        battleUI.SetTurnSlider(units);
-        SoltSpeed(units);
-        int debugint = 0;
-        foreach(PlayerBattleUI characterUI in battleUI.playerUI)
-        {
-            Debug.Log(debugint++);
-            characterUI.DrawCard(startHandCount);
-
-        } 
+        CountCardPreBattle();
+        AddTurnPool(); //전투할 유닛 추가
+        battleUI.SetTurnSlider(units); //턴테이블, 타임라인 생성
+        SoltSpeed(units); //속도 정렬
         StartCoroutine(PlayTurn());
     }
 
@@ -69,7 +59,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     {
         StopCoroutine(PlayTurn());
         GameManager.instance.LoadScenceName("Map1");
-        //SceneManager.LoadScene("Map1");
     }
 
     void CheckBattleState()
@@ -128,19 +117,14 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         CheckBattleState();
     }
 
-    void SetUnitPosition()
-    {
-
-    }
-
 
     //--------------------------------------
-
-    void AddTurnPool()//유닛 추가용 코드, 미완
+    #region 턴
+    void AddTurnPool()//시작 시 유닛 추가용 코드
     {
-        int uiNum = 0;
         if(GameManager.instance != null)
             GameManager.instance.GetLoadAvatar(playerPosition.position);
+
         GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i< playerarray.Length;i++)
         {
@@ -186,7 +170,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         {
             character.isMyturn = true;
             foreach (PlayerBattleUI ui in battleUI.playerUI)
-                ui.CheckTurn();
+                ui.StartCoroutine(ui.ActIfTurn());
             yield return new WaitUntil(() => !character.isMyturn);
         }
             
@@ -199,5 +183,22 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         units.Add(currentUnit);
         currentUnit = null;
         StartCoroutine(PlayTurn());
+    }
+    #endregion
+
+    void CountCardPreBattle()
+    {
+        foreach(CardData_ cardData in DataBase.instance.cardData)
+        {
+            if (cardData.no - 60000000 >= 0)
+            {
+                majorCardStartNo[1]++;
+                majorCardStartNo[2]++;
+            }
+            else if (cardData.no - 70000000 >= 0)
+            {
+                majorCardStartNo[2]++;
+            }       
+        }
     }
 }

@@ -209,7 +209,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &190728255294633842
 RectTransform:
   m_ObjectHideFlags: 0
@@ -304,6 +304,14 @@ MonoBehaviour:
   rarity: 0
   tokenAmount: 0
   tokens: 
+  cardData:
+    no: 0
+    name: 
+    type: 0
+    description: 
+    defaultXvalue: 0
+    effect: 
+    useCost: 0
   cardTarget: {fileID: 0}
 --- !u!114 &310997900398861569
 MonoBehaviour:

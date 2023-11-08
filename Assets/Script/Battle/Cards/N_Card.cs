@@ -8,7 +8,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     public delegate void CardAction();
     public CardAction cardAction;
 
-    public Character cardOwner;
+    public PlayerBattleUI playerUI;
 
 
     public int cardID;
@@ -18,7 +18,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     public int tokenAmount;
     public bool[] tokens;
 
-    CardData cardData;
+    public CardData_ cardData;
 
     public GameObject cardTarget;
 
@@ -26,15 +26,28 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     void OnEnable()
     {
-        cardOwner = transform.parent.parent.GetComponentInParent<PlayerBattleUI>().boundCharacter;
-        cardData = CardDataBase.instance.cards[cardID];
-        //image.sprite = Resources.Load<Sprite>(cardData.cardImage);
-        //text.text = cardData.cardText;
+        int indexNumber = 0;
+        int tester = 0;
+        while(playerUI.boundCharacter == null || cardID == 0) { if (tester++ >= 30) break; }
+        switch (playerUI.boundCharacter.GetComponent<Character_type>().major)
+        {
+            case PlayerType.Major.Fighter:
+                indexNumber = cardID - 50000000;
+                break;
+            case PlayerType.Major.Wizard:
+                indexNumber = cardID - 60000000;
+                break;
+            case PlayerType.Major.Cleric:
+                indexNumber = cardID - 70000000;
+                break;
+        }
+        Debug.Log("indexNumber = " + indexNumber + "\n AddNumber = " + N_BattleManager.instance.majorCardStartNo[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]);
+        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.majorCardStartNo[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]];
 
         cardAction = null;
-        cardAction += () => UseCost(cardOwner);
+        cardAction += () => UseCost(playerUI.boundCharacter);
         cardAction += () => CardEffect();
-        cardAction += () => RemoveInHand(cardOwner.GetComponent<Deck>());
+        cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
     }
 
     public void UseCard()
@@ -55,7 +68,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void CardEffect()
     {
-        print(cardOwner.name+"이(가) "+cardTarget.name+"에게" + cardName + "을(를) 사용");
+        print(playerUI.boundCharacter.name+"이(가) "+cardTarget.name+"에게" + cardName + "을(를) 사용");
         var skill = CardSkills.SearchSkill(cardName);
         skill.Invoke(null, new object[] { cardTarget.GetComponent<Unit>(), 10 });
         this.gameObject.SetActive(false);
