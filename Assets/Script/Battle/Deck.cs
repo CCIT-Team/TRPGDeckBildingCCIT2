@@ -16,10 +16,11 @@ public class Deck : MonoBehaviour   //덱 정보를 소지하고 플레이어의 장비에서 카�
         set
         {
             deckCounter = value;
-            if (deckCounter == 0)
+            if (deckCounter <= 0 && deck.Count == 0)
             {
                 deck.AddRange(grave);
                 grave.Clear();
+                deckCounter = deck.Count;
             }
         }
     }

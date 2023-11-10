@@ -6,17 +6,7 @@ using UnityEngine.UI;
 public class TurnSlider : MonoBehaviour
 {
     public Slider slider;
-    Unit boundUnit;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Unit boundUnit;
 
     public void BindingUnit(Unit unit,int maxValue)
     {
@@ -33,10 +23,16 @@ public class TurnSlider : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
 
-                if (boundUnit != N_BattleManager.instance.currentUnit)
-                    slider.value = 1 + N_BattleManager.instance.units.IndexOf(boundUnit);
-                else
-                    slider.value = 0;
+            if(boundUnit.gameObject.activeSelf == false)
+            {
+                N_BattleManager.instance.battleUI.AnnounceUnitDead(this);
+                break;
+            }    
+
+            if (boundUnit != N_BattleManager.instance.currentUnit)
+                slider.value = 1 + N_BattleManager.instance.units.IndexOf(boundUnit);
+            else
+                slider.value = 0;
         }
     }
 }

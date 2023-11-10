@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 {
+    //유닛 제거 시 턴테이블,리스트 등에서 완전 제거, 플레이어 사망 시 덱 등 초기화
+    //
     //exitbattle(유닛 퇴장) 코드 수정 필요
     public static N_BattleManager instance;
 
@@ -35,7 +37,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         StartBattle();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -75,7 +76,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             playerAlive = true;
         else
             monsterAlive = true;
-
+        
         if (playerAlive ^ monsterAlive)
             EndBattle();
     } 
@@ -170,10 +171,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         {
             character.isMyturn = true;
             foreach (PlayerBattleUI ui in battleUI.playerUI)
-                ui.StartCoroutine(ui.ActIfTurn());
+            {
+                if(ui.gameObject.activeSelf)
+                    ui.StartCoroutine(ui.ActIfTurn());
+            } 
             yield return new WaitUntil(() => !character.isMyturn);
-        }
-            
+        }   
         else
         {
             Monster monster = currentUnit.GetComponent<Monster>();

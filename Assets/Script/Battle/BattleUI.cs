@@ -14,23 +14,9 @@ public class BattleUI : MonoBehaviour
     Slider slider;
     List<Slider> turnSlider = new List<Slider>();
 
-
-    List<Unit> boundUnits = new List<Unit>();
-
     [Header("Player")]
     public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];
-
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    List<Unit> boundUnits = new List<Unit>();
 
     public void BindPlayer(GameObject[] playerarray)
     {
@@ -40,7 +26,7 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    #region 턴 슬라이더
+    #region 턴
     public void SetTurnSlider(List<Unit> units)
     {
         for(int i = 0; i < units.Count; i++)
@@ -52,5 +38,26 @@ public class BattleUI : MonoBehaviour
             icon.StartCoroutine(icon.DisplayTurn());
         }
     }
+
+    public void AnnounceUnitDead(TurnSlider unitIcon)
+    {
+        //턴테이블에서 아이콘 제거 후 남은 턴 조정
+        turnSlider.Remove(unitIcon.slider);
+        unitIcon.gameObject.SetActive(false);
+        foreach(Slider slider in turnSlider)
+        {
+            slider.maxValue = turnSlider.Count - 1;
+        }
+
+        foreach(PlayerBattleUI PUI in playerUI)
+        {
+            if(PUI.boundCharacter == unitIcon.boundUnit)
+            {
+                PUI.UnBindCharacter();
+                PUI.gameObject.SetActive(false);
+            }
+        }
+    }
+
     #endregion
 }

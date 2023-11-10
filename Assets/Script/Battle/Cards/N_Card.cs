@@ -14,7 +14,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     public int cardID;
     public string cardName;
     public int cost;
-    public CARDRARITY rarity;
     public int tokenAmount;
     public bool[] tokens;
 
@@ -48,6 +47,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         cardAction += () => UseCost(playerUI.boundCharacter);
         cardAction += () => CardEffect();
         cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
+        cardAction += () => playerUI.ReturnToInstant(gameObject);
     }
 
     public void UseCard()

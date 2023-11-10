@@ -12,7 +12,7 @@ public class PlayerBattleUI : MonoBehaviour
     GameObject cardPrefab;
     float cardWidth;
 
-    Stack<GameObject> waitCardInstant = new Stack<GameObject>();
+    Queue<GameObject> waitCardInstant = new Queue<GameObject>();
     List<GameObject> cardInstant = new List<GameObject>();
     public GameObject handUI;
 
@@ -25,23 +25,19 @@ public class PlayerBattleUI : MonoBehaviour
     void Start()
     {
         GameObject card;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 4; i++)
         {
             card = Instantiate(cardPrefab, handUI.transform);
-            waitCardInstant.Push(card);
+            waitCardInstant.Enqueue(card);
             card.SetActive(false);
         }
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void DrawCard(int drawCount = 1)
     {
+        if (drawCount > boundDeck.deck.Count + boundDeck.grave.Count)
+            return;
         for (int i = 0; i < drawCount; i++)
         {
             int cardIndex = Random.Range(0, boundDeck.deck.Count);
@@ -52,7 +48,7 @@ public class PlayerBattleUI : MonoBehaviour
             GameObject cardObject;
             if (waitCardInstant.Count > 0)
             {
-                cardObject = waitCardInstant.Pop();
+                cardObject = waitCardInstant.Dequeue();
                 cardInstant.Add(cardObject);
             }
             else
@@ -74,7 +70,13 @@ public class PlayerBattleUI : MonoBehaviour
             cardInstant[i].SetActive(true);
         }
     }
-    //-----------------------------------------------
+
+    public void ReturnToInstant(GameObject gameObject)
+    {
+        cardInstant.Remove(gameObject);
+        waitCardInstant.Enqueue(gameObject);
+    }
+
     public void Onclick()
     {
         boundCharacter.isMyturn = false;
@@ -86,6 +88,7 @@ public class PlayerBattleUI : MonoBehaviour
         name = boundCharacter.name;
         boundDeck.deck = boundCharacter.GetComponent<Character_Card>().cardID;
         boundDeck.deck.RemoveAll(x => x == 0);
+        boundDeck.DeckCounter = boundDeck.deck.Count;
     }
 
     public void UnBindCharacter()
