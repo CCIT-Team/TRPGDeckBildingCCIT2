@@ -138,8 +138,10 @@ public class DataBase : MonoBehaviour
             PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(2));
             PlayerType.Gender gender = (PlayerType.Gender)Enum.Parse(typeof(PlayerType.Gender), dataReader.GetString(3));
             PlayerType.AvatarType avatarType = (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), dataReader.GetString(4));
+            float skinColor = float.Parse(dataReader.GetString(5));
+            float eyeColor = float.Parse(dataReader.GetString(6));
 
-            loadTypeData.Add(new PlayerType(playerNo, nickname, major, gender, avatarType));
+            loadTypeData.Add(new PlayerType(playerNo, nickname, major, gender, avatarType, skinColor, eyeColor));
         }
         dataReader.Close();
 
@@ -372,15 +374,18 @@ public class PlayerType
     [SerializeField] public Major major;
     [SerializeField] public Gender gender;
     [SerializeField] public AvatarType type;
-    public Color skinColor;
+    public float skinColor;
+    public float eyeColor;
 
-    public PlayerType(int _playerNum, string _nickname, Major _major, Gender _gender, AvatarType _avatartype)
+    public PlayerType(int _playerNum, string _nickname, Major _major, Gender _gender, AvatarType _avatartype, float _skinColor, float _eyeColor)
     {
         playerNum = _playerNum;
         nickname = _nickname;
         major = _major;
         gender = _gender;
-        //skinColor = _skinColor;
+        type = _avatartype;
+        skinColor = _skinColor;
+        eyeColor = _eyeColor;
     }
 }
 #endregion

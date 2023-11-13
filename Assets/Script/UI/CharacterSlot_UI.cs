@@ -17,6 +17,8 @@ public class CharacterSlot_UI : MonoBehaviour
     //7~10 드로우
     //11~14 하프오크
     List<float> skinColor = new List<float>();
+    //0~12 눈 색
+    List<float> eyeColor = new List<float>();
 
     public LobbyUI_Manager manager;
 
@@ -25,21 +27,24 @@ public class CharacterSlot_UI : MonoBehaviour
     public GameObject[] type;
     public SkinnedMeshRenderer[] gender_mesh;
     public SkinnedMeshRenderer[] gender_skinColor;
+    public SkinnedMeshRenderer customEyeColor;
 
     TMP_InputField avatarNickName;
     TMP_Text majorText;
     TMP_Text avatarGenderText;
     TMP_Text avatarTypeText;
     TMP_Text skinColorText;
+    TMP_Text eyeColorText;
 
     string avatarNickName_index = null;
     int major_index = 0;
     int avatarGender_index = 0;
     int avatarType_index = 0;
-    const float skinColor_BaseOffset = -0.015625f;
-    public float skinColor_Offset = -0.015625f;
     int skinColor_index = 0;
-    
+    int eyeColor_index = 0;
+    const float skinColor_BaseOffset = -0.015625f;
+    const float eyeColor_BaseOffset = -0.015625f;
+
     private void Start()
     {
         avatarNickName = transform.GetChild(0).GetComponent<TMP_InputField>();
@@ -47,27 +52,38 @@ public class CharacterSlot_UI : MonoBehaviour
         avatarGenderText = transform.GetChild(2).GetComponent<TMP_Text>();
         avatarTypeText = transform.GetChild(3).GetComponent<TMP_Text>();
         skinColorText = transform.GetChild(4).GetComponent<TMP_Text>();
+        eyeColorText = transform.GetChild(5).GetComponent<TMP_Text>();
 
         avatarNickName.name = "AvatarNickname_Inputbox";
         majorText.name = "Major";
         avatarGenderText.name = "AvatarGender";
         avatarTypeText.name = "AvatarType";
         skinColorText.name = "SkinColor";
+        eyeColorText.name = "EyeColor";
 
         majorList = Enum.GetNames(typeof(PlayerType.Major)).ToList();
         avatarGenderList = Enum.GetNames(typeof(PlayerType.Gender)).ToList();
         avatarTypeList = Enum.GetNames(typeof(PlayerType.AvatarType)).ToList();
+        float skinColor_Offset;
         for(int i = 0; i < 15; i++)
         {
             skinColor_Offset = skinColor_BaseOffset * (i + 1);
             skinColor.Add(skinColor_Offset);
         }
 
+        float eyeColor_Offset;
+        for (int i = 0; i < 13; i++)
+        {
+            eyeColor_Offset = eyeColor_BaseOffset * i;
+            eyeColor.Add(eyeColor_Offset);
+        }
+
         majorText.text = majorList[major_index];
         avatarGenderText.text = avatarGenderList[avatarGender_index];
         avatarTypeText.text = avatarTypeList[avatarType_index];
         skinColorText.text = skinColor[skinColor_index].ToString();
-        
+        eyeColorText.text = eyeColor[eyeColor_index].ToString();
+
         SetSkinColor(skinColor_BaseOffset);
     }
     //직업 순서) 파이터 0 - 매지션 1 - 클레릭 2
@@ -134,6 +150,13 @@ public class CharacterSlot_UI : MonoBehaviour
                 skinColorText.text = skinColor[++skinColor_index].ToString();
                 SetSkinColor(skinColor[skinColor_index]);
                 break;
+            case "EyeColor":
+                if (eyeColor_index >= eyeColor.Count - 1)
+                    eyeColor_index = -1;
+
+                eyeColorText.text = eyeColor[++eyeColor_index].ToString();
+                SetEyeColor(eyeColor[eyeColor_index]);
+                break;
         }
     }
 
@@ -198,6 +221,13 @@ public class CharacterSlot_UI : MonoBehaviour
 
                 skinColorText.text = skinColor[--skinColor_index].ToString();
                 SetSkinColor(skinColor[skinColor_index]);
+                break;
+            case "EyeColor":
+                if (eyeColor_index <= 0)
+                    eyeColor_index = eyeColor.Count;
+
+                eyeColorText.text = eyeColor[--eyeColor_index].ToString();
+                SetEyeColor(eyeColor[eyeColor_index]);
                 break;
         }
     }
@@ -274,12 +304,17 @@ public class CharacterSlot_UI : MonoBehaviour
         SetSkinColor(skinColor[colorIndex]);
     }
 
-    public void SetSkinColor(float offset)
+    private void SetSkinColor(float offset)
     {
         for (int i = 0; i < gender_skinColor.Length; i++)
         {
             gender_skinColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
         }
+    }
+
+    private void SetEyeColor(float offset)
+    {
+        customEyeColor.materials[2].SetTextureOffset("_BaseMap", new Vector2(0, offset));
     }
 
     public void SetType(int num)
@@ -292,6 +327,8 @@ public class CharacterSlot_UI : MonoBehaviour
                 manager.avatar_0.Add(majorText.text);
                 manager.avatar_0.Add(avatarGenderText.text);
                 manager.avatar_0.Add(avatarTypeText.text);
+                manager.avatar_0.Add(skinColor[skinColor_index].ToString());
+                manager.avatar_0.Add(eyeColor[eyeColor_index].ToString());
                 break;
 
             case 1:
@@ -300,6 +337,8 @@ public class CharacterSlot_UI : MonoBehaviour
                 manager.avatar_1.Add(majorText.text);
                 manager.avatar_1.Add(avatarGenderText.text);
                 manager.avatar_1.Add(avatarTypeText.text);
+                manager.avatar_1.Add(skinColor[skinColor_index].ToString());
+                manager.avatar_1.Add(eyeColor[eyeColor_index].ToString());
                 break;
 
             case 2:
@@ -308,6 +347,8 @@ public class CharacterSlot_UI : MonoBehaviour
                 manager.avatar_2.Add(majorText.text);
                 manager.avatar_2.Add(avatarGenderText.text);
                 manager.avatar_2.Add(avatarTypeText.text);
+                manager.avatar_2.Add(skinColor[skinColor_index].ToString());
+                manager.avatar_2.Add(eyeColor[eyeColor_index].ToString());
                 break;
         }
         if (manager.avatar_1.Count == 0 && manager.avatar_2.Count != 0)
