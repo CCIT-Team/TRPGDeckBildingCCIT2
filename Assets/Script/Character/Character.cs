@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Character : Unit
 {
@@ -21,6 +22,7 @@ public class Character : Unit
     public int level;
     public int exp;
     public int maxExp;
+    public int gold = 0;
 
     public bool isMyturn;
     public WorldState worldState = WorldState.Idle;
@@ -55,12 +57,14 @@ public class Character : Unit
         level = stat.level;
         exp = stat.exp;
         maxExp = stat.maxExp;
+        gold = stat.gold;
+        isMyturn = stat.turn;
     }
 
     public string GetStatDBQuery()
     {
-        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp) VALUES " +
-            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp})";
+        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, turn) VALUES " +
+            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp}, {gold}, {Convert.ToInt32(isMyturn)})";
         return insertQuery;
     }
 }

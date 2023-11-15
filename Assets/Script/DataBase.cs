@@ -23,7 +23,7 @@ public class DataBase : MonoBehaviour
         }
     }
     public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
-    public List<CardData_> cardData = new List<CardData_>();
+    public List<CardData> cardData = new List<CardData>();
     public List<MonsterData> monsterData = new List<MonsterData>();
     public List<PlayerType> loadTypeData = new List<PlayerType>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
@@ -136,10 +136,12 @@ public class DataBase : MonoBehaviour
             int playerNo = dataReader.GetInt32(0);
             string nickname = dataReader.GetString(1);
             PlayerType.Major major = (PlayerType.Major)Enum.Parse(typeof(PlayerType.Major), dataReader.GetString(2));
-            PlayerType.Sex sex = (PlayerType.Sex)Enum.Parse(typeof(PlayerType.Sex), dataReader.GetString(3));
+            PlayerType.Gender gender = (PlayerType.Gender)Enum.Parse(typeof(PlayerType.Gender), dataReader.GetString(3));
             PlayerType.AvatarType avatarType = (PlayerType.AvatarType)Enum.Parse(typeof(PlayerType.AvatarType), dataReader.GetString(4));
+            float skinColor = float.Parse(dataReader.GetString(5));
+            float eyeColor = float.Parse(dataReader.GetString(6));
 
-            loadTypeData.Add(new PlayerType(playerNo, nickname, major, sex, avatarType));
+            loadTypeData.Add(new PlayerType(playerNo, nickname, major, gender, avatarType, skinColor, eyeColor));
         }
         dataReader.Close();
 
@@ -160,8 +162,10 @@ public class DataBase : MonoBehaviour
             int level = dataReader.GetInt32(8);
             int exp = dataReader.GetInt32(9);
             int maxExp = dataReader.GetInt32(10);
+            int gold = dataReader.GetInt32(11);
+            int turn = dataReader.GetInt32(12);
 
-            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp));
+            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp, gold, turn));
         }
 
         dataReader.Close();
@@ -247,13 +251,16 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
-            string description = dataReader.GetString(3);
-            int defaultXvalue = dataReader.GetInt32(4);
-            string effect = dataReader.GetString(5);
-            int useCost = dataReader.GetInt32(6);
+            string variableName = dataReader.GetString(2);
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+            string description = dataReader.GetString(4);
+            int defaultXvalue = dataReader.GetInt32(5);
+            string effect = dataReader.GetString(6);
+            int effectUseTurn = dataReader.GetInt32(7);
+            int useCost = dataReader.GetInt32(8);
+            int token = dataReader.GetInt32(9);
 
-            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
         }
         dataReader.Close();
 
@@ -265,13 +272,16 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
-            string description = dataReader.GetString(3);
-            int defaultXvalue = dataReader.GetInt32(4);
-            string effect = dataReader.GetString(5);
-            int useCost = dataReader.GetInt32(6);
+            string variableName = dataReader.GetString(2);
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+            string description = dataReader.GetString(4);
+            int defaultXvalue = dataReader.GetInt32(5);
+            string effect = dataReader.GetString(6);
+            int effectUseTurn = dataReader.GetInt32(7);
+            int useCost = dataReader.GetInt32(8);
+            int token = dataReader.GetInt32(9);
 
-            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
         }
         dataReader.Close();
 
@@ -283,13 +293,16 @@ public class DataBase : MonoBehaviour
         {
             int no = dataReader.GetInt32(0);
             string name = dataReader.GetString(1);
-            CardData_.CardType type = (CardData_.CardType)Enum.Parse(typeof(CardData_.CardType), dataReader.GetString(2));
-            string description = dataReader.GetString(3);
-            int defaultXvalue = dataReader.GetInt32(4);
-            string effect = dataReader.GetString(5);
-            int useCost = dataReader.GetInt32(6);
+            string variableName = dataReader.GetString(2);
+            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+            string description = dataReader.GetString(4);
+            int defaultXvalue = dataReader.GetInt32(5);
+            string effect = dataReader.GetString(6);
+            int effectUseTurn = dataReader.GetInt32(7);
+            int useCost = dataReader.GetInt32(8);
+            int token = dataReader.GetInt32(9);
 
-            cardData.Add(new CardData_(no, name, type, description, defaultXvalue, effect, useCost));
+            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
         }
         dataReader.Close();
 
@@ -350,7 +363,7 @@ public class PlayerType
         Cleric
     }
 
-    public enum Sex
+    public enum Gender
     {
         Male,
         Female
@@ -359,17 +372,20 @@ public class PlayerType
     public int playerNum;
     public string nickname;
     [SerializeField] public Major major;
-    [SerializeField] public Sex sex;
+    [SerializeField] public Gender gender;
     [SerializeField] public AvatarType type;
-    public Color skinColor;
+    public float skinColor;
+    public float eyeColor;
 
-    public PlayerType(int _playerNum, string _nickname, Major _major, Sex _sex, AvatarType _avatartype)
+    public PlayerType(int _playerNum, string _nickname, Major _major, Gender _gender, AvatarType _avatartype, float _skinColor, float _eyeColor)
     {
         playerNum = _playerNum;
         nickname = _nickname;
         major = _major;
-        sex = _sex;
-        //skinColor = _skinColor;
+        gender = _gender;
+        type = _avatartype;
+        skinColor = _skinColor;
+        eyeColor = _eyeColor;
     }
 }
 #endregion
@@ -389,8 +405,9 @@ public class PlayerStat
     public int level;
     public int exp;
     public int maxExp;
-
-    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp)
+    public int gold;
+    public bool turn;
+    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp, int _gold, int _turn)
     {
         playerNum = _playerNum;
         strength = _strength;
@@ -403,6 +420,8 @@ public class PlayerStat
         level = _level;
         exp = _exp;
         maxExp = _maxExp;
+        gold = _gold;
+        turn = Convert.ToBoolean(_turn);
     }
 }
 #endregion
@@ -499,31 +518,51 @@ public class PlayerDefaultData
 
 #region 카드 데이터
 [Serializable]
-public class CardData_
+public class CardData
 {
     public enum CardType
     {
-        Attack,
-        Defense,
-        Special
+        Single_Attack,
+        Multi_Attack,
+        All_Attack,
+
+        Single_Defence,
+        Multi_Defence,
+        All_Denfence,
+
+        Single_Increase,
+        Multi_Increase,
+        All_Increase,
+
+        Single_Endow,
+        Multi_Endow,
+        All_Endow,
+
+        Card_Draw
     }
     public int no;
     public string name;
+    public string variableName;
     public CardType type;
     public string description;
     public int defaultXvalue;
     public string effect;
+    public int effectUseTurn;
     public int useCost;
+    public int token;
 
-    public CardData_(int _no, string _name, CardType _type, string _description, int _defaultXvalue, string _effect, int _useCost)
+    public CardData(int _no, string _name, string _variableName, CardType _type, string _description, int _defaultXvalue, string _effect, int _effectUseTurn, int _useCost, int _token)
     {
         no = _no;
         name = _name;
+        variableName = _variableName;
         type = _type;
         description = _description;
         defaultXvalue = _defaultXvalue;
         effect = _effect;
+        effectUseTurn = _effectUseTurn;
         useCost = _useCost;
+        token = _token;
     }
 }
 #endregion
