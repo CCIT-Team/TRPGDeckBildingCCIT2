@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
+    public GameObject inputBlocker;
+
     [Header("TurnDisplay")]
 
     [SerializeField]
@@ -13,6 +15,7 @@ public class BattleUI : MonoBehaviour
     [SerializeField]
     Slider slider;
     List<Slider> turnSlider = new List<Slider>();
+
 
     [Header("Player")]
     public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];

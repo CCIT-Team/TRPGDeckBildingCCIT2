@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 {
-    //유닛 제거 시 턴테이블,리스트 등에서 완전 제거, 플레이어 사망 시 덱 등 초기화
-    //
-    //exitbattle(유닛 퇴장) 코드 수정 필요
     public static N_BattleManager instance;
 
     public BattleUI battleUI;
@@ -19,8 +16,24 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public int startHandCount = 5;
 
-    [Tooltip("직업 별 카드 수\n 0 = 파이터 \n 1 = 위자드 \n 2 = 클레릭")]
-    public int[] majorCardStartNo = { -1,-1,-1 };
+    [Tooltip("직업/무기 별 카드 종류의 수\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
+    public int[] CardStartNoOfType = { -1,-1,-1 };
+
+    bool isAction = false;
+    public bool IsAction
+    {
+        get { return isAction;}
+        set
+        {
+            if (isAction == value)
+                return;
+            else
+                isAction = value;
+
+            if(isAction)
+                StartCoroutine(WaitingWhileAction());
+        }
+    }
 
     private void Awake()
     {
@@ -40,11 +53,13 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            currentUnit.GetComponent<Monster>().isMyturn = false;
+            currentUnit.GetComponent<Monster>().IsMyturn = false;
         if (Input.GetKeyDown(KeyCode.Return))
             ExitBattle(currentUnit);
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
             EndBattle();
+        if (Input.GetKeyDown(KeyCode.Q))
+            isAction = !isAction;
     }
 
     void StartBattle()
@@ -118,6 +133,35 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         CheckBattleState();
     }
 
+    void CountCardPreBattle()
+    {
+        foreach (CardData_ cardData in DataBase.instance.cardData)
+        {
+            if (cardData.no - 60000000 >= 0)
+            {
+                CardStartNoOfType[1]++;
+                CardStartNoOfType[2]++;
+            }
+            else if (cardData.no - 70000000 >= 0)
+            {
+                CardStartNoOfType[2]++;
+            }
+        }
+    }
+    
+    IEnumerator WaitingWhileAction()
+    {
+        battleUI.inputBlocker.SetActive(true);
+        while(true)
+        {
+            yield return new WaitForSeconds(1.5f);
+            if(!isAction)
+            {
+                battleUI.inputBlocker.SetActive(false);
+                break;
+            }
+        }
+    }
 
     //--------------------------------------
     #region 턴
@@ -175,33 +219,17 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 if(ui.gameObject.activeSelf)
                     ui.StartCoroutine(ui.ActIfTurn());
             } 
-            yield return new WaitUntil(() => !character.isMyturn);
+            yield return new WaitUntil(() => !character.isMyturn && !IsAction);
         }   
         else
         {
             Monster monster = currentUnit.GetComponent<Monster>();
-            monster.isMyturn = true;
-            yield return new WaitUntil(() => !monster.isMyturn);
+            monster.IsMyturn = true;
+            yield return new WaitUntil(() => !monster.IsMyturn && !IsAction);
         }
         units.Add(currentUnit);
         currentUnit = null;
         StartCoroutine(PlayTurn());
     }
     #endregion
-
-    void CountCardPreBattle()
-    {
-        foreach(CardData_ cardData in DataBase.instance.cardData)
-        {
-            if (cardData.no - 60000000 >= 0)
-            {
-                majorCardStartNo[1]++;
-                majorCardStartNo[2]++;
-            }
-            else if (cardData.no - 70000000 >= 0)
-            {
-                majorCardStartNo[2]++;
-            }       
-        }
-    }
 }

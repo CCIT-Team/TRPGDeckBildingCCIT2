@@ -11,7 +11,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     public N_Card bindCard;
 
-    bool isselected = false;
     Vector3 defaultPosition = new Vector3(0,0,0);
 
     public LayerMask layerMask;
@@ -32,7 +31,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         Debug.Log("PointerDown");
         defaultPosition = transform.position;
         transform.position = Input.mousePosition;
-        isselected = true;
         //StartCoroutine(SelectCard());
     }
 
@@ -45,13 +43,11 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             target = hit.transform.gameObject;
             bindCard.cardTarget = target;
             bindCard.UseCard();
-            isselected = false;
         }
         else
         {
             target = null;
             transform.position = defaultPosition;
-            isselected = false;
         }
     }
 

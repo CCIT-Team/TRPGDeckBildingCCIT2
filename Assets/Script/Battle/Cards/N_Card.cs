@@ -22,34 +22,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     public GameObject cardTarget;
 
 
-
-    void OnEnable()
-    {
-        int indexNumber = 0;
-        int tester = 0;
-        while(playerUI.boundCharacter == null || cardID == 0) { if (tester++ >= 30) break; }
-        switch (playerUI.boundCharacter.GetComponent<Character_type>().major)
-        {
-            case PlayerType.Major.Fighter:
-                indexNumber = cardID - 50000000;
-                break;
-            case PlayerType.Major.Wizard:
-                indexNumber = cardID - 60000000;
-                break;
-            case PlayerType.Major.Cleric:
-                indexNumber = cardID - 70000000;
-                break;
-        }
-        Debug.Log("indexNumber = " + indexNumber + "\n AddNumber = " + N_BattleManager.instance.majorCardStartNo[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]);
-        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.majorCardStartNo[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]];
-
-        cardAction = null;
-        cardAction += () => UseCost(playerUI.boundCharacter);
-        cardAction += () => CardEffect();
-        cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
-        cardAction += () => playerUI.ReturnToInstant(gameObject);
-    }
-
     public void UseCard()
     {
         cardAction();
@@ -79,7 +51,34 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         
     }
 
+    public void GetCardData()
+    {
+        int indexNumber = 0;
+        int tester = 0;
+        while(playerUI.boundCharacter == null || cardID == 0) { if (tester++ >= 30) break; }
+        switch (playerUI.boundCharacter.GetComponent<Character_type>().major)
+        {
+            case PlayerType.Major.Fighter:
+                indexNumber = cardID - 50000000;
+                break;
+            case PlayerType.Major.Wizard:
+                indexNumber = cardID - 60000000;
+                break;
+            case PlayerType.Major.Cleric:
+                indexNumber = cardID - 70000000;
+                break;
+        }
+        Debug.Log("indexNumber = " + indexNumber + "\n AddNumber = " + N_BattleManager.instance.CardStartNoOfType[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]);
+        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartNoOfType[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]];
 
+        cardAction = null;
+        cardAction += () => UseCost(playerUI.boundCharacter);
+        cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
+        cardAction += () => playerUI.ReturnToInstant(gameObject);
+        cardAction += () => N_BattleManager.instance.IsAction = true;
+        //애니메이션 필요
+        cardAction += () => CardEffect();
+    }
 
 
 

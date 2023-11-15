@@ -6,6 +6,8 @@ public enum MonsterType { None = 0 ,Undead };
 
 public class Monster : Unit
 {
+    MonsterAI ai;
+
     public int monsterNo;   //30000001
     string monsterName;     //ÇØ°ñ º´»ç   
     int level;	            // 3
@@ -20,9 +22,9 @@ public class Monster : Unit
     public float def;
     public float apdef;
 
-    int action1;	            //50000001
-    int action2	;               //50000002
-    int action3	;               //50000003
+    public int action1;	            //50000001
+    public int action2	;               //50000002
+    public int action3	;               //50000003
     float giveExp	;           //15
     int dropGold;	            //15
     int dropitem1;	            //12001002	
@@ -32,7 +34,20 @@ public class Monster : Unit
     int dropitem3	;           //22000003
     int percentage3;            //10
 
-    public bool isMyturn;
+    bool ismyturn;
+    public bool IsMyturn
+    {
+        get { return ismyturn; }
+        set
+        {
+            ismyturn = value;
+            if(ismyturn)
+            {
+                ai.SelectAction();
+            }
+            
+        }
+    }
 
     protected override float Hp
     {
@@ -50,6 +65,11 @@ public class Monster : Unit
             }
         }
     }   //40
+
+    private void Awake()
+    {
+        ai = GetComponent<MonsterAI>();
+    }
 
     void Start()
     {
