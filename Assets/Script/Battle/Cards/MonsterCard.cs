@@ -13,7 +13,7 @@ public class MonsterCard : MonoBehaviour
     public int tokenAmount;
     public bool[] tokens;
 
-    public CardData_ cardData;
+    public CardData cardData;
 
     public GameObject cardTarget;
 
@@ -41,6 +41,7 @@ public class MonsterCard : MonoBehaviour
 
     public void SetCardAction()
     {
+        SetCardData(cardID);
         cardAction = null;
         //cardAction += () => UseCost();
         //cardAction += () => RemoveInHand();
@@ -79,6 +80,7 @@ public class MonsterCard : MonoBehaviour
             case 70:    //Å¬·¹¸¯
                 break;
         }
-            cardData = DataBase.instance.cardData[i];
+        cardData = DataBase.instance.cardData[i];
+        cardName = "SingleAttack";
     }
 }

@@ -10,6 +10,18 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public PlayerBattleUI playerUI;
 
+    public CardData cardData;
+    /*
+     * no
+     * name
+     * variable
+     * type
+     * description
+     * defaultx
+     * effectturn
+     * cost
+     * token
+     */
 
     public int cardID;
     public string cardName;
@@ -17,7 +29,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     public int tokenAmount;
     public bool[] tokens;
 
-    public CardData_ cardData;
+    
 
     public GameObject cardTarget;
 
@@ -51,8 +63,9 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         
     }
 
-    public void GetCardData()
+    public void GetCardData(int id)
     {
+        cardID = id;
         int indexNumber = 0;
         int tester = 0;
         while(playerUI.boundCharacter == null || cardID == 0) { if (tester++ >= 30) break; }

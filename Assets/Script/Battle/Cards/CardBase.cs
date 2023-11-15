@@ -13,7 +13,7 @@ public class CardBase : MonoBehaviour
     public int tokenAmount;
     public bool[] tokens;
 
-    public CardData_ cardData;
+    public CardData cardData;
 
     public GameObject cardTarget;
 

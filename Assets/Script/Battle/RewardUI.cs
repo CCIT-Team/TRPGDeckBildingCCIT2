@@ -15,4 +15,10 @@ public class RewardUI : MonoBehaviour
     {
         
     }
+
+    public void GiveReward()
+    {
+
+        
+    }
 }

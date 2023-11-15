@@ -57,7 +57,8 @@ public class PlayerBattleUI : MonoBehaviour
                 cardInstant.Add(cardObject);
             }
             cardObject.GetComponent<N_Card>().playerUI = this;
-            cardObject.GetComponent<N_Card>().cardID = cardID;
+            cardObject.SetActive(true);
+            cardObject.GetComponent<N_Card>().GetCardData(cardID);
         }
         CompareHand();
     }
@@ -67,7 +68,6 @@ public class PlayerBattleUI : MonoBehaviour
         for(int i = 0; i< boundDeck.hand.Count;i++)
         {
             cardInstant[i].transform.localPosition = new Vector2((cardInstant.Count/2 - i - (cardInstant.Count+1) % 2 /2f) * cardWidth, 0);
-            cardInstant[i].SetActive(true);
         }
     }
 

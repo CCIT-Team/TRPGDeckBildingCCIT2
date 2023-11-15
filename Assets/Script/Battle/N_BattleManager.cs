@@ -7,6 +7,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public static N_BattleManager instance;
 
     public BattleUI battleUI;
+    public RewardUI rewardUI;
 
     public List<Unit> units;
     public Unit currentUnit;
@@ -34,6 +35,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 StartCoroutine(WaitingWhileAction());
         }
     }
+
+    Character inMapTurnCharacter;
 
     private void Awake()
     {
@@ -71,9 +74,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         StartCoroutine(PlayTurn());
     }
 
-    void EndBattle()
+    public void EndBattle()
     {
         StopCoroutine(PlayTurn());
+        if (currentUnit.CompareTag("Player"))
+            currentUnit.GetComponent<Character>().isMyturn = false;
+        inMapTurnCharacter.isMyturn = true;
         GameManager.instance.LoadScenceName("Map1");
     }
 
@@ -91,9 +97,18 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             playerAlive = true;
         else
             monsterAlive = true;
-        
+
         if (playerAlive ^ monsterAlive)
-            EndBattle();
+            if (playerAlive)
+            {
+                battleUI.gameObject.SetActive(false);
+                rewardUI.gameObject.SetActive(true);
+                rewardUI.GiveReward();
+            }
+               
+            else
+                EndBattle();
+
     } 
 
     void JoinBattle(Unit joinUnit)
@@ -135,7 +150,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     void CountCardPreBattle()
     {
-        foreach (CardData_ cardData in DataBase.instance.cardData)
+        foreach (CardData cardData in DataBase.instance.cardData)
         {
             if (cardData.no - 60000000 >= 0)
             {
@@ -173,6 +188,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i< playerarray.Length;i++)
         {
+            if (playerarray[i].GetComponent<Character>().isMyturn)
+            {
+                inMapTurnCharacter = playerarray[i].GetComponent<Character>();
+                playerarray[i].GetComponent<Character>().isMyturn = false;
+            } 
             playerarray[i].transform.SetParent(playerPosition);
             playerarray[i].transform.localPosition = new Vector3(3*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
             units.Add(playerarray[i].GetComponent<Unit>());

@@ -7,7 +7,8 @@ using UnityEngine.EventSystems;
 public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public Image image;
-    public Text text;
+    public Text cardName;
+    public Text description; 
 
     public N_Card bindCard;
 
