@@ -90,6 +90,8 @@ public class PlayerBattleUI : MonoBehaviour
         boundDeck.deck = boundCharacter.GetComponent<Character_Card>().cardID;
         boundDeck.deck.RemoveAll(x => x == 0);
         boundDeck.DeckCounter = boundDeck.deck.Count;
+        if (!boundCharacter.isMyturn)
+            transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void UnBindCharacter()
@@ -103,7 +105,9 @@ public class PlayerBattleUI : MonoBehaviour
         {
             transform.GetChild(0).gameObject.SetActive(true);
             DrawCard();
-        }  
+        }
+        else
+            transform.GetChild(0).gameObject.SetActive(false);
         yield return new WaitUntil(() => !boundCharacter.isMyturn);
         transform.GetChild(0).gameObject.SetActive(false);
     }

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class RewardUI : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject rewardUIPrefab;
+    int rewardGold = 0;
+    List<int> rewardItem = new List<int>();
     void Start()
     {
         
@@ -16,9 +18,26 @@ public class RewardUI : MonoBehaviour
         
     }
 
+
+    public void AddReward(bool isItem,int no)
+    {
+        if(isItem)
+        {
+            rewardItem.Add(no);
+        }
+        else
+        {
+            rewardGold += no;
+        }
+    }
+
     public void GiveReward()
     {
+        for(int i =0; i< rewardItem.Count; i++)
+        {
+            Instantiate(rewardUIPrefab, this.transform);
+        }
 
-        
     }
+
 }

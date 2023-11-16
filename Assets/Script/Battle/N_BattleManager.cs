@@ -14,6 +14,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public Transform playerPosition;
     public Transform monsterPosition;
+    public GameObject monsterPrefab;
 
     public int startHandCount = 5;
 
@@ -37,6 +38,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     }
 
     Character inMapTurnCharacter;
+
+    public int[] sample = new int[5];
 
     private void Awake()
     {
@@ -102,7 +105,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (playerAlive)
             {
                 battleUI.gameObject.SetActive(false);
-                rewardUI.gameObject.SetActive(true);
                 rewardUI.GiveReward();
             }
                
@@ -117,7 +119,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (joinUnit.TryGetComponent<Character>(out Character joinCharacter))
             joinUnitSpeed = joinCharacter.speed;
         else
-            joinUnitSpeed = joinUnit.GetComponent<Monster>().speed;
+            joinUnitSpeed = joinUnit.GetComponent<Monster>().monsterdData.speed;
 
         int unitSpeed;
         for (int i = 0; i< units.Count;i++)
@@ -125,7 +127,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (units[i].TryGetComponent<Character>(out Character character))
                 unitSpeed = character.speed;
             else
-                unitSpeed = units[i].GetComponent<Monster>().speed;
+                unitSpeed = units[i].GetComponent<Monster>().monsterdData.speed;
 
             if(joinUnitSpeed < unitSpeed)
             {
@@ -225,8 +227,19 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             } 
             playerarray[i].transform.SetParent(playerPosition);
             playerarray[i].transform.localPosition = new Vector3(3*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
+            playerarray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(playerarray[i].GetComponent<Unit>());
         }
+
+        //int 배열로 받는걸로 예상하고 짬
+        
+        for(int i =0; i < sample.Length;i++)
+        {
+            GameObject monster;
+            monster = Instantiate(monsterPrefab, monsterPosition);
+            monster.GetComponent<Monster>().GetMonsterData(sample[i]);
+        }
+
         for (int i = 0; i < monsterPosition.transform.childCount; i++)
         {
             units.Add(monsterPosition.transform.GetChild(i).GetComponent<Unit>());
@@ -243,12 +256,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (a.TryGetComponent(out Character characterA))
                 speedA = characterA.speed;
             else
-                speedA = a.GetComponent<Monster>().speed;
+                speedA = a.GetComponent<Monster>().monsterdData.speed;
 
             if (b.TryGetComponent(out Character characterB))
                 speedB = characterB.speed;
             else
-                speedB = b.GetComponent<Monster>().speed;
+                speedB = b.GetComponent<Monster>().monsterdData.speed;
 
             if (speedA >= speedB)
                 return -1;
