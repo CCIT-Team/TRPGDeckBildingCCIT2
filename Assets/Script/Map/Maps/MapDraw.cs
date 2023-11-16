@@ -24,8 +24,8 @@ public class MapDraw : MonoBehaviour
 
             var index = x * width + y;
             pixelColors[index] = Color.red;
-            GameObject tileObject = Instantiate(Map.instance.readingStick, new Vector3(siteList[a].x, 0, siteList[a].y), Quaternion.identity);
-            a += 1;
+           // GameObject tileObject = Instantiate(Map.instance.readingStick, new Vector3(siteList[a].x, 0, siteList[a].y), Quaternion.identity);
+            //a += 1;
         }
 
         // 모서리 그리기

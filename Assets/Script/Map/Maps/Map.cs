@@ -37,8 +37,8 @@ public class Map : MonoBehaviour
     GameObject tileObject;
     public GameObject hexagon;
     public GameObject readingStick;
-    public List<GameObject> players = new List<GameObject>();
     [HideInInspector] public Tile startTile;
+    [HideInInspector] public Tile dragonStartTile;
     public List<GameObject> totalTileObjectList;
     public List<GameObject> grassTileObjectList;
     public List<GameObject> desertTileObjectList;
@@ -46,8 +46,11 @@ public class Map : MonoBehaviour
     public List<Tile> pathTileObjectList;
     public List<Tile> kingdomTile;
     int tileNum = 0;
-
-
+    [Header("Player")]
+    public List<GameObject> players = new List<GameObject>();
+    public bool isOutofUI = false;
+    [Header("Dragon")]
+    public GameObject dragon;
     [Header("Map UI")]
     public MapUI mapUI;
     public WolrdTurn wolrdTurn;
@@ -66,13 +69,8 @@ public class Map : MonoBehaviour
 
         if (isFirst) { GenerateMap(); }
         else { SaveMap(); }
-        totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         wolrdRect = new Rect(22.5f, 24, wolrdRectx, wolrdRecty);
         size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
-    }
-
-    private void Start()
-    {
         voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
         GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
@@ -81,12 +79,56 @@ public class Map : MonoBehaviour
         {
             players[i].name = players[i].GetComponent<Character_type>().nickname;
         }
+        MapSetting();
+    }
+
+    private void Start()
+    {
+        //TestClimate();
+        //GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+        //players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+        //for (int i = 0; i < players.Count; i++)
+        //{
+        //    players[i].name = players[i].GetComponent<Character_type>().nickname;
+        //}
         mapUI.SetTurnSlider(players);
     }
 
     void SaveMap()
     {
 
+    }
+
+    void MapSetting()
+    {
+        //Kingdom
+        totalTileObjectList[75].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[75].GetComponent<Tile>());
+        totalTileObjectList[88].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[88].GetComponent<Tile>());
+        totalTileObjectList[178].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[178].GetComponent<Tile>());
+        totalTileObjectList[221].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[221].GetComponent<Tile>());
+        totalTileObjectList[412].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[412].GetComponent<Tile>());
+        totalTileObjectList[468].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[468].GetComponent<Tile>());
+        //Monster
+        totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[50].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[138].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[198].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[368].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[275].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[185].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[323].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[518].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[544].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
+        Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
+            1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity);
     }
 
     public void PlayerMovePath(Tile objects)
@@ -114,12 +156,15 @@ public class Map : MonoBehaviour
 
         if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f)
         {
-            wolrdTurn.currentPlayer.isMyturn = false;
-            startTile = null;
-            currentPositionNum = 1;
-            pathTileObjectList.Clear();
-            isPlayerOnEndTile = true;
-            isPlayerMoving = false;
+            if(!isOutofUI)
+            {
+                wolrdTurn.currentPlayer.isMyturn = false;
+                startTile = null;
+                currentPositionNum = 1;
+                pathTileObjectList.Clear();
+                isPlayerOnEndTile = true;
+                isPlayerMoving = false;
+            }
         }
     }
     int movePoint;
@@ -127,7 +172,7 @@ public class Map : MonoBehaviour
     private void Update()
     {
         MovePlayer();
-    }  
+    }
 
     public void GenerateMap()
     {
@@ -135,7 +180,40 @@ public class Map : MonoBehaviour
 
         noiseMapRenderer.sprite = mapDraw.DrawSprite(size, noiseColors);
     }
+    //void TestClimate()
+    //{
+    //    foreach (var site in voronoi.Sites)
+    //    {
+    //        var neighbors = site.NeighborSites();
+    //        foreach (var neighbor in neighbors)
+    //        {
+    //            var edge = voronoi.FindEdgeFromAdjacentPolygons(site, neighbor);
 
+    //            if (edge.ClippedVertices is null)
+    //            {
+    //                continue;
+    //            }
+
+    //            Vector2 corner1 = edge.ClippedVertices[LR.LEFT];
+    //            Vector2 corner2 = edge.ClippedVertices[LR.RIGHT];
+
+
+    //            Vector3 p0 = new Vector3(corner1.x, 0, corner1.y);
+    //            Vector3 p1 = new Vector3(corner2.x, 0, corner2.y);
+    //            Vector3 p01 = p1 - p0;
+    //            //Gizmos.color = Color.black;
+    //            //Gizmos.DrawLine(p0, p1);
+    //            Debug.Log(p0 + "P0");
+    //            Debug.Log(p1 + "P1");
+    //            GameObject aa = Instantiate(new GameObject("p0"), new Vector3(p0.x, p0.y + 0.1f, p0.z), Quaternion.identity);
+    //            aa.AddComponent(typeof(BoxCollider));
+    //            aa.GetComponent<BoxCollider>().size = (p1 - p0).normalized;
+    //            GameObject bb = Instantiate(new GameObject("p1"), new Vector3(p1.x, p1.y + 0.1f, p1.z), Quaternion.identity);
+    //            bb.AddComponent(typeof(BoxCollider));
+    //            bb.GetComponent<BoxCollider>().size = (p1 - p0).normalized;
+    //        }
+    //    }
+    //}
     private Voronoi GenerateVoronoi(Vector2 size, int nodeAmount, int lloydIterationCount)
     {
         centroids = new List<Vector2>();

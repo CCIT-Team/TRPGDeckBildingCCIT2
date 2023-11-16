@@ -7,11 +7,58 @@ using TMPro;
 
 public class Tile : MonoBehaviour
 {
+    public TileUI tileUI;
     public List<GameObject> tiles = new List<GameObject>(6);
     public Material[] climateMaterials = new Material[3];
     public TMP_Text walkAbleNumText;
 
+    /// <summary>
+    /// Sum of G and H.
+    /// </summary>
+    public int F => g + h;
+
+    /// <summary>
+    /// Cost from start tile to this tile.
+    /// </summary>
+    public int g;
+
+    /// <summary>
+    /// Estimated cost from this tile to destination tile.
+    /// </summary>
+    public int h;
+
+    /// <summary>
+    /// Tile's coordinates.
+    /// </summary>
+    public Vector3Int position;
+
+    /// <summary>
+    /// References to all adjacent tiles.
+    /// </summary>
+    public List<Tile> adjacentTiles = new List<Tile>(6);
+
+    /// <summary>
+    /// If true - Tile is an obstacle impossible to pass.
+    /// </summary>
+    /// 
+    public bool isObstacle;
+
+    public bool isSpawnTile = false;
+
+    public bool isMonsterTile = false;
+
+    public bool isBossTile = false;
+
+    public bool isKingdomTile = false;
+
+    public bool isVillageTile = false;
+
+    public bool isSelect = false;
+
     Character player;
+    GameObject tagPlayer;
+    GameObject dragon;
+
     [SerializeField] MeshRenderer material;
     Color defaultColor;
 
@@ -89,47 +136,6 @@ public class Tile : MonoBehaviour
             isVillageTile = false;
         }
     }
-    /// <summary>
-    /// Sum of G and H.
-    /// </summary>
-    public int F => g + h;
-
-    /// <summary>
-    /// Cost from start tile to this tile.
-    /// </summary>
-    public int g;
-
-    /// <summary>
-    /// Estimated cost from this tile to destination tile.
-    /// </summary>
-    public int h;
-
-    /// <summary>
-    /// Tile's coordinates.
-    /// </summary>
-    public Vector3Int position;
-
-    /// <summary>
-    /// References to all adjacent tiles.
-    /// </summary>
-    public List<Tile> adjacentTiles = new List<Tile>(6);
-
-    /// <summary>
-    /// If true - Tile is an obstacle impossible to pass.
-    /// </summary>
-    public bool isObstacle;
-
-    public bool isSpawnTile = false;
-
-    public bool isMonsterTile = false;
-
-    public bool isBossTile = false;
-
-    public bool isKingdomTile = false;
-
-    public bool isVillageTile = false;
-
-    public bool isSelect = false;
 
     public void IsSelect(Color color)
     {
@@ -151,7 +157,7 @@ public class Tile : MonoBehaviour
         {
             case 1:
                 climate = Climate.GRASS;
-                material.material= climateMaterials[0];
+                material.material = climateMaterials[0];
                 break;
             case 2:
                 climate = Climate.DESERT;
@@ -164,20 +170,38 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void MakeKingdom()
-    {
-        if (isKingdomTile)
-        {
-            tileState = TileState.KingdomTile;
-            kingdomObject.SetActive(true);
-            for (int i = 0; i < adjacentTiles.Count; i++)
-            {
-                adjacentTiles[i].climate = climate;
-                adjacentTiles[i].material.material = material.material;
-            }
-        }
-    }
+    //public void MakeKingdom()
+    //{
+    //    if (isKingdomTile)
+    //    {
+    //        tileState = TileState.KingdomTile;
+    //        kingdomObject.SetActive(true);
+    //        for (int i = 0; i < adjacentTiles.Count; i++)
+    //        {
+    //            adjacentTiles[i].climate = climate;
+    //            adjacentTiles[i].material.material = material.material;
+    //            if (adjacentTiles[i].climate != climate)
+    //            {
+    //                for (int j = 0; j < adjacentTiles.Count; j++)
+    //                {
+    //                    Debug.Log(adjacentTiles.Count + name);
+    //                    adjacentTiles[j].climate = climate;
+    //                    adjacentTiles[j].material.material = material.material;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
+    //public void MakeClimate()
+    //{
+    //    for (int i = 0; i < adjacentTiles.Count; i++)
+    //    {
+    //        Debug.Log(adjacentTiles.Count + name);
+    //        adjacentTiles[i].climate = climate;
+    //        adjacentTiles[i].material.material = material.material;
+    //    }
+    //}
 
     private void OnTriggerEnter(Collider col)
     {
@@ -212,18 +236,18 @@ public class Tile : MonoBehaviour
             }
             else if (isMonsterTile && !Map.instance.isBattle)
             {
-                //Map.instance.ChangeScene(4);
-                GameManager.instance.LoadScenceName("New Battle");
-                Map.instance.isBattle = true;
-                Debug.Log("전투진입");
+                //GameManager.instance.LoadScenceName("New Battle");
+                //Map.instance.isBattle = true;
+                //Debug.Log("전투진입");
+                tileUI.OnMonsterBattle();
             }
             else if (isBossTile)
             {
-
+                tileUI.OnMonsterBattle();
             }
             else if (isKingdomTile)
             {
-
+                tileUI.OnShopAndHospital();
             }
             else if (isVillageTile)
             {
@@ -234,6 +258,14 @@ public class Tile : MonoBehaviour
 
             }
         }
+        if (col.CompareTag("Dragon"))
+        {
+            dragon = col.gameObject;
+            if (Map.instance.dragonStartTile == null)
+            {
+                Map.instance.dragonStartTile = this;
+            }
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -241,7 +273,7 @@ public class Tile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player = other.gameObject.GetComponent<Character>();
-
+            tagPlayer = other.gameObject;
             if (Map.instance.startTile == null)
             {
                 if (player.isMyturn)
@@ -250,12 +282,29 @@ public class Tile : MonoBehaviour
                     isSelect = true;
                 }
             }
+            if (Map.instance.isOutofUI && isKingdomTile || Map.instance.isOutofUI && isMonsterTile)
+            {
+                //Map.instance.wolrdTurn.currentPlayer.transform.position
+                tagPlayer.transform.LookAt(adjacentTiles[0].transform.position);
+                tagPlayer.transform.Translate(new Vector3(adjacentTiles[0].gameObject.transform.position.x,
+                    0, adjacentTiles[0].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+                if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
+                {
+                    Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
+                    Map.instance.startTile = null;
+                    Map.instance.pathTileObjectList.Clear();
+                    Map.instance.isPlayerOnEndTile = true;
+                    Map.instance.isOutofUI = false;
+                }
+            }
         }
-    }
-
-    IEnumerator FindAdjacentTile()
-    {
-        
-        yield return null;
+        if (other.CompareTag("Dragon"))
+        {
+            dragon = other.gameObject;
+            if (Map.instance.dragonStartTile == null)
+            {
+                Map.instance.dragonStartTile = this;
+            }
+        }
     }
 }
