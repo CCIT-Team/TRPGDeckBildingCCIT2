@@ -7,69 +7,63 @@ using UnityEngine.EventSystems;
 public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public Image image;
-    public Text text;
+    public Text cardName;
+    public Text description; 
 
     public N_Card bindCard;
 
-    bool isselected = false;
     Vector3 defaultPosition = new Vector3(0,0,0);
 
     public LayerMask layerMask;
     GameObject target;
 
-    void Start()
+    private void Awake()
     {
-
+        if (bindCard == null)
+            bindCard = GetComponent<N_Card>();
     }
 
-    void OnEnable()
+    public void DisplayOnUI()
     {
-        bindCard = GetComponent<N_Card>();
-    }
-
-    IEnumerator SelectCard()
-    {
-
-        yield return new WaitUntil(() => false);
-    }
-
-    private void OnMouseDown()
-    {
-        
+        cardName.text = bindCard.cardData.name;
+        description.text = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
+                         + "<b><color=blue>"
+                         + (bindCard.cardData.defaultXvalue * bindCard.playerUI.boundCharacter.strength * 0.2f).ToString()
+                         + "</color></b>"
+                         + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("OPD");
+        Debug.Log("PointerDown");
         defaultPosition = transform.position;
         transform.position = Input.mousePosition;
-        isselected = true;
-        //StartCoroutine(SelectCard());
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("OPU");
-        transform.position = defaultPosition;
-        bindCard.cardTarget = target;
-        bindCard.UseCard();
-        isselected = false;
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80, layerMask))
+        {
+            target = hit.transform.gameObject;
+            bindCard.cardTarget = target;
+            bindCard.UseCard();
+        }
+        else
+        {
+            target = null;
+            transform.position = defaultPosition;
+        }
     }
-
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OBD");
-    }
-
-    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
-    {
-        Debug.Log("OED");
+        Debug.Log("BeginDrag");
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        Debug.Log("ODg");
+        Debug.Log("Drag");
         transform.position = Input.mousePosition;
         RaycastHit hit;
         
@@ -77,5 +71,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         {
             target = hit.transform.gameObject;
         }
+    }
+
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+    {
+        
     }
 }

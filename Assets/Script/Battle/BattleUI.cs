@@ -5,49 +5,62 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
+    public GameObject inputBlocker;
+
+    [Header("TurnDisplay")]
+
+    [SerializeField]
+    GameObject turnDisplay;
+
     [SerializeField]
     Slider slider;
     List<Slider> turnSlider = new List<Slider>();
-    List<Unit> uiUnits = new List<Unit>();
-    void Start()
+
+
+    [Header("Player")]
+    public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];
+    List<Unit> boundUnits = new List<Unit>();
+
+    public void BindPlayer(GameObject[] playerarray)
     {
-        
+        for(int i = 0; i < playerarray.Length; i++)
+        {
+            playerUI[i].BindCharacter(playerarray[i].GetComponent<Character>());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
+    #region 턴
     public void SetTurnSlider(List<Unit> units)
     {
         for(int i = 0; i < units.Count; i++)
         {
-            uiUnits.Add(units[i]); 
-            Slider icon = Instantiate(slider, this.transform);
-            icon.name = "Unit" + (i + 1);
-            icon.maxValue = units.Count - 1;
-            icon.handleRect.gameObject.GetComponent<Image>().color = new Color(1 * (float)i / units.Count, 1 * (float)i / units.Count, 1 * (float)i / units.Count);
-            turnSlider.Add(icon);
-            icon.gameObject.SetActive(true);
+            boundUnits.Add(units[i]);
+            TurnSlider icon = Instantiate(slider, turnDisplay.transform).GetComponent<TurnSlider>();
+            turnSlider.Add(icon.GetComponent<Slider>());
+            icon.BindingUnit(units[i], units.Count - 1);
+            icon.StartCoroutine(icon.DisplayTurn());
         }
-        StartCoroutine(DisplayTurn());
     }
 
-    IEnumerator DisplayTurn()
+    public void AnnounceUnitDead(TurnSlider unitIcon)
     {
-        while(true)
+        //턴테이블에서 아이콘 제거 후 남은 턴 조정
+        turnSlider.Remove(unitIcon.slider);
+        unitIcon.gameObject.SetActive(false);
+        foreach(Slider slider in turnSlider)
         {
-            yield return new WaitForSeconds(0.1f);
-            for (int i = 0; i < turnSlider.Count; i++)
+            slider.maxValue = turnSlider.Count - 1;
+        }
+
+        foreach(PlayerBattleUI PUI in playerUI)
+        {
+            if(PUI.boundCharacter == unitIcon.boundUnit)
             {
-                if (uiUnits[i] == N_BattleManager.instance.currentUnit)
-                    turnSlider[i].value = 0;
-                else
-                    turnSlider[i].value = 1 + N_BattleManager.instance.units.IndexOf(uiUnits[i]);
+                PUI.UnBindCharacter();
+                PUI.gameObject.SetActive(false);
             }
         }
     }
+
+    #endregion
 }
