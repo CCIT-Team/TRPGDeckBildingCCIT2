@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 
 
-public class AstarPath : MonoBehaviour
+public class AstarPathValue : MonoBehaviour
 {
 
     [SerializeField] private TMP_Text m_startCelllValue;

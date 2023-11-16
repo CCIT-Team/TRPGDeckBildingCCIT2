@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class WolrdTurn : MonoBehaviour
 {
-    List<GameObject> characterTurnUIs;
     public List<GameObject> players = new List<GameObject>();
     public Character currentPlayer;
+    public int turnNum = 0;
     void Start()
     {
         players = Map.instance.players;
         StartCoroutine(PlayTurn());
     }
 
-    void Update()
+    private void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            turnNum += 1;
+            Debug.Log(turnNum);
+        }
     }
-
     IEnumerator PlayTurn()
     {
         //currentPlayer = players[0].GetComponent<Character>();
@@ -29,6 +32,7 @@ public class WolrdTurn : MonoBehaviour
         players.Remove(currentPlayer.gameObject);
         players.Add(currentPlayer.gameObject);
         currentPlayer = null;
+        turnNum += 1;
         StartCoroutine(PlayTurn());
     }
 }

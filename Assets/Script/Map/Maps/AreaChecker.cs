@@ -5,10 +5,10 @@ using UnityEngine;
 public class AreaChecker : MonoBehaviour
 {
     public int climateNum;
-    BoxCollider boxCol;
+    CapsuleCollider boxCol;
     void Awake()
     {
-        boxCol = gameObject.GetComponent<BoxCollider>();
+        boxCol = gameObject.GetComponent<CapsuleCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,19 +26,16 @@ public class AreaChecker : MonoBehaviour
                     case 0:
                         other.GetComponent<Tile>().climate = Tile.Climate.GRASS;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[0];
-                        other.transform.parent = gameObject.transform;
                         Map.instance.grassTileObjectList.Add(other.gameObject);
                         break;
                     case 1:
                         other.GetComponent<Tile>().climate = Tile.Climate.DESERT;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[1];
-                        other.transform.parent = gameObject.transform;
                         Map.instance.desertTileObjectList.Add(other.gameObject);
                         break;
                     case 2:
                         other.GetComponent<Tile>().climate = Tile.Climate.JUNGLE;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[2];
-                        other.transform.parent = gameObject.transform;
                         Map.instance.junglelTileObjectList.Add(other.gameObject);
                         break;
                 }

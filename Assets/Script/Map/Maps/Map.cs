@@ -1,0 +1,306 @@
+using csDelaunay;
+using System.Collections.Generic;
+using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Linq;
+using Random = UnityEngine.Random;
+
+public class Map : MonoBehaviour
+{
+    public static Map instance;
+    public MapDraw mapDraw;
+    public Vector2Int size;
+
+    [SerializeField] private int nodeAmount = 0;
+    [SerializeField] List<Vector2> centroids;
+    [SerializeField] private SpriteRenderer voronoiMapRenderer = null;
+    [SerializeField] private int lloydIterationCount = 0;
+    [SerializeField, Range(0f, 0.4f)] private float noiseFrequency = 0;
+    [SerializeField] private int noiseOctave = 0;
+    [SerializeField] private int noiseMaskRadius = 0;
+    [SerializeField, Range(0f, 0.5f)] private float landNoiseThreshold = 0;
+    [SerializeField] private SpriteRenderer noiseMapRenderer = null;
+    [SerializeField] private bool lockSeed = true;
+    [SerializeField] private int _seed = 0;
+    [SerializeField] Rect wolrdRect;
+    [SerializeField] int wolrdRectx = 0;
+    [SerializeField] int wolrdRecty = 0;
+    Voronoi voronoi;
+
+    [Header("Climate")]
+    public GameObject grass;
+    public GameObject desert;
+    public GameObject jungle;
+
+    [Header("TileObject")]
+    GameObject tileObject;
+    public GameObject hexagon;
+    public GameObject readingStick;
+    [HideInInspector] public Tile startTile;
+    [HideInInspector] public Tile dragonStartTile;
+    public List<GameObject> totalTileObjectList;
+    public List<GameObject> grassTileObjectList;
+    public List<GameObject> desertTileObjectList;
+    public List<GameObject> junglelTileObjectList;
+    public List<Tile> pathTileObjectList;
+    public List<Tile> kingdomTile;
+    int tileNum = 0;
+    [Header("Player")]
+    public List<GameObject> players = new List<GameObject>();
+    public bool isOutofUI = false;
+    [Header("Dragon")]
+    public GameObject dragon;
+    [Header("Map UI")]
+    public MapUI mapUI;
+    public WolrdTurn wolrdTurn;
+
+    [Header("Other")]
+    public bool isBattle = false;
+    public bool isFirst = true;
+
+    public float playerMoveSpeed;
+    public bool isPlayerOnEndTile = false;
+    bool isPlayerMoving = false;
+
+    private void Awake()
+    {
+        instance = this;
+
+        if (isFirst) { GenerateMap(); }
+        else { SaveMap(); }
+        wolrdRect = new Rect(22.5f, 24, wolrdRectx, wolrdRecty);
+        size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
+        voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
+        voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
+        GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+        players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].name = players[i].GetComponent<Character_type>().nickname;
+        }
+        MapSetting();
+    }
+
+    private void Start()
+    {
+        //TestClimate();
+        //GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+        //players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+        //for (int i = 0; i < players.Count; i++)
+        //{
+        //    players[i].name = players[i].GetComponent<Character_type>().nickname;
+        //}
+        mapUI.SetTurnSlider(players);
+    }
+
+    void SaveMap()
+    {
+
+    }
+
+    void MapSetting()
+    {
+        //Kingdom
+        totalTileObjectList[75].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[75].GetComponent<Tile>());
+        totalTileObjectList[88].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[88].GetComponent<Tile>());
+        totalTileObjectList[178].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[178].GetComponent<Tile>());
+        totalTileObjectList[221].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[221].GetComponent<Tile>());
+        totalTileObjectList[412].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[412].GetComponent<Tile>());
+        totalTileObjectList[468].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[468].GetComponent<Tile>());
+        //Monster
+        totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[50].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[138].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[198].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[368].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[275].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[185].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[323].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[518].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[544].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
+        Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
+            1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity);
+    }
+
+    public void PlayerMovePath(Tile objects)
+    {
+        // player.transform.position = new Vector3(objects.gameObject.transform.position.x,0, objects.gameObject.transform.position.z);
+        pathTileObjectList.Add(objects);
+    }
+    int currentPositionNum = 1;
+    void MovePlayer()
+    {
+        if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
+        {
+            isPlayerMoving = true;
+            wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
+            wolrdTurn.currentPlayer.transform.Translate(new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
+                0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+
+            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
+            {
+                if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
+                else { currentPositionNum = pathTileObjectList.Count - 1; }
+                isPlayerMoving = false;
+            }
+        }
+
+        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f)
+        {
+            if(!isOutofUI)
+            {
+                wolrdTurn.currentPlayer.isMyturn = false;
+                startTile = null;
+                currentPositionNum = 1;
+                pathTileObjectList.Clear();
+                isPlayerOnEndTile = true;
+                isPlayerMoving = false;
+            }
+        }
+    }
+    int movePoint;
+    int currentPoint = -1;
+    private void Update()
+    {
+        MovePlayer();
+    }
+
+    public void GenerateMap()
+    {
+        var noiseColors = CreateMapShape(size, noiseFrequency, noiseOctave);
+
+        noiseMapRenderer.sprite = mapDraw.DrawSprite(size, noiseColors);
+    }
+    //void TestClimate()
+    //{
+    //    foreach (var site in voronoi.Sites)
+    //    {
+    //        var neighbors = site.NeighborSites();
+    //        foreach (var neighbor in neighbors)
+    //        {
+    //            var edge = voronoi.FindEdgeFromAdjacentPolygons(site, neighbor);
+
+    //            if (edge.ClippedVertices is null)
+    //            {
+    //                continue;
+    //            }
+
+    //            Vector2 corner1 = edge.ClippedVertices[LR.LEFT];
+    //            Vector2 corner2 = edge.ClippedVertices[LR.RIGHT];
+
+
+    //            Vector3 p0 = new Vector3(corner1.x, 0, corner1.y);
+    //            Vector3 p1 = new Vector3(corner2.x, 0, corner2.y);
+    //            Vector3 p01 = p1 - p0;
+    //            //Gizmos.color = Color.black;
+    //            //Gizmos.DrawLine(p0, p1);
+    //            Debug.Log(p0 + "P0");
+    //            Debug.Log(p1 + "P1");
+    //            GameObject aa = Instantiate(new GameObject("p0"), new Vector3(p0.x, p0.y + 0.1f, p0.z), Quaternion.identity);
+    //            aa.AddComponent(typeof(BoxCollider));
+    //            aa.GetComponent<BoxCollider>().size = (p1 - p0).normalized;
+    //            GameObject bb = Instantiate(new GameObject("p1"), new Vector3(p1.x, p1.y + 0.1f, p1.z), Quaternion.identity);
+    //            bb.AddComponent(typeof(BoxCollider));
+    //            bb.GetComponent<BoxCollider>().size = (p1 - p0).normalized;
+    //        }
+    //    }
+    //}
+    private Voronoi GenerateVoronoi(Vector2 size, int nodeAmount, int lloydIterationCount)
+    {
+        centroids = new List<Vector2>();
+
+        // 무게 중심을 nodeAmount만큼 생성
+        for (int i = 0; i < nodeAmount; ++i)
+        {
+            float x = Random.Range(0, size.x);
+            float y = Random.Range(0, size.y);
+
+            centroids.Add(new Vector2(x, y));
+        }
+
+        Rect Rect = new Rect(0, 0, size.x, size.y);
+        Voronoi voronoi = new Voronoi(centroids, Rect, lloydIterationCount);
+
+        return voronoi;
+    }
+
+    private float[] CreateMapShape(Vector2Int size, float frequency, int octave)
+    {
+        var seed = (_seed == 0) ? Random.Range(1, int.MaxValue) : _seed;
+
+        var noise = new FastNoiseLite();
+        noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+        noise.SetFractalType(FastNoiseLite.FractalType.FBm);
+        noise.SetFrequency(frequency);
+        noise.SetFractalOctaves(octave);
+        noise.SetSeed(seed);
+        var mask = mapDraw.GetRadialGradientMask(size, noiseMaskRadius);
+        float[] colorDatas = new float[size.x * size.y];
+        var index = 0;
+        for (int x = 0; x < size.x; ++x)
+        {
+            for (int y = 0; y < size.y; ++y)
+            {
+                var noiseColorFactor = noise.GetNoise(x, y);
+                noiseColorFactor = (noiseColorFactor + 1) * 0.5f;
+                noiseColorFactor *= mask[index];
+                float color = noiseColorFactor > landNoiseThreshold ? 1f : 0f;
+                colorDatas[index] = color;
+                if (color > 0)
+                {
+                    if (x % 2 == 0)
+                    {
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
+                        Tile tile = tileObject.GetComponent<Tile>();
+                        tile.position = new Vector3Int(x, 0, y);
+                        tileObject.name = "Tile" + tileNum;
+                        totalTileObjectList.Add(tileObject);
+                        if (wolrdRectx < totalTileObjectList[tileNum].transform.position.x)
+                        {
+                            wolrdRectx = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.x);
+                        }
+                        if (wolrdRecty < totalTileObjectList[tileNum].transform.position.z)
+                        {
+                            wolrdRecty = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.z);
+                        }
+                        tileNum += 1;
+                    }
+                    else
+                    {
+                        tileObject = Instantiate(hexagon, new Vector3(x * 1.5f, 0, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
+                        Tile tile = tileObject.GetComponent<Tile>();
+                        tile.position = new Vector3Int(x, 0, y);
+                        tileObject.name = "Tile" + tileNum;
+                        totalTileObjectList.Add(tileObject);
+                        if (wolrdRectx < totalTileObjectList[tileNum].transform.position.x)
+                        {
+                            wolrdRectx = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.x);
+                        }
+                        if (wolrdRecty < totalTileObjectList[tileNum].transform.position.z)
+                        {
+                            wolrdRecty = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.z);
+                        }
+                        tileNum += 1;
+                    }
+                }
+                ++index;
+            }
+        }
+        return colorDatas;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector3(wolrdRect.x, 0, wolrdRect.y), new Vector3(size.x, 0, size.y));
+    }
+}
