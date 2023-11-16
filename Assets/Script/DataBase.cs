@@ -25,6 +25,9 @@ public class DataBase : MonoBehaviour
     public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
     public List<CardData> cardData = new List<CardData>();
     public List<MonsterData> monsterData = new List<MonsterData>();
+    public List<WeaponData> weaponData = new List<WeaponData>();
+    public List<ArmorData> armorData = new List<ArmorData>();
+    public List<ItemData> itemData = new List<ItemData>();
     public List<PlayerType> loadTypeData = new List<PlayerType>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
     public List<PlayerCard> loadCardData = new List<PlayerCard>();
@@ -243,68 +246,7 @@ public class DataBase : MonoBehaviour
         }
         dataReader.Close();
 
-        tableName = "Fighter_CardData";
-        dbCommand.CommandText = "SELECT * FROM " + tableName;
-        dataReader = dbCommand.ExecuteReader();
-
-        while (dataReader.Read())
-        {
-            int no = dataReader.GetInt32(0);
-            string name = dataReader.GetString(1);
-            string variableName = dataReader.GetString(2);
-            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
-            string description = dataReader.GetString(4);
-            int defaultXvalue = dataReader.GetInt32(5);
-            string effect = dataReader.GetString(6);
-            int effectUseTurn = dataReader.GetInt32(7);
-            int useCost = dataReader.GetInt32(8);
-            int token = dataReader.GetInt32(9);
-
-            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-        }
-        dataReader.Close();
-
-        tableName = "Wizard_CardData";
-        dbCommand.CommandText = "SELECT * FROM " + tableName;
-        dataReader = dbCommand.ExecuteReader();
-
-        while (dataReader.Read())
-        {
-            int no = dataReader.GetInt32(0);
-            string name = dataReader.GetString(1);
-            string variableName = dataReader.GetString(2);
-            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
-            string description = dataReader.GetString(4);
-            int defaultXvalue = dataReader.GetInt32(5);
-            string effect = dataReader.GetString(6);
-            int effectUseTurn = dataReader.GetInt32(7);
-            int useCost = dataReader.GetInt32(8);
-            int token = dataReader.GetInt32(9);
-
-            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-        }
-        dataReader.Close();
-
-        tableName = "Cleric_CardData";
-        dbCommand.CommandText = "SELECT * FROM " + tableName;
-        dataReader = dbCommand.ExecuteReader();
-
-        while (dataReader.Read())
-        {
-            int no = dataReader.GetInt32(0);
-            string name = dataReader.GetString(1);
-            string variableName = dataReader.GetString(2);
-            CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
-            string description = dataReader.GetString(4);
-            int defaultXvalue = dataReader.GetInt32(5);
-            string effect = dataReader.GetString(6);
-            int effectUseTurn = dataReader.GetInt32(7);
-            int useCost = dataReader.GetInt32(8);
-            int token = dataReader.GetInt32(9);
-
-            cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-        }
-        dataReader.Close();
+        LoadCardData(dbCommand, dataReader);
 
         tableName = "MonsterData";
         dbCommand.CommandText = "SELECT * FROM " + tableName;
@@ -339,9 +281,144 @@ public class DataBase : MonoBehaviour
             monsterData.Add(new MonsterData(no, name, level, type, hp, strength, intelligence, luck, speed, action1, action2, action3, giveExp, dropGold, dropitem1, dropitem1Percentage, dropitem2, dropitem2Percentage, dropitem3, dropitem3Percentage));
         }
         dataReader.Close();
+
+        tableName = "WeaponData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            WeaponData.Type type = (WeaponData.Type)Enum.Parse(typeof(WeaponData.Type), dataReader.GetString(2));
+            Grade grade = (Grade)Enum.Parse(typeof(Grade), dataReader.GetString(3));
+            int level = dataReader.GetInt32(4);
+            WeaponData.EquipType equipType = (WeaponData.EquipType)Enum.Parse(typeof(WeaponData.EquipType), dataReader.GetString(5));
+            int strength = dataReader.GetInt32(6);
+            int intelligence = dataReader.GetInt32(7);
+            int luck = dataReader.GetInt32(8);
+            int speed = dataReader.GetInt32(9);
+
+            int getCard1 = dataReader.GetInt32(10);
+            int getCard1Count = dataReader.GetInt32(11);
+
+            int getCard2 = dataReader.GetInt32(12);
+            int getCard2Count = dataReader.GetInt32(13);
+
+            int getCard3 = dataReader.GetInt32(14);
+            int getCard3Count = dataReader.GetInt32(15);
+
+            int getCard4 = dataReader.GetInt32(16);
+            int getCard4Count = dataReader.GetInt32(17);
+
+            int getCard5 = dataReader.GetInt32(18);
+            int getCard5Count = dataReader.GetInt32(19);
+
+            int getCard6 = dataReader.GetInt32(20);
+            int getCard6Count = dataReader.GetInt32(21);
+
+            int getCard7 = dataReader.GetInt32(22);
+            int getCard7Count = dataReader.GetInt32(23);
+
+            int getCard8 = dataReader.GetInt32(24);
+            int getCard8Count = dataReader.GetInt32(25);
+
+            int buyGold = dataReader.GetInt32(26);
+            int sellGold = dataReader.GetInt32(27);
+
+            weaponData.Add(new WeaponData(no, name, type, grade, level, equipType, strength, intelligence, luck, speed,
+                getCard1, getCard1Count, getCard2, getCard2Count, getCard3, getCard3Count, getCard4, getCard4Count, getCard5, getCard5Count, getCard6, getCard6Count, getCard7, getCard7Count, getCard8, getCard8Count,
+                buyGold, sellGold));
+        }
+        dataReader.Close();
+
+        tableName = "ArmorData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            ArmorData.Type type = (ArmorData.Type)Enum.Parse(typeof(ArmorData.Type), dataReader.GetString(2));
+            Grade grade = (Grade)Enum.Parse(typeof(Grade), dataReader.GetString(3));
+            int level = dataReader.GetInt32(4);
+            int strength = dataReader.GetInt32(5);
+            int intelligence = dataReader.GetInt32(6);
+            int luck = dataReader.GetInt32(7);
+            int speed = dataReader.GetInt32(8);
+
+            int getCard1 = dataReader.GetInt32(9);
+            int getCard1Count = dataReader.GetInt32(10);
+
+            int getCard2 = dataReader.GetInt32(11);
+            int getCard2Count = dataReader.GetInt32(12);
+
+            int getCard3 = dataReader.GetInt32(13);
+            int getCard3Count = dataReader.GetInt32(14);
+
+            int getCard4 = dataReader.GetInt32(15);
+            int getCard4Count = dataReader.GetInt32(16);
+
+            int buyGold = dataReader.GetInt32(17);
+            int sellGold = dataReader.GetInt32(18);
+
+            armorData.Add(new ArmorData(no, name, type, grade, level, strength, intelligence, luck, speed,
+                getCard1, getCard1Count, getCard2, getCard2Count, getCard3, getCard3Count, getCard4, getCard4Count,
+                buyGold, sellGold));
+        }
+        dataReader.Close();
+
+        tableName = "ItemData";
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            string effect = dataReader.GetString(2);
+
+            int buyGold = dataReader.GetInt32(3);
+            int sellGold = dataReader.GetInt32(4);
+            int useCost = dataReader.GetInt32(5);
+
+            itemData.Add(new ItemData(no, name, effect, buyGold, sellGold, useCost));
+        }
+        dataReader.Close();
+
         dbConnection.Close();
     }
+    private void LoadCardData(IDbCommand dbCommand, IDataReader dataReader)
+    {
+        string[] tableNames = { "Fighter_CardData", "Wizard_CardData", "Cleric_CardData", "OnehandSword_CardData", "TwohandSword_CardData" };
+
+        for (int i = 0; i < tableNames.Length; i++)
+        {
+            dbCommand.CommandText = "SELECT * FROM " + tableNames[i];
+            dataReader = dbCommand.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                int no = dataReader.GetInt32(0);
+                string name = dataReader.GetString(1);
+                string variableName = dataReader.GetString(2);
+                CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
+                string description = dataReader.GetString(4);
+                int defaultXvalue = dataReader.GetInt32(5);
+                string effect = dataReader.GetString(6);
+                int effectUseTurn = dataReader.GetInt32(7);
+                int useCost = dataReader.GetInt32(8);
+                int token = dataReader.GetInt32(9);
+
+                cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+            }
+
+            dataReader.Close();
+        }
+    }
 }
+
 
 
 #region 플레이어 타입
@@ -522,23 +599,23 @@ public class CardData
 {
     public enum CardType
     {
-        Single_Attack,
-        Multi_Attack,
-        All_Attack,
+        SingleAttack,
+        MultiAttack,
+        AllAttack,
 
-        Single_Defence,
-        Multi_Defence,
-        All_Denfence,
+        SingleDefence,
+        MultiDefence,
+        AllDenfence,
 
-        Single_Increase,
-        Multi_Increase,
-        All_Increase,
+        SingleIncrease,
+        MultiIncrease,
+        AllIncrease,
 
-        Single_Endow,
-        Multi_Endow,
-        All_Endow,
+        SingleEndow,
+        MultiEndow,
+        AllEndow,
 
-        Card_Draw
+        CardDraw
     }
     public int no;
     public string name;
@@ -623,6 +700,202 @@ public class MonsterData
         dropitem2Percentage = _dropitem2Percentage;
         dropitem3 = _dropitem3;
         dropitem3Percentage = _dropitem3Percentage;
+    }
+}
+#endregion
+
+#region 무기 데이터
+public enum Grade
+{
+    uncommon,
+    common,
+    rare,
+    unique,
+    legend
+}
+[Serializable]
+public class WeaponData
+{
+    public enum Type
+    {
+        OnehandSword,
+        TwohandSword,
+        Axe,
+        Mace,
+        Shield,
+        Wand,
+        Staff,
+        Culb,
+        Hammer
+    }
+    public enum EquipType
+    {
+        OneHand,
+        TwoHand
+    }
+
+    public int no;
+    public string name;
+    public Type type;
+    public Grade grade;
+    public int level;
+    public EquipType equipType;
+    public int strength;
+    public int intelligence;
+    public int luck;
+    public int speed;
+
+    public int getCard1;
+    public int getCard1Count;
+    public int getCard2;
+    public int getCard2Count;
+    public int getCard3;
+    public int getCard3Count;
+    public int getCard4;
+    public int getCard4Count;
+    public int getCard5;
+    public int getCard5Count;
+    public int getCard6;
+    public int getCard6Count;
+    public int getCard7;
+    public int getCard7Count;
+    public int getCard8;
+    public int getCard8Count;
+
+    public int buyGold;
+    public int sellGold;
+
+    public WeaponData(int _no, string _name, Type _type, Grade _grade, int _level, EquipType _equipType, int _strength, int _intelligence, int _luck, int _speed,
+        int _getCard1, int _getCard1Count, int _getCard2, int _getCard2Count, int _getCard3, int _getCard3Count, int _getCard4, int _getCard4Count, int _getCard5, int _getCard5Count, int _getCard6, int _getCard6Count, int _getCard7, int _getCard7Count, int _getCard8, int _getCard8Count, 
+        int _buyGold, int _sellGold)
+    {
+        no = _no;
+        name = _name;
+        type = _type;
+        grade = _grade;
+        level = _level;
+        equipType = _equipType;
+        strength = _strength;
+        intelligence = _intelligence;
+        luck = _luck;
+        speed = _speed;
+
+        getCard1 = _getCard1;
+        getCard1Count = _getCard1Count;
+
+        getCard2 = _getCard2;
+        getCard2Count = _getCard2Count;
+
+        getCard3 = _getCard3;
+        getCard3Count = _getCard3Count;
+
+        getCard4 = _getCard4;
+        getCard4Count = _getCard4Count;
+
+        getCard5 = _getCard5;
+        getCard5Count = _getCard5Count;
+
+        getCard6 = _getCard6;
+        getCard6Count = _getCard6Count;
+
+        getCard7 = _getCard7;
+        getCard7Count = _getCard7Count;
+
+        getCard8 = _getCard8;
+        getCard8Count = _getCard8Count;
+
+        buyGold = _buyGold;
+        sellGold = _sellGold;
+    }
+}
+#endregion
+
+#region 방어구 데이터
+[Serializable]
+public class ArmorData
+{
+    public enum Type
+    {
+        Head,
+        Armor,
+        Jewel
+    }
+
+    public int no;
+    public string name;
+    public Type type;
+    public Grade grade;
+    public int level;
+    public int strength;
+    public int intelligence;
+    public int luck;
+    public int speed;
+
+    public int getCard1;
+    public int getCard1Count;
+    public int getCard2;
+    public int getCard2Count;
+    public int getCard3;
+    public int getCard3Count;
+    public int getCard4;
+    public int getCard4Count;
+
+    public int buyGold;
+    public int sellGold;
+
+    public ArmorData(int _no, string _name, Type _type, Grade _grade, int _level, int _strength, int _intelligence, int _luck, int _speed,
+        int _getCard1, int _getCard1Count, int _getCard2, int _getCard2Count, int _getCard3, int _getCard3Count, int _getCard4, int _getCard4Count,
+        int _buyGold, int _sellGold)
+    {
+        no = _no;
+        name = _name;
+        type = _type;
+        grade = _grade;
+        level = _level;
+        strength = _strength;
+        intelligence = _intelligence;
+        luck = _luck;
+        speed = _speed;
+
+        getCard1 = _getCard1;
+        getCard1Count = _getCard1Count;
+
+        getCard2 = _getCard2;
+        getCard2Count = _getCard2Count;
+
+        getCard3 = _getCard3;
+        getCard3Count = _getCard3Count;
+
+        getCard4 = _getCard4;
+        getCard4Count = _getCard4Count;
+
+        buyGold = _buyGold;
+        sellGold = _sellGold;
+    }
+}
+#endregion
+
+#region 아이템 데이터
+[Serializable]
+public class ItemData
+{
+    public int no;
+    public string name;
+    public string effect;
+
+    public int buyGold;
+    public int sellGold;
+    public int useCost;
+
+    public ItemData(int _no, string _name, string _effect, int _buyGold, int _sellGold, int _useCost)
+    {
+        no = _no;
+        name = _name;
+        effect = _effect;
+
+        buyGold = _buyGold;
+        sellGold = _sellGold;
+        useCost = _useCost;
     }
 }
 #endregion

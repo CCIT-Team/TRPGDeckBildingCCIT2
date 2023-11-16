@@ -18,8 +18,8 @@ public class Unit : MonoBehaviour
     protected BattleState battleState;
 
     [SerializeField]
-    protected float hp;
-    protected virtual float Hp
+    public float hp;
+    public virtual float Hp
     {
         get
         {
@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    [SerializeField] protected float maxHp = 0.0f;
+    [SerializeField] public float maxHp = 0.0f;
 
     public float Damaged(float atk)
     {

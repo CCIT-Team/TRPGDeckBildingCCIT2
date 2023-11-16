@@ -34,22 +34,22 @@ public class Monster : Unit
 
     public bool isMyturn;
 
-    protected override float Hp
-    {
-        get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value;
-            if (hp <= 0)
-            {
-                battleState = BattleState.Death;
-                N_BattleManager.instance.ExitBattle(this);
-            }
-        }
-    }   //40
+    //protected override float Hp
+    //{
+    //    get
+    //    {
+    //        return hp;
+    //    }
+    //    set
+    //    {
+    //        hp = value;
+    //        if (hp <= 0)
+    //        {
+    //            battleState = BattleState.Death;
+    //            N_BattleManager.instance.ExitBattle(this);
+    //        }
+    //    }
+    //}   //40
 
     void Start()
     {

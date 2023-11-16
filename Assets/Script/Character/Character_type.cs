@@ -21,14 +21,6 @@ public class Character_type : MonoBehaviour
 
     private string insertQuery;
 
-    //public void SetUnitType(int _playerNum, string _nickname, PlayerType.Major _major, PlayerType.Gender _gender, PlayerType.AvatarType _avatarType)
-    //{
-    //    playerNum = _playerNum;
-    //    nickname = _nickname;
-    //    major = _major;
-    //    gender = _gender;
-    //    avatarType = _avatarType;
-    //}
     public void SetUnitType(PlayerType type)
     {
         playerNum = type.playerNum;
