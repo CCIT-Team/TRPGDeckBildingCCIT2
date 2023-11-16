@@ -39,7 +39,7 @@ public class TileSelector : MonoBehaviour
                     startPoint.isSelect = true;
                     startPoint.IsSelect(Color.red);
                 }
-                if (!isEndTileSelect)
+                if (!isEndTileSelect && !Map.instance.isOutofUI)
                 {
                     if (endPoint == null)
                     {
@@ -50,7 +50,7 @@ public class TileSelector : MonoBehaviour
                         int walkNum = 0;
                         //foreach (Tile game in tilePath)
                         //{
-                        if(Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
+                        if (Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
                         {
                             for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
                             {
@@ -97,30 +97,33 @@ public class TileSelector : MonoBehaviour
         }
         if (mouseButton == MouseButton.Right)
         {
-            isEndTileSelect = true;
-            endPoint.isSelect = true;
-            tilePath.Clear();
-            tilePath = astar.FindPath(startPoint, endPoint);
-            tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
-            if (Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
+            if (endPoint != null)
             {
-                endPoint = tilePath[Map.instance.wolrdTurn.currentPlayer.cost];
-                endPoint.IsSelect(Color.blue);
-                for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
+                isEndTileSelect = true;
+                endPoint.isSelect = true;
+                tilePath.Clear();
+                tilePath = astar.FindPath(startPoint, endPoint);
+                tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                if (Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
                 {
-                    Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
-                    material.color = Color.cyan;
-                    map.PlayerMovePath(tilePath[i]);
+                    endPoint = tilePath[Map.instance.wolrdTurn.currentPlayer.cost];
+                    endPoint.IsSelect(Color.blue);
+                    for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
+                    {
+                        Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                        material.color = Color.cyan;
+                        map.PlayerMovePath(tilePath[i]);
+                    }
                 }
-            }
-            else
-            {
-                endPoint.IsSelect(Color.blue);
-                for (int i = 0; i < tilePath.Count; i++)
+                else
                 {
-                    Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
-                    material.color = Color.cyan;
-                    map.PlayerMovePath(tilePath[i]);
+                    endPoint.IsSelect(Color.blue);
+                    for (int i = 0; i < tilePath.Count; i++)
+                    {
+                        Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                        material.color = Color.cyan;
+                        map.PlayerMovePath(tilePath[i]);
+                    }
                 }
             }
         }

@@ -28,6 +28,7 @@ public class WolrdTurn : MonoBehaviour
         else { currentPlayer = players[0].GetComponent<Character>(); }
         currentPlayer.GetComponent<Character>().isMyturn = true;
         yield return new WaitUntil(() => !currentPlayer.GetComponent<Character>().isMyturn);
+        yield return new WaitUntil(() => !Map.instance.isOutofUI);
 
         players.Remove(currentPlayer.gameObject);
         players.Add(currentPlayer.gameObject);

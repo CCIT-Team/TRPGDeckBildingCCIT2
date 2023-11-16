@@ -239,20 +239,23 @@ public class Tile : MonoBehaviour
             {
 
             }
-            else if (isMonsterTile && !Map.instance.isBattle)
+            else if (isMonsterTile && !Map.instance.isBattle && !Map.instance.isPlayerMoving)
             {
                 //GameManager.instance.LoadScenceName("New Battle");
                 //Map.instance.isBattle = true;
                 //Debug.Log("전투진입");
                 tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
             }
-            else if (isBossTile)
+            else if (isBossTile && !Map.instance.isPlayerMoving)
             {
                 tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
             }
-            else if (isKingdomTile)
+            else if (isKingdomTile && !Map.instance.isPlayerMoving)
             {
                 tileUI.OnShopAndHospital();
+                Map.instance.isOutofUI = true;
             }
             else if (isVillageTile)
             {
@@ -297,6 +300,23 @@ public class Tile : MonoBehaviour
                     Map.instance.isPlayerOnEndTile = true;
                     Map.instance.isOutofUI = false;
                 }
+            }
+            if (isSpawnTile)
+            {
+
+            }
+            else if (isMonsterTile && !Map.instance.isBattle && !Map.instance.isPlayerMoving)
+            {
+                //GameManager.instance.LoadScenceName("New Battle");
+                //Map.instance.isBattle = true;
+                //Debug.Log("전투진입");
+                tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
+            }
+            else if (isKingdomTile && !Map.instance.isPlayerMoving)
+            {
+                tileUI.OnShopAndHospital();
+                Map.instance.isOutofUI = true;
             }
         }
         if (other.CompareTag("Dragon"))

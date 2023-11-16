@@ -40,17 +40,18 @@ public class Map : MonoBehaviour
     [HideInInspector] public Tile startTile;
     [HideInInspector] public Tile dragonStartTile;
     public List<GameObject> totalTileObjectList;
-    public List<GameObject> grassTileObjectList;
-    public List<GameObject> desertTileObjectList;
-    public List<GameObject> junglelTileObjectList;
+    //public List<GameObject> grassTileObjectList;
+    //public List<GameObject> desertTileObjectList;
+    //public List<GameObject> junglelTileObjectList;
     public List<Tile> pathTileObjectList;
     public List<Tile> kingdomTile;
     int tileNum = 0;
     [Header("Player")]
     public List<GameObject> players = new List<GameObject>();
     public bool isOutofUI = false;
-    [Header("Dragon")]
+    [Header("Monster")]
     public GameObject dragon;
+    public List<GameObject> monsterList;
     [Header("Map UI")]
     public MapUI mapUI;
     public WolrdTurn wolrdTurn;
@@ -61,7 +62,7 @@ public class Map : MonoBehaviour
 
     public float playerMoveSpeed;
     public bool isPlayerOnEndTile = false;
-    bool isPlayerMoving = false;
+    public bool isPlayerMoving = false;
 
     private void Awake()
     {
@@ -145,13 +146,18 @@ public class Map : MonoBehaviour
         if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
         {
             isPlayerMoving = true;
-            wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
-            wolrdTurn.currentPlayer.transform.Translate(
-                new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x, 
-                pathTileObjectList[currentPositionNum].gameObject.transform.position.y + 1
-                , pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+            // wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
+            //wolrdTurn.currentPlayer.transform.Translate(
+            //    new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x, 
+            //    pathTileObjectList[currentPositionNum].gameObject.transform.position.y + 1
+            //    , pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+            wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(pathTileObjectList[currentPositionNum].transform.position);
+            wolrdTurn.currentPlayer.transform.position = Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position, new Vector3(
+               pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
+               pathTileObjectList[currentPositionNum].gameObject.transform.position.y + 0.5f,
+               pathTileObjectList[currentPositionNum].gameObject.transform.position.z), 0.1f);
 
-            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
+            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f && isPlayerMoving)
             {
                 if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
                 else { currentPositionNum = pathTileObjectList.Count - 1; }
@@ -159,7 +165,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f)
+        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f)
         {
             if(!isOutofUI)
             {
