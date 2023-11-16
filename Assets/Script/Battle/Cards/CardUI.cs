@@ -23,7 +23,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             bindCard = GetComponent<N_Card>();
     }
 
-    public void DisplayInfoInUI()
+    public void DisplayOnUI()
     {
         cardName.text = bindCard.cardData.name;
         description.text = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
@@ -55,9 +55,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             transform.position = defaultPosition;
         }
     }
-
-
-
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {

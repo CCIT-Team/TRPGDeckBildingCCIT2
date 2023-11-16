@@ -154,44 +154,42 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         foreach (CardData cardData in DataBase.instance.cardData)
         {
             indexByWeapon = int.Parse(cardData.no.ToString().Substring(0, 2));
-            switch (indexByWeapon)
+            switch (indexByWeapon)  //직업,장비 별 시작 인덱스이므로 그 직업의 번호가 아닌 다음 번호에 ++
             {
                 case 50:    //워리어
-                    CardStartIndexOfType[0]++;
+                    CardStartIndexOfType[1]++;
                     goto case 51;
                 case 51:
-                    CardStartIndexOfType[1]++;
+                    CardStartIndexOfType[2]++;
                     goto case 52;
                 case 52:
-                    CardStartIndexOfType[2]++;
+                    CardStartIndexOfType[3]++;
                     goto case 53;
                 case 53:
-                    CardStartIndexOfType[3]++;
+                    CardStartIndexOfType[4]++;
                     goto case 54;
                 case 54:
-                    CardStartIndexOfType[4]++;
+                    CardStartIndexOfType[5]++;
                     goto case 55;
                 case 55:
-                    CardStartIndexOfType[5]++;
+                    CardStartIndexOfType[6]++;
                     goto case 56;
                 case 56:
-                    CardStartIndexOfType[6]++;
+                    CardStartIndexOfType[7]++;
                     goto case 57;
                 case 57:
-                    CardStartIndexOfType[7]++;
+                    CardStartIndexOfType[8]++;
                     goto case 58;
                 case 58:
-                    CardStartIndexOfType[8]++;
+                    CardStartIndexOfType[9]++;
                     goto case 59;
                 case 59:
-                    CardStartIndexOfType[9]++;
-                    goto case 60;
-                case 60:    //메지션
                     CardStartIndexOfType[10]++;
-                    goto case 70;
-                case 70:    //클레릭
+                    goto case 60;
+                case 60:    //매지션
                     CardStartIndexOfType[11]++;
                     break;
+                    //70 부터 클레릭 시작이므로 case x
             }
         }
     }
