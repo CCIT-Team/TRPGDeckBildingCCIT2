@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dragon : MonoBehaviour
 {
-    [SerializeField] float dragonSpeed = 1;
+    [SerializeField] float dragonSpeed = 0;
     public DragonState dragonState;
     public List<Tile> moveList;
     int currentPositionNum = 1;
@@ -40,6 +40,10 @@ public class Dragon : MonoBehaviour
             currentDragonTile = Map.instance.dragonStartTile;
             TargetSetting();
         }
+        if(Map.instance.wolrdTurn.turnNum % 3 == 0 && Map.instance.wolrdTurn.turnNum > 2)
+        {
+            MoveDragon();
+        }
     }
 
     void TargetSetting()
@@ -60,24 +64,20 @@ public class Dragon : MonoBehaviour
             dragonState = DragonState.FLYING;
             //transform.Translate(new Vector3(moveList[currentPositionNum].gameObject.transform.position.x,
             //    0, moveList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-            Vector3.MoveTowards(transform.position, moveList[currentPositionNum].gameObject.transform.position, dragonSpeed);
-            transform.LookAt(moveList[currentPositionNum].transform.localPosition);
+            transform.position = Vector3.MoveTowards(transform.position, moveList[currentPositionNum].gameObject.transform.position, dragonSpeed);
+           // transform.LookAt(moveList[currentPositionNum].transform.localPosition);
             Debug.Log(Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) + "Distance Dragon");
-            if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 1.5f)
+            if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 0.1f)
             {
                 if (currentPositionNum < moveList.Count) { currentPositionNum += 1; }
                 else { currentPositionNum = moveList.Count - 1; }
                 dragonState = DragonState.IDLE;
                 isdragonTurn = false;
-                currentDragonTile = null;
-            }
-            else
-            {
-                StartCoroutine(DragonMoveState());
+                currentDragonTile = Map.instance.dragonStartTile;
             }
         }
 
-        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1.5f)
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 0.1f)
         {
             isdragonTurn = false;
             dragonState = DragonState.IDLE;
@@ -116,7 +116,6 @@ public class Dragon : MonoBehaviour
             currentPositionNum = 1;
             moveList.Clear();
             Burning();
-            StartCoroutine(DragonMoveState());
         }
     }
 
