@@ -170,6 +170,11 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void DestroyKingdom()
+    {
+
+    }
+
     //public void MakeKingdom()
     //{
     //    if (isKingdomTile)
@@ -260,11 +265,7 @@ public class Tile : MonoBehaviour
         }
         if (col.CompareTag("Dragon"))
         {
-            dragon = col.gameObject;
-            if (Map.instance.dragonStartTile == null)
-            {
                 Map.instance.dragonStartTile = this;
-            }
         }
     }
 
@@ -300,11 +301,7 @@ public class Tile : MonoBehaviour
         }
         if (other.CompareTag("Dragon"))
         {
-            dragon = other.gameObject;
-            if (Map.instance.dragonStartTile == null)
-            {
                 Map.instance.dragonStartTile = this;
-            }
         }
     }
 }

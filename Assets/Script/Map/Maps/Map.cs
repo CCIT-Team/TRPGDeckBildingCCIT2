@@ -73,7 +73,10 @@ public class Map : MonoBehaviour
         size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
         voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
-        GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+        GameManager.instance.GetLoadAvatar(
+            new Vector3(totalTileObjectList[0].transform.position.x, 
+            totalTileObjectList[0].transform.position.y + 0.5f, 
+            totalTileObjectList[0].transform.position.z));
         players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         for (int i = 0; i < players.Count; i++)
         {
@@ -143,8 +146,10 @@ public class Map : MonoBehaviour
         {
             isPlayerMoving = true;
             wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
-            wolrdTurn.currentPlayer.transform.Translate(new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
-                0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+            wolrdTurn.currentPlayer.transform.Translate(
+                new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x, 
+                pathTileObjectList[currentPositionNum].gameObject.transform.position.y + 1
+                , pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
 
             if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
             {

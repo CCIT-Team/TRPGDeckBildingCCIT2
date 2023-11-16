@@ -1311,8 +1311,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.136968, y: 0.5, z: 1.893338}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.15, y: 0.5, z: 1.9}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!114 &-1646583571643292904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1419,7 +1419,7 @@ GameObject:
   - component: {fileID: 1214483526914994694}
   m_Layer: 0
   m_Name: MonsterTile
-  m_TagString: Tile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2872,7 +2872,7 @@ GameObject:
   - component: {fileID: 7221181612445958942}
   m_Layer: 0
   m_Name: BossTile
-  m_TagString: Tile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5070,7 +5070,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1486268255689521464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5834,7 +5834,7 @@ GameObject:
   - component: {fileID: 1982060172861978439}
   m_Layer: 0
   m_Name: VillageTile
-  m_TagString: Tile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7640,7 +7640,7 @@ GameObject:
   - component: {fileID: 90614981126912820}
   m_Layer: 0
   m_Name: EventTile
-  m_TagString: Tile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8055,7 +8055,7 @@ GameObject:
   - component: {fileID: 8181432448627034077}
   m_Layer: 0
   m_Name: KingdomTile
-  m_TagString: Tile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

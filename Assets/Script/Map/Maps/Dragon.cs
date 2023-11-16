@@ -40,8 +40,9 @@ public class Dragon : MonoBehaviour
             currentDragonTile = Map.instance.dragonStartTile;
             TargetSetting();
         }
-        if(Map.instance.wolrdTurn.turnNum % 3 == 0 && Map.instance.wolrdTurn.turnNum > 2)
+        if (Map.instance.wolrdTurn.turnNum % 3 == 0 && Map.instance.wolrdTurn.turnNum > 2)
         {
+            isdragonTurn = true;
             MoveDragon();
         }
     }
@@ -51,8 +52,8 @@ public class Dragon : MonoBehaviour
         if (!isTargetSetting && currentDragonTile != null)
         {
             targetPosition = Map.instance.kingdomTile[Random.Range(0, Map.instance.kingdomTile.Count)].GetComponent<Tile>();
-            moveList = astar.FindPath(currentDragonTile, targetPosition); 
-            if(moveList.Count > 0){isTargetSetting = true; Debug.Log("TargetSetting Complete!"); isdragonTurn = true; StartCoroutine(DragonMoveState()); }
+            moveList = astar.FindPath(currentDragonTile, targetPosition);
+            if (moveList.Count > 0) { isTargetSetting = true; Debug.Log("TargetSetting Complete!"); }
         }
     }
 
@@ -62,42 +63,46 @@ public class Dragon : MonoBehaviour
         {
             Debug.Log("Flydragon!");
             dragonState = DragonState.FLYING;
-            //transform.Translate(new Vector3(moveList[currentPositionNum].gameObject.transform.position.x,
-            //    0, moveList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-            transform.position = Vector3.MoveTowards(transform.position, moveList[currentPositionNum].gameObject.transform.position, dragonSpeed);
-           // transform.LookAt(moveList[currentPositionNum].transform.localPosition);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(
+                moveList[currentPositionNum].gameObject.transform.position.x,
+                moveList[currentPositionNum].gameObject.transform.position.y + 1f,
+                moveList[currentPositionNum].gameObject.transform.position.z), dragonSpeed);
+            transform.rotation = Quaternion.LookRotation(moveList[currentPositionNum].transform.position);
             Debug.Log(Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) + "Distance Dragon");
-            if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 0.1f)
+            if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 1f)
             {
-                if (currentPositionNum < moveList.Count) { currentPositionNum += 1; }
-                else { currentPositionNum = moveList.Count - 1; }
+                if (currentPositionNum < moveList.Count) { currentPositionNum += 1; Map.instance.wolrdTurn.turnNum += 1; }
+                else { currentPositionNum = moveList.Count - 1; Map.instance.wolrdTurn.turnNum += 1; }
                 dragonState = DragonState.IDLE;
                 isdragonTurn = false;
                 currentDragonTile = Map.instance.dragonStartTile;
             }
         }
 
-        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 0.1f)
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1f)
         {
             isdragonTurn = false;
-            dragonState = DragonState.IDLE;
-            currentDragonTile = null;
             currentPositionNum = 1;
-            moveList.Clear();
             Burning();
         }
     }
 
     void Burning()
     {
-        if(buringCount < 3)
+        if (buringCount < 3)
         {
             Debug.Log("Burning!!!!");
+            buringCount += 1;
             dragonState = DragonState.BURNING;
             moveList[moveList.Count - 1].GetComponent<Tile>().isKingdomTile = false;
+            moveList.Clear();
+            currentDragonTile = Map.instance.dragonStartTile;
+            isTargetSetting = false;
+            TargetSetting();
         }
         else
         {
+            Debug.Log("NestTime");
             Rest();
         }
     }
@@ -105,23 +110,17 @@ public class Dragon : MonoBehaviour
     void Rest()
     {
         dragonState = DragonState.FLYING;
-        transform.LookAt(nestTile.transform.position);
-        transform.Translate(new Vector3(nestTile.gameObject.transform.position.x,
-            0, nestTile.gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 0.1f)
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(
+                 nestTile.gameObject.transform.position.x,
+                 nestTile.gameObject.transform.position.y + 1f,
+                 nestTile.gameObject.transform.position.z), dragonSpeed);
+        if (Vector3.Distance(nestTile.transform.position, transform.position) <= 1f)
         {
             isdragonTurn = false;
             dragonState = DragonState.REST;
             currentDragonTile = null;
             currentPositionNum = 1;
             moveList.Clear();
-            Burning();
         }
-    }
-
-    IEnumerator DragonMoveState()
-    {
-        yield return new WaitUntil(() => (Map.instance.wolrdTurn.turnNum % 3 == 0));
-        MoveDragon();
     }
 }
