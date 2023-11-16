@@ -17,14 +17,20 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public LayerMask layerMask;
     GameObject target;
 
-    void Start()
+    private void Awake()
     {
-
+        if (bindCard == null)
+            bindCard = GetComponent<N_Card>();
     }
 
-    void OnEnable()
+    public void DisplayInfoInUI()
     {
-        bindCard = GetComponent<N_Card>();
+        cardName.text = bindCard.cardData.name;
+        description.text = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
+                         + "<b><color=blue>"
+                         + (bindCard.cardData.defaultXvalue * bindCard.playerUI.boundCharacter.strength * 0.2f).ToString()
+                         + "</color></b>"
+                         + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
@@ -32,12 +38,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         Debug.Log("PointerDown");
         defaultPosition = transform.position;
         transform.position = Input.mousePosition;
-        //StartCoroutine(SelectCard());
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("PointerUp");
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80, layerMask))
         {
@@ -51,6 +55,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             transform.position = defaultPosition;
         }
     }
+
+
 
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
@@ -72,6 +78,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("EndDrag");
+        
     }
 }

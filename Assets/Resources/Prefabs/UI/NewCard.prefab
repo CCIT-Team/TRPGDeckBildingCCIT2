@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3932717128955745015}
   - component: {fileID: 6286388788943058658}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,11 +263,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUI: {fileID: 0}
-  cardID: 0
-  cardName: SingleAttack
-  cost: 0
-  tokenAmount: 0
-  tokens: 
   cardData:
     no: 0
     name: 
@@ -279,6 +274,7 @@ MonoBehaviour:
     effectUseTurn: 0
     useCost: 0
     token: 0
+  tokens: 
   cardTarget: {fileID: 0}
 --- !u!114 &310997900398861569
 MonoBehaviour:
@@ -293,7 +289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 7981894247378070760}
-  text: {fileID: 0}
+  cardName: {fileID: 6286388788943058658}
+  description: {fileID: 6473307477637547593}
   bindCard: {fileID: 0}
   layerMask:
     serializedVersion: 2
@@ -310,7 +307,7 @@ GameObject:
   - component: {fileID: 4140855215095182724}
   - component: {fileID: 6473307477637547593}
   m_Layer: 5
-  m_Name: Text (Legacy) (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

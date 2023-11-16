@@ -18,7 +18,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public int startHandCount = 5;
 
     [Tooltip("직업/무기 별 카드 종류의 수\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
-    public int[] CardStartNoOfType = { -1,-1,-1 };
+    public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
     bool isAction = false;
     public bool IsAction
@@ -150,16 +150,48 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     void CountCardPreBattle()
     {
+        int indexByWeapon;
         foreach (CardData cardData in DataBase.instance.cardData)
         {
-            if (cardData.no - 60000000 >= 0)
+            indexByWeapon = int.Parse(cardData.no.ToString().Substring(0, 2));
+            switch (indexByWeapon)
             {
-                CardStartNoOfType[1]++;
-                CardStartNoOfType[2]++;
-            }
-            else if (cardData.no - 70000000 >= 0)
-            {
-                CardStartNoOfType[2]++;
+                case 50:    //워리어
+                    CardStartIndexOfType[0]++;
+                    goto case 51;
+                case 51:
+                    CardStartIndexOfType[1]++;
+                    goto case 52;
+                case 52:
+                    CardStartIndexOfType[2]++;
+                    goto case 53;
+                case 53:
+                    CardStartIndexOfType[3]++;
+                    goto case 54;
+                case 54:
+                    CardStartIndexOfType[4]++;
+                    goto case 55;
+                case 55:
+                    CardStartIndexOfType[5]++;
+                    goto case 56;
+                case 56:
+                    CardStartIndexOfType[6]++;
+                    goto case 57;
+                case 57:
+                    CardStartIndexOfType[7]++;
+                    goto case 58;
+                case 58:
+                    CardStartIndexOfType[8]++;
+                    goto case 59;
+                case 59:
+                    CardStartIndexOfType[9]++;
+                    goto case 60;
+                case 60:    //메지션
+                    CardStartIndexOfType[10]++;
+                    goto case 70;
+                case 70:    //클레릭
+                    CardStartIndexOfType[11]++;
+                    break;
             }
         }
     }

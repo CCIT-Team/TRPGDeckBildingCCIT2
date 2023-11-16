@@ -59,6 +59,7 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.GetComponent<N_Card>().playerUI = this;
             cardObject.SetActive(true);
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
+            cardObject.GetComponent<CardUI>().DisplayInfoInUI();
         }
         CompareHand();
     }

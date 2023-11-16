@@ -23,10 +23,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
      * token
      */
 
-    public int cardID;
-    public string cardName;
-    public int cost;
-    public int tokenAmount;
     public bool[] tokens;
 
     
@@ -41,19 +37,19 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     void UseCost(Character character)
     {
-        character.cost -= cost;
+        character.cost -= cardData.useCost;
     }
 
     void RemoveInHand(Deck deck)
     {
-        deck.hand.Remove(cardID);
-        deck.grave.Add(cardID);
+        deck.hand.Remove(cardData.no);
+        deck.grave.Add(cardData.no);
     }
 
     public void CardEffect()
     {
-        print(playerUI.boundCharacter.name+"이(가) "+cardTarget.name+"에게" + cardName + "을(를) 사용");
-        var skill = CardSkills.SearchSkill(cardName);
+        print(playerUI.boundCharacter.name+"이(가) "+cardTarget.name+"에게" + cardData.name + "을(를) 사용");
+        var skill = CardSkills.SearchSkill(cardData.variableName);
         skill.Invoke(null, new object[] { cardTarget.GetComponent<Unit>(), 10 });
         this.gameObject.SetActive(false);
     }
@@ -63,27 +59,53 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         
     }
 
-    public void GetCardData(int id)
+    public void GetCardData(int no)
     {
-        cardID = id;
-        int indexNumber = 0;
-        int tester = 0;
-        while(playerUI.boundCharacter == null || cardID == 0) { if (tester++ >= 30) break; }
-        switch (playerUI.boundCharacter.GetComponent<Character_type>().major)
+        int loopCounter = 0;
+        while(playerUI.boundCharacter == null) { if (loopCounter++ >= 100) break; }
+
+        int indexNumber = int.Parse(no.ToString().Substring(2));
+        Debug.Log(indexNumber);
+        int weaponType = int.Parse(no.ToString().Substring(0, 2));
+        switch (weaponType)
         {
-            case PlayerType.Major.Fighter:
-                indexNumber = cardID - 50000000;
+            case 50:    //워리어
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[0]];
                 break;
-            case PlayerType.Major.Wizard:
-                indexNumber = cardID - 60000000;
+            case 51:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[1]];
                 break;
-            case PlayerType.Major.Cleric:
-                indexNumber = cardID - 70000000;
+            case 52:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
+                break;
+            case 53:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[3]];
+                break;
+            case 54:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[4]];
+                break;
+            case 55:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[5]];
+                break;
+            case 56:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[6]];
+                break;
+            case 57:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[7]];
+                break;
+            case 58:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[8]];
+                break;
+            case 59:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[9]];
+                break;
+            case 60:    //메지션
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[10]];
+                break;
+            case 70:    //클레릭
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[11]];
                 break;
         }
-        Debug.Log("indexNumber = " + indexNumber + "\n AddNumber = " + N_BattleManager.instance.CardStartNoOfType[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]);
-        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartNoOfType[(int)playerUI.boundCharacter.GetComponent<Character_type>().major]];
-
         cardAction = null;
         cardAction += () => UseCost(playerUI.boundCharacter);
         cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
@@ -92,7 +114,4 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         //애니메이션 필요
         cardAction += () => CardEffect();
     }
-
-
-
 }
