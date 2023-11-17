@@ -14,7 +14,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public Transform playerPosition;
     public Transform monsterPosition;
-    public GameObject monsterPrefab;
 
     public int startHandCount = 5;
 
@@ -106,8 +105,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             {
                 battleUI.gameObject.SetActive(false);
                 rewardUI.GiveReward();
-            }
-               
+            } 
             else
                 EndBattle();
 
@@ -119,7 +117,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (joinUnit.TryGetComponent<Character>(out Character joinCharacter))
             joinUnitSpeed = joinCharacter.speed;
         else
-            joinUnitSpeed = joinUnit.GetComponent<Monster>().monsterdData.speed;
+            joinUnitSpeed = joinUnit.GetComponent<Monster>().monsterStat.speed;
 
         int unitSpeed;
         for (int i = 0; i< units.Count;i++)
@@ -127,7 +125,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (units[i].TryGetComponent<Character>(out Character character))
                 unitSpeed = character.speed;
             else
-                unitSpeed = units[i].GetComponent<Monster>().monsterdData.speed;
+                unitSpeed = units[i].GetComponent<Monster>().monsterStat.speed;
 
             if(joinUnitSpeed < unitSpeed)
             {
@@ -224,7 +222,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             {
                 inMapTurnCharacter = playerarray[i].GetComponent<Character>();
                 playerarray[i].GetComponent<Character>().isMyturn = false;
-            } 
+            }
+            playerarray[i].name = playerarray[i].GetComponent<Character_type>().nickname;
             playerarray[i].transform.SetParent(playerPosition);
             playerarray[i].transform.localPosition = new Vector3(3*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
             playerarray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -232,18 +231,15 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         }
 
         //int 배열로 받는걸로 예상하고 짬
-        
-        for(int i =0; i < sample.Length;i++)
+        GameManager.instance.MonsterInstance(sample, monsterPosition.position);
+        GameObject[] monsterArray = GameObject.FindGameObjectsWithTag("Monster");
+        for (int i =0; i < monsterArray.Length; i++)
         {
-            GameObject monster;
-            monster = Instantiate(monsterPrefab, monsterPosition);
-            monster.GetComponent<Monster>().GetMonsterData(sample[i]);
-        }
-
-        for (int i = 0; i < monsterPosition.transform.childCount; i++)
-        {
-            units.Add(monsterPosition.transform.GetChild(i).GetComponent<Unit>());
-            monsterPosition.transform.GetChild(i).localPosition = new Vector3(3 * (i - monsterPosition.transform.childCount / 2 + (monsterPosition.transform.childCount + 1) % 2 / 2f), 0, 0);
+            monsterArray[i].AddComponent<Monster>().SetMonster();
+            monsterArray[i].transform.SetParent(monsterPosition);
+            monsterArray[i].transform.localPosition = new Vector3(3 * (i - monsterArray.Length / 2 + (monsterArray.Length + 1) % 2 / 2f), 0, 0);
+            monsterArray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
+            units.Add(monsterArray[i].GetComponent<Unit>());
         }
         battleUI.BindPlayer(playerarray);
     }
@@ -256,12 +252,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (a.TryGetComponent(out Character characterA))
                 speedA = characterA.speed;
             else
-                speedA = a.GetComponent<Monster>().monsterdData.speed;
+                speedA = a.GetComponent<Monster>().monsterStat.speed;
 
             if (b.TryGetComponent(out Character characterB))
                 speedB = characterB.speed;
             else
-                speedB = b.GetComponent<Monster>().monsterdData.speed;
+                speedB = b.GetComponent<Monster>().monsterStat.speed;
 
             if (speedA >= speedB)
                 return -1;

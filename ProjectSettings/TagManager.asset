@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tile
   - Dragon
+  - Monster
   layers:
   - Default
   - TransparentFX

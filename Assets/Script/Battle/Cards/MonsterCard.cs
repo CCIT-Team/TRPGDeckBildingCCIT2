@@ -30,8 +30,13 @@ public class MonsterCard : MonoBehaviour
     public void CardEffect()
     {
         var skill = CardSkills.SearchSkill(cardData.variableName);
-        Debug.Log(gameObject.name + "가 "+ cardTarget +"에게" + cardData.name + "공격");
-        skill.Invoke(null, new object[] { GetComponent<Monster>(), cardTarget.GetComponent<Unit>(), cardData.defaultXvalue, cardData.effectUseTurn, cardData.token });//사용자, 사용 대상, 값, 추가효과 값, 토큰 수
+        Debug.Log(gameObject.name + "가 "+ cardTarget.name +"에게 " + cardData.name + "을(를) 사용");
+        skill.Invoke(null, new object[] { GetComponent<Monster>(),          //사용자
+                                          cardTarget.GetComponent<Unit>(),  //사용 대상
+                                          cardData.defaultXvalue,           //기본값
+                                          cardData.effectUseTurn,           //추가효과 값
+                                          cardData.token                    //토큰 수
+                                         });
     }
 
     public void SetCardAction()

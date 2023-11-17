@@ -5,9 +5,9 @@ using UnityEngine;
 public class Deck : MonoBehaviour   //덱 정보를 소지하고 플레이어의 장비에서 카드를 확인해 저장하는 역할
 {
 
-    public List<int> deck;
-    public List<int> hand;
-    public List<int> grave;
+    public List<int> deck = new List<int>();
+    public List<int> hand = new List<int>();
+    public List<int> grave = new List<int>();
 
     int deckCounter;
     public int DeckCounter

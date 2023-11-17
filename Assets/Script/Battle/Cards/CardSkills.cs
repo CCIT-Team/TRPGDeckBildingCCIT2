@@ -223,79 +223,79 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
 
     // Buff
-        public static void DefaultBuff(Unit performer, Unit target, float value, int token )
+        public static void DefaultBuff(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Parry(Unit performer, Unit target, float value, int token )
+        public static void Parry(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Agility(Unit performer, Unit target, float value, int token )
+        public static void Agility(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void BlessofIntelligence(Unit performer, Unit target, float value, int token )
+        public static void BlessofIntelligence(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void BlessofStrength(Unit performer, Unit target, float value, int token )
+        public static void BlessofStrength(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Heal(Unit performer, Unit target, float value, int token )
+        public static void Heal(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Focus(Unit performer, Unit target, float value, int token )
+        public static void Focus(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void DoubleCharm(Unit performer, Unit target, float value, int token )
+        public static void DoubleCharm(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void ManaCirculation(Unit performer, Unit target, float value, int token )
+        public static void ManaCirculation(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void ManaAmplification(Unit performer, Unit target, float value, int token )
+        public static void ManaAmplification(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Scheme(Unit performer, Unit target, float value, int token )
+        public static void Scheme(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Meditation(Unit performer, Unit target, float value, int token )
+        public static void Meditation(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Ignition(Unit performer, Unit target, float value, int token )
+        public static void Ignition(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Pray(Unit performer, Unit target, float value, int token )
+        public static void Pray(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Blessoflight(Unit performer, Unit target, float value, int token )
+        public static void Blessoflight(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Salvation(Unit performer, Unit target, float value, int token )
+        public static void Salvation(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void LightAround(Unit performer, Unit target, float value, int token )
+        public static void LightAround(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Purification(Unit performer, Unit target, float value, int token )
+        public static void Purification(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }
-        public static void Contemplation(Unit performer, Unit target, float value, int token )
+        public static void Contemplation(Unit performer, Unit target, float value, int extraEffect, int token )
         {
 
         }

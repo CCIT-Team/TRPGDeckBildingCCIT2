@@ -50,7 +50,14 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     {
         print(playerUI.boundCharacter.name+"이(가) "+cardTarget.name+"에게 " + cardData.name + "을(를) 사용");
         var skill = CardSkills.SearchSkill(cardData.variableName);
-        skill.Invoke(null, new object[] { playerUI.boundCharacter, cardTarget.GetComponent<Unit>(), cardData.defaultXvalue ,cardData.effectUseTurn, cardData.token });//사용자, 사용 대상, 값, 추가효과 값, 토큰 수
+        if (cardTarget.CompareTag("Monster"))
+        {
+            Unit monsterUnit;
+            monsterUnit = cardTarget.GetComponent<Monster>();
+            skill.Invoke(null, new object[] { playerUI.boundCharacter, monsterUnit, cardData.defaultXvalue, cardData.effectUseTurn, cardData.token });//사용자, 사용 대상, 값, 추가효과 값, 토큰 수
+        }
+        else
+            skill.Invoke(null, new object[] { playerUI.boundCharacter, cardTarget.GetComponent<Unit>(), cardData.defaultXvalue ,cardData.effectUseTurn, cardData.token });//사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         this.gameObject.SetActive(false);
     }
 
@@ -65,7 +72,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         while(playerUI.boundCharacter == null) { if (loopCounter++ >= 100) break; }
 
         int indexNumber = int.Parse(no.ToString().Substring(2));
-        Debug.Log(indexNumber);
         int weaponType = int.Parse(no.ToString().Substring(0, 2));
         switch (weaponType)
         {
