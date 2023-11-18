@@ -117,7 +117,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (joinUnit.TryGetComponent<Character>(out Character joinCharacter))
             joinUnitSpeed = joinCharacter.speed;
         else
-            joinUnitSpeed = joinUnit.GetComponent<Monster>().monsterStat.speed;
+            joinUnitSpeed = joinUnit.GetComponent<Monster>().speed;
 
         int unitSpeed;
         for (int i = 0; i< units.Count;i++)
@@ -125,7 +125,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (units[i].TryGetComponent<Character>(out Character character))
                 unitSpeed = character.speed;
             else
-                unitSpeed = units[i].GetComponent<Monster>().monsterStat.speed;
+                unitSpeed = units[i].GetComponent<Monster>().speed;
 
             if(joinUnitSpeed < unitSpeed)
             {
@@ -235,7 +235,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         GameObject[] monsterArray = GameObject.FindGameObjectsWithTag("Monster");
         for (int i =0; i < monsterArray.Length; i++)
         {
-            monsterArray[i].AddComponent<Monster>().SetMonster();
+            monsterArray[i].GetComponent<Monster>().SetMonster();
             monsterArray[i].transform.SetParent(monsterPosition);
             monsterArray[i].transform.localPosition = new Vector3(3 * (i - monsterArray.Length / 2 + (monsterArray.Length + 1) % 2 / 2f), 0, 0);
             monsterArray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -252,12 +252,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (a.TryGetComponent(out Character characterA))
                 speedA = characterA.speed;
             else
-                speedA = a.GetComponent<Monster>().monsterStat.speed;
+                speedA = a.GetComponent<Monster>().speed;
 
             if (b.TryGetComponent(out Character characterB))
                 speedB = characterB.speed;
             else
-                speedB = b.GetComponent<Monster>().monsterStat.speed;
+                speedB = b.GetComponent<Monster>().speed;
 
             if (speedA >= speedB)
                 return -1;

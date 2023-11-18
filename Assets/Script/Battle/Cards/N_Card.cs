@@ -7,9 +7,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 {
     public delegate void CardAction();
     public CardAction cardAction;
-
     public PlayerBattleUI playerUI;
-
     public CardData cardData;
     /*
      * no
@@ -22,12 +20,9 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
      * cost
      * token
      */
-
-    public bool[] tokens;
-
-    
-
     public GameObject cardTarget;
+
+    public float finalVlaue = 0;
 
 
     public void UseCard()
@@ -50,20 +45,18 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     {
         print(playerUI.boundCharacter.name+"이(가) "+cardTarget.name+"에게 " + cardData.name + "을(를) 사용");
         var skill = CardSkills.SearchSkill(cardData.variableName);
-        if (cardTarget.CompareTag("Monster"))
-        {
-            Unit monsterUnit;
-            monsterUnit = cardTarget.GetComponent<Monster>();
-            skill.Invoke(null, new object[] { playerUI.boundCharacter, monsterUnit, cardData.defaultXvalue, cardData.effectUseTurn, cardData.token });//사용자, 사용 대상, 값, 추가효과 값, 토큰 수
-        }
-        else
-            skill.Invoke(null, new object[] { playerUI.boundCharacter, cardTarget.GetComponent<Unit>(), cardData.defaultXvalue ,cardData.effectUseTurn, cardData.token });//사용자, 사용 대상, 값, 추가효과 값, 토큰 수
+        skill.Invoke(null, new object[] { playerUI.boundCharacter,          //사용자
+                                         cardTarget.GetComponent<Unit>(),   //사용 대상
+                                         finalVlaue,            //값
+                                         cardData.effectUseTurn,            //추가효과 값
+                                         cardData.token });                 //토큰 수
         this.gameObject.SetActive(false);
     }
 
-    public void CardSelect()
+    public float CalculateCardValue()
     {
-        
+        finalVlaue = cardData.defaultXvalue * playerUI.boundCharacter.strength * 0.02f;
+        return finalVlaue;
     }
 
     public void GetCardData(int no)

@@ -7,24 +7,51 @@ public class RewardDisplay : MonoBehaviour
 {
     public Image image;
     public Text rewardName;
-    void Start()
+
+
+    public void DisplayRewardInfo(int rewardID, bool isitem = true)
     {
-        
+        if(isitem)
+        {
+            rewardName.text = rewardID + "골드";
+            return;
+        }
+        int itemType = int.Parse(rewardID.ToString().Substring(0, 5));
+        switch(itemType)
+        {
+            case 12000:
+                foreach(ItemData item in DataBase.instance.itemData)
+                {
+                    if (item.no == rewardID)
+                        rewardName.text = item.name;
+                }
+                break;
+            case 12001:
+                foreach (WeaponData weapon in DataBase.instance.weaponData)
+                {
+                    if (weapon.no == rewardID)
+                        rewardName.text = weapon.name;
+                }
+                break;
+            case 22000:
+                foreach (ArmorData armor in DataBase.instance.armorData)
+                {
+                    if (armor.no == rewardID)
+                        rewardName.text = armor.name;
+                }
+                break;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GetReward()
     {
-        
+        Debug.Log(rewardName.text + "를 받았다");
+        gameObject.SetActive(false);
     }
 
-    void GettReward()
+    public void DumpReward()
     {
-        Debug.Log("를 받았다");
-    }
-
-    void DumpReward()
-    {
+        Debug.Log(rewardName.text + "를 버렸다");
         gameObject.SetActive(false);
     }
 }

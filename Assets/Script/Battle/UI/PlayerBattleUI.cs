@@ -16,6 +16,8 @@ public class PlayerBattleUI : MonoBehaviour
     List<GameObject> cardInstant = new List<GameObject>();
     public GameObject handUI;
 
+    bool firstturn = true; //첫 턴 여부 확인
+
     private void Awake()
     {
         boundDeck = GetComponent<Deck>();
@@ -104,7 +106,13 @@ public class PlayerBattleUI : MonoBehaviour
         if (boundCharacter.isMyturn)
         {
             transform.GetChild(0).gameObject.SetActive(true);
-            DrawCard();
+            if (firstturn)
+            {
+                DrawCard(5);
+                firstturn = false;
+            }
+            else
+                DrawCard();
         }
         else
             transform.GetChild(0).gameObject.SetActive(false);

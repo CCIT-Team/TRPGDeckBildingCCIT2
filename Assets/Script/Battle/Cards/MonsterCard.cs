@@ -31,7 +31,7 @@ public class MonsterCard : MonoBehaviour
     {
         var skill = CardSkills.SearchSkill(cardData.variableName);
         Debug.Log(gameObject.name + "가 "+ cardTarget.name +"에게 " + cardData.name + "을(를) 사용");
-        skill.Invoke(null, new object[] { GetComponent<Monster>(),          //사용자
+        skill.Invoke(null, new object[] { GetComponent<MonsterStat>(),          //사용자
                                           cardTarget.GetComponent<Unit>(),  //사용 대상
                                           cardData.defaultXvalue,           //기본값
                                           cardData.effectUseTurn,           //추가효과 값
@@ -43,7 +43,7 @@ public class MonsterCard : MonoBehaviour
     {
         SetCardData(cardID);
         cardAction = null;
-        //cardAction += () => RemoveInHand();
+        cardAction += () => RemoveInHand(GetComponent<Deck>());
         cardAction += () => N_BattleManager.instance.IsAction = true;
         //애니메이션 필요
         cardAction += () => CardEffect();

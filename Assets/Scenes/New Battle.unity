@@ -1616,7 +1616,7 @@ MonoBehaviour:
   monsterPosition: {fileID: 1043437215}
   startHandCount: 5
   CardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  sample: 81c3c90182c3c90183c3c90182c3c90184c3c901
+  sample: 81c3c901
 --- !u!1 &1576886060
 GameObject:
   m_ObjectHideFlags: 0

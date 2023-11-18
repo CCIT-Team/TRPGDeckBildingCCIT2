@@ -33,11 +33,12 @@ public class RewardUI : MonoBehaviour
 
     public void GiveReward()
     {
-        for(int i =0; i< rewardItem.Count; i++)
+        for(int i = 0; i< rewardItem.Count; i++)
         {
             Instantiate(rewardUIPrefab, this.transform);
+            rewardUIPrefab.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
         }
-
+        Instantiate(rewardUIPrefab, this.transform);
+        rewardUIPrefab.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold,false);
     }
-
 }

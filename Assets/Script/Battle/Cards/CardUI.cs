@@ -27,8 +27,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     {
         cardName.text = bindCard.cardData.name;
         description.text = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
-                         + "<b><color=blue>"
-                         + (bindCard.cardData.defaultXvalue * bindCard.playerUI.boundCharacter.strength * 0.02f).ToString()
+                         + "<b><color=red>"
+                         + (bindCard.CalculateCardValue()).ToString()
                          + "</color></b>"
                          + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
     }

@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MonsterType { None = 0 ,Undead };
 
-public class Monster : Unit
+public class Monster :MonsterStat
 {
-    public MonsterStat monsterStat;
     MonsterCard card;
     Deck deck;
 
@@ -21,9 +19,9 @@ public class Monster : Unit
             {
                 SelectAction();
             }
-            
         }
     }
+
 
     public override float Hp
     {
@@ -36,7 +34,6 @@ public class Monster : Unit
             hp = value;
             if (hp <= 0)
             {
-                battleState = BattleState.Death;
                 DropReward();
                 N_BattleManager.instance.ExitBattle(this);
             }
@@ -45,16 +42,15 @@ public class Monster : Unit
 
     private void Awake()
     {
-        monsterStat = GetComponent<MonsterStat>();
         deck = gameObject.AddComponent<Deck>();
         card = gameObject.AddComponent<MonsterCard>();
     }
 
     void AddActInDeck()
     {
-        deck.deck.Add(monsterStat.action1);
-        deck.deck.Add(monsterStat.action2);
-        deck.deck.Add(monsterStat.action3);
+        deck.deck.Add(action1);
+        deck.deck.Add(action2);
+        deck.deck.Add(action3);
         deck.deck.RemoveAll(x => x == 0);
         deck.DeckCounter = deck.deck.Count;
     }
@@ -71,23 +67,22 @@ public class Monster : Unit
 
     public void SetMonster()
     {
-        gameObject.name = monsterStat._name;
+        gameObject.name = _name;
         AddActInDeck();
-        maxHp = monsterStat.maxHp;
         Hp = maxHp;
     }
 
     public void DropReward()
     {
-        N_BattleManager.instance.rewardUI.AddReward(false, monsterStat.dropGold);
+        N_BattleManager.instance.rewardUI.AddReward(false, dropGold);
         //아이템1
-        if(monsterStat.dropitem1 != 0 && monsterStat.dropitem1Percentage <= Random.Range(0, 100))
-            N_BattleManager.instance.rewardUI.AddReward(true, monsterStat.dropitem1);
+        if(dropitem1 != 0 && dropitem1Percentage <= Random.Range(0, 100))
+            N_BattleManager.instance.rewardUI.AddReward(true, dropitem1);
         //아이템2
-        if (monsterStat.dropitem2 != 0 && monsterStat.dropitem2Percentage <= Random.Range(0, 100))
-            N_BattleManager.instance.rewardUI.AddReward(true, monsterStat.dropitem2);
+        if (dropitem2 != 0 && dropitem2Percentage <= Random.Range(0, 100))
+            N_BattleManager.instance.rewardUI.AddReward(true, dropitem2);
         //아이템3
-        if (monsterStat.dropitem3 != 0 && monsterStat.dropitem3Percentage <= Random.Range(0, 100))
-            N_BattleManager.instance.rewardUI.AddReward(true, monsterStat.dropitem3);
+        if (dropitem3 != 0 && dropitem3Percentage <= Random.Range(0, 100))
+            N_BattleManager.instance.rewardUI.AddReward(true, dropitem3);
     }
 }
