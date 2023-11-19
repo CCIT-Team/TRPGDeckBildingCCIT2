@@ -23,21 +23,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         else
             strength = performer.GetComponent<Monster>().strength;
 
-        for (int i = 0; i < token; i++)
-        {
-            int x = UnityEngine.Random.Range(0, 100);
-            if (x <= strength)
-            {
-                Debug.Log("성공");
-            } 
-            else
-            {
-                Debug.Log("실패");
-                succeceCount--;
-            }
-        }
-
         target.Damaged(damage);
+        target.GetComponent<UnitAnimationControl>().GetDamage();    //영상용 임시
     }
 
     public static void Slash(Unit performer, Unit target, float damage, int extraEffect, int token)
@@ -63,8 +50,11 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     succeceCount--;
                 }
             }
+            Debug.Log("기본데미지 : " + damage + "이번데미지 : " + (damage * (1 - (0.1f * (token - succeceCount)))));
+            target.Damaged(damage * (1 - (0.1f*(token - succeceCount))));
+            //영상용 임시
+            target.GetComponent<UnitAnimationControl>().GetDamage();
 
-            DefaultPhysicalAttack(performer, target, damage, extraEffect, token);
         }
     }
 

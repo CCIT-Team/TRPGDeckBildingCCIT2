@@ -16,6 +16,7 @@ public class MonsterCard : MonoBehaviour
 
     public void UseCard()
     {
+        GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
         cardAction();
     }
 
@@ -37,6 +38,8 @@ public class MonsterCard : MonoBehaviour
                                           cardData.effectUseTurn,           //추가효과 값
                                           cardData.token                    //토큰 수
                                          });
+
+        GetComponent<Monster>().IsMyturn = false;
     }
 
     public void SetCardAction()
@@ -45,9 +48,7 @@ public class MonsterCard : MonoBehaviour
         cardAction = null;
         cardAction += () => RemoveInHand(GetComponent<Deck>());
         cardAction += () => N_BattleManager.instance.IsAction = true;
-        //애니메이션 필요
-        cardAction += () => CardEffect();
-        cardAction += () => GetComponent<Monster>().IsMyturn = false;
+        cardAction += () => GetComponent<UnitAnimationControl>().AttackAnimation();
     }
 
     public void SetCardData(int id)
@@ -60,37 +61,37 @@ public class MonsterCard : MonoBehaviour
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[0]];
                 break;
             case 51:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[1]];
-                break;
-            case 52:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
-                break;
-            case 53:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[3]];
                 break;
-            case 54:
+            case 52:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[4]];
                 break;
-            case 55:
+            case 53:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[5]];
                 break;
-            case 56:
+            case 54:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[6]];
                 break;
-            case 57:
+            case 55:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[7]];
                 break;
-            case 58:
+            case 56:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[8]];
                 break;
-            case 59:
+            case 57:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[9]];
                 break;
-            case 60:    //메지션
+            case 58:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[10]];
                 break;
-            case 70:    //클레릭
+            case 59:
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[11]];
+                break;
+            case 60:    //메지션
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[1]];
+                break;
+            case 70:    //클레릭
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
                 break;
         }
     }

@@ -17,7 +17,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public int startHandCount = 5;
 
-    [Tooltip("직업/무기 별 카드 종류의 수\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
+    [Tooltip("직업/무기 별 카드 시작 인덱스-1\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
     public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
     bool isAction = false;
@@ -158,38 +158,39 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             {
                 case 50:    //워리어
                     CardStartIndexOfType[1]++;
-                    goto case 51;
-                case 51:
-                    CardStartIndexOfType[2]++;
-                    goto case 52;
-                case 52:
-                    CardStartIndexOfType[3]++;
-                    goto case 53;
-                case 53:
-                    CardStartIndexOfType[4]++;
-                    goto case 54;
-                case 54:
-                    CardStartIndexOfType[5]++;
-                    goto case 55;
-                case 55:
-                    CardStartIndexOfType[6]++;
-                    goto case 56;
-                case 56:
-                    CardStartIndexOfType[7]++;
-                    goto case 57;
-                case 57:
-                    CardStartIndexOfType[8]++;
-                    goto case 58;
-                case 58:
-                    CardStartIndexOfType[9]++;
-                    goto case 59;
-                case 59:
-                    CardStartIndexOfType[10]++;
                     goto case 60;
                 case 60:    //매지션
+                    CardStartIndexOfType[2]++;
+                    goto case 70;
+                case 70:    //클레릭
+                    CardStartIndexOfType[3]++;
+                    goto case 51;
+                case 51:
+                    CardStartIndexOfType[4]++;
+                    goto case 52;
+                case 52:
+                    CardStartIndexOfType[5]++;
+                    goto case 53;
+                case 53:
+                    CardStartIndexOfType[6]++;
+                    goto case 54;
+                case 54:
+                    CardStartIndexOfType[7]++;
+                    goto case 55;
+                case 55:
+                    CardStartIndexOfType[8]++;
+                    goto case 56;
+                case 56:
+                    CardStartIndexOfType[9]++;
+                    goto case 57;
+                case 57:
+                    CardStartIndexOfType[10]++;
+                    goto case 58;
+                case 58:
                     CardStartIndexOfType[11]++;
+                    goto case 59;
+                case 59:
                     break;
-                    //70 부터 클레릭 시작이므로 case x
             }
         }
     }
@@ -228,6 +229,14 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             playerarray[i].transform.localPosition = new Vector3(3*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
             playerarray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(playerarray[i].GetComponent<Unit>());
+            if (!playerarray[i].TryGetComponent<UnitAnimationControl>(out UnitAnimationControl animControl))
+            {
+                playerarray[i].AddComponent<UnitAnimationControl>().SetAnimator();
+            }
+            else
+            {
+                animControl.SetAnimator();
+            }
         }
 
         //int 배열로 받는걸로 예상하고 짬

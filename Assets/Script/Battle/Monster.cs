@@ -44,6 +44,7 @@ public class Monster :MonsterStat
     {
         deck = gameObject.AddComponent<Deck>();
         card = gameObject.AddComponent<MonsterCard>();
+        GetComponent<UnitAnimationControl>().SetAnimator();
     }
 
     void AddActInDeck()

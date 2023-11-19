@@ -10,7 +10,7 @@ public class PlayerBattleUI : MonoBehaviour
 
     [SerializeField]
     GameObject cardPrefab;
-    float cardWidth;
+    float[] cardSize = {150, 225};    //1920, 1080
 
     Queue<GameObject> waitCardInstant = new Queue<GameObject>();
     List<GameObject> cardInstant = new List<GameObject>();
@@ -21,7 +21,10 @@ public class PlayerBattleUI : MonoBehaviour
     private void Awake()
     {
         boundDeck = GetComponent<Deck>();
-        cardWidth = cardPrefab.GetComponent<RectTransform>().rect.width;
+
+        cardSize[0] = Camera.main.pixelWidth / 1920 * cardSize[0];
+        cardSize[1] = Camera.main.pixelHeight / 1080 * cardSize[1];
+        cardPrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(cardSize[0], cardSize[1]);
     }
 
     void Start()
@@ -63,14 +66,14 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
             cardObject.GetComponent<CardUI>().DisplayOnUI();
         }
-        CompareHand();
+        SetHandPosition();
     }
 
-    public void CompareHand()
+    public void SetHandPosition()
     {
         for(int i = 0; i< boundDeck.hand.Count;i++)
         {
-            cardInstant[i].transform.localPosition = new Vector2((cardInstant.Count/2 - i - (cardInstant.Count+1) % 2 /2f) * cardWidth, 0);
+            cardInstant[i].transform.localPosition = new Vector2((cardInstant.Count/2 - i - (cardInstant.Count+1) % 2 /2f) * cardSize[0], 0);
         }
     }
 
@@ -78,6 +81,7 @@ public class PlayerBattleUI : MonoBehaviour
     {
         cardInstant.Remove(gameObject);
         waitCardInstant.Enqueue(gameObject);
+        SetHandPosition();
     }
 
     public void Onclick()

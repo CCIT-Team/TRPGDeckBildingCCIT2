@@ -21,12 +21,34 @@ public class BattleUI : MonoBehaviour
     public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];
     List<Unit> boundUnits = new List<Unit>();
 
+    [Header("Token")]
+    public Image[] tokens;
+
     public void BindPlayer(GameObject[] playerarray)
     {
         for(int i = 0; i < playerarray.Length; i++)
         {
             playerUI[i].BindCharacter(playerarray[i].GetComponent<Character>());
         }
+    }
+
+    int RollToken(int tokenAmount)
+    {
+        int rollResult = tokenAmount;
+        for (int i = 0; i < tokenAmount; i++)
+        {
+            int x = UnityEngine.Random.Range(0, 100);
+            if (x <= 100)
+            {
+                Debug.Log("성공");
+            }
+            else
+            {
+                Debug.Log("실패");
+                rollResult--;
+            }
+        }
+        return rollResult;
     }
 
     #region 턴

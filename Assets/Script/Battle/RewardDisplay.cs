@@ -11,36 +11,38 @@ public class RewardDisplay : MonoBehaviour
 
     public void DisplayRewardInfo(int rewardID, bool isitem = true)
     {
-        if(isitem)
+        if(!isitem)
         {
             rewardName.text = rewardID + "°ñµå";
-            return;
         }
-        int itemType = int.Parse(rewardID.ToString().Substring(0, 5));
-        switch(itemType)
+        else
         {
-            case 12000:
-                foreach(ItemData item in DataBase.instance.itemData)
-                {
-                    if (item.no == rewardID)
-                        rewardName.text = item.name;
-                }
-                break;
-            case 12001:
-                foreach (WeaponData weapon in DataBase.instance.weaponData)
-                {
-                    if (weapon.no == rewardID)
-                        rewardName.text = weapon.name;
-                }
-                break;
-            case 22000:
-                foreach (ArmorData armor in DataBase.instance.armorData)
-                {
-                    if (armor.no == rewardID)
-                        rewardName.text = armor.name;
-                }
-                break;
-        }
+            int itemType = int.Parse(rewardID.ToString().Substring(0, 5));
+            switch (itemType)
+            {
+                case 12000:
+                    foreach (ItemData item in DataBase.instance.itemData)
+                    {
+                        if (item.no == rewardID)
+                            rewardName.text = item.name;
+                    }
+                    break;
+                case 12001:
+                    foreach (WeaponData weapon in DataBase.instance.weaponData)
+                    {
+                        if (weapon.no == rewardID)
+                            rewardName.text = weapon.name;
+                    }
+                    break;
+                case 22000:
+                    foreach (ArmorData armor in DataBase.instance.armorData)
+                    {
+                        if (armor.no == rewardID)
+                            rewardName.text = armor.name;
+                    }
+                    break;
+            }
+        }   
     }
 
     public void GetReward()
