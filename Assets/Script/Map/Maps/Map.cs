@@ -52,7 +52,9 @@ public class Map : MonoBehaviour
     public bool isOutofUI = false;
     [SerializeField] float playerSpeed = 0.05f;
     [Header("Monster")]
+    public Dragon dragonScript;
     public GameObject dragon;
+    public GameObject instantiateDragon;
     public List<GameObject> monsterList;
     public List<int> monsterIDList;
     [Header("Map UI")]
@@ -136,8 +138,9 @@ public class Map : MonoBehaviour
         totalTileObjectList[544].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
-        Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
+        instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
             1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity);
+        dragonScript = instantiateDragon.GetComponent<Dragon>();
     }
 
     public void PlayerMovePath(Tile objects)

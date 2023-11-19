@@ -16,22 +16,45 @@ public class WolrdCam : MonoBehaviour
     bool inputMode = false;
     private void Start()
     {
-        player = Map.instance.wolrdTurn.currentPlayer.transform;
         originpos = offset;
     }
     void FixedUpdate()
     {
-        player = Map.instance.wolrdTurn.currentPlayer.transform;
+        if (!Map.instance.dragonScript.isdragonTurn)
+        {
+            player = Map.instance.wolrdTurn.currentPlayer.transform;
+            smooth_speed = 0.125f;
+        }
+        else
+        {
+            player = Map.instance.instantiateDragon.transform;
+            smooth_speed = 0.35f;
+        }
+
         if (player != null && inputMode == false)
         {
-            Vector3 desired_position = Map.instance.wolrdTurn.currentPlayer.transform.position + offset;
+            Vector3 desired_position = player.transform.position + offset;
             Vector3 smoothed_position = Vector3.Lerp(transform.position, desired_position, smooth_speed);
             transform.position = smoothed_position;
         }
     }
 
-    private void Update()
-    {
+    //private void Update()
+    //{
+    //    if (!Map.instance.dragonScript.isdragonTurn)
+    //    {
+    //        player = Map.instance.wolrdTurn.currentPlayer.transform;
+    //    }
+    //    else
+    //    {
+    //        player = Map.instance.instantiateDragon.transform;
+    //    }
 
-    }
+    //    if (player != null && inputMode == false)
+    //    {
+    //        Vector3 desired_position = player.transform.position + offset;
+    //        Vector3 smoothed_position = Vector3.Lerp(transform.position, desired_position, smooth_speed);
+    //        transform.position = smoothed_position;
+    //    }
+    //}
 }

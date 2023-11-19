@@ -63,6 +63,7 @@ public class Tile : MonoBehaviour
     Color defaultColor;
 
     [SerializeField] GameObject kingdomObject;
+    [SerializeField] GameObject burnkingdomObject;
     [SerializeField] GameObject vileageObject;
     [SerializeField] GameObject monsterObject;
     [SerializeField] Transform monsterPosition;
@@ -188,7 +189,9 @@ public class Tile : MonoBehaviour
 
     public void DestroyKingdom()
     {
-
+        isKingdomTile = false;
+        kingdomObject.SetActive(false);
+        burnkingdomObject.SetActive(true);
     }
 
     //public void MakeKingdom()
