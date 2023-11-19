@@ -93,7 +93,10 @@ public class PlayerBattleUI : MonoBehaviour
     {
         boundCharacter = character;
         name = boundCharacter.name;
-        boundDeck.deck = boundCharacter.GetComponent<Character_Card>().cardID;
+        foreach(int id in boundCharacter.GetComponent<Character_Card>().cardID)
+        {
+            boundDeck.deck.Add(int.Parse(id.ToString()));
+        }
         boundDeck.deck.RemoveAll(x => x == 0);
         boundDeck.DeckCounter = boundDeck.deck.Count;
         if (!boundCharacter.isMyturn)
