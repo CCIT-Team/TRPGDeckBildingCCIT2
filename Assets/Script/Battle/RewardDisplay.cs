@@ -48,12 +48,14 @@ public class RewardDisplay : MonoBehaviour
     public void GetReward()
     {
         Debug.Log(rewardName.text + "를 받았다");
+        N_BattleManager.instance.rewardUI.rewardCount--;
         gameObject.SetActive(false);
     }
 
     public void DumpReward()
     {
         Debug.Log(rewardName.text + "를 버렸다");
+        N_BattleManager.instance.rewardUI.rewardCount--;
         gameObject.SetActive(false);
     }
 }

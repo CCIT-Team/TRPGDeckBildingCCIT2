@@ -25,7 +25,7 @@ public class UnitAnimationControl : MonoBehaviour
     public void DeathAnimation()
     {
         animator.SetTrigger("Die");
-        animator.SetBool("Death",true);
+        
     }
 
     public void AttackAnimation()
@@ -51,5 +51,21 @@ public class UnitAnimationControl : MonoBehaviour
     public void AttackEvent()
     {
         ATEvent();
+    }
+
+    public void DeathEvent()
+    {
+        animator.SetBool("Death", true);
+        N_BattleManager.instance.ExitBattle(GetComponent<Unit>());
+    }
+
+    public void AnnounceEndAction()
+    {
+        N_BattleManager.instance.IsAction = false;
+    }
+
+    public void AnnounceStartAction()
+    {
+        N_BattleManager.instance.IsAction = true;
     }
 }

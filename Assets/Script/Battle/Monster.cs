@@ -35,7 +35,6 @@ public class Monster :MonsterStat
             if (hp <= 0)
             {
                 DropReward();
-                N_BattleManager.instance.ExitBattle(this);
             }
         }
     }
@@ -60,7 +59,15 @@ public class Monster :MonsterStat
     {
         int i = Random.Range(0, deck.DeckCounter);
         card.cardID = deck.deck[i];
-        card.cardTarget = N_BattleManager.instance.units[Random.Range(0, N_BattleManager.instance.units.Count)].gameObject;
+        while(true)
+        {
+            card.cardTarget = N_BattleManager.instance.units[Random.Range(0, N_BattleManager.instance.units.Count)].gameObject;
+            if (card.cardTarget.tag == "Player")
+            {
+                break;
+            }    
+        }
+        
         card.SetCardAction();
 
         card.UseCard();

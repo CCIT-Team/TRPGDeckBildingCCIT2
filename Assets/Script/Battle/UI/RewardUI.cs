@@ -7,6 +7,8 @@ public class RewardUI : MonoBehaviour
     public GameObject rewardUIPrefab;
     int rewardGold = 0;
     List<int> rewardItem = new List<int>();
+    [HideInInspector]
+    public int rewardCount = 0;
     void Start()
     {
         
@@ -24,6 +26,7 @@ public class RewardUI : MonoBehaviour
         if(isItem)
         {
             rewardItem.Add(no);
+            
         }
         else
         {
@@ -38,8 +41,18 @@ public class RewardUI : MonoBehaviour
         {
             reward = Instantiate(rewardUIPrefab, this.transform);
             reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
+            rewardCount++;
         }
         reward = Instantiate(rewardUIPrefab, this.transform);
         reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold, false);
+        rewardCount++;
+
+        StartCoroutine(WaitGetAllReward());
+    }
+
+    IEnumerator WaitGetAllReward()
+    {
+        yield return new WaitUntil(() => rewardCount <= 0);
+        N_BattleManager.instance.EndBattle();
     }
 }
