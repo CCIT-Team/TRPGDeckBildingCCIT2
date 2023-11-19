@@ -8,9 +8,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
-
+    public Tile testMonsterTile;
     private string sceneName = null; //scene변경
 
+
+    private void Update()
+    {
+        if(testMonsterTile != null && SceneManager.GetActiveScene().name =="Map1")
+        {
+            //testMonsterTile.
+        }
+    }
     #region 싱글턴 Awake
 
     private void Awake()
@@ -42,10 +50,20 @@ public class GameManager : MonoBehaviour
     private void LoadAvatar(int index, Vector3 position)
     {
         GameObject unit = Instantiate(Resources.Load("Prefabs/Character/Player1", typeof(GameObject))) as GameObject;
-        unit.transform.position = position;//나중에 맵 포지션 받아올거임
+        //unit.transform.position = position;//나중에 맵 포지션 받아올거임
         AvatarTypeSetting(unit, index);
+        AvatarPositionSetting(unit, index);
         AvatarStatSetting(unit, index);
         AvatarCardSetting(unit, index);
+        if(unit.GetComponent<Character_type>().pos == Vector3.zero)
+        {
+            unit.transform.position = position;//나중에 맵 포지션 받아올거임
+        }
+        else
+        {
+            unit.transform.position = unit.GetComponent<Character_type>().pos;
+        }
+        //Debug.Log(SceneManager.GetActiveScene().name.ToString());
         players.Add(unit);
     }
     private void AvatarTypeSetting(GameObject unit, int index)
@@ -59,6 +77,10 @@ public class GameManager : MonoBehaviour
     private void AvatarCardSetting(GameObject unit, int index)
     {
         unit.GetComponent<Character_Card>().SetUnitCard(DataBase.instance.loadCardData[index]);
+    }
+    private void AvatarPositionSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<Character_type>().SetUnitPosition(DataBase.instance.loadPositionData[index]);
     }
 
     #endregion
@@ -117,6 +139,17 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < players.Count; i++)
             {
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetTypeDBQuery());
+
+                if (SceneManager.GetActiveScene().name == "New Battle")
+                {
+                    DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetWorldPositionDBQuery());
+                }
+                else
+                {
+                    DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetPositionDBQuery());
+                }
+
+
                 DataBase.instance.SaveDB(players[i].GetComponent<Character>().GetStatDBQuery());
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_Card>().GetCardDBQuery());
             }

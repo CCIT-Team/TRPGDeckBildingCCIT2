@@ -19,6 +19,7 @@ public class LobbyUI_Manager : MonoBehaviour
     public List<string> avatar_2 = new List<string>();
 
     private int avatarCounter = 0;
+    private float initPos = 0.0f;
 
     private void Start()
     {
@@ -104,17 +105,23 @@ public class LobbyUI_Manager : MonoBehaviour
             case 0:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_0[0]}, '{avatar_0[1]}', '{avatar_0[2]}', '{avatar_0[3]}', '{avatar_0[4]}', '{avatar_0[5]}', '{avatar_0[6]}')";
                 DataBase.instance.SaveDB(insertQuery);
+                insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_0[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
+                DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_0[0], avatar_0[2]));
                 DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_0[2]));
                 break;
             case 1:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_1[0]}, '{avatar_1[1]}', '{avatar_1[2]}', '{avatar_1[3]}', '{avatar_1[4]}', '{avatar_1[5]}', '{avatar_1[6]}')";
                 DataBase.instance.SaveDB(insertQuery);
+                insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_1[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
+                DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_1[0], avatar_1[2]));
                 DataBase.instance.SaveDB(AvatarCardSetting(avatar_1[0], avatar_1[2]));
                 break;
             case 2:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_2[0]}, '{avatar_2[1]}', '{avatar_2[2]}', '{avatar_2[3]}', '{avatar_2[4]}', '{avatar_2[5]}', '{avatar_2[6]}')";
+                DataBase.instance.SaveDB(insertQuery);
+                insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_2[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_2[0], avatar_2[2]));
                 DataBase.instance.SaveDB(AvatarCardSetting(avatar_2[0], avatar_2[2]));

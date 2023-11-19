@@ -19,6 +19,12 @@ public class Character_type : MonoBehaviour
     public SkinnedMeshRenderer[] gender_skinColor;
     public SkinnedMeshRenderer customEyeColor;
 
+    private float positionx;
+    private float positiony;
+    private float positionz;
+
+    public Vector3 pos;
+
     private string insertQuery;
 
     public void SetUnitType(PlayerType type)
@@ -36,6 +42,16 @@ public class Character_type : MonoBehaviour
         SwitchingType(avatarType);
         SetSkinColor(skinColor);
         SetEyeColor(eyeColor);
+    }
+
+    public void SetUnitPosition(PlayerPosition position)
+    {
+        playerNum = position.playerNum;
+        positionx = position.positionX;
+        positiony = position.positionY;
+        positionz = position.positionZ;
+
+        pos.Set(positionx, positiony, positionz);
     }
 
     private void SwitchingMajor(PlayerType.Major major)
@@ -124,6 +140,18 @@ public class Character_type : MonoBehaviour
     public string GetTypeDBQuery()
     {
         insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({playerNum}, '{nickname}', '{major.ToString()}', '{gender.ToString()}', '{avatarType.ToString()}', '{skinColor.ToString()}', '{eyeColor.ToString()}')";
+        return insertQuery;
+    }
+
+    public string GetPositionDBQuery()
+    {
+        insertQuery = $"INSERT INTO Position (playerNum, positionX, PositionY, positionZ) VALUES ({playerNum}, '{transform.position.x.ToString()}', '{transform.position.y.ToString()}', '{transform.position.z.ToString()}')";
+        return insertQuery;
+    }
+
+    public string GetWorldPositionDBQuery()
+    {
+        insertQuery = $"INSERT INTO Position (playerNum, positionX, PositionY, positionZ) VALUES ({playerNum}, '{pos.x.ToString()}', '{pos.y.ToString()}', '{pos.z.ToString()}')";
         return insertQuery;
     }
 }
