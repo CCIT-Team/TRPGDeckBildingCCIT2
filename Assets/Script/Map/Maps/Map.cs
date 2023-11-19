@@ -48,10 +48,13 @@ public class Map : MonoBehaviour
     int tileNum = 0;
     [Header("Player")]
     public List<GameObject> players = new List<GameObject>();
+    public RuntimeAnimatorController[] wolrdPlayerAnimator = new RuntimeAnimatorController[3];
     public bool isOutofUI = false;
+    [SerializeField] float playerSpeed = 0.05f;
     [Header("Monster")]
     public GameObject dragon;
     public List<GameObject> monsterList;
+    public List<int> monsterIDList;
     [Header("Map UI")]
     public MapUI mapUI;
     public WolrdTurn wolrdTurn;
@@ -82,6 +85,8 @@ public class Map : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             players[i].name = players[i].GetComponent<Character_type>().nickname;
+            wolrdPlayerAnimator[i] = Resources.Load("Test_Assets/Animation/WolrdPlayerAnimator") as RuntimeAnimatorController;
+            players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[i];
         }
         MapSetting();
     }
@@ -146,16 +151,18 @@ public class Map : MonoBehaviour
         if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
         {
             isPlayerMoving = true;
-            // wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
-            //wolrdTurn.currentPlayer.transform.Translate(
-            //    new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x, 
-            //    pathTileObjectList[currentPositionNum].gameObject.transform.position.y + 1
-            //    , pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-            wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(pathTileObjectList[currentPositionNum].transform.position);
-            wolrdTurn.currentPlayer.transform.position = Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position, new Vector3(
-               pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
-               pathTileObjectList[currentPositionNum].gameObject.transform.position.y + 0.5f,
-               pathTileObjectList[currentPositionNum].gameObject.transform.position.z), 0.1f);
+            wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", true);
+            Vector3 nextTilePosition = pathTileObjectList[currentPositionNum].gameObject.transform.position;
+            nextTilePosition.y = nextTilePosition.y + .5f;
+
+            //wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
+            wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(nextTilePosition - wolrdTurn.currentPlayer.transform.position).normalized;
+            //wolrdTurn.currentPlayer.transform.rotation = 
+            //    Quaternion.LookRotation(new Vector3(0, 0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) - 
+            //    new Vector3(0, 0, wolrdTurn.currentPlayer.transform.position.z)).normalized;
+            wolrdTurn.currentPlayer.transform.position = 
+                Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position, 
+                nextTilePosition, playerSpeed);
 
             if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f && isPlayerMoving)
             {
@@ -175,6 +182,7 @@ public class Map : MonoBehaviour
                 pathTileObjectList.Clear();
                 isPlayerOnEndTile = true;
                 isPlayerMoving = false;
+                wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", false);
             }
         }
     }

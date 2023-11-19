@@ -12,6 +12,7 @@ public class Dragon : MonoBehaviour
     public Tile nestTile;
     public Tile currentDragonTile;
     public Tile targetPosition;
+    public Animator dragonAni;
 
     public AStarPathfinding astar = new AStarPathfinding();
 
@@ -53,6 +54,8 @@ public class Dragon : MonoBehaviour
         {
             targetPosition = Map.instance.kingdomTile[Random.Range(0, Map.instance.kingdomTile.Count)].GetComponent<Tile>();
             moveList = astar.FindPath(currentDragonTile, targetPosition);
+            dragonState = DragonState.IDLE;
+            dragonAni.SetTrigger("Idle");
             if (moveList.Count > 0) { isTargetSetting = true; Debug.Log("TargetSetting Complete!"); }
         }
     }
@@ -63,17 +66,22 @@ public class Dragon : MonoBehaviour
         {
             Debug.Log("Flydragon!");
             dragonState = DragonState.FLYING;
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(
-                moveList[currentPositionNum].gameObject.transform.position.x,
-                moveList[currentPositionNum].gameObject.transform.position.y + 1f,
-                moveList[currentPositionNum].gameObject.transform.position.z), dragonSpeed);
-            transform.rotation = Quaternion.LookRotation(moveList[currentPositionNum].transform.position);
+            dragonAni.SetTrigger("Fly");
+            Vector3 nextTilePosition = moveList[currentPositionNum].transform.position;
+            nextTilePosition.y = nextTilePosition.y + 1f;
+
+            transform.rotation = 
+                Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
+            transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
+            
+            //transform.LookAt(new Vector3(0, 0, moveList[currentPositionNum].transform.position.z));
             Debug.Log(Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) + "Distance Dragon");
             if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 1f)
             {
                 if (currentPositionNum < moveList.Count) { currentPositionNum += 1; Map.instance.wolrdTurn.turnNum += 1; }
                 else { currentPositionNum = moveList.Count - 1; Map.instance.wolrdTurn.turnNum += 1; }
-                dragonState = DragonState.IDLE;
+                //dragonState = DragonState.IDLE;
+                //dragonAni.SetTrigger("Idle");
                 isdragonTurn = false;
                 currentDragonTile = Map.instance.dragonStartTile;
             }
@@ -94,6 +102,7 @@ public class Dragon : MonoBehaviour
             Debug.Log("Burning!!!!");
             buringCount += 1;
             dragonState = DragonState.BURNING;
+            dragonAni.SetTrigger("Burn");
             moveList[moveList.Count - 1].GetComponent<Tile>().isKingdomTile = false;
             moveList.Clear();
             currentDragonTile = Map.instance.dragonStartTile;
