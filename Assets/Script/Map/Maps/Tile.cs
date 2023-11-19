@@ -194,6 +194,12 @@ public class Tile : MonoBehaviour
         burnkingdomObject.SetActive(true);
     }
 
+    public void DestroyMonsterTile()
+    {
+        isMonsterTile = false;
+        monsterObject.SetActive(false);
+    }
+
     //public void MakeKingdom()
     //{
     //    if (isKingdomTile)

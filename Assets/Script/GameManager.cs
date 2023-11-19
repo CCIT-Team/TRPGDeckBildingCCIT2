@@ -8,17 +8,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
-    public Tile testMonsterTile;
     private string sceneName = null; //scene∫Ø∞Ê
+    public bool a;
 
-
-    private void Update()
-    {
-        if(testMonsterTile != null && SceneManager.GetActiveScene().name =="Map1")
-        {
-            //testMonsterTile.
-        }
-    }
+   
     #region ΩÃ±€≈œ Awake
 
     private void Awake()

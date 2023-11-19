@@ -88,6 +88,7 @@ public class TileUI : MonoBehaviour
     public void OffMonsterBattle() => MonsterBattleUI.enabled = false;
     public void Fight()
     {
+        GameManager.instance.a = true;
         GameManager.instance.LoadScenceName("New Battle");
         Map.instance.isBattle = true;
         Debug.Log("전투진입");
