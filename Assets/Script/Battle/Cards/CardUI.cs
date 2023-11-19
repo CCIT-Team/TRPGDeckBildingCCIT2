@@ -17,6 +17,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public LayerMask layerMask;
     GameObject target;
 
+    string damageColor = "red";
+
     private void Awake()
     {
         if (bindCard == null)
@@ -26,16 +28,23 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public void DisplayOnUI()
     {
         cardName.text = bindCard.cardData.name;
+        if (bindCard.cardData.description.Contains("회복"))
+            damageColor = "green";
+        else if (bindCard.cardData.description.Contains("마법")&& bindCard.cardData.description.Contains("물리"))
+            damageColor = "magenta";
+        else if (bindCard.cardData.description.Contains("마법"))
+            damageColor = "blue";
+        else
+            damageColor = "red";
         description.text = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
-                         + "<b><color=blue>"
-                         + (bindCard.cardData.defaultXvalue * bindCard.playerUI.boundCharacter.strength * 0.2f).ToString()
+                         + "<b><color="+ damageColor + ">"
+                         + (bindCard.CalculateCardValue()).ToString()
                          + "</color></b>"
                          + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("PointerDown");
         defaultPosition = transform.position;
         transform.position = Input.mousePosition;
     }
@@ -58,12 +67,11 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("BeginDrag");
+        
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Drag");
         transform.position = Input.mousePosition;
         RaycastHit hit;
         
@@ -76,5 +84,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         
+    }
+
+    public void TransferUI()
+    {
+        transform.position = new Vector2(Camera.main.pixelWidth*2,0);
     }
 }
