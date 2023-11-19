@@ -26,17 +26,14 @@ public class AreaChecker : MonoBehaviour
                     case 0:
                         other.GetComponent<Tile>().climate = Tile.Climate.GRASS;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[0];
-                        Map.instance.grassTileObjectList.Add(other.gameObject);
                         break;
                     case 1:
                         other.GetComponent<Tile>().climate = Tile.Climate.DESERT;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[1];
-                        Map.instance.desertTileObjectList.Add(other.gameObject);
                         break;
                     case 2:
                         other.GetComponent<Tile>().climate = Tile.Climate.JUNGLE;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[2];
-                        Map.instance.junglelTileObjectList.Add(other.gameObject);
                         break;
                 }
             }

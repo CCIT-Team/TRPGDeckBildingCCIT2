@@ -40,17 +40,23 @@ public class Map : MonoBehaviour
     [HideInInspector] public Tile startTile;
     [HideInInspector] public Tile dragonStartTile;
     public List<GameObject> totalTileObjectList;
-    public List<GameObject> grassTileObjectList;
-    public List<GameObject> desertTileObjectList;
-    public List<GameObject> junglelTileObjectList;
+    //public List<GameObject> grassTileObjectList;
+    //public List<GameObject> desertTileObjectList;
+    //public List<GameObject> junglelTileObjectList;
     public List<Tile> pathTileObjectList;
     public List<Tile> kingdomTile;
     int tileNum = 0;
     [Header("Player")]
     public List<GameObject> players = new List<GameObject>();
+    public RuntimeAnimatorController[] wolrdPlayerAnimator = new RuntimeAnimatorController[3];
     public bool isOutofUI = false;
-    [Header("Dragon")]
+    [SerializeField] float playerSpeed = 0.05f;
+    [Header("Monster")]
+    public Dragon dragonScript;
     public GameObject dragon;
+    public GameObject instantiateDragon;
+    public List<GameObject> monsterList;
+    public List<int> monsterIDList;
     [Header("Map UI")]
     public MapUI mapUI;
     public WolrdTurn wolrdTurn;
@@ -61,7 +67,7 @@ public class Map : MonoBehaviour
 
     public float playerMoveSpeed;
     public bool isPlayerOnEndTile = false;
-    bool isPlayerMoving = false;
+    public bool isPlayerMoving = false;
 
     private void Awake()
     {
@@ -73,11 +79,16 @@ public class Map : MonoBehaviour
         size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
         voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
-        GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
+        GameManager.instance.GetLoadAvatar(
+            new Vector3(totalTileObjectList[0].transform.position.x, 
+            totalTileObjectList[0].transform.position.y + 0.5f, 
+            totalTileObjectList[0].transform.position.z));
         players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         for (int i = 0; i < players.Count; i++)
         {
             players[i].name = players[i].GetComponent<Character_type>().nickname;
+            wolrdPlayerAnimator[i] = Resources.Load("Test_Assets/Animation/WolrdPlayerAnimator") as RuntimeAnimatorController;
+            players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[i];
         }
         MapSetting();
     }
@@ -127,8 +138,9 @@ public class Map : MonoBehaviour
         totalTileObjectList[544].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
-        Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
+        instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
             1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity);
+        dragonScript = instantiateDragon.GetComponent<Dragon>();
     }
 
     public void PlayerMovePath(Tile objects)
@@ -142,11 +154,20 @@ public class Map : MonoBehaviour
         if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
         {
             isPlayerMoving = true;
-            wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
-            wolrdTurn.currentPlayer.transform.Translate(new Vector3(pathTileObjectList[currentPositionNum].gameObject.transform.position.x,
-                0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+            wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", true);
+            Vector3 nextTilePosition = pathTileObjectList[currentPositionNum].gameObject.transform.position;
+            nextTilePosition.y = nextTilePosition.y + .5f;
 
-            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
+            //wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
+            wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(nextTilePosition - wolrdTurn.currentPlayer.transform.position).normalized;
+            //wolrdTurn.currentPlayer.transform.rotation = 
+            //    Quaternion.LookRotation(new Vector3(0, 0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) - 
+            //    new Vector3(0, 0, wolrdTurn.currentPlayer.transform.position.z)).normalized;
+            wolrdTurn.currentPlayer.transform.position = 
+                Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position, 
+                nextTilePosition, playerSpeed);
+
+            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f && isPlayerMoving)
             {
                 if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
                 else { currentPositionNum = pathTileObjectList.Count - 1; }
@@ -154,7 +175,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f)
+        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f)
         {
             if(!isOutofUI)
             {
@@ -164,6 +185,7 @@ public class Map : MonoBehaviour
                 pathTileObjectList.Clear();
                 isPlayerOnEndTile = true;
                 isPlayerMoving = false;
+                wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", false);
             }
         }
     }
