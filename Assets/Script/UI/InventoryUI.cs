@@ -109,7 +109,7 @@ public class InventoryUI : MonoBehaviour
             if(itemIndex[i].ishave)
             {
                 Debug.Log("µé¾î¿È");
-                totalIndex.IndexOf;
+                //totalIndex.IndexOf;
                 totalIndex[IsHaveSlot(totalIndex)] = itemIndex[i];
             }
         }
