@@ -7,6 +7,6 @@ public class DBTest : MonoBehaviour
     void Start()
     {
         //GameManager.instance.GetLobbyAvatar(Vector3.zero);
-        GameManager.instance.GetLoadAvatar(Vector3.zero);
+        GameManager.instance.MonsterMapInstance(30000001, Vector3.zero);
     }
 }
