@@ -127,11 +127,7 @@ public class Map : MonoBehaviour
         totalTileObjectList[468].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
         kingdomTile.Add(totalTileObjectList[468].GetComponent<Tile>());
         //Monster
-        if(!GameManager.instance.a)
-        {
-            totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        }
-        //totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[50].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[138].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[198].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;

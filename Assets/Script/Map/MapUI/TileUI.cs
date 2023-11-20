@@ -36,12 +36,12 @@ public class TileUI : MonoBehaviour
     }
     public void OnShopUI()
     {
-        InitializeUI();
+        OffShopAndHospital();
         OnShop();
     }
     public void OnHospitalUI()
     {
-        InitializeUI();
+        OffShopAndHospital();
         OnHospital();
     }
     #endregion

@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
     private string sceneName = null; //scene∫Ø∞Ê
-    public bool a;
 
    
     #region ΩÃ±€≈œ Awake

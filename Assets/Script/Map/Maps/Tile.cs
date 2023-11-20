@@ -339,7 +339,7 @@ public class Tile : MonoBehaviour
                 tileUI.OnMonsterBattle();
                 Map.instance.isOutofUI = true;
             }
-            else if (isKingdomTile && !Map.instance.isPlayerMoving)
+            else if (isKingdomTile && !Map.instance.isPlayerMoving && !Map.instance.isOutofUI)
             {
                 tileUI.OnShopAndHospital();
                 Map.instance.isOutofUI = true;
