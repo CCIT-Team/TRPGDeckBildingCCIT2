@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d856747f6c89864781566a744bca66c, type: 3}
+  m_Name: Item_Portion_HP
+  m_EditorClassIdentifier: 
+  _id: 12000001
+  _name: "HP \uD3EC\uC158"
+  _buyGold: 20
+  _sellGold: 8
+  _iconSprite: {fileID: 21300000, guid: c2ebadfcb9b8cbb4a8ae6f124b17e332, type: 3}
+  _maxAmount: 99
+  _effect: "HP\uB97C 30%\uD68C\uBCF5"
+  _useCost: 2
