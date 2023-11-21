@@ -16,6 +16,11 @@ public class TileSelector : MonoBehaviour
     public AStarPathfinding astar = new AStarPathfinding();
     public Map map;
 
+    private void Start()
+    {
+        map = Map.instance;
+    }
+
     enum MouseButton
     {
         None = 0,
@@ -95,7 +100,7 @@ public class TileSelector : MonoBehaviour
                 }
             }
         }
-        if (mouseButton == MouseButton.Right)
+        if (mouseButton == MouseButton.Left)
         {
             if (endPoint != null)
             {

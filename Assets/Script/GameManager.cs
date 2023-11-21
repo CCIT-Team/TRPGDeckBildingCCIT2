@@ -8,9 +8,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
+    public GameObject map;
     private string sceneName = null; //scene변경
 
-   
+
     #region 싱글턴 Awake
 
     private void Awake()
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
         AvatarPositionSetting(unit, index);
         AvatarStatSetting(unit, index);
         AvatarCardSetting(unit, index);
-        if(unit.GetComponent<Character_type>().pos == Vector3.zero)
+        if (unit.GetComponent<Character_type>().pos == Vector3.zero)
         {
             unit.transform.position = position;//나중에 맵 포지션 받아올거임
         }
@@ -146,18 +147,26 @@ public class GameManager : MonoBehaviour
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_Card>().GetCardDBQuery());
             }
             DataBase.instance.LoadData();
-        }
+        }  
 
-        while(!op.isDone)
+        while (!op.isDone)
         {
-            if(op.progress >= 0.9f)
+            if (op.progress >= 0.9f)
             {
                 yield return new WaitForSeconds(1.0f);
                 op.allowSceneActivation = true;
             }
             yield return null;
         }
+
+        SceneManager.sceneLoaded += ActiveSceneMap;
     }
 
+
+    void ActiveSceneMap(Scene scene0, LoadSceneMode mode)
+    {
+        if (scene0.name == "Map1" && map != null && !map.activeSelf) { map.SetActive(true); Map.instance.ReSearchPlayer(); }
+        else if (scene0.name != "Map1" && map != null) { map.SetActive(false); }
+    }
     #endregion
 }

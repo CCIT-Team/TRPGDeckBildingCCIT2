@@ -12,6 +12,7 @@ public class WolrdTurn : MonoBehaviour
     public TMP_Text turnNickName;//누구의 턴인지 알려주는 UI
     void Start()
     {
+        Map.instance.wolrdTurn = this;
         players = Map.instance.players;
         turnNicknameObejct.SetActive(false);
         StartCoroutine(PlayTurn());

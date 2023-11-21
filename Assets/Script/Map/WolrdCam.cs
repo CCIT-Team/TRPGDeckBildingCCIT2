@@ -11,9 +11,7 @@ public class WolrdCam : MonoBehaviour
 
     Vector3 originpos;
     Vector3 mouseCurserpos;
-    float v;
 
-    bool inputMode = false;
     private void Start()
     {
         originpos = offset;
@@ -28,10 +26,10 @@ public class WolrdCam : MonoBehaviour
         else
         {
             player = Map.instance.instantiateDragon.transform;
-            smooth_speed = 0.35f;
+            smooth_speed = 0.25f;
         }
 
-        if (player != null && inputMode == false)
+        if (player != null && !Map.instance.isOutofUI)
         {
             Vector3 desired_position = player.transform.position + offset;
             Vector3 smoothed_position = Vector3.Lerp(transform.position, desired_position, smooth_speed);

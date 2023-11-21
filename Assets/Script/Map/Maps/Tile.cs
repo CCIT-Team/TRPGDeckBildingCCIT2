@@ -259,37 +259,6 @@ public class Tile : MonoBehaviour
                     isSelect = true;
                 }
             }
-
-            if (isSpawnTile)
-            {
-
-            }
-            else if (isMonsterTile && !Map.instance.isBattle && !Map.instance.isPlayerMoving)
-            {
-                //GameManager.instance.LoadScenceName("New Battle");
-                //Map.instance.isBattle = true;
-                //Debug.Log("전투진입");
-                tileUI.OnMonsterBattle();
-                Map.instance.isOutofUI = true;
-            }
-            else if (isBossTile && !Map.instance.isPlayerMoving)
-            {
-                tileUI.OnMonsterBattle();
-                Map.instance.isOutofUI = true;
-            }
-            else if (isKingdomTile && !Map.instance.isPlayerMoving)
-            {
-                tileUI.OnShopAndHospital();
-                Map.instance.isOutofUI = true;
-            }
-            else if (isVillageTile)
-            {
-
-            }
-            else
-            {
-
-            }
         }
         if (col.CompareTag("Dragon"))
         {
@@ -327,20 +296,27 @@ public class Tile : MonoBehaviour
                 //    Map.instance.isOutofUI = false;
                 //}
             }
-            if (isSpawnTile)
-            {
-
-            }
-            else if (isMonsterTile && !Map.instance.isBattle && !Map.instance.isPlayerMoving)
+            else if (isMonsterTile && !Map.instance.isOutofUI)
             {
                 //GameManager.instance.LoadScenceName("New Battle");
                 //Map.instance.isBattle = true;
                 //Debug.Log("전투진입");
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
                 tileUI.OnMonsterBattle();
                 Map.instance.isOutofUI = true;
             }
-            else if (isKingdomTile && !Map.instance.isPlayerMoving && !Map.instance.isOutofUI)
+            else if (isBossTile && !Map.instance.isOutofUI)
             {
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
+            }
+            else if (isKingdomTile && !Map.instance.isOutofUI)
+            {
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
                 tileUI.OnShopAndHospital();
                 Map.instance.isOutofUI = true;
             }

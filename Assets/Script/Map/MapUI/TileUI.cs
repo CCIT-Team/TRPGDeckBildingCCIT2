@@ -21,18 +21,11 @@ public class TileUI : MonoBehaviour
         MonsterBattleUI.enabled = false;
     }
 
-    void InitializeUI()
-    {
-        shop_hospitalUI.enabled = false;
-        shopUI.enabled = false;
-        hospital.enabled = false;
-    }
     #region 상점&병원 버튼
     public void OnShopAndHospital() { shop_hospitalUI.enabled = true; }
     public void OffShopAndHospital()
     {
         shop_hospitalUI.enabled = false;
-        Map.instance.isOutofUI = false;
     }
     public void OnShopUI()
     {
@@ -50,6 +43,8 @@ public class TileUI : MonoBehaviour
     public void OffShop()
     {
         shopUI.enabled = false;
+        Map.instance.currentInteracteUITile = null;
+        Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
     }
 
@@ -79,6 +74,8 @@ public class TileUI : MonoBehaviour
     public void Leave()
     {
         OffHospital();
+        Map.instance.currentInteracteUITile = null;
+        Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
     }
     #endregion
@@ -88,7 +85,6 @@ public class TileUI : MonoBehaviour
     public void OffMonsterBattle() => MonsterBattleUI.enabled = false;
     public void Fight()
     {
-        GameManager.instance.a = true;
         GameManager.instance.LoadScenceName("New Battle");
         Map.instance.isBattle = true;
         Debug.Log("전투진입");
