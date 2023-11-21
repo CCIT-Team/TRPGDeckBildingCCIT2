@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BattleUI : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class BattleUI : MonoBehaviour
     [SerializeField]
     Slider slider;
     List<Slider> turnSlider = new List<Slider>();
+
+    public GameObject TurnAnnounce;
+    public TMP_Text announceText;
 
 
     [Header("Player")]

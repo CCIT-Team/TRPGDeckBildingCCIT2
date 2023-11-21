@@ -21,6 +21,10 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
     bool isAction = false;
+    bool isTurnAnnounce = false;
+
+    public bool battleWin = false;
+
     public bool IsAction
     {
         get { return isAction;}
@@ -35,8 +39,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 StartCoroutine(WaitingWhileAction());
         }
     }
-
-    Character inMapTurnCharacter;
 
     public int[] sample = new int[5];
 
@@ -81,7 +83,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         StopCoroutine(PlayTurn());
         if (currentUnit.CompareTag("Player"))
             currentUnit.GetComponent<Character>().isMyturn = false;
-        inMapTurnCharacter.isMyturn = true;
         GameManager.instance.LoadScenceName("Map1");
     }
 
@@ -103,6 +104,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (playerAlive ^ monsterAlive)
             if (playerAlive)
             {
+                battleWin = true;
                 battleUI.gameObject.SetActive(false);
                 rewardUI.GiveReward();
             } 
@@ -221,7 +223,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         {
             if (playerarray[i].GetComponent<Character>().isMyturn)
             {
-                inMapTurnCharacter = playerarray[i].GetComponent<Character>();
                 playerarray[i].GetComponent<Character>().isMyturn = false;
             }
             playerarray[i].name = playerarray[i].GetComponent<Character_type>().nickname;
@@ -276,9 +277,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     }
     
     IEnumerator PlayTurn()
-    {
+    {  
         currentUnit = units[0];
         units.Remove(currentUnit);
+        isTurnAnnounce = true;
+        StartCoroutine(DisplayCurrentTurn());
+        yield return new WaitUntil(() => !isTurnAnnounce);
         if (currentUnit.TryGetComponent(out Character character))
         {
             character.isMyturn = true;
@@ -286,7 +290,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             {
                 if(ui.gameObject.activeSelf)
                     ui.StartCoroutine(ui.ActIfTurn());
-            } 
+            }
             yield return new WaitUntil(() => !character.isMyturn && !IsAction);
         }   
         else
@@ -298,6 +302,15 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         units.Add(currentUnit);
         currentUnit = null;
         StartCoroutine(PlayTurn());
+    }
+
+    IEnumerator DisplayCurrentTurn()
+    {
+        battleUI.announceText.text = currentUnit.name + "의 턴!";
+        battleUI.TurnAnnounce.SetActive(true);
+        yield return new WaitForSeconds(3);
+        battleUI.TurnAnnounce.SetActive(false);
+        isTurnAnnounce = false;
     }
     #endregion
 }
