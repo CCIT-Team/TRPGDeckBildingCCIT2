@@ -2432,6 +2432,9 @@ MonoBehaviour:
   major: 0
   gender: 0
   avatarType: 0
+  weaponPosition:
+  - {fileID: 216748035200158792}
+  - {fileID: 545123488555487917}
   majorObject:
   - {fileID: 7393214497823370820}
   - {fileID: 2457250062882813190}
@@ -2454,6 +2457,7 @@ MonoBehaviour:
   - {fileID: 7408494866098946819}
   - {fileID: 1250707849409601827}
   customEyeColor: {fileID: 3542558899307039058}
+  pos: {x: 0, y: 0, z: 0}
 --- !u!114 &6937528758277446097
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public class CharacterSlot_UI : MonoBehaviour
 
     public LobbyUI_Manager manager;
 
+    public GameObject[] weapon;
     public GameObject[] major;
     public GameObject[] gender;
     public GameObject[] type;
@@ -48,16 +49,16 @@ public class CharacterSlot_UI : MonoBehaviour
     private void Start()
     {
         avatarNickName = transform.GetChild(0).GetComponent<TMP_InputField>();
-        majorText = transform.GetChild(1).GetComponent<TMP_Text>();
-        avatarGenderText = transform.GetChild(2).GetComponent<TMP_Text>();
-        avatarTypeText = transform.GetChild(3).GetComponent<TMP_Text>();
+        majorText = transform.GetChild(1).transform.GetChild(0).GetComponent<TMP_Text>();
+        avatarGenderText = transform.GetChild(2).transform.GetChild(0).GetComponent<TMP_Text>();
+        avatarTypeText = transform.GetChild(3).transform.GetChild(0).GetComponent<TMP_Text>();
         skinColorText = transform.GetChild(4).GetComponent<TMP_Text>();
         eyeColorText = transform.GetChild(5).GetComponent<TMP_Text>();
 
         avatarNickName.name = "AvatarNickname_Inputbox";
-        majorText.name = "Major";
-        avatarGenderText.name = "AvatarGender";
-        avatarTypeText.name = "AvatarType";
+        majorText.name = "Major_Text";
+        avatarGenderText.name = "AvatarGender_Text";
+        avatarTypeText.name = "AvatarType_Text";
         skinColorText.name = "SkinColor";
         eyeColorText.name = "EyeColor";
 
@@ -92,21 +93,21 @@ public class CharacterSlot_UI : MonoBehaviour
     {
         switch(text.name)
         {
-            case "Major":
+            case "Major_Text":
                 if (major_index >= majorList.Count -1)
                     major_index = -1;
 
                 majorText.text = majorList[++major_index];
                 SwitchingMajor(major_index);
                 break;
-            case "AvatarGender":
+            case "AvatarGender_Text":
                 if (avatarGender_index >= avatarGenderList.Count -1)
                     avatarGender_index = -1;
 
                 avatarGenderText.text = avatarGenderList[++avatarGender_index];
                 SwitchingGender(avatarGender_index);
                 break;
-            case "AvatarType":
+            case "AvatarType_Text":
                 if (avatarType_index >= avatarTypeList.Count -1)
                     avatarType_index = -1;
 
@@ -164,21 +165,21 @@ public class CharacterSlot_UI : MonoBehaviour
     {
         switch (text.name)
         {
-            case "Major":
+            case "Major_Text":
                 if (major_index <= 0)
                     major_index = majorList.Count;
 
                 majorText.text = majorList[--major_index];
                 SwitchingMajor(major_index);
                 break;
-            case "AvatarGender":
+            case "AvatarGender_Text":
                 if (avatarGender_index <= 0)
                     avatarGender_index = avatarGenderList.Count;
 
                 avatarGenderText.text = avatarGenderList[--avatarGender_index];
                 SwitchingGender(avatarGender_index);
                 break;
-            case "AvatarType":
+            case "AvatarType_Text":
                 if (avatarType_index <= 0)
                     avatarType_index = avatarTypeList.Count;
 
@@ -239,14 +240,42 @@ public class CharacterSlot_UI : MonoBehaviour
             case 0:
                 major[0].SetActive(false);
                 major[1].SetActive(false);
+                SwitchingWeapon(index);
                 break;
             case 1:
                 major[0].SetActive(true);
                 major[1].SetActive(false);
+                SwitchingWeapon(index);
                 break;
             case 2:
                 major[0].SetActive(false);
                 major[1].SetActive(true);
+                SwitchingWeapon(index);
+                break;
+        }
+    }
+
+    private void SwitchingWeapon(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                weapon[0].SetActive(true);
+                weapon[1].SetActive(false);
+                weapon[2].SetActive(false);
+                weapon[3].SetActive(false);
+                break;
+            case 1:
+                weapon[0].SetActive(false);
+                weapon[1].SetActive(true);
+                weapon[2].SetActive(false);
+                weapon[3].SetActive(false);
+                break;
+            case 2:
+                weapon[0].SetActive(false);
+                weapon[1].SetActive(false);
+                weapon[2].SetActive(true);
+                weapon[3].SetActive(true);
                 break;
         }
     }
