@@ -20,19 +20,42 @@ public class TileUI : MonoBehaviour
         hospital.enabled = false;
         MonsterBattleUI.enabled = false;
     }
+
+    void InitializeUI()
+    {
+        shop_hospitalUI.enabled = false;
+        shopUI.enabled = false;
+        hospital.enabled = false;
+    }
     #region 상점&병원 버튼
-    public void OnShopAndHospital() => shop_hospitalUI.enabled = true;
-    public void OffShopAndHospital() => shop_hospitalUI.enabled = false;
-    public void OnShopUI() => OnShop();
-    public void OnHospitalUI() => OnHospital();
+    public void OnShopAndHospital() { shop_hospitalUI.enabled = true; }
+    public void OffShopAndHospital()
+    {
+        shop_hospitalUI.enabled = false;
+        Map.instance.isOutofUI = false;
+    }
+    public void OnShopUI()
+    {
+        InitializeUI();
+        OnShop();
+    }
+    public void OnHospitalUI()
+    {
+        InitializeUI();
+        OnHospital();
+    }
     #endregion
     #region 상점 버튼
-    public void OnShop() => shopUI.enabled = true;
-    public void OffShop() => shopUI.enabled = false;
+    public void OnShop() { shopUI.enabled = true; }
+    public void OffShop()
+    {
+        shopUI.enabled = false;
+        Map.instance.isOutofUI = false;
+    }
 
     public void ItemList()
     {
-        
+
     }
 
     public void BuyItem()
@@ -43,25 +66,20 @@ public class TileUI : MonoBehaviour
     {
         shop.SellingItem();
     }
-    public void LeaveShop()
-    {
-        OffShopAndHospital();
-        Map.instance.isOutofUI = true;
-    }
     #endregion
 
     #region 병원 버튼
-    public void OnHospital() => shopUI.enabled = true;
-    public void OffHospital() => shopUI.enabled = false;
+    public void OnHospital() { hospital.enabled = true; }
+    public void OffHospital() { hospital.enabled = false; }
 
     public void Heal()
     {
-
+        Map.instance.wolrdTurn.currentPlayer.Hp = Map.instance.wolrdTurn.currentPlayer.maxHp;
     }
     public void Leave()
     {
         OffHospital();
-        Map.instance.isOutofUI = true;
+        Map.instance.isOutofUI = false;
     }
     #endregion
 
@@ -77,7 +95,7 @@ public class TileUI : MonoBehaviour
     public void Run()
     {
         OffMonsterBattle();
-        Map.instance.isOutofUI = true;
+        Map.instance.isOutofUI = false;
     }
     #endregion
 

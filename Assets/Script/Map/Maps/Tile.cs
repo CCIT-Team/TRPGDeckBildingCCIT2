@@ -63,8 +63,10 @@ public class Tile : MonoBehaviour
     Color defaultColor;
 
     [SerializeField] GameObject kingdomObject;
+    [SerializeField] GameObject burnkingdomObject;
     [SerializeField] GameObject vileageObject;
     [SerializeField] GameObject monsterObject;
+    [SerializeField] Transform monsterPosition;
     [SerializeField] GameObject bossObject;
 
     public Climate climate;
@@ -107,6 +109,21 @@ public class Tile : MonoBehaviour
         {
             isMonsterTile = true;
             monsterObject.SetActive(true);
+            if(climate == Climate.GRASS)
+            {
+                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition.position,Quaternion.identity);
+            }
+            else if(climate == Climate.DESERT)
+            {
+                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.identity);
+            }
+            else
+            {
+                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.identity);
+            }
         }
         else if (tileState == TileState.BossTile)
         {
@@ -168,6 +185,13 @@ public class Tile : MonoBehaviour
                 material.material = climateMaterials[2];
                 break;
         }
+    }
+
+    public void DestroyKingdom()
+    {
+        isKingdomTile = false;
+        kingdomObject.SetActive(false);
+        burnkingdomObject.SetActive(true);
     }
 
     //public void MakeKingdom()
@@ -234,20 +258,23 @@ public class Tile : MonoBehaviour
             {
 
             }
-            else if (isMonsterTile && !Map.instance.isBattle)
+            else if (isMonsterTile && !Map.instance.isBattle && !Map.instance.isPlayerMoving)
             {
                 //GameManager.instance.LoadScenceName("New Battle");
                 //Map.instance.isBattle = true;
                 //Debug.Log("전투진입");
                 tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
             }
-            else if (isBossTile)
+            else if (isBossTile && !Map.instance.isPlayerMoving)
             {
                 tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
             }
-            else if (isKingdomTile)
+            else if (isKingdomTile && !Map.instance.isPlayerMoving)
             {
                 tileUI.OnShopAndHospital();
+                Map.instance.isOutofUI = true;
             }
             else if (isVillageTile)
             {
@@ -260,11 +287,7 @@ public class Tile : MonoBehaviour
         }
         if (col.CompareTag("Dragon"))
         {
-            dragon = col.gameObject;
-            if (Map.instance.dragonStartTile == null)
-            {
                 Map.instance.dragonStartTile = this;
-            }
         }
     }
 
@@ -284,27 +307,61 @@ public class Tile : MonoBehaviour
             }
             if (Map.instance.isOutofUI && isKingdomTile || Map.instance.isOutofUI && isMonsterTile)
             {
+                StartCoroutine(WaitExitUI());
                 //Map.instance.wolrdTurn.currentPlayer.transform.position
-                tagPlayer.transform.LookAt(adjacentTiles[0].transform.position);
-                tagPlayer.transform.Translate(new Vector3(adjacentTiles[0].gameObject.transform.position.x,
-                    0, adjacentTiles[0].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-                if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
-                {
-                    Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
-                    Map.instance.startTile = null;
-                    Map.instance.pathTileObjectList.Clear();
-                    Map.instance.isPlayerOnEndTile = true;
-                    Map.instance.isOutofUI = false;
-                }
+                //tagPlayer.transform.LookAt(adjacentTiles[0].transform.position);
+                //tagPlayer.transform.Translate(new Vector3(adjacentTiles[0].gameObject.transform.position.x,
+                //    0, adjacentTiles[0].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
+                //if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
+                //{
+                //    Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
+                //    Map.instance.startTile = null;
+                //    Map.instance.pathTileObjectList.Clear();
+                //    Map.instance.isPlayerOnEndTile = true;
+                //    Map.instance.isOutofUI = false;
+                //}
+            }
+            if (isSpawnTile)
+            {
+
+            }
+            else if (isMonsterTile && !Map.instance.isBattle && !Map.instance.isPlayerMoving)
+            {
+                //GameManager.instance.LoadScenceName("New Battle");
+                //Map.instance.isBattle = true;
+                //Debug.Log("전투진입");
+                tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
+            }
+            else if (isKingdomTile && !Map.instance.isPlayerMoving)
+            {
+                tileUI.OnShopAndHospital();
+                Map.instance.isOutofUI = true;
             }
         }
         if (other.CompareTag("Dragon"))
         {
-            dragon = other.gameObject;
-            if (Map.instance.dragonStartTile == null)
-            {
                 Map.instance.dragonStartTile = this;
-            }
+        }
+    }
+
+    IEnumerator WaitExitUI()
+    {
+        yield return new WaitUntil(() => !Map.instance.isOutofUI);
+        tagPlayer.transform.rotation = 
+            Quaternion.LookRotation(new Vector3(0, 0, adjacentTiles[0].transform.position.z) -
+            new Vector3(0, 0, tagPlayer.transform.position.z)).normalized;
+        tagPlayer.transform.position = Vector3.MoveTowards(tagPlayer.transform.position, new Vector3(
+             adjacentTiles[0].gameObject.transform.position.x,
+            0.5f,
+             adjacentTiles[0].gameObject.transform.position.z), 0.05f);
+        if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
+        {
+            Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
+            Map.instance.startTile = null;
+            Map.instance.pathTileObjectList.Clear();
+            Map.instance.isPlayerOnEndTile = true;
+            Map.instance.isOutofUI = false;
         }
     }
 }
