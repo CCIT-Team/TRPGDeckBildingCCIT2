@@ -8,8 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
-
+    public GameObject map;
     private string sceneName = null; //scene변경
+
 
     #region 싱글턴 Awake
 
@@ -42,10 +43,20 @@ public class GameManager : MonoBehaviour
     private void LoadAvatar(int index, Vector3 position)
     {
         GameObject unit = Instantiate(Resources.Load("Prefabs/Character/Player1", typeof(GameObject))) as GameObject;
-        unit.transform.position = position;//나중에 맵 포지션 받아올거임
+        //unit.transform.position = position;//나중에 맵 포지션 받아올거임
         AvatarTypeSetting(unit, index);
+        AvatarPositionSetting(unit, index);
         AvatarStatSetting(unit, index);
         AvatarCardSetting(unit, index);
+        if (unit.GetComponent<Character_type>().pos == Vector3.zero)
+        {
+            unit.transform.position = position;//나중에 맵 포지션 받아올거임
+        }
+        else
+        {
+            unit.transform.position = unit.GetComponent<Character_type>().pos;
+        }
+        //Debug.Log(SceneManager.GetActiveScene().name.ToString());
         players.Add(unit);
     }
     private void AvatarTypeSetting(GameObject unit, int index)
@@ -59,6 +70,10 @@ public class GameManager : MonoBehaviour
     private void AvatarCardSetting(GameObject unit, int index)
     {
         unit.GetComponent<Character_Card>().SetUnitCard(DataBase.instance.loadCardData[index]);
+    }
+    private void AvatarPositionSetting(GameObject unit, int index)
+    {
+        unit.GetComponent<Character_type>().SetUnitPosition(DataBase.instance.loadPositionData[index]);
     }
 
     #endregion
@@ -117,22 +132,41 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < players.Count; i++)
             {
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetTypeDBQuery());
+
+                if (SceneManager.GetActiveScene().name == "New Battle")
+                {
+                    DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetWorldPositionDBQuery());
+                }
+                else
+                {
+                    DataBase.instance.SaveDB(players[i].GetComponent<Character_type>().GetPositionDBQuery());
+                }
+
+
                 DataBase.instance.SaveDB(players[i].GetComponent<Character>().GetStatDBQuery());
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_Card>().GetCardDBQuery());
             }
             DataBase.instance.LoadData();
-        }
+        }  
 
-        while(!op.isDone)
+        while (!op.isDone)
         {
-            if(op.progress >= 0.9f)
+            if (op.progress >= 0.9f)
             {
                 yield return new WaitForSeconds(1.0f);
                 op.allowSceneActivation = true;
             }
             yield return null;
         }
+
+        SceneManager.sceneLoaded += ActiveSceneMap;
     }
 
+
+    void ActiveSceneMap(Scene scene0, LoadSceneMode mode)
+    {
+        if (scene0.name == "Map1" && map != null && !map.activeSelf) { map.SetActive(true); Map.instance.ReSearchPlayer(); }
+        else if (scene0.name != "Map1" && map != null) { map.SetActive(false); }
+    }
     #endregion
 }

@@ -11,13 +11,21 @@ public class Character_type : MonoBehaviour
     [SerializeField] private PlayerType.AvatarType avatarType;
     private float skinColor;
     private float eyeColor;
+    private GameObject weapon;
 
+    public Transform[] weaponPosition;
     public GameObject[] majorObject;
     public GameObject[] genderObject;
     public GameObject[] typeObject;
     public SkinnedMeshRenderer[] gender_mesh;
     public SkinnedMeshRenderer[] gender_skinColor;
     public SkinnedMeshRenderer customEyeColor;
+
+    private float positionx;
+    private float positiony;
+    private float positionz;
+
+    public Vector3 pos;
 
     private string insertQuery;
 
@@ -38,6 +46,16 @@ public class Character_type : MonoBehaviour
         SetEyeColor(eyeColor);
     }
 
+    public void SetUnitPosition(PlayerPosition position)
+    {
+        playerNum = position.playerNum;
+        positionx = position.positionX;
+        positiony = position.positionY;
+        positionz = position.positionZ;
+
+        pos.Set(positionx, positiony, positionz);
+    }
+
     private void SwitchingMajor(PlayerType.Major major)
     {
         switch (major)
@@ -45,16 +63,28 @@ public class Character_type : MonoBehaviour
             case PlayerType.Major.Fighter:
                 majorObject[0].SetActive(false);
                 majorObject[1].SetActive(false);
+                EquipWeapon(1, "TwohandSword_claymore");
                 break;
             case PlayerType.Major.Wizard:
                 majorObject[0].SetActive(true);
                 majorObject[1].SetActive(false);
+                EquipWeapon(0, "Staff_scholarship");
                 break;
             case PlayerType.Major.Cleric:
                 majorObject[0].SetActive(false);
                 majorObject[1].SetActive(true);
+                EquipWeapon(0, "Sheild_steel");
+                EquipWeapon(1, "Mace_mace");
                 break;
         }
+    }
+
+    private void EquipWeapon(int posHand, string weaponName)
+    {
+        weapon = Instantiate(Resources.Load("Prefabs/Character/Weapon/" + weaponName, typeof(GameObject))) as GameObject;
+        weapon.transform.SetParent(weaponPosition[posHand]);
+        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localRotation = Quaternion.identity;
     }
 
     private void SwitchingGender(PlayerType.Gender gender)
@@ -124,6 +154,18 @@ public class Character_type : MonoBehaviour
     public string GetTypeDBQuery()
     {
         insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({playerNum}, '{nickname}', '{major.ToString()}', '{gender.ToString()}', '{avatarType.ToString()}', '{skinColor.ToString()}', '{eyeColor.ToString()}')";
+        return insertQuery;
+    }
+
+    public string GetPositionDBQuery()
+    {
+        insertQuery = $"INSERT INTO Position (playerNum, positionX, PositionY, positionZ) VALUES ({playerNum}, '{transform.position.x.ToString()}', '{transform.position.y.ToString()}', '{transform.position.z.ToString()}')";
+        return insertQuery;
+    }
+
+    public string GetWorldPositionDBQuery()
+    {
+        insertQuery = $"INSERT INTO Position (playerNum, positionX, PositionY, positionZ) VALUES ({playerNum}, '{pos.x.ToString()}', '{pos.y.ToString()}', '{pos.z.ToString()}')";
         return insertQuery;
     }
 }

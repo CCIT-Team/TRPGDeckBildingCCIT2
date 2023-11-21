@@ -60,6 +60,7 @@ public class Map : MonoBehaviour
     [Header("Map UI")]
     public MapUI mapUI;
     public WolrdTurn wolrdTurn;
+    public Tile currentInteracteUITile;
 
     [Header("Other")]
     public bool isBattle = false;
@@ -69,19 +70,24 @@ public class Map : MonoBehaviour
     public bool isPlayerOnEndTile = false;
     public bool isPlayerMoving = false;
 
+
     private void Awake()
     {
-        instance = this;
-
-        if (isFirst) { GenerateMap(); }
-        else { SaveMap(); }
+        if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
+        else { Destroy(gameObject); }
+        if (GameManager.instance.map == null) { GameManager.instance.map = gameObject; }
+        if (isFirst)
+        {
+            GenerateMap();
+            isFirst = false;
+        }
         wolrdRect = new Rect(22.5f, 24, wolrdRectx, wolrdRecty);
         size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
         voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
         GameManager.instance.GetLoadAvatar(
-            new Vector3(totalTileObjectList[0].transform.position.x, 
-            totalTileObjectList[0].transform.position.y + 0.5f, 
+            new Vector3(totalTileObjectList[0].transform.position.x,
+            totalTileObjectList[0].transform.position.y + 0.5f,
             totalTileObjectList[0].transform.position.z));
         players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         for (int i = 0; i < players.Count; i++)
@@ -95,20 +101,28 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-        //TestClimate();
-        //GameManager.instance.GetLoadAvatar(totalTileObjectList[0].transform.position);
-        //players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
-        //for (int i = 0; i < players.Count; i++)
-        //{
-        //    players[i].name = players[i].GetComponent<Character_type>().nickname;
-        //}
         mapUI.SetTurnSlider(players);
     }
 
-    void SaveMap()
+    #region 맵 이동시 함수
+    public void ReSearchPlayer()
     {
-
+        players.Clear();
+        players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
     }
+    #endregion
+    #region 타일 UI 제어
+    public void OnUIPlayerStop()
+    {
+        startTile = null;
+        currentPositionNum = 1;
+        pathTileObjectList.Clear();
+        isPlayerOnEndTile = true;
+        isPlayerMoving = false;
+        wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", false);
+    }
+
+    #endregion
 
     void MapSetting()
     {
@@ -139,7 +153,7 @@ public class Map : MonoBehaviour
         totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
         instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
-            1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity);
+            1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity, transform);
         dragonScript = instantiateDragon.GetComponent<Dragon>();
     }
 
@@ -163,8 +177,8 @@ public class Map : MonoBehaviour
             //wolrdTurn.currentPlayer.transform.rotation = 
             //    Quaternion.LookRotation(new Vector3(0, 0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) - 
             //    new Vector3(0, 0, wolrdTurn.currentPlayer.transform.position.z)).normalized;
-            wolrdTurn.currentPlayer.transform.position = 
-                Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position, 
+            wolrdTurn.currentPlayer.transform.position =
+                Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position,
                 nextTilePosition, playerSpeed);
 
             if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f && isPlayerMoving)
@@ -177,7 +191,7 @@ public class Map : MonoBehaviour
 
         if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f)
         {
-            if(!isOutofUI)
+            if (!isOutofUI)
             {
                 wolrdTurn.currentPlayer.isMyturn = false;
                 startTile = null;
@@ -202,6 +216,7 @@ public class Map : MonoBehaviour
 
         noiseMapRenderer.sprite = mapDraw.DrawSprite(size, noiseColors);
     }
+
     //void TestClimate()
     //{
     //    foreach (var site in voronoi.Sites)

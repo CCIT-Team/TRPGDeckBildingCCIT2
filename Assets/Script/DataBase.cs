@@ -29,6 +29,7 @@ public class DataBase : MonoBehaviour
     public List<ArmorData> armorData = new List<ArmorData>();
     public List<ItemData> itemData = new List<ItemData>();
     public List<PlayerType> loadTypeData = new List<PlayerType>();
+    public List<PlayerPosition> loadPositionData = new List<PlayerPosition>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
     public List<PlayerCard> loadCardData = new List<PlayerCard>();
     private const string defaultDatadbPath = "/DefaultData.db";
@@ -112,6 +113,17 @@ public class DataBase : MonoBehaviour
         dbConnection = ConnectionDB(playerDataPath_1);
         dbCommand = dbConnection.CreateCommand();
 
+        dbCommand.CommandText = "DELETE FROM Position";
+        using (IDataReader dataReader = dbCommand.ExecuteReader())
+        {
+            dbCommand.Dispose();
+            dataReader.Close();
+            dbConnection.Close();
+        }
+
+        dbConnection = ConnectionDB(playerDataPath_1);
+        dbCommand = dbConnection.CreateCommand();
+
         dbCommand.CommandText = "DELETE FROM Type";
         using (IDataReader dataReader = dbCommand.ExecuteReader())
         {
@@ -122,6 +134,7 @@ public class DataBase : MonoBehaviour
 
         loadCardData.Clear();
         loadStatData.Clear();
+        loadPositionData.Clear();
         loadTypeData.Clear();
     }
 
@@ -146,6 +159,22 @@ public class DataBase : MonoBehaviour
 
             loadTypeData.Add(new PlayerType(playerNo, nickname, major, gender, avatarType, skinColor, eyeColor));
         }
+        dataReader.Close();
+
+        tableName = "Position";
+        //dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = "SELECT * FROM " + tableName;
+        dataReader = dbCommand.ExecuteReader();
+        while (dataReader.Read())
+        {
+            int playerNo = dataReader.GetInt32(0);
+            float positionX = float.Parse(dataReader.GetString(1));
+            float positionY = float.Parse(dataReader.GetString(2));
+            float positionZ = float.Parse(dataReader.GetString(3));
+
+            loadPositionData.Add(new PlayerPosition(playerNo, positionX, positionY, positionZ));
+        }
+
         dataReader.Close();
 
         tableName = "Stat";
@@ -463,6 +492,25 @@ public class PlayerType
         type = _avatartype;
         skinColor = _skinColor;
         eyeColor = _eyeColor;
+    }
+}
+#endregion
+
+#region 플레이어 포지션
+[Serializable]
+public class PlayerPosition
+{
+    public int playerNum;
+    public float positionX;
+    public float positionY;
+    public float positionZ;
+
+    public PlayerPosition(int _playerNum, float _positionX, float _positionY, float _positionZ)
+    {
+        playerNum = _playerNum;
+        positionX = _positionX;
+        positionY = _positionY;
+        positionZ = _positionZ;
     }
 }
 #endregion

@@ -14,7 +14,7 @@ public class MapUI : MonoBehaviour
 
     void Start()
     {
-        
+        Map.instance.mapUI = this;
     }
 
     // Update is called once per frame
