@@ -44,7 +44,7 @@ public class TileSelector : MonoBehaviour
                     startPoint.isSelect = true;
                     startPoint.IsSelect(Color.red);
                 }
-                if (!isEndTileSelect && !Map.instance.isOutofUI)
+                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn)
                 {
                     if (endPoint == null)
                     {

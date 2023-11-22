@@ -45,6 +45,7 @@ public class Map : MonoBehaviour
     //public List<GameObject> junglelTileObjectList;
     public List<Tile> pathTileObjectList;
     public List<Tile> kingdomTile;
+    public List<Tile> monsterTile;
     int tileNum = 0;
     [Header("Player")]
     public List<GameObject> players = new List<GameObject>();
@@ -61,6 +62,8 @@ public class Map : MonoBehaviour
     public MapUI mapUI;
     public WolrdTurn wolrdTurn;
     public Tile currentInteracteUITile;
+    public WolrdMission wolrdMission;
+    public Tile currentMissionTile;
 
     [Header("Other")]
     public bool isBattle = false;
@@ -93,8 +96,18 @@ public class Map : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             players[i].name = players[i].GetComponent<Character_type>().nickname;
-            wolrdPlayerAnimator[i] = Resources.Load("Test_Assets/Animation/WolrdPlayerAnimator") as RuntimeAnimatorController;
-            players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[i];
+            if(players[i].GetComponent<Character_type>().major == PlayerType.Major.Fighter)
+            {
+                players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[0];
+            }
+            if (players[i].GetComponent<Character_type>().major == PlayerType.Major.Wizard)
+            {
+                players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[1];
+            }
+            if (players[i].GetComponent<Character_type>().major == PlayerType.Major.Cleric)
+            {
+                players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[2];
+            }
         }
         MapSetting();
     }
@@ -141,16 +154,29 @@ public class Map : MonoBehaviour
         kingdomTile.Add(totalTileObjectList[468].GetComponent<Tile>());
         //Monster
         totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[1].GetComponent<Tile>());
         totalTileObjectList[50].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[50].GetComponent<Tile>());
         totalTileObjectList[138].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[138].GetComponent<Tile>());
         totalTileObjectList[198].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[198].GetComponent<Tile>());
         totalTileObjectList[368].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[368].GetComponent<Tile>());
         totalTileObjectList[275].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[275].GetComponent<Tile>());
         totalTileObjectList[185].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[185].GetComponent<Tile>());
         totalTileObjectList[323].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[323].GetComponent<Tile>());
         totalTileObjectList[518].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[518].GetComponent<Tile>());
         totalTileObjectList[544].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[544].GetComponent<Tile>());
         totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[129].GetComponent<Tile>());
+
+
         totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
         instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
             1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity, transform);

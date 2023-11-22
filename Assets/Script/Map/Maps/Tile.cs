@@ -11,36 +11,16 @@ public class Tile : MonoBehaviour
     public List<GameObject> tiles = new List<GameObject>(6);
     public Material[] climateMaterials = new Material[3];
     public TMP_Text walkAbleNumText;
-
-    /// <summary>
-    /// Sum of G and H.
-    /// </summary>
     public int F => g + h;
 
-    /// <summary>
-    /// Cost from start tile to this tile.
-    /// </summary>
     public int g;
 
-    /// <summary>
-    /// Estimated cost from this tile to destination tile.
-    /// </summary>
     public int h;
 
-    /// <summary>
-    /// Tile's coordinates.
-    /// </summary>
     public Vector3Int position;
 
-    /// <summary>
-    /// References to all adjacent tiles.
-    /// </summary>
     public List<Tile> adjacentTiles = new List<Tile>(6);
 
-    /// <summary>
-    /// If true - Tile is an obstacle impossible to pass.
-    /// </summary>
-    /// 
     public bool isObstacle;
 
     public bool isSpawnTile = false;
@@ -55,6 +35,8 @@ public class Tile : MonoBehaviour
 
     public bool isSelect = false;
 
+    public bool isMissionOn = false;
+
     Character player;
     GameObject tagPlayer;
     GameObject dragon;
@@ -68,6 +50,7 @@ public class Tile : MonoBehaviour
     [SerializeField] GameObject monsterObject;
     [SerializeField] Transform monsterPosition;
     [SerializeField] GameObject bossObject;
+    [SerializeField] GameObject missionMarker;
 
     public Climate climate;
     public TileState tileState;
@@ -109,20 +92,23 @@ public class Tile : MonoBehaviour
         {
             isMonsterTile = true;
             monsterObject.SetActive(true);
-            if(climate == Climate.GRASS)
+            if (Map.instance.isFirst)
             {
-                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition.position,Quaternion.identity);
-            }
-            else if(climate == Climate.DESERT)
-            {
-                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.identity);
-            }
-            else
-            {
-                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.identity);
+                if (climate == Climate.GRASS)
+                {
+                    //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
+                    Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition);
+                }
+                else if (climate == Climate.DESERT)
+                {
+                    //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
+                    Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition);
+                }
+                else
+                {
+                    //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
+                    Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition);
+                }
             }
         }
         else if (tileState == TileState.BossTile)
@@ -143,13 +129,9 @@ public class Tile : MonoBehaviour
         else
         {
             isSpawnTile = false;
-
             isMonsterTile = false;
-
             isBossTile = false;
-
             isKingdomTile = false;
-
             isVillageTile = false;
         }
     }
@@ -166,6 +148,12 @@ public class Tile : MonoBehaviour
             material.material = gameObject.GetComponent<MeshRenderer>().material;
             material.material.color = defaultColor;
         }
+    }
+
+    public void MissionMarkerOnOff()
+    {
+        if (isMissionOn) { missionMarker.SetActive(true); }
+        else { missionMarker.SetActive(false);}
     }
 
     public void SelectClimate(int ClimateNum)
@@ -259,10 +247,20 @@ public class Tile : MonoBehaviour
                     isSelect = true;
                 }
             }
+            if (isKingdomTile && !Map.instance.isOutofUI && isMissionOn)
+            {
+                //Map.instance.wolrdMission.missionCleard = true;
+                //isMissionOn = false;
+                //MissionMarkerOnOff();
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                Map.instance.isOutofUI = true;
+                Map.instance.wolrdMission.firstMainMission.SetActive(true);
+            }
         }
         if (col.CompareTag("Dragon"))
         {
-                Map.instance.dragonStartTile = this;
+            Map.instance.dragonStartTile = this;
         }
     }
 
@@ -283,37 +281,22 @@ public class Tile : MonoBehaviour
             if (Map.instance.isOutofUI && isKingdomTile || Map.instance.isOutofUI && isMonsterTile)
             {
                 StartCoroutine(WaitExitUI());
-                //Map.instance.wolrdTurn.currentPlayer.transform.position
-                //tagPlayer.transform.LookAt(adjacentTiles[0].transform.position);
-                //tagPlayer.transform.Translate(new Vector3(adjacentTiles[0].gameObject.transform.position.x,
-                //    0, adjacentTiles[0].gameObject.transform.position.z) * Time.deltaTime * 0.1f, Space.Self);
-                //if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
-                //{
-                //    Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
-                //    Map.instance.startTile = null;
-                //    Map.instance.pathTileObjectList.Clear();
-                //    Map.instance.isPlayerOnEndTile = true;
-                //    Map.instance.isOutofUI = false;
-                //}
             }
-            else if (isMonsterTile && !Map.instance.isOutofUI)
-            {
-                //GameManager.instance.LoadScenceName("New Battle");
-                //Map.instance.isBattle = true;
-                //Debug.Log("전투진입");
-                Map.instance.currentInteracteUITile = this;
-                Map.instance.OnUIPlayerStop();
-                tileUI.OnMonsterBattle();
-                Map.instance.isOutofUI = true;
-            }
-            else if (isBossTile && !Map.instance.isOutofUI)
+            else if (isMonsterTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
             {
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
                 tileUI.OnMonsterBattle();
                 Map.instance.isOutofUI = true;
             }
-            else if (isKingdomTile && !Map.instance.isOutofUI)
+            else if (isBossTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
+            {
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                tileUI.OnMonsterBattle();
+                Map.instance.isOutofUI = true;
+            }
+            else if (isKingdomTile && !Map.instance.isOutofUI && !isMissionOn && !Map.instance.isPlayerMoving)
             {
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
@@ -323,14 +306,14 @@ public class Tile : MonoBehaviour
         }
         if (other.CompareTag("Dragon"))
         {
-                Map.instance.dragonStartTile = this;
+            Map.instance.dragonStartTile = this;
         }
     }
 
     IEnumerator WaitExitUI()
     {
         yield return new WaitUntil(() => !Map.instance.isOutofUI);
-        tagPlayer.transform.rotation = 
+        tagPlayer.transform.rotation =
             Quaternion.LookRotation(new Vector3(0, 0, adjacentTiles[0].transform.position.z) -
             new Vector3(0, 0, tagPlayer.transform.position.z)).normalized;
         tagPlayer.transform.position = Vector3.MoveTowards(tagPlayer.transform.position, new Vector3(
