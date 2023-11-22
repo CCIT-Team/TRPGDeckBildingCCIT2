@@ -12,6 +12,7 @@ public class MapUI : MonoBehaviour
     List<GameObject> uiUnits = new List<GameObject>();
     [SerializeField] WolrdTurn wolrdTurn;
 
+    public TMP_Text climateName;
     void Start()
     {
         Map.instance.mapUI = this;
