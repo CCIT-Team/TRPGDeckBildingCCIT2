@@ -21,7 +21,9 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
      * token
      */
     public GameObject cardTarget;
+    int token_Success;
 
+    int mainStatus = 0;
     public float finalVlaue = 0;
 
 
@@ -44,13 +46,13 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void CardEffect()
     {
-        print(playerUI.boundCharacter.name+"이(가) "+cardTarget.name+"에게 " + cardData.name + "을(를) 사용");
+        Debug.Log(playerUI.boundCharacter.name + "이(가) " + cardTarget.name + "에게 " + cardData.name + "을(를) 사용");
         var skill = CardSkills.SearchSkill(cardData.variableName);
         skill.Invoke(null, new object[] { playerUI.boundCharacter,          //사용자
                                          cardTarget.GetComponent<Unit>(),   //사용 대상
-                                         finalVlaue,            //값
+                                         finalVlaue,                        //값
                                          cardData.effectUseTurn,            //추가효과 값
-                                         cardData.token });                 //토큰 수
+                                         token_Success });                 //성공 토큰 수
         this.gameObject.SetActive(false);
     }
 
@@ -106,6 +108,15 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
                 break;
         }
+
+        if (cardData.description.Contains("회복"))
+            mainStatus = playerUI.boundCharacter.intelligence;
+        else if (cardData.description.Contains("마법") && cardData.description.Contains("물리"))
+            mainStatus = playerUI.boundCharacter.intelligence;
+        else if (cardData.description.Contains("마법"))
+            mainStatus = playerUI.boundCharacter.intelligence;
+        else
+            mainStatus = playerUI.boundCharacter.strength;
         SetCardAction();
     }
 
@@ -117,6 +128,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
         cardAction += () => playerUI.ReturnToInstant(gameObject);
         cardAction += () => N_BattleManager.instance.IsAction = true;
+        cardAction += () => token_Success = cardData.token - BattleUI.instance.RollToken(mainStatus, cardData.token);
         cardAction += () => playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
     }
 }

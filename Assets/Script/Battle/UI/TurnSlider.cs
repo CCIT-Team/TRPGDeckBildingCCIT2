@@ -25,7 +25,7 @@ public class TurnSlider : MonoBehaviour
 
             if(boundUnit.gameObject.activeSelf == false)
             {
-                N_BattleManager.instance.battleUI.AnnounceUnitDead(this);
+                BattleUI.instance.AnnounceUnitDead(this);
                 break;
             }    
 
