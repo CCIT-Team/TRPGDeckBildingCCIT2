@@ -8,7 +8,13 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 {
     public Image image;
     public Text cardName;
-    public Text description; 
+    public Image nameBoxImage;
+    public Image typeImage;
+    public Text cost;
+    public Text description;
+
+    public Sprite[] nameBoxSprits;
+    public Sprite[] typeSprits;
 
     public N_Card bindCard;
 
@@ -27,7 +33,36 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     public void DisplayOnUI()
     {
+        //이름상자,타입
+        switch(bindCard.cardData.type)
+        {
+            case CardData.CardType.SingleAttack:
+                nameBoxImage.sprite = nameBoxSprits[0];
+                typeImage.sprite = typeSprits[0];
+                break;
+            case CardData.CardType.SingleDefence:
+                nameBoxImage.sprite = nameBoxSprits[1];
+                typeImage.sprite = typeSprits[1];
+                break;
+            case CardData.CardType.SingleEndow:
+                nameBoxImage.sprite = nameBoxSprits[2];
+                typeImage.sprite = typeSprits[2];
+                break;
+            case CardData.CardType.SingleIncrease:
+                nameBoxImage.sprite = nameBoxSprits[3];
+                typeImage.sprite = typeSprits[3];
+                break;
+        }
+        
+        //이름
         cardName.text = bindCard.cardData.name;
+
+        //코스트
+        cost.text = bindCard.cardData.useCost.ToString();
+
+
+
+        //설명
         if (bindCard.cardData.description.Contains("회복"))
             damageColor = "green";
         else if (bindCard.cardData.description.Contains("마법")&& bindCard.cardData.description.Contains("물리"))

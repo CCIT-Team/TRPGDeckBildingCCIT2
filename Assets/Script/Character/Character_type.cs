@@ -11,7 +11,9 @@ public class Character_type : MonoBehaviour
     [SerializeField] private PlayerType.AvatarType avatarType;
     private float skinColor;
     private float eyeColor;
+    private GameObject weapon;
 
+    public Transform[] weaponPosition;
     public GameObject[] majorObject;
     public GameObject[] genderObject;
     public GameObject[] typeObject;
@@ -61,16 +63,28 @@ public class Character_type : MonoBehaviour
             case PlayerType.Major.Fighter:
                 majorObject[0].SetActive(false);
                 majorObject[1].SetActive(false);
+                EquipWeapon(1, "TwohandSword_claymore");
                 break;
             case PlayerType.Major.Wizard:
                 majorObject[0].SetActive(true);
                 majorObject[1].SetActive(false);
+                EquipWeapon(0, "Staff_scholarship");
                 break;
             case PlayerType.Major.Cleric:
                 majorObject[0].SetActive(false);
                 majorObject[1].SetActive(true);
+                EquipWeapon(0, "Sheild_steel");
+                EquipWeapon(1, "Mace_mace");
                 break;
         }
+    }
+
+    private void EquipWeapon(int posHand, string weaponName)
+    {
+        weapon = Instantiate(Resources.Load("Prefabs/Character/Weapon/" + weaponName, typeof(GameObject))) as GameObject;
+        weapon.transform.SetParent(weaponPosition[posHand]);
+        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localRotation = Quaternion.identity;
     }
 
     private void SwitchingGender(PlayerType.Gender gender)

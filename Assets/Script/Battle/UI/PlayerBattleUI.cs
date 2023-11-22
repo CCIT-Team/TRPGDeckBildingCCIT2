@@ -73,7 +73,7 @@ public class PlayerBattleUI : MonoBehaviour
     {
         for(int i = 0; i< boundDeck.hand.Count;i++)
         {
-            cardInstant[i].transform.localPosition = new Vector2((cardInstant.Count/2 - i - (cardInstant.Count+1) % 2 /2f) * cardSize[0], 0);
+            cardInstant[i].transform.localPosition = new Vector2((-cardInstant.Count/2 + i + (cardInstant.Count+1) % 2 /2f) * cardSize[0], 0);
         }
     }
 
