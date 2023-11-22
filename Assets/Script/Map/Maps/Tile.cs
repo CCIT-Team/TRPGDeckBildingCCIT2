@@ -49,6 +49,9 @@ public class Tile : MonoBehaviour
     [SerializeField] GameObject vileageObject;
     [SerializeField] GameObject monsterObject;
     [SerializeField] Transform monsterPosition;
+    [SerializeField] int monsterNum;//스폰된 몬스터의 마릿수입니다
+    [SerializeField] int[] monsterID = new int[]{ 30000001, 30000002, 30000003, 30000004 , 30000005 } ;//스폰될 몬스터의 ID입니다
+    [SerializeField] List<int> monsterGroup = new List<int>();
     [SerializeField] GameObject bossObject;
     [SerializeField] GameObject missionMarker;
 
@@ -97,17 +100,35 @@ public class Tile : MonoBehaviour
                 if (climate == Climate.GRASS)
                 {
                     //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
+                    monsterNum = UnityEngine.Random.Range(1, 4);
+                    for(int i = 0; i < monsterNum; i++)
+                    {
+                        monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 3)]);
+                    }
                     Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition);
+                    GameManager.instance.SetBattleMonsterSetting(monsterGroup);
                 }
                 else if (climate == Climate.DESERT)
                 {
+                    monsterNum = UnityEngine.Random.Range(2, 4);
+                    for (int i = 0; i < monsterNum; i++)
+                    {
+                        monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
+                    }
                     //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
                     Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition);
+                    GameManager.instance.SetBattleMonsterSetting(monsterGroup);
                 }
                 else
                 {
+                    monsterNum = UnityEngine.Random.Range(2, 6);
+                    for (int i = 0; i < monsterNum; i++)
+                    {
+                        monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
+                    }
                     //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
                     Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition);
+                    GameManager.instance.SetBattleMonsterSetting(monsterGroup);
                 }
             }
         }
