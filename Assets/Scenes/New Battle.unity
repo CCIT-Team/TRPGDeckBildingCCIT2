@@ -432,7 +432,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 89ea7c5b33d372848b133b2a9329044c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dce626962bee5e4dbc9ef7284bcfad9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1231,7 +1231,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 89ea7c5b33d372848b133b2a9329044c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dce626962bee5e4dbc9ef7284bcfad9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1731,8 +1731,6 @@ MonoBehaviour:
   FighterCardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   WizardCardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   ClericCardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  battleWin: 0
-  sample: 81c3c90182c3c90181c3c901
 --- !u!1 &1576886060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,7 +2443,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 89ea7c5b33d372848b133b2a9329044c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dce626962bee5e4dbc9ef7284bcfad9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
