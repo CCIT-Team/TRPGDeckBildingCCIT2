@@ -12,13 +12,13 @@ public class WolrdMission : MonoBehaviour
     public Transform mainMissionUITransform;
     public Transform subMissionUITransform;
 
-    public GameObject mainMissionUIObject;
+    public GameObject firstMainMission;
     public GameObject subMissionUIObject;
 
-    public GameObject mainMission;
-    public List<GameObject> subMissions = new List<GameObject>(3);
+    public List<GameObject> missions = new List<GameObject>();
+    public bool missionCleard = false;
 
-    int mainMissionNum = 0;
+    public int mainMissionNum = 0;
 
     void Start()
     {
@@ -28,12 +28,12 @@ public class WolrdMission : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CheckMissionNum();
     }
 
     public void OnOffMissionWindow()
     {
-        if(!isWindowOn)
+        if (!isWindowOn)
         {
             missionButtonAni.SetBool("OnOff", true);
             isWindowOn = true;
@@ -47,13 +47,13 @@ public class WolrdMission : MonoBehaviour
 
     public void CheckMissionNum()
     {
-        switch(mainMissionNum)
+        switch (mainMissionNum)
         {
             case 0:
-                AddMainMission();
+                    FirstMainMission();
                 break;
             case 1:
-
+                    SecondMainMission();
                 break;
             case 2:
 
@@ -70,5 +70,19 @@ public class WolrdMission : MonoBehaviour
         }
     }
 
+    void FirstMainMission()
+    {
+        mainMissionText.text = "왕국으로 가세요";
+        Map.instance.currentMissionTile = Map.instance.kingdomTile[0].GetComponent<Tile>();
+        Map.instance.kingdomTile[0].GetComponent<Tile>().isMissionOn = true;
+        Map.instance.kingdomTile[0].GetComponent<Tile>().MissionMarkerOnOff();
+    }
 
+    void SecondMainMission()
+    {
+        mainMissionText.text = "몬스터를 사냥하세요";
+        Map.instance.currentMissionTile = Map.instance.monsterTile[0];
+        Map.instance.monsterTile[0].GetComponent<Tile>().isMissionOn = true;
+        Map.instance.monsterTile[0].GetComponent<Tile>().MissionMarkerOnOff();
+    }
 }
