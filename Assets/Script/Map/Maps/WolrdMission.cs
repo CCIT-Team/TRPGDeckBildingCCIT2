@@ -84,5 +84,13 @@ public class WolrdMission : MonoBehaviour
         Map.instance.currentMissionTile = Map.instance.monsterTile[0];
         Map.instance.monsterTile[0].GetComponent<Tile>().isMissionOn = true;
         Map.instance.monsterTile[0].GetComponent<Tile>().MissionMarkerOnOff();
+        if(GameManager.instance.isVictory)
+        {
+            Map.instance.currentMissionTile.GetComponent<Tile>().isMissionOn = false;
+            Map.instance.currentMissionTile.GetComponent<Tile>().MissionMarkerOnOff();
+            Map.instance.currentMissionTile.GetComponent<Tile>().DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            Map.instance.wolrdMission.mainMissionNum = 2;
+        }
     }
 }
