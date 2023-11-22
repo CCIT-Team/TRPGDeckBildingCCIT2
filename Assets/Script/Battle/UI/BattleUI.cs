@@ -6,6 +6,7 @@ using TMPro;
 
 public class BattleUI : MonoBehaviour
 {
+    public static BattleUI instance;
     public GameObject inputBlocker;
 
     [Header("TurnDisplay")]
@@ -20,13 +21,24 @@ public class BattleUI : MonoBehaviour
     public GameObject TurnAnnounce;
     public TMP_Text announceText;
 
-
     [Header("Player")]
     public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];
     List<Unit> boundUnits = new List<Unit>();
 
     [Header("Token")]
-    public Image[] tokens;
+    public GameObject tokenPosition;
+    public Token tokenPrefab;
+    public List<Token> tokens;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+            Destroy(this);
+    }
 
     public void BindPlayer(GameObject[] playerarray)
     {
@@ -36,22 +48,32 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    int RollToken(int tokenAmount)
+    public int RollToken(int mainStatus,int tokenAmount)
     {
+        for(int i =0; i< tokenAmount; i++)
+            tokens.Add(Instantiate(tokenPrefab,tokenPosition.transform));
+
+        for (int i = 0; i < tokenAmount; i++)
+        {
+            tokens[i].transform.localPosition = new Vector2((-tokenAmount / 2 + i + (tokenAmount + 1) % 2 / 2f) * 160, 0);
+        }
+
         int rollResult = tokenAmount;
         for (int i = 0; i < tokenAmount; i++)
         {
-            int x = UnityEngine.Random.Range(0, 100);
-            if (x <= 100)
+            int x = Random.Range(0, 100);
+            if (x <= mainStatus)
             {
-                Debug.Log("성공");
+                tokens[i].CheckToken(StatusType.Intelligence, true);
             }
             else
             {
-                Debug.Log("실패");
+                tokens[i].CheckToken(StatusType.Intelligence, false);
                 rollResult--;
             }
+            Destroy(tokens[i].gameObject, 0.5f);
         }
+        tokens.Clear();
         return rollResult;
     }
 

@@ -5,19 +5,25 @@ using UnityEngine;
 public class BattleCameraMove : MonoBehaviour
 {
     Camera cam;
+    public Transform playerSight;
+    public Transform monsterSight;
 
     private void Awake()
     {
         cam = GetComponent<Camera>();
     }
-    void Start()
+    
+    public void MovePosition(GameObject gameObject)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(gameObject.CompareTag("Player"))
+        {
+            transform.position = playerSight.position;
+            transform.rotation = playerSight.rotation;
+        }
+        else
+        {
+            transform.position = monsterSight.position;
+            transform.rotation = monsterSight.rotation;
+        }
     }
 }
