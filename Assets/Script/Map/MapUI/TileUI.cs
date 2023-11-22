@@ -10,6 +10,7 @@ public class TileUI : MonoBehaviour
     public Canvas shopUI;
     public Canvas hospital;
     public Canvas MonsterBattleUI;
+    public GameObject[] MonsterNum = new GameObject[5];//몬스터 마릿수
 
     public Shop shop;
 

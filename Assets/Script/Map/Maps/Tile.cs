@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour
     [SerializeField] GameObject monsterObject;
     [SerializeField] Transform monsterPosition;
     [SerializeField] int monsterNum;//스폰된 몬스터의 마릿수입니다
-    [SerializeField] int[] monsterID = new int[]{ 30000001, 30000002, 30000003, 30000004 , 30000005 } ;//스폰될 몬스터의 ID입니다
+    [SerializeField] int[] monsterID = new int[] { 30000001, 30000002, 30000003, 30000004, 30000005 };//스폰될 몬스터의 ID입니다
     [SerializeField] List<int> monsterGroup = new List<int>();
     [SerializeField] GameObject bossObject;
     [SerializeField] GameObject missionMarker;
@@ -95,41 +95,38 @@ public class Tile : MonoBehaviour
         {
             isMonsterTile = true;
             monsterObject.SetActive(true);
-            if (Map.instance.isFirst)
+            if (climate == Climate.GRASS)
             {
-                if (climate == Climate.GRASS)
+                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
+                monsterNum = UnityEngine.Random.Range(1, 4);
+                for (int i = 0; i < monsterNum; i++)
                 {
-                    //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
-                    monsterNum = UnityEngine.Random.Range(1, 4);
-                    for(int i = 0; i < monsterNum; i++)
-                    {
-                        monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 3)]);
-                    }
-                    Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition);
-                    GameManager.instance.SetBattleMonsterSetting(monsterGroup);
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 3)]);
                 }
-                else if (climate == Climate.DESERT)
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition);
+                GameManager.instance.SetBattleMonsterSetting(monsterGroup);
+            }
+            else if (climate == Climate.DESERT)
+            {
+                monsterNum = UnityEngine.Random.Range(2, 4);
+                for (int i = 0; i < monsterNum; i++)
                 {
-                    monsterNum = UnityEngine.Random.Range(2, 4);
-                    for (int i = 0; i < monsterNum; i++)
-                    {
-                        monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
-                    }
-                    //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
-                    Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition);
-                    GameManager.instance.SetBattleMonsterSetting(monsterGroup);
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
                 }
-                else
+                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition);
+                GameManager.instance.SetBattleMonsterSetting(monsterGroup);
+            }
+            else
+            {
+                monsterNum = UnityEngine.Random.Range(2, 6);
+                for (int i = 0; i < monsterNum; i++)
                 {
-                    monsterNum = UnityEngine.Random.Range(2, 6);
-                    for (int i = 0; i < monsterNum; i++)
-                    {
-                        monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
-                    }
-                    //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
-                    Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition);
-                    GameManager.instance.SetBattleMonsterSetting(monsterGroup);
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
                 }
+                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition);
+                GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
         }
         else if (tileState == TileState.BossTile)
@@ -174,7 +171,7 @@ public class Tile : MonoBehaviour
     public void MissionMarkerOnOff()
     {
         if (isMissionOn) { missionMarker.SetActive(true); }
-        else { missionMarker.SetActive(false);}
+        else { missionMarker.SetActive(false); }
     }
 
     public void SelectClimate(int ClimateNum)
@@ -259,6 +256,18 @@ public class Tile : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             player = col.gameObject.GetComponent<Character>();
+            if(climate == Climate.GRASS)
+            {
+                Map.instance.mapUI.climateName.text = "초원";
+            }
+            else if (climate == Climate.DESERT)
+            {
+                Map.instance.mapUI.climateName.text = "사막";
+            }
+            else
+            {
+                Map.instance.mapUI.climateName.text = "정글";
+            }
 
             if (Map.instance.startTile == null)
             {
@@ -308,6 +317,10 @@ public class Tile : MonoBehaviour
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
                 tileUI.OnMonsterBattle();
+                for (int i = 0; i < monsterGroup.Count; i++)
+                {
+                    tileUI.MonsterNum[i].SetActive(true);
+                }
                 Map.instance.isOutofUI = true;
             }
             else if (isBossTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
