@@ -1090,7 +1090,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c0c777999302804e9f9aedbc71b8757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 8081674174318310418}
+  startEX_panel: {fileID: 8081674174318310418}
+  loading_panel: {fileID: 0}
+  loadSlider: {fileID: 0}
   loadButton: {fileID: 3929608715728783770}
 --- !u!1 &3646682831820105454
 GameObject:

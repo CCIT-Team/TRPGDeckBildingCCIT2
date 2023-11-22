@@ -24,6 +24,11 @@ public class DataBase : MonoBehaviour
     }
     public List<PlayerDefaultData> defaultData = new List<PlayerDefaultData>();
     public List<CardData> cardData = new List<CardData>();
+
+    public List<CardData> fighterCardData = new List<CardData>();
+    public List<CardData> wizardCardData = new List<CardData>();
+    public List<CardData> clericCardData = new List<CardData>();
+
     public List<MonsterData> monsterData = new List<MonsterData>();
     public List<WeaponData> weaponData = new List<WeaponData>();
     public List<ArmorData> armorData = new List<ArmorData>();
@@ -420,7 +425,7 @@ public class DataBase : MonoBehaviour
     }
     private void LoadCardData(IDbCommand dbCommand, IDataReader dataReader)
     {
-        string[] tableNames = { "Fighter_CardData", "Wizard_CardData", "Cleric_CardData", "OnehandSword_CardData", "TwohandSword_CardData" };
+        string[] tableNames = { "Fighter_CardDeck", "Wizard_CardDeck", "Cleric_CardDeck", "OnehandSword_CardData", "TwohandSword_CardData" };
 
         for (int i = 0; i < tableNames.Length; i++)
         {
@@ -440,7 +445,22 @@ public class DataBase : MonoBehaviour
                 int useCost = dataReader.GetInt32(8);
                 int token = dataReader.GetInt32(9);
 
-                cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                if (tableNames[i] == "Fighter_CardDeck")
+                {
+                    fighterCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                }
+                else if (tableNames[i] == "Wizard_CardDeck")
+                {
+                    wizardCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                }
+                else if (tableNames[i] == "Cleric_CardDeck")
+                {
+                    clericCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                }
+                else
+                {
+                    cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                }
             }
 
             dataReader.Close();

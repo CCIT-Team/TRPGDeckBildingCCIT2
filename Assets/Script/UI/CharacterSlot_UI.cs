@@ -34,8 +34,9 @@ public class CharacterSlot_UI : MonoBehaviour
     TMP_Text majorText;
     TMP_Text avatarGenderText;
     TMP_Text avatarTypeText;
-    TMP_Text skinColorText;
-    TMP_Text eyeColorText;
+    Image skinColorImage;
+    Image hairColorImage;
+    Image eyeColorImage;
 
     string avatarNickName_index = null;
     int major_index = 0;
@@ -45,6 +46,7 @@ public class CharacterSlot_UI : MonoBehaviour
     int eyeColor_index = 0;
     const float skinColor_BaseOffset = -0.015625f;
     const float eyeColor_BaseOffset = -0.015625f;
+    const float hiarColor_BaseOffset = -0.015625f;
 
     private void Start()
     {
@@ -52,15 +54,17 @@ public class CharacterSlot_UI : MonoBehaviour
         majorText = transform.GetChild(1).transform.GetChild(0).GetComponent<TMP_Text>();
         avatarGenderText = transform.GetChild(2).transform.GetChild(0).GetComponent<TMP_Text>();
         avatarTypeText = transform.GetChild(3).transform.GetChild(0).GetComponent<TMP_Text>();
-        skinColorText = transform.GetChild(4).GetComponent<TMP_Text>();
-        eyeColorText = transform.GetChild(5).GetComponent<TMP_Text>();
+        skinColorImage = transform.GetChild(4).transform.GetChild(0).GetComponent<Image>();
+        //머리색 컴포넌트 참조
+        hairColorImage = transform.GetChild(5).transform.GetChild(0).GetComponent<Image>();
+        eyeColorImage = transform.GetChild(5).transform.GetChild(1).GetComponent<Image>();
 
         avatarNickName.name = "AvatarNickname_Inputbox";
         majorText.name = "Major_Text";
         avatarGenderText.name = "AvatarGender_Text";
         avatarTypeText.name = "AvatarType_Text";
-        skinColorText.name = "SkinColor";
-        eyeColorText.name = "EyeColor";
+        skinColorImage.transform.name = "SkinColor";
+        eyeColorImage.transform.parent.name = "EyeHairColor"; //머리색 눈색 둘중 하나만 해도댐
 
         majorList = Enum.GetNames(typeof(PlayerType.Major)).ToList();
         avatarGenderList = Enum.GetNames(typeof(PlayerType.Gender)).ToList();
@@ -68,7 +72,7 @@ public class CharacterSlot_UI : MonoBehaviour
         float skinColor_Offset;
         for(int i = 0; i < 15; i++)
         {
-            skinColor_Offset = skinColor_BaseOffset * (i + 1);
+            skinColor_Offset = skinColor_BaseOffset * i;
             skinColor.Add(skinColor_Offset);
         }
 
@@ -82,14 +86,16 @@ public class CharacterSlot_UI : MonoBehaviour
         majorText.text = majorList[major_index];
         avatarGenderText.text = avatarGenderList[avatarGender_index];
         avatarTypeText.text = avatarTypeList[avatarType_index];
-        skinColorText.text = skinColor[skinColor_index].ToString();
-        eyeColorText.text = eyeColor[eyeColor_index].ToString();
 
-        SetSkinColor(skinColor_BaseOffset);
+        skinColorImage.color = SwitchSkinUIColor(skinColor_index);
+        eyeColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[0];
+        hairColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[1];
+        SetSkinColor(0);
+        SetEyeColor(0);
     }
     //직업 순서) 파이터 0 - 매지션 1 - 클레릭 2
     //종족 순서) 인간 0 - 엘프 1 - 다크엘프 2 - 하프오크 3
-    public void NextButton(TMP_Text text)
+    public void NextButton(GameObject text)
     {
         switch(text.name)
         {
@@ -122,7 +128,9 @@ public class CharacterSlot_UI : MonoBehaviour
                 else if (avatarType_index == 3)
                     skinColor_index = 11;
 
-                skinColorText.text = skinColor[skinColor_index].ToString();
+                //skinColorImage.color = new Color(ColorPalette.skinColors[skinColor_index].x, ColorPalette.skinColors[skinColor_index].y, ColorPalette.skinColors[skinColor_index].z);
+                skinColorImage.color = SwitchSkinUIColor(skinColor_index);
+                //skinColorText.text = skinColor[skinColor_index].ToString();
 
                 SwitchingType(avatarType_index, skinColor_index);
                 break;
@@ -148,20 +156,24 @@ public class CharacterSlot_UI : MonoBehaviour
                         skinColor_index =10;
                 }
 
-                skinColorText.text = skinColor[++skinColor_index].ToString();
+                //skinColorText.text = skinColor[++skinColor_index].ToString();
+                skinColorImage.color = SwitchSkinUIColor(++skinColor_index);
                 SetSkinColor(skinColor[skinColor_index]);
                 break;
-            case "EyeColor":
+            case "EyeHairColor":
                 if (eyeColor_index >= eyeColor.Count - 1)
                     eyeColor_index = -1;
 
-                eyeColorText.text = eyeColor[++eyeColor_index].ToString();
+                //eyeColorText.text = eyeColor[++eyeColor_index].ToString();
+                eyeColorImage.color = SwitchEyeHairUIColor(++eyeColor_index)[0];
+                hairColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[1];
                 SetEyeColor(eyeColor[eyeColor_index]);
+                //머리색바꾸기
                 break;
         }
     }
 
-    public void PreButton(TMP_Text text)
+    public void PreButton(GameObject text)
     {
         switch (text.name)
         {
@@ -194,8 +206,8 @@ public class CharacterSlot_UI : MonoBehaviour
                 else if (avatarType_index == 3)
                     skinColor_index = 11;
 
-                skinColorText.text = skinColor[skinColor_index].ToString();
-
+                //skinColorText.text = skinColor[skinColor_index].ToString();
+                skinColorImage.color = SwitchSkinUIColor(skinColor_index);
                 SwitchingType(avatarType_index, skinColor_index);
                 break;
             case "SkinColor":
@@ -220,17 +232,38 @@ public class CharacterSlot_UI : MonoBehaviour
                         skinColor_index = 15;
                 }
 
-                skinColorText.text = skinColor[--skinColor_index].ToString();
+                //skinColorText.text = skinColor[--skinColor_index].ToString();
+                skinColorImage.color = SwitchSkinUIColor(--skinColor_index);
                 SetSkinColor(skinColor[skinColor_index]);
                 break;
-            case "EyeColor":
+            case "EyeHairColor":
                 if (eyeColor_index <= 0)
                     eyeColor_index = eyeColor.Count;
 
-                eyeColorText.text = eyeColor[--eyeColor_index].ToString();
+                //eyeColorText.text = eyeColor[--eyeColor_index].ToString();
+                eyeColorImage.color = SwitchEyeHairUIColor(--eyeColor_index)[0];
+                hairColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[1];
                 SetEyeColor(eyeColor[eyeColor_index]);
+                //머리색 바꾸기
                 break;
         }
+    }
+
+    private Color SwitchSkinUIColor(int index)
+    {
+        Color pattle;
+        pattle = new Color(ColorPalette.skinColors[index].x / 255f, ColorPalette.skinColors[index].y / 255f, ColorPalette.skinColors[index].z / 255f);
+
+        return pattle;
+    }
+
+    private Color[] SwitchEyeHairUIColor(int index)
+    {
+        Color[] pattle = new Color[2];
+        pattle[0] = new Color(ColorPalette.eyeColors[index].x / 255f, ColorPalette.eyeColors[index].y / 255f, ColorPalette.eyeColors[index].z / 255f);
+        pattle[1] = new Color(ColorPalette.hairColors[index].x / 255f, ColorPalette.hairColors[index].y / 255f, ColorPalette.hairColors[index].z / 255f);
+
+        return pattle;
     }
 
     private void SwitchingMajor(int index)
@@ -392,4 +425,61 @@ public class CharacterSlot_UI : MonoBehaviour
     {
         avatarNickName_index = avatarNickName.text;
     }
+}
+
+
+public static class ColorPalette
+{
+    public static Vector3[] skinColors = new[] 
+    {
+        new Vector3(254, 221, 214),
+        new Vector3(247, 221, 202),
+        new Vector3(235, 187, 151),
+        new Vector3(121, 78, 69),
+        new Vector3(254, 238, 231),
+        new Vector3(252, 235, 220),
+        new Vector3(254, 233, 231),
+        new Vector3(183, 173, 225),
+        new Vector3(139, 144, 194),
+        new Vector3(165, 125, 180),
+        new Vector3(101, 91, 96),
+        new Vector3(164, 199, 125),
+        new Vector3(199, 135, 125),
+        new Vector3(199, 168, 125),
+        new Vector3(120, 145, 74),
+    };
+
+    public static Vector3[] eyeColors = new[]
+    {
+        new Vector3(21, 9, 2),
+        new Vector3(79, 39, 17),
+        new Vector3(145, 98, 71),
+        new Vector3(171, 127, 76),
+        new Vector3(134, 144, 32),
+        new Vector3(88, 169, 44),
+        new Vector3(149, 193, 102),
+        new Vector3(66, 179, 151),
+        new Vector3(126, 193, 203),
+        new Vector3(93, 125, 212),
+        new Vector3(169, 172, 180),
+        new Vector3(240, 125, 125),
+        new Vector3(44, 44, 46)
+    };
+
+    public static Vector3[] hairColors = new[]
+    {
+        new Vector3(42, 42, 42),
+        new Vector3(103, 70, 47),
+        new Vector3(154, 115, 56),
+        new Vector3(234, 184, 109),
+        new Vector3(199, 90, 60),
+        new Vector3(234, 184, 109),
+        new Vector3(183, 174, 161),
+        new Vector3(247, 202, 134),
+        new Vector3(115, 83, 55),
+        new Vector3(58, 54, 50),
+        new Vector3(178, 177, 175),
+        new Vector3(192, 188, 184),
+        new Vector3(192, 188, 184)
+    };
 }

@@ -1,14 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
+    private List<int> deliveryMonsterData = new List<int>();
     public GameObject map;
+    public bool isVictory;
+    private GameObject loading_Panel;
+    private Slider loadingBar;
     private string sceneName = null; //scene변경
 
 
@@ -93,13 +99,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetBattleMonsterSetting(List<int> mosterNo) //맵에서 몬스터 리스트 값 저장
+    {
+        deliveryMonsterData.Clear();
+        deliveryMonsterData = mosterNo.ToList();       
+    }
+
+    public List<int> GetBattleMonsterSetting() //저장되어있는 리스트 값 가져오기
+    {
+        if (deliveryMonsterData.Any())
+            return deliveryMonsterData;
+        else
+            return null;
+    }
+
     private void LoadMonster(int index, Vector3 position)
     {
         for (int i = 0; i < DataBase.instance.monsterData.Count; i++)
         {
             if (DataBase.instance.monsterData[i].no == index)
             {
-                GameObject unit = Instantiate(Resources.Load("Test_Assets/Prefab/Monster", typeof(GameObject))) as GameObject;
+                GameObject unit = Instantiate(Resources.Load("Prefabs/Monster/Monster", typeof(GameObject))) as GameObject;
                 unit.transform.position = position;//나중에 맵 포지션 받아올거임
                 MonsterStatSetting(unit, i);
             }
@@ -117,14 +137,19 @@ public class GameManager : MonoBehaviour
     public void LoadScenceName(string name)
     {
         sceneName = name;
+        loading_Panel = Instantiate(Resources.Load("Prefabs/UI/Loading_Panel", typeof(GameObject))) as GameObject;
+        //loading_Panel.transform.SetParent(GameObject.Find("Canvas").transform);
+        loadingBar = loading_Panel.transform.GetChild(0).transform.GetChild(0).GetComponent<Slider>();
         StartCoroutine(LoadScene());
     }
 
     private IEnumerator LoadScene()
     {
         //yield return new WaitForSeconds(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length); //씬전환 연출 애니메이션
+        yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
+        float timer = 0.0f;
 
         if (players.Count != 0)
         {
@@ -151,14 +176,36 @@ public class GameManager : MonoBehaviour
 
         while (!op.isDone)
         {
-            if (op.progress >= 0.9f)
-            {
-                yield return new WaitForSeconds(1.0f);
-                op.allowSceneActivation = true;
-            }
             yield return null;
-        }
+            timer += Time.deltaTime;
+            if(op.progress < 0.9f)
+            {
+                loadingBar.value = Mathf.Lerp(loadingBar.value, op.progress, timer);
+                if(loadingBar.value >= op.progress)
+                {
+                    timer = 0f;
+                }
+            }
+            else
+            {
+                loadingBar.value = Mathf.Lerp(loadingBar.value, 1.0f, timer);
+                if(loadingBar.value == 1.0f)
+                {
+                    //loadingBar.value = 0.9f;
+                    yield return new WaitForSeconds(1.0f);
+                    op.allowSceneActivation = true;                  
+                }
+                yield return null;
+            }
 
+            //if (op.progress >= 0.9f)
+            //{
+
+            //    yield return new WaitForSeconds(1.0f);
+            //    op.allowSceneActivation = true;
+            //}
+            //yield return null;
+        }
         SceneManager.sceneLoaded += ActiveSceneMap;
     }
 

@@ -24,6 +24,9 @@ public class Character : Unit
     public int maxExp;
     public int gold = 0;
 
+    public int portionRegular = 0;
+    public int portionLarge = 0;
+
     public bool isMyturn;
     public WorldState worldState = WorldState.Idle;
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TitleUI_Manager : MonoBehaviour
 {
-    public GameObject panel;
+    public GameObject startEX_panel;
     public GameObject loadButton;
     private void Start()
     {
@@ -21,7 +21,7 @@ public class TitleUI_Manager : MonoBehaviour
         }
         else
         {
-            panel.gameObject.SetActive(true);
+            startEX_panel.gameObject.SetActive(true);
         }
     }
     

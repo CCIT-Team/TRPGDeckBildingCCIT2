@@ -51,9 +51,9 @@ public class LobbyUI_Manager : MonoBehaviour
         {
             AvatarSetting();
             GetLobbyAvatar();
-            panel.SetActive(true);
 
             GameManager.instance.LoadScenceName(sceneName);
+            panel.SetActive(false);
         }
     }
 
@@ -108,7 +108,8 @@ public class LobbyUI_Manager : MonoBehaviour
                 insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_0[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_0[0], avatar_0[2]));
-                DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_0[2]));
+                //DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_0[2]));
+                DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_0[0], avatar_0[2]));
                 break;
             case 1:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_1[0]}, '{avatar_1[1]}', '{avatar_1[2]}', '{avatar_1[3]}', '{avatar_1[4]}', '{avatar_1[5]}', '{avatar_1[6]}')";
@@ -116,7 +117,8 @@ public class LobbyUI_Manager : MonoBehaviour
                 insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_1[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_1[0], avatar_1[2]));
-                DataBase.instance.SaveDB(AvatarCardSetting(avatar_1[0], avatar_1[2]));
+                //DataBase.instance.SaveDB(AvatarCardSetting(avatar_1[0], avatar_1[2]));
+                DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_1[0], avatar_1[2]));
                 break;
             case 2:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_2[0]}, '{avatar_2[1]}', '{avatar_2[2]}', '{avatar_2[3]}', '{avatar_2[4]}', '{avatar_2[5]}', '{avatar_2[6]}')";
@@ -124,7 +126,8 @@ public class LobbyUI_Manager : MonoBehaviour
                 insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_2[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_2[0], avatar_2[2]));
-                DataBase.instance.SaveDB(AvatarCardSetting(avatar_2[0], avatar_2[2]));
+               //DataBase.instance.SaveDB(AvatarCardSetting(avatar_2[0], avatar_2[2]));
+               DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_2[0], avatar_2[2]));
                 break;
         }
     }
@@ -143,6 +146,52 @@ public class LobbyUI_Manager : MonoBehaviour
         }
         return null;
     }
+
+    private string NewAvatarCardSetting(string playerNum, string major)
+    {
+        int[] card = new int[40];
+        for (int i = 0; i < 40; i++)
+        {
+            card[i] = 0;
+        }
+        
+        switch(major)
+        {
+            case "Fighter":
+                for(int i = 0; i < DataBase.instance.fighterCardData.Count; i++)
+                {
+                    card[i] = DataBase.instance.fighterCardData[i].no;
+                }
+                break;
+            case "Wizard":
+                for (int i = 0; i < DataBase.instance.wizardCardData.Count; i++)
+                {
+                    card[i] = DataBase.instance.wizardCardData[i].no;
+                }
+                break;
+            case "Cleric":
+                for (int i = 0; i < DataBase.instance.clericCardData.Count; i++)
+                {
+                    card[i] = DataBase.instance.clericCardData[i].no;
+                }
+                break;
+        }
+
+        string query = "INSERT INTO Deck (playerNum";
+        for (int j = 1; j < 41; j++)
+        {
+            query += ", no" + j.ToString();
+        }
+        query += ") VALUES (" + playerNum;
+
+        for (int j = 0; j < 40; j++)
+        {
+            query += ", " + card[j];
+        }
+        query += ")";
+        return query;
+    }
+
     private string AvatarCardSetting(string playerNum, string major)
     {
         int[] card = new int[40];
