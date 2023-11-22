@@ -18,11 +18,13 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     [Tooltip("직업/무기 별 카드 시작 인덱스-1\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
     public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] FighterCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] WizardCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] ClericCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
 
     bool isAction = false;
     bool isTurnAnnounce = false;
-
-    public bool battleWin = false;
 
     public bool IsAction
     {
@@ -38,8 +40,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 StartCoroutine(WaitingWhileAction());
         }
     }
-
-    public int[] sample = new int[5];
 
     private void Awake()
     {
@@ -103,7 +103,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (playerAlive ^ monsterAlive)
             if (playerAlive)
             {
-                battleWin = true;
+                GameManager.instance.isVictory = true;
                 BattleUI.instance.gameObject.SetActive(false);
                 rewardUI.GiveReward();
             } 
@@ -193,6 +193,132 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 case 59:
                     break;
             }
+            foreach (CardData cardData in DataBase.instance.fighterCardData)
+            {
+                indexByWeapon = int.Parse(cardData.no.ToString().Substring(0, 2));
+                switch (indexByWeapon)  //직업,장비 별 시작 인덱스이므로 그 직업의 번호가 아닌 다음 번호에 ++
+                {
+                    case 50:    //워리어
+                        FighterCardStartIndexOfType[1]++;
+                        goto case 60;
+                    case 60:    //매지션
+                        FighterCardStartIndexOfType[2]++;
+                        goto case 70;
+                    case 70:    //클레릭
+                        FighterCardStartIndexOfType[3]++;
+                        goto case 51;
+                    case 51:
+                        FighterCardStartIndexOfType[4]++;
+                        goto case 52;
+                    case 52:
+                        FighterCardStartIndexOfType[5]++;
+                        goto case 53;
+                    case 53:
+                        FighterCardStartIndexOfType[6]++;
+                        goto case 54;
+                    case 54:
+                        FighterCardStartIndexOfType[7]++;
+                        goto case 55;
+                    case 55:
+                        FighterCardStartIndexOfType[8]++;
+                        goto case 56;
+                    case 56:
+                        FighterCardStartIndexOfType[9]++;
+                        goto case 57;
+                    case 57:
+                        FighterCardStartIndexOfType[10]++;
+                        goto case 58;
+                    case 58:
+                        FighterCardStartIndexOfType[11]++;
+                        goto case 59;
+                    case 59:
+                        break;
+                }
+            }
+            foreach (CardData cardData in DataBase.instance.wizardCardData)
+            {
+                indexByWeapon = int.Parse(cardData.no.ToString().Substring(0, 2));
+                switch (indexByWeapon)  //직업,장비 별 시작 인덱스이므로 그 직업의 번호가 아닌 다음 번호에 ++
+                {
+                    case 50:    //워리어
+                        WizardCardStartIndexOfType[1]++;
+                        goto case 60;
+                    case 60:    //매지션
+                        WizardCardStartIndexOfType[2]++;
+                        goto case 70;
+                    case 70:    //클레릭
+                        WizardCardStartIndexOfType[3]++;
+                        goto case 51;
+                    case 51:
+                        WizardCardStartIndexOfType[4]++;
+                        goto case 52;
+                    case 52:
+                        WizardCardStartIndexOfType[5]++;
+                        goto case 53;
+                    case 53:
+                        WizardCardStartIndexOfType[6]++;
+                        goto case 54;
+                    case 54:
+                        WizardCardStartIndexOfType[7]++;
+                        goto case 55;
+                    case 55:
+                        WizardCardStartIndexOfType[8]++;
+                        goto case 56;
+                    case 56:
+                        WizardCardStartIndexOfType[9]++;
+                        goto case 57;
+                    case 57:
+                        WizardCardStartIndexOfType[10]++;
+                        goto case 58;
+                    case 58:
+                        WizardCardStartIndexOfType[11]++;
+                        goto case 59;
+                    case 59:
+                        break;
+                }
+            }
+            foreach (CardData cardData in DataBase.instance.clericCardData)
+            {
+                indexByWeapon = int.Parse(cardData.no.ToString().Substring(0, 2));
+                switch (indexByWeapon)  //직업,장비 별 시작 인덱스이므로 그 직업의 번호가 아닌 다음 번호에 ++
+                {
+                    case 50:    //워리어
+                        ClericCardStartIndexOfType[1]++;
+                        goto case 60;
+                    case 60:    //매지션
+                        ClericCardStartIndexOfType[2]++;
+                        goto case 70;
+                    case 70:    //클레릭
+                        ClericCardStartIndexOfType[3]++;
+                        goto case 51;
+                    case 51:
+                        ClericCardStartIndexOfType[4]++;
+                        goto case 52;
+                    case 52:
+                        ClericCardStartIndexOfType[5]++;
+                        goto case 53;
+                    case 53:
+                        ClericCardStartIndexOfType[6]++;
+                        goto case 54;
+                    case 54:
+                        ClericCardStartIndexOfType[7]++;
+                        goto case 55;
+                    case 55:
+                        ClericCardStartIndexOfType[8]++;
+                        goto case 56;
+                    case 56:
+                        ClericCardStartIndexOfType[9]++;
+                        goto case 57;
+                    case 57:
+                        ClericCardStartIndexOfType[10]++;
+                        goto case 58;
+                    case 58:
+                        ClericCardStartIndexOfType[11]++;
+                        goto case 59;
+                    case 59:
+                        break;
+                }
+            }
         }
     }
     
@@ -239,8 +365,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             }
         }
 
-        //int 배열로 받는걸로 예상하고 짬
-        GameManager.instance.MonsterInstance(sample, monsterPosition.position);
+        GameManager.instance.MonsterInstance(GameManager.instance.GetBattleMonsterSetting().ToArray(), monsterPosition.position);
         GameObject[] monsterArray = GameObject.FindGameObjectsWithTag("Monster");
         for (int i =0; i < monsterArray.Length; i++)
         {
