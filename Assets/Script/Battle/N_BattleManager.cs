@@ -22,8 +22,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     bool isAction = false;
     bool isTurnAnnounce = false;
 
-    public bool battleWin = false;
-
     public bool IsAction
     {
         get { return isAction;}
@@ -38,8 +36,6 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 StartCoroutine(WaitingWhileAction());
         }
     }
-
-    public int[] sample = new int[5];
 
     private void Awake()
     {
@@ -103,7 +99,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (playerAlive ^ monsterAlive)
             if (playerAlive)
             {
-                battleWin = true;
+                GameManager.instance.isVictory = true;
                 BattleUI.instance.gameObject.SetActive(false);
                 rewardUI.GiveReward();
             } 
@@ -239,8 +235,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             }
         }
 
-        //int 배열로 받는걸로 예상하고 짬
-        GameManager.instance.MonsterInstance(sample, monsterPosition.position);
+        GameManager.instance.MonsterInstance(GameManager.instance.GetBattleMonsterSetting().ToArray(), monsterPosition.position);
         GameObject[] monsterArray = GameObject.FindGameObjectsWithTag("Monster");
         for (int i =0; i < monsterArray.Length; i++)
         {
