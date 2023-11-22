@@ -6,6 +6,14 @@ using TMPro;
 
 public class PlayerStatUI : MonoBehaviour
 {
+    //작업 순서
+
+    //selectPlayerUI 조립
+
+    //Find Tag => 캐릭터타입에 플레이어 넘버 1,2,3
+    //찾아서 연결후 데이터 표시
+    //포션 아이템 소지 확인, 갯수 판단
+
     public Character character;
     public Character_type character_Type;
 
