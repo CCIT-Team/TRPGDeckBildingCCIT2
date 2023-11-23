@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private List<int> deliveryMonsterData = new List<int>();
     public GameObject map;
     public bool isVictory;
+    public GameObject playerUI;
     private GameObject loading_Panel;
     private Slider loadingBar;
     private string sceneName = null; //scene변경
@@ -51,6 +52,8 @@ public class GameManager : MonoBehaviour
         {
             LoadAvatar(i, position);
         }
+        //ui 연결
+        playerUI.GetComponent<PlayerUIManager>().SetPlayer();
     }
 
     private void LoadAvatar(int index, Vector3 position)

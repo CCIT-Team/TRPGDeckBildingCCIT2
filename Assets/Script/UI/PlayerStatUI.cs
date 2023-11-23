@@ -9,11 +9,11 @@ public class PlayerStatUI : MonoBehaviour
     //작업 순서
     //포션 아이템 소지 확인, 갯수 판단
 
-    public PlayerStat character;
-    public PlayerType character_Type;
+    //public PlayerStat character;
+    //public PlayerType character_Type;
 
-    private Character linkedPlayerStat;
-    private Character_type linkedPlayerType;
+    public Character linkedPlayerStat;
+    public Character_type linkedPlayerType;
 
     public TMP_Text nickName;
     public TMP_Text level;
@@ -32,28 +32,23 @@ public class PlayerStatUI : MonoBehaviour
     public TMP_Text expbarText;
 
     public GameObject costs;
-
-    private void Start()
+    public GameObject viewportContent;
+    public void InitUI()
     {
-        InitUI();
-    }
-
-    private void InitUI()
-    {
-        nickName.text = character_Type.nickname;
-        level.text = character.level.ToString();
-        strength.text = character.strength.ToString();
-        intel.text = character.intelligence.ToString();
-        luck.text = character.luck.ToString();
-        speed.text = character.speed.ToString();
-        gold.text = character.gold.ToString();
-        hpbar.value = character.hp / character.maxHp;
-        expbar.value = character.exp / character.maxExp;
-        hpbarText.text = character.hp.ToString() + "/" + character.maxHp.ToString();
-        expbarText.text = character.exp.ToString() + "/" + character.maxExp.ToString();
+        nickName.text = linkedPlayerType.nickname;
+        level.text = linkedPlayerStat.level.ToString();
+        strength.text = linkedPlayerStat.strength.ToString();
+        intel.text = linkedPlayerStat.intelligence.ToString();
+        luck.text = linkedPlayerStat.luck.ToString();
+        speed.text = linkedPlayerStat.speed.ToString();
+        gold.text = linkedPlayerStat.gold.ToString();
+        hpbar.value = linkedPlayerStat.hp / linkedPlayerStat.maxHp;
+        expbar.value = linkedPlayerStat.exp / linkedPlayerStat.maxExp;
+        hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+        expbarText.text = linkedPlayerStat.exp.ToString() + "/" + linkedPlayerStat.maxExp.ToString();
         guard.text = "0";
         magicGuard.text = "0";
-        for (int i = 0; i < character.cost; i++)
+        for (int i = 0; i < linkedPlayerStat.cost; i++)
         {
             costs.transform.GetChild(i).gameObject.SetActive(true);
         }
@@ -109,9 +104,48 @@ public class PlayerStatUI : MonoBehaviour
         magicGuard.text = linkedPlayerStat.magicGuard.ToString();
     }
 
-
     public void UpdateCostUI()
     {
+        int activeCost = 0;
+        for(int i = 0; i < costs.transform.childCount; i++)
+        {
+            if(costs.transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                activeCost++;
+            }
+        }
 
+        for (int i = 0; i < activeCost; i++)
+        {
+            costs.transform.GetChild(i).transform.GetChild(1).gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < linkedPlayerStat.cost; i++)
+        {
+            costs.transform.GetChild(i).transform.GetChild(1).gameObject.SetActive(true);
+        }
+    }
+
+    public void UpdatePortionUI()
+    {
+        if(linkedPlayerStat.portionRegular > 0)
+        {
+            GameObject portionR = Instantiate(Resources.Load("Prefabs/UI/Player/portionRegular_Item", typeof(GameObject))) as GameObject;
+            portionR.transform.SetParent(viewportContent.transform);
+            if(linkedPlayerStat.portionRegular == 1)
+            {
+                portionR.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            else if(linkedPlayerStat.portionRegular > 1)
+            {
+                portionR.transform.GetChild(0).gameObject.SetActive(true);
+                portionR.transform.GetChild(0).GetComponent<TMP_Text>().text = linkedPlayerStat.portionRegular.ToString();
+            }
+        }
+        else if(linkedPlayerStat.portionRegular == 0)
+        {
+            //물약 삭제
+        }
+        
     }
 }

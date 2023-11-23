@@ -431,28 +431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f461ee49135885449e0a86db38b743d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character:
-    playerNum: 0
-    strength: 0
-    intelligence: 0
-    luck: 0
-    speed: 0
-    hp: 0
-    maxHp: 0
-    cost: 0
-    level: 0
-    exp: 0
-    maxExp: 0
-    gold: 0
-    turn: 0
-  character_Type:
-    playerNum: 0
-    nickname: 
-    major: 0
-    gender: 0
-    type: 0
-    skinColor: 0
-    eyeColor: 0
+  linkedPlayerStat: {fileID: 0}
+  linkedPlayerType: {fileID: 0}
   nickName: {fileID: 8571489367654644246}
   level: {fileID: 2654822175500057593}
   strength: {fileID: 1716388346818458353}
@@ -467,6 +447,7 @@ MonoBehaviour:
   hpbarText: {fileID: 2879921445218016730}
   expbarText: {fileID: 3247316040733682115}
   costs: {fileID: 1368413975344026807}
+  viewportContent: {fileID: 798329450792192158}
 --- !u!1 &340274164656680096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,28 +1211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f461ee49135885449e0a86db38b743d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character:
-    playerNum: 0
-    strength: 0
-    intelligence: 0
-    luck: 0
-    speed: 0
-    hp: 0
-    maxHp: 0
-    cost: 0
-    level: 0
-    exp: 0
-    maxExp: 0
-    gold: 0
-    turn: 0
-  character_Type:
-    playerNum: 0
-    nickname: 
-    major: 0
-    gender: 0
-    type: 0
-    skinColor: 0
-    eyeColor: 0
+  linkedPlayerStat: {fileID: 0}
+  linkedPlayerType: {fileID: 0}
   nickName: {fileID: 3141318936959110303}
   level: {fileID: 4643364502081244032}
   strength: {fileID: 5926488769173983225}
@@ -1266,6 +1227,7 @@ MonoBehaviour:
   hpbarText: {fileID: 3816099462961456525}
   expbarText: {fileID: 2738082379663710397}
   costs: {fileID: 302112424412961906}
+  viewportContent: {fileID: 4885705379696035327}
 --- !u!1 &762602157705048309
 GameObject:
   m_ObjectHideFlags: 0
@@ -6729,28 +6691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f461ee49135885449e0a86db38b743d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character:
-    playerNum: 0
-    strength: 0
-    intelligence: 0
-    luck: 0
-    speed: 0
-    hp: 0
-    maxHp: 0
-    cost: 0
-    level: 0
-    exp: 0
-    maxExp: 0
-    gold: 0
-    turn: 0
-  character_Type:
-    playerNum: 0
-    nickname: 
-    major: 0
-    gender: 0
-    type: 0
-    skinColor: 0
-    eyeColor: 0
+  linkedPlayerStat: {fileID: 0}
+  linkedPlayerType: {fileID: 0}
   nickName: {fileID: 6604612863556826808}
   level: {fileID: 8471546760070426752}
   strength: {fileID: 7596082996766827726}
@@ -6765,6 +6707,7 @@ MonoBehaviour:
   hpbarText: {fileID: 7449765194800857395}
   expbarText: {fileID: 6340314281189023159}
   costs: {fileID: 3310786122224687393}
+  viewportContent: {fileID: 2129100941193515820}
 --- !u!1 &4415842557803364799
 GameObject:
   m_ObjectHideFlags: 0
