@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class FistMissionChat : MonoBehaviour
+public class ThirdMissionChat : MonoBehaviour
 {
     public float delay;
     public TMP_Text text;
@@ -27,27 +27,27 @@ public class FistMissionChat : MonoBehaviour
                 break;
 
             case 1:
-                talk = "저는 신부 그레고리라고 합니다.";
+                talk = "저는 그리라고 합니다.";
                 break;
 
             case 2:
-                talk = "현재 아르카나 대륙에 화염룡이 나타나 성과 마을을 불태우고 있습니다.";
+                talk = "현재 르카나 대이 나타나 성우고 있니다.";
                 break;
 
             case 3:
-                talk = Map.instance.wolrdTurn.currentPlayer.name  + " "+ "이시여.....";
+                talk = Map.instance.wolrdTurn.currentPlayer.name  + " "+ ".....";
                 break;
             case 4:
-                talk = "용이 모든것을 태우기전에 토벌해주십시요.";
+                talk = "용이 든것을 태전에 벌십시요.";
                 break;
             case 5:
-                talk = "먼저 몸풀기로 근처에 있는 몬스터 무리를 토벌해보시길.........";
+                talk = " 있는 몬스터 무리를 토벌시길.........";
                 break;
             case 6:
                 Map.instance.currentMissionTile.GetComponent<Tile>().isMissionOn = false;
-                Map.instance.currentMissionTile.GetComponent<Tile>().MissionMarkerOnOff();
+                Map.instance.currentMissionTile.GetComponent<Tile>().MainMissionMarkerOnOff();
                 Map.instance.isOutofUI = false;
-                Map.instance.wolrdMission.mainMissionNum = 1;
+                Map.instance.wolrdMission.mainMissionNum = 3;
                 gameObject.SetActive(false);
                 break;
 

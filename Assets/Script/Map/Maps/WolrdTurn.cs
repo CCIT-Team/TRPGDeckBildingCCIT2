@@ -41,7 +41,7 @@ public class WolrdTurn : MonoBehaviour
         players.Add(currentPlayer.gameObject);
         currentPlayer = null;
         turnNum += 1;
-        if(dragonturn.transform.position.x <= -1420) { dragonturn.transform.position -= new Vector3(100,0,0); }
+        if(dragonturn.transform.position.x >= -1420) { dragonturn.transform.position -= new Vector3(100,0,0); } 
         else { dragonturn.transform.position += new Vector3(1100, 0, 0); }
         StartCoroutine(PlayTurn());
     }

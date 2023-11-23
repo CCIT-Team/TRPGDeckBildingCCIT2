@@ -64,6 +64,7 @@ public class Map : MonoBehaviour
     public Tile currentInteracteUITile;
     public WolrdMission wolrdMission;
     public Tile currentMissionTile;
+    public int missionNum = 0;
 
     [Header("Other")]
     public bool isBattle = false;
@@ -191,7 +192,7 @@ public class Map : MonoBehaviour
     int currentPositionNum = 1;
     void MovePlayer()
     {
-        if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
+        if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0 && !dragonScript.isdragonTurn)
         {
             isPlayerMoving = true;
             wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", true);

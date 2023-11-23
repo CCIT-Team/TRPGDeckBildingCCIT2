@@ -44,7 +44,7 @@ public class TileSelector : MonoBehaviour
                     startPoint.isSelect = true;
                     startPoint.IsSelect(Color.red);
                 }
-                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn)
+                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
                 {
                     if (endPoint == null)
                     {
@@ -100,7 +100,7 @@ public class TileSelector : MonoBehaviour
                 }
             }
         }
-        if (mouseButton == MouseButton.Left)
+        if (mouseButton == MouseButton.Left && !isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
         {
             if (endPoint != null)
             {

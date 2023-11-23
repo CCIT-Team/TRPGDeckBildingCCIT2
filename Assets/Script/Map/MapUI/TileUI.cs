@@ -27,6 +27,9 @@ public class TileUI : MonoBehaviour
     public void OffShopAndHospital()
     {
         shop_hospitalUI.enabled = false;
+        Map.instance.startTile = null;
+        Map.instance.pathTileObjectList.Clear();
+        Map.instance.isPlayerOnEndTile = true;
         Map.instance.currentInteracteUITile = null;
         Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
@@ -47,6 +50,9 @@ public class TileUI : MonoBehaviour
     public void OffShop()
     {
         shopUI.enabled = false;
+        Map.instance.startTile = null;
+        Map.instance.pathTileObjectList.Clear();
+        Map.instance.isPlayerOnEndTile = true;
         Map.instance.currentInteracteUITile = null;
         Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
@@ -58,6 +64,9 @@ public class TileUI : MonoBehaviour
     public void OffHospital() 
     {
         hospital.enabled = false;
+        Map.instance.startTile = null;
+        Map.instance.pathTileObjectList.Clear();
+        Map.instance.isPlayerOnEndTile = true;
         Map.instance.currentInteracteUITile = null;
         Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
@@ -77,10 +86,12 @@ public class TileUI : MonoBehaviour
     public void Run()
     {
         OffMonsterBattle();
+        Map.instance.startTile = null;
+        Map.instance.pathTileObjectList.Clear();
+        Map.instance.isPlayerOnEndTile = true;
         Map.instance.currentInteracteUITile = null;
         Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
     }
     #endregion
-
 }

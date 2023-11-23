@@ -19,6 +19,8 @@ public class Tile : MonoBehaviour
 
     public Vector3Int position;
 
+    public Vector3Int[] adjacentTilesPos;
+
     public List<Tile> adjacentTiles = new List<Tile>(6);
 
     public bool isObstacle;
@@ -53,7 +55,8 @@ public class Tile : MonoBehaviour
     [SerializeField] int[] monsterID = new int[] { 30000001, 30000002, 30000003, 30000004, 30000005 };//스폰될 몬스터의 ID입니다
     [SerializeField] List<int> monsterGroup = new List<int>();
     [SerializeField] GameObject bossObject;
-    [SerializeField] GameObject missionMarker;
+    [SerializeField] GameObject MainMissionMaker;
+    [SerializeField] GameObject SubMissionMaker;
 
     public Climate climate;
     public TileState tileState;
@@ -83,10 +86,26 @@ public class Tile : MonoBehaviour
         vileageObject.SetActive(false);
         monsterObject.SetActive(false);
         bossObject.SetActive(false);
+        adjacentTilesPos =  new Vector3Int[]
+    {
+        new Vector3Int(0,0,1),//상0
+        new Vector3Int(1,0,0),//우상1
+        new Vector3Int(1,0,-1),//우하2
+        new Vector3Int(0,0,-1),//하3
+        new Vector3Int(-1,0,-1),//좌하4
+        new Vector3Int(-1,0,0),//좌상5
+        new Vector3Int(0,0,1),//상 보정6
+        new Vector3Int(1,0,1),//우상 보정7
+        new Vector3Int(1,0,0),//우하 보정8
+        new Vector3Int(0,0,-1),//하 보정9
+        new Vector3Int(-1,0,0),//좌하 보정10
+        new Vector3Int(-1,0,1)//좌상 보정11
+    };
     }
 
     private void Start()
     {
+        FindAbjectTile();
         if (tileState == TileState.SpawnTile)
         {
             isSpawnTile = true;
@@ -152,6 +171,147 @@ public class Tile : MonoBehaviour
             isKingdomTile = false;
             isVillageTile = false;
         }
+
+
+    }
+
+    void FindAbjectTile()
+    {
+        RaycastHit ray0;
+
+        Debug.DrawRay(transform.position, transform.forward * 1 , Color.red);
+        if(Physics.Raycast(transform.position, transform.forward, out ray0, 10))//상
+        {
+            if(ray0.transform.CompareTag("Tile"))
+            {
+                if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[0] + position)
+                {
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                }
+                else
+                {
+                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[6] + position)
+                    {
+                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                    }
+                }
+            }
+            else
+            {
+                    Debug.Log("Nothing Here");
+            }
+        }
+        Debug.DrawRay(transform.position, transform.right + transform.forward, Color.red);
+        if (Physics.Raycast(transform.position, transform.right + transform.forward, out ray0, 10))//우상
+        {
+            if (ray0.transform.CompareTag("Tile"))
+            {
+                if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[1] + position)
+                {
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                }
+                else
+                {
+                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[7] + position)
+                    {
+                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Nothing Here");
+            }
+        }
+        Debug.DrawRay(transform.position, transform.right + (transform.forward * -1), Color.red);
+        if (Physics.Raycast(transform.position, transform.right + (transform.forward * -1), out ray0, 10))//우하
+        {
+            if (ray0.transform.CompareTag("Tile"))
+            {
+                if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[2] + position)
+                {
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                }
+                else
+                {
+                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[8] + position)
+                    {
+                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Nothing Here");
+            }
+        }
+        Debug.DrawRay(transform.position, transform.forward * -1, Color.red);
+        if (Physics.Raycast(transform.position, transform.forward * -1, out ray0, 10))//하
+        {
+            if (ray0.transform.CompareTag("Tile"))
+            {
+                if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[3] + position)
+                {
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                }
+                else
+                {
+                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[9] + position)
+                    {
+                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Nothing Here");
+            }
+        }
+
+        Debug.DrawRay(transform.position, (transform.right * -1) + (transform.forward * -1), Color.red);
+        if (Physics.Raycast(transform.position, (transform.right * -1) + (transform.forward * -1), out ray0, 10))//좌하
+        {
+            if (ray0.transform.CompareTag("Tile"))
+            {
+                if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[4] + position)
+                {
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                }
+                else
+                {
+                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[10] + position)
+                    {
+                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Nothing Here");
+            }
+        }
+        Debug.DrawRay(transform.position, (transform.right * -1) + transform.forward, Color.red);
+        if (Physics.Raycast(transform.position, (transform.right * -1) + transform.forward, out ray0, 10))//좌상
+        {
+            if (ray0.transform.CompareTag("Tile"))
+            {
+                if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[5] + position)
+                {
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                }
+                else
+                {
+                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[11] + position)
+                    {
+                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Nothing Here");
+            }
+        }
     }
 
     public void IsSelect(Color color)
@@ -168,11 +328,19 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void MissionMarkerOnOff()
+    #region Maker
+    public void MainMissionMarkerOnOff()
     {
-        if (isMissionOn) { missionMarker.SetActive(true); }
-        else { missionMarker.SetActive(false); }
+        if (isMissionOn) { MainMissionMaker.SetActive(true); }
+        else { MainMissionMaker.SetActive(false); }
     }
+
+    public void SubMissionMarkerOnOff()
+    {
+        if (isMissionOn) { SubMissionMaker.SetActive(true); }
+        else { SubMissionMaker.SetActive(false); }
+    }
+    #endregion
 
     public void SelectClimate(int ClimateNum)
     {
@@ -241,18 +409,6 @@ public class Tile : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (tiles.Count < 7)
-        {
-            if (col.CompareTag("Tile")) { tiles.Add(col.gameObject); }
-            tiles = tiles.Distinct().ToList();
-            foreach (GameObject tile in tiles)
-            {
-                Tile tiletile = tile.GetComponent<Tile>();
-                adjacentTiles.Add(tiletile.GetComponent<Tile>());
-                adjacentTiles = adjacentTiles.Distinct().ToList();
-            }
-        }
-
         if (col.CompareTag("Player"))
         {
             player = col.gameObject.GetComponent<Character>();
