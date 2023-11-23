@@ -15,9 +15,9 @@ public class WolrdMapUI : MonoBehaviour
         for(int i = 0; i < Map.instance.players.Count; i++)
         {
             GameObject playerUIs = Instantiate(playerUI, player_UI_pos[i]);
-            playerStatUI = playerUIs.GetComponent<PlayerStatUI>();
-            playerStatUI.character = Map.instance.players[i].GetComponent<Character>();
-            playerStatUI.character_Type = Map.instance.players[i].GetComponent<Character_type>();
+            //playerStatUI = playerUIs.GetComponent<PlayerStatUI>();
+            //playerStatUI.character = Map.instance.players[i].GetComponent<Character>();
+            //playerStatUI.character_Type = Map.instance.players[i].GetComponent<Character_type>();
         }
     }
 

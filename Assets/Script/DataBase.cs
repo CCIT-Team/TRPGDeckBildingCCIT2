@@ -272,11 +272,12 @@ public class DataBase : MonoBehaviour
             int weapon2 = dataReader.GetInt32(20);
 
             int level = dataReader.GetInt32(21);
-            int exp = dataReader.GetInt32(22);
-            int maxExp = dataReader.GetInt32(23);
+            int gold = dataReader.GetInt32(22);
+            int exp = dataReader.GetInt32(23);
+            int maxExp = dataReader.GetInt32(24);
 
             defaultData.Add(new PlayerDefaultData(no, major, hp, hpRise, strength, strengthRise, intelligence, intelligenceRise, luck, luckRise, speed, speedRise, cost, 
-                card1, card1Count, card2, card2Count, card3, card3Count, weapon1, weapon2, level, exp, maxExp));
+                card1, card1Count, card2, card2Count, card3, card3Count, weapon1, weapon2, level, gold, exp, maxExp));
         }
         dataReader.Close();
 
@@ -623,12 +624,13 @@ public class PlayerDefaultData
     public int weapon2;
 
     public int level;
+    public int gold;
     public int exp;
     public int maxExp;
 
 
     public PlayerDefaultData(int _no, PlayerType.Major _major, float _hp, int _hpRise, int _strength, int _strengthRise, int _intelligence, int _intelligenceRise, int _luck, int _luckRise, int _speed, int _speedRise, int _cost,
-                            int _card1, int _card1Count, int _card2, int _card2Count, int _card3, int _card3Count, int _weapon1, int _weapon2, int _level, int _exp, int _maxExp)
+                            int _card1, int _card1Count, int _card2, int _card2Count, int _card3, int _card3Count, int _weapon1, int _weapon2, int _level, int _gold, int _exp, int _maxExp)
     {
         no = _no;
         major = _major;
@@ -655,6 +657,7 @@ public class PlayerDefaultData
         weapon2 = _weapon2;
 
         level = _level;
+        gold = _gold;
         exp = _exp;
         maxExp = _maxExp;
     }

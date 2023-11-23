@@ -1615,6 +1615,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1009438861}
+    - target: {fileID: 915150936255328393, guid: abe8e55760eb70e4cb6b8488b30b2563,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: InventoryScene
+      objectReference: {fileID: 0}
     - target: {fileID: 1374949512754742617, guid: abe8e55760eb70e4cb6b8488b30b2563,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

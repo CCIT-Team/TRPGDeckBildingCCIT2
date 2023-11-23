@@ -17,12 +17,15 @@ public class Character : Unit
     public int luck;
     public int speed;
     public int cost;
-    private int maxCost;
+    public int maxCost;
 
     public int level;
     public int exp;
     public int maxExp;
     public int gold = 0;
+
+    public int attackGuard = 0;
+    public int magicGuard = 0;
 
     public int portionRegular = 0;
     public int portionLarge = 0;
@@ -31,21 +34,6 @@ public class Character : Unit
     public WorldState worldState = WorldState.Idle;
 
     private string insertQuery;
-
-    //public void SetUnitData(PlayerDefaultData stat)
-    //{
-    //    maxHp = stat.hp;
-    //    hp = maxHp;
-    //    strength = stat.strength;
-    //    intelligence = stat.intelligence;
-    //    luck = stat.luck;
-    //    speed = stat.speed;
-    //    maxCost = stat.cost;
-    //    cost = maxCost;
-    //    level = stat.level;
-    //    exp = stat.exp;
-    //    maxExp = stat.maxExp;
-    //}
 
     public void SetUnitData(PlayerStat stat)
     {
@@ -62,6 +50,8 @@ public class Character : Unit
         maxExp = stat.maxExp;
         gold = stat.gold;
         isMyturn = stat.turn;
+        attackGuard = 0;
+        magicGuard = 0;
     }
 
     public string GetStatDBQuery()
@@ -98,10 +88,5 @@ public class Character : Unit
         {
             maxCost++;
         }
-    }
-
-    public void SetStat(int stat)
-    {
-
     }
 }

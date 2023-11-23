@@ -8,7 +8,14 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public enum SceneType
+    {
+        none,
+        Wolrd,
+        Battle
+    }
     public static GameManager instance = null;
+    public SceneType currentScene;
     public List<GameObject> players = new List<GameObject>();
     private List<int> deliveryMonsterData = new List<int>();
     public GameObject map;
@@ -141,6 +148,14 @@ public class GameManager : MonoBehaviour
         //loading_Panel.transform.SetParent(GameObject.Find("Canvas").transform);
         loadingBar = loading_Panel.transform.GetChild(0).transform.GetChild(0).GetComponent<Slider>();
         StartCoroutine(LoadScene());
+        if(name == "New Battle")
+        {
+            currentScene = SceneType.Battle;
+        }
+        else if(name == "Map1")
+        {
+            currentScene = SceneType.Wolrd;
+        }
     }
 
     private IEnumerator LoadScene()
