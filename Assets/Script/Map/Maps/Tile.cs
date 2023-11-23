@@ -17,11 +17,15 @@ public class Tile : MonoBehaviour
 
     public int h;
 
+    public int rayDistance;
+
     public Vector3Int position;
 
     public Vector3Int[] adjacentTilesPos;
 
     public List<Tile> adjacentTiles = new List<Tile>(6);
+
+    bool isfindNeiber = false;
 
     public bool isObstacle;
 
@@ -86,7 +90,7 @@ public class Tile : MonoBehaviour
         vileageObject.SetActive(false);
         monsterObject.SetActive(false);
         bossObject.SetActive(false);
-        adjacentTilesPos =  new Vector3Int[]
+        adjacentTilesPos = new Vector3Int[]
     {
         new Vector3Int(0,0,1),//상0
         new Vector3Int(1,0,0),//우상1
@@ -105,7 +109,6 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
-        FindAbjectTile();
         if (tileState == TileState.SpawnTile)
         {
             isSpawnTile = true;
@@ -116,7 +119,6 @@ public class Tile : MonoBehaviour
             monsterObject.SetActive(true);
             if (climate == Climate.GRASS)
             {
-                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(0,3)],monsterPosition.position);
                 monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
@@ -132,7 +134,6 @@ public class Tile : MonoBehaviour
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
                 }
-                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(2, 4)], monsterPosition.position);
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition);
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
@@ -143,7 +144,6 @@ public class Tile : MonoBehaviour
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
                 }
-                //GameManager.instance.MonsterMapInstance(Map.instance.monsterIDList[UnityEngine.Random.Range(3, 5)], monsterPosition.position);
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition);
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
@@ -175,34 +175,47 @@ public class Tile : MonoBehaviour
 
     }
 
-    void FindAbjectTile()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            adjacentTiles.Clear();
+            FindAbjectTile();
+        }
+        if(!isfindNeiber)
+        {
+            FindAbjectTile();
+            adjacentTiles.Clear();
+            FindAbjectTile();
+            isfindNeiber = true;
+        }
+    }
+
+    void FindAbjectTile()//인접타일 확인
     {
         RaycastHit ray0;
 
-        Debug.DrawRay(transform.position, transform.forward * 1 , Color.red);
-        if(Physics.Raycast(transform.position, transform.forward, out ray0, 10))//상
+        Debug.DrawRay(transform.position, transform.forward * 1, Color.red);
+        if (Physics.Raycast(transform.position, transform.forward, out ray0, rayDistance))//상
         {
-            if(ray0.transform.CompareTag("Tile"))
+            if (ray0.transform.CompareTag("Tile"))
             {
                 if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[0] + position)
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-                else
+                else if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[6] + position)
                 {
-                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[6] + position)
-                    {
-                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
-                    }
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
             else
             {
-                    Debug.Log("Nothing Here");
+                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
         Debug.DrawRay(transform.position, transform.right + transform.forward, Color.red);
-        if (Physics.Raycast(transform.position, transform.right + transform.forward, out ray0, 10))//우상
+        if (Physics.Raycast(transform.position, transform.right + transform.forward, out ray0, rayDistance))//우상
         {
             if (ray0.transform.CompareTag("Tile"))
             {
@@ -210,21 +223,18 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-                else
+                else if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[7] + position)
                 {
-                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[7] + position)
-                    {
-                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
-                    }
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
             else
             {
-                Debug.Log("Nothing Here");
+                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
         Debug.DrawRay(transform.position, transform.right + (transform.forward * -1), Color.red);
-        if (Physics.Raycast(transform.position, transform.right + (transform.forward * -1), out ray0, 10))//우하
+        if (Physics.Raycast(transform.position, transform.right + (transform.forward * -1), out ray0, rayDistance))//우하
         {
             if (ray0.transform.CompareTag("Tile"))
             {
@@ -232,21 +242,18 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-                else
+                else if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[8] + position)
                 {
-                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[8] + position)
-                    {
-                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
-                    }
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
             else
             {
-                Debug.Log("Nothing Here");
+                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
         Debug.DrawRay(transform.position, transform.forward * -1, Color.red);
-        if (Physics.Raycast(transform.position, transform.forward * -1, out ray0, 10))//하
+        if (Physics.Raycast(transform.position, transform.forward * -1, out ray0, rayDistance))//하
         {
             if (ray0.transform.CompareTag("Tile"))
             {
@@ -254,22 +261,18 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-                else
+                else if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[9] + position)
                 {
-                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[9] + position)
-                    {
-                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
-                    }
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
             else
             {
-                Debug.Log("Nothing Here");
+                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
-
         Debug.DrawRay(transform.position, (transform.right * -1) + (transform.forward * -1), Color.red);
-        if (Physics.Raycast(transform.position, (transform.right * -1) + (transform.forward * -1), out ray0, 10))//좌하
+        if (Physics.Raycast(transform.position, (transform.right * -1) + (transform.forward * -1), out ray0, rayDistance))//좌하
         {
             if (ray0.transform.CompareTag("Tile"))
             {
@@ -277,21 +280,18 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-                else
+                else if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[10] + position)
                 {
-                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[10] + position)
-                    {
-                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
-                    }
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
             else
             {
-                Debug.Log("Nothing Here");
+                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
         Debug.DrawRay(transform.position, (transform.right * -1) + transform.forward, Color.red);
-        if (Physics.Raycast(transform.position, (transform.right * -1) + transform.forward, out ray0, 10))//좌상
+        if (Physics.Raycast(transform.position, (transform.right * -1) + transform.forward, out ray0, rayDistance))//좌상
         {
             if (ray0.transform.CompareTag("Tile"))
             {
@@ -299,17 +299,14 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-                else
+                else if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[11] + position)
                 {
-                    if (ray0.transform.GetComponent<Tile>().position == adjacentTilesPos[11] + position)
-                    {
-                        adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
-                    }
+                    adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
             else
             {
-                Debug.Log("Nothing Here");
+                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
     }
@@ -412,7 +409,7 @@ public class Tile : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             player = col.gameObject.GetComponent<Character>();
-            if(climate == Climate.GRASS)
+            if (climate == Climate.GRASS)
             {
                 Map.instance.mapUI.climateName.text = "초원";
             }
@@ -475,8 +472,9 @@ public class Tile : MonoBehaviour
                 tileUI.OnMonsterBattle();
                 for (int i = 0; i < monsterGroup.Count; i++)
                 {
-                    tileUI.MonsterNum[i].SetActive(true);
+                    tileUI.monsterNum[i].SetActive(true);
                 }
+                tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
                 Map.instance.isOutofUI = true;
             }
             else if (isBossTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
@@ -513,8 +511,9 @@ public class Tile : MonoBehaviour
         if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
         {
             Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
-            Map.instance.startTile = null;
             Map.instance.pathTileObjectList.Clear();
+            Map.instance.startTile = adjacentTiles[0];
+            isSelect = true;
             Map.instance.isPlayerOnEndTile = true;
             Map.instance.isOutofUI = false;
         }

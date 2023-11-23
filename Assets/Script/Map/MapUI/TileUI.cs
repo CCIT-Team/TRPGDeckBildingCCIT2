@@ -9,8 +9,9 @@ public class TileUI : MonoBehaviour
     public Canvas shop_hospitalUI;
     public Canvas shopUI;
     public Canvas hospital;
-    public Canvas MonsterBattleUI;
-    public GameObject[] MonsterNum = new GameObject[5];//몬스터 마릿수
+    public Canvas monsterBattleUI;
+    public GameObject[] monsterNum = new GameObject[5];//몬스터 마릿수
+    public TMP_Text monsterName;
 
     public Shop shop;
 
@@ -19,7 +20,7 @@ public class TileUI : MonoBehaviour
         shop_hospitalUI.enabled = false;
         shopUI.enabled = false;
         hospital.enabled = false;
-        MonsterBattleUI.enabled = false;
+        monsterBattleUI.enabled = false;
     }
 
     #region 상점&병원 버튼
@@ -75,8 +76,8 @@ public class TileUI : MonoBehaviour
     #endregion
 
     #region 몬스터 전투 버튼
-    public void OnMonsterBattle() => MonsterBattleUI.enabled = true;
-    public void OffMonsterBattle() => MonsterBattleUI.enabled = false;
+    public void OnMonsterBattle() => monsterBattleUI.enabled = true;
+    public void OffMonsterBattle() => monsterBattleUI.enabled = false;
     public void Fight()
     {
         GameManager.instance.LoadScenceName("New Battle");

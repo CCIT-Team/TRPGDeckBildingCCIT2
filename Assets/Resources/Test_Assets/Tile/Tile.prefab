@@ -2396,6 +2396,7 @@ MonoBehaviour:
   walkAbleNumText: {fileID: 2901554299077538670}
   g: 0
   h: 0
+  rayDistance: 300
   position: {x: 0, y: 0, z: 0}
   adjacentTilesPos: []
   adjacentTiles: []
@@ -2436,13 +2437,14 @@ MonoBehaviour:
   shop_hospitalUI: {fileID: 1304057624700333547}
   shopUI: {fileID: 8904750115543084425}
   hospital: {fileID: 7147617692525356375}
-  MonsterBattleUI: {fileID: 8172113388182769693}
-  MonsterNum:
+  monsterBattleUI: {fileID: 8172113388182769693}
+  monsterNum:
   - {fileID: 3196810206449509385}
   - {fileID: 692497564900807128}
   - {fileID: 27823924255373602}
   - {fileID: 6792313898154215053}
   - {fileID: 4133591970737956131}
+  monsterName: {fileID: 1694421355980332218}
   shop: {fileID: 4175307526571383753}
 --- !u!54 &2595751232033944689
 Rigidbody:
@@ -5156,7 +5158,7 @@ GameObject:
   - component: {fileID: 2867679444062913357}
   - component: {fileID: 1694421355980332218}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Monster Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
