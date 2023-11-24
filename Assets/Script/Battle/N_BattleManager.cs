@@ -404,13 +404,15 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     {  
         currentUnit = units[0];
         units.Remove(currentUnit);
-        Camera.main.GetComponent<BattleCameraMove>().MovePosition(currentUnit.gameObject);
+        //Camera.main.GetComponent<BattleCameraMove>().MovePosition(currentUnit.gameObject);
+        Camera.main.GetComponent<BattleCameraMove>().cameratarget = currentUnit.gameObject;
         isTurnAnnounce = true;
         StartCoroutine(DisplayCurrentTurn());
         yield return new WaitUntil(() => !isTurnAnnounce);
         if (currentUnit.TryGetComponent(out Character character))
         {
             character.isMyturn = true;
+            character.cost += 1;
             foreach (PlayerBattleUI ui in BattleUI.instance.playerUI)
             {
                 if(ui.gameObject.activeSelf)

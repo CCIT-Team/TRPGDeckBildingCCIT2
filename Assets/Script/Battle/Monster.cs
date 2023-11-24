@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Monster :MonsterStat
 {
+    [Header("외형")]
+    public GameObject[] monsterList;
+    public GameObject[] weaponList;
+
     MonsterCard card;
     Deck deck;
 
@@ -76,6 +80,8 @@ public class Monster :MonsterStat
     public void SetMonster()
     {
         gameObject.name = _name;
+        monsterList[int.Parse(no.ToString().Substring(no.ToString().Length - 3))-1].SetActive(true);
+        weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
         AddActInDeck();
         Hp = maxHp;
     }
@@ -84,13 +90,13 @@ public class Monster :MonsterStat
     {
         N_BattleManager.instance.rewardUI.AddReward(false, dropGold);
         //아이템1
-        if(dropitem1 != 0 && dropitem1Percentage <= Random.Range(0, 100))
+        if(dropitem1 != 0 && dropitem1Percentage >= Random.Range(0, 100))
             N_BattleManager.instance.rewardUI.AddReward(true, dropitem1);
         //아이템2
-        if (dropitem2 != 0 && dropitem2Percentage <= Random.Range(0, 100))
+        if (dropitem2 != 0 && dropitem2Percentage >= Random.Range(0, 100))
             N_BattleManager.instance.rewardUI.AddReward(true, dropitem2);
         //아이템3
-        if (dropitem3 != 0 && dropitem3Percentage <= Random.Range(0, 100))
+        if (dropitem3 != 0 && dropitem3Percentage >= Random.Range(0, 100))
             N_BattleManager.instance.rewardUI.AddReward(true, dropitem3);
     }
 }

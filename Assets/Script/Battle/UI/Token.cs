@@ -21,4 +21,4 @@ public class Token : MonoBehaviour
     }
 }
 
-public enum StatusType { Intelligence, Luck, Speed, Strength }
+public enum StatusType { None = -1, Intelligence, Luck, Speed, Strength }

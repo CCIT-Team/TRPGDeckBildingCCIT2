@@ -48,7 +48,7 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    public int RollToken(int mainStatus,int tokenAmount)
+    public int RollToken(StatusType statusType,int mainStatus,int tokenAmount)
     {
         for(int i =0; i< tokenAmount; i++)
             tokens.Add(Instantiate(tokenPrefab,tokenPosition.transform));
@@ -58,17 +58,17 @@ public class BattleUI : MonoBehaviour
             tokens[i].transform.localPosition = new Vector2((-tokenAmount / 2 + i + (tokenAmount + 1) % 2 / 2f) * 160, 0);
         }
 
-        int rollResult = tokenAmount;
+        int rollResult = 0;
         for (int i = 0; i < tokenAmount; i++)
         {
             int x = Random.Range(0, 100);
             if (x <= mainStatus)
             {
-                tokens[i].CheckToken(StatusType.Intelligence, true);
+                tokens[i].CheckToken(statusType, true);
             }
             else
             {
-                tokens[i].CheckToken(StatusType.Intelligence, false);
+                tokens[i].CheckToken(statusType, false);
                 rollResult--;
             }
             Destroy(tokens[i].gameObject, 0.5f);

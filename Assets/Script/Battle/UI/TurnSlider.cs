@@ -13,7 +13,6 @@ public class TurnSlider : MonoBehaviour
         boundUnit = unit;
         name = unit + "_Icon";
         slider.maxValue = maxValue;
-        slider.handleRect.gameObject.GetComponent<Image>().color = new Color(1 * (float)N_BattleManager.instance.units.IndexOf(unit) / (maxValue + 1), 1 * (float)N_BattleManager.instance.units.IndexOf(unit) / (maxValue+1), 1 * (float)N_BattleManager.instance.units.IndexOf(unit) / (maxValue + 1)); //아이콘으로 변경 예정
         slider.handleRect.transform.GetComponentInChildren<Text>().text = unit.name;   //아이콘 변경 후 제거 예정
     }
 

@@ -8,22 +8,28 @@ public class BattleCameraMove : MonoBehaviour
     public Transform playerSight;
     public Transform monsterSight;
 
+    public GameObject cameratarget;
+
     private void Awake()
     {
         cam = GetComponent<Camera>();
     }
-    
+
+    private void FixedUpdate()
+    {
+        MovePosition(cameratarget);
+    }
     public void MovePosition(GameObject gameObject)
     {
         if(gameObject.CompareTag("Player"))
         {
-            transform.position = playerSight.position;
-            transform.rotation = playerSight.rotation;
+            transform.position = Vector3.Lerp(transform.position, playerSight.position, 0.5f);
+            transform.rotation = Quaternion.Euler(Vector3.Lerp(transform.rotation.eulerAngles, playerSight.rotation.eulerAngles, 0.05f));
         }
         else
         {
-            transform.position = monsterSight.position;
-            transform.rotation = monsterSight.rotation;
+            transform.position = Vector3.Lerp(transform.position, monsterSight.position, 0.5f);
+            transform.rotation = Quaternion.Euler(Vector3.Lerp(transform.rotation.eulerAngles, monsterSight.rotation.eulerAngles, 0.05f));
         }
     }
 }

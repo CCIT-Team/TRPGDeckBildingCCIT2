@@ -12,11 +12,13 @@ public class PlayerBattleUI : MonoBehaviour
 
     [SerializeField]
     GameObject cardPrefab;
-    float[] cardSize = {150, 225};    //1920, 1080
+    float[] cardSize = { 150, 225 };    //1920, 1080
 
     Queue<GameObject> waitCardInstant = new Queue<GameObject>();
     List<GameObject> cardInstant = new List<GameObject>();
     public GameObject handUI;
+
+    public DeckDisplay deckDisplay;
 
     bool firstturn = true; //첫 턴 여부 확인
 
@@ -38,7 +40,7 @@ public class PlayerBattleUI : MonoBehaviour
             waitCardInstant.Enqueue(card);
             card.SetActive(false);
         }
-        
+
     }
 
     public void DrawCard(int drawCount = 1)
@@ -73,12 +75,9 @@ public class PlayerBattleUI : MonoBehaviour
 
     public void SetHandPosition()
     {
-        for(int i = 0; i< boundDeck.hand.Count;i++)
+        for (int i = 0; i < boundDeck.hand.Count; i++)
         {
-            Debug.Log("i: " + i);
-            Debug.Log("CS = " + cardSize[0]);
-            Debug.Log("CINS = " + cardInstant[i]);
-            cardInstant[i].transform.localPosition = new Vector2((-cardInstant.Count/2 + i + (cardInstant.Count+1) % 2 /2f) * cardSize[0], 0);
+            cardInstant[i].transform.localPosition = new Vector2((-cardInstant.Count / 2 + i + (cardInstant.Count + 1) % 2 / 2f) * cardSize[0], 0);
         }
     }
 
@@ -101,12 +100,13 @@ public class PlayerBattleUI : MonoBehaviour
         statUI.character = boundCharacter;
         statUI.character_Type = boundCharacter.GetComponent<Character_type>();
         statUI.gameObject.SetActive(true);
-        foreach(int id in boundCharacter.GetComponent<Character_Card>().cardID)
+        foreach (int id in boundCharacter.GetComponent<Character_Card>().cardID)
         {
             boundDeck.deck.Add(int.Parse(id.ToString()));
         }
         boundDeck.deck.RemoveAll(x => x == 0);
         boundDeck.DeckCounter = boundDeck.deck.Count;
+        deckDisplay.SetDisplay(boundDeck);
         if (!boundCharacter.isMyturn)
             transform.GetChild(0).gameObject.SetActive(false);
     }
@@ -133,5 +133,41 @@ public class PlayerBattleUI : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
         yield return new WaitUntil(() => !boundCharacter.isMyturn);
         transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    bool deckCorutinRunning = false;
+    bool isopen = false;
+    Vector2 targetPosition;
+
+    public void ToggleDeck()
+    {
+        StartCoroutine(ToggleDeckDisplay(!isopen));
+    }
+
+    IEnumerator ToggleDeckDisplay(bool open)
+    {
+        RectTransform deckTransform = deckDisplay.GetComponent<RectTransform>();
+        if (open)
+            targetPosition = Vector2.zero;
+        else
+            targetPosition = new Vector3(600, 0);
+
+        isopen = !isopen;
+
+        if (!deckCorutinRunning)
+        {
+            deckCorutinRunning = true;
+            while (deckCorutinRunning)
+            {
+                yield return new WaitForSeconds(0.1f);
+                deckTransform.anchoredPosition = Vector2.Lerp(deckTransform.anchoredPosition, targetPosition, 0.2f);
+                if(Mathf.Abs(deckTransform.anchoredPosition.x - targetPosition.x) <= 0.3f) 
+                {
+                    deckTransform.anchoredPosition = targetPosition;
+                    deckCorutinRunning = false;
+                    break;
+                }
+            }
+        }
     }
 }

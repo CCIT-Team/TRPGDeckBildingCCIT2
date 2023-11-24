@@ -21,21 +21,34 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
      * token
      */
     public GameObject cardTarget;
-    int token_Success;
+    int token_Fail;
 
+    public StatusType MainStaus = StatusType.None;
     int mainStatus = 0;
     public float finalVlaue = 0;
 
+    bool costOver = false;
+    bool costUsed = false;
 
     public void UseCard()
     {
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
-        cardAction();
+        StartCoroutine(DoCardAction());
     }
 
     void UseCost(Character character)
     {
+        if(cardData.useCost == -1)
+        {
+            costUsed = true;
+        }
+        else if (character.cost - cardData.useCost < 0)
+        {
+            costOver = true;
+            return;
+        }
         character.cost -= cardData.useCost;
+        costUsed = true;
     }
 
     void RemoveInHand(Deck deck)
@@ -51,14 +64,15 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         skill.Invoke(null, new object[] { playerUI.boundCharacter,          //사용자
                                          cardTarget.GetComponent<Unit>(),   //사용 대상
                                          finalVlaue,                        //값
-                                         cardData.effectUseTurn,            //추가효과 값
-                                         token_Success });                 //성공 토큰 수
+                                         cardData.effectUseTurn,            //추가효과 턴
+                                         token_Fail,                        //실패 토큰 수
+                                         cardData.token});                  //총 토큰 수
         this.gameObject.SetActive(false);
     }
 
     public float CalculateCardValue()
     {
-        finalVlaue = cardData.defaultXvalue * playerUI.boundCharacter.strength * 0.02f;
+        finalVlaue = cardData.defaultXvalue * mainStatus * 0.02f;
         return finalVlaue;
     }
 
@@ -141,13 +155,25 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
 
         if (cardData.description.Contains("회복"))
+        {
+            MainStaus = StatusType.Intelligence;
             mainStatus = playerUI.boundCharacter.intelligence;
+        }
         else if (cardData.description.Contains("마법") && cardData.description.Contains("물리"))
+        {
+            MainStaus = StatusType.Intelligence;
             mainStatus = playerUI.boundCharacter.intelligence;
+        } 
         else if (cardData.description.Contains("마법"))
+        {
+            MainStaus = StatusType.Intelligence;
             mainStatus = playerUI.boundCharacter.intelligence;
+        }
         else
+        {
+            MainStaus = StatusType.Strength;
             mainStatus = playerUI.boundCharacter.strength;
+        }   
         SetCardAction();
     }
 
@@ -155,11 +181,27 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     {
         cardAction = null;
         cardAction += () => GetComponent<CardUI>().TransferUI();
-        cardAction += () => UseCost(playerUI.boundCharacter);
         cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
         cardAction += () => playerUI.ReturnToInstant(gameObject);
         cardAction += () => N_BattleManager.instance.IsAction = true;
-        cardAction += () => token_Success = cardData.token - BattleUI.instance.RollToken(mainStatus, cardData.token);
+        cardAction += () => token_Fail =  BattleUI.instance.RollToken(MainStaus,mainStatus, cardData.token);
         cardAction += () => playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
+    }
+    
+    IEnumerator DoCardAction()
+    {
+        UseCost(playerUI.boundCharacter);
+        yield return new WaitUntil(() => costOver || costUsed);
+        if(costOver)
+        {
+            Debug.Log("코스트 부족! \n" + cardData.useCost + " / "+ playerUI.boundCharacter.cost);
+            transform.position = GetComponent<CardUI>().defaultPosition;
+        }
+        else if(costUsed)
+        {
+            cardAction();
+        }
+        costOver = false;
+        costUsed = false;
     }
 }

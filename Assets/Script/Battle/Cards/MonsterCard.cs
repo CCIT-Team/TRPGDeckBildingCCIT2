@@ -14,12 +14,22 @@ public class MonsterCard : MonoBehaviour
 
     public GameObject cardTarget;
 
+    StatusType MainStaus = StatusType.None;
+    int mainStatus = 0;
+    public float finalVlaue = 0;
+    public int token_Fail = 0;
+
     public void UseCard()
     {
         GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
         cardAction();
     }
 
+    public float CalculateCardValue()
+    {
+        finalVlaue = cardData.defaultXvalue * mainStatus * 0.02f;
+        return finalVlaue;
+    }
 
 
     void RemoveInHand(Deck deck)
@@ -32,12 +42,12 @@ public class MonsterCard : MonoBehaviour
     {
         var skill = CardSkills.SearchSkill(cardData.variableName);
         Debug.Log(gameObject.name + "가 "+ cardTarget.name +"에게 " + cardData.name + "을(를) 사용");
-        skill.Invoke(null, new object[] { GetComponent<MonsterStat>(),          //사용자
-                                          cardTarget.GetComponent<Unit>(),  //사용 대상
-                                          cardData.defaultXvalue,           //기본값
-                                          cardData.effectUseTurn,           //추가효과 값
-                                          cardData.token                    //토큰 수
-                                         });
+        skill.Invoke(null, new object[] { GetComponent<MonsterStat>(),      //사용자
+                                         cardTarget.GetComponent<Unit>(),   //사용 대상
+                                         CalculateCardValue(),              //값
+                                         cardData.effectUseTurn,            //추가효과 턴
+                                         token_Fail,                        //실패 토큰 수
+                                         cardData.token});                  //총 토큰 수
 
         GetComponent<Monster>().IsMyturn = false;
     }
@@ -48,6 +58,7 @@ public class MonsterCard : MonoBehaviour
         cardAction = null;
         cardAction += () => RemoveInHand(GetComponent<Deck>());
         cardAction += () => N_BattleManager.instance.IsAction = true;
+        cardAction += () => token_Fail = RollToken(MainStaus,mainStatus, cardData.token);
         cardAction += () => GetComponent<UnitAnimationControl>().AttackAnimation();
     }
 
@@ -94,5 +105,39 @@ public class MonsterCard : MonoBehaviour
                 cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
                 break;
         }
+        if (cardData.description.Contains("회복"))
+        {
+            MainStaus = StatusType.Intelligence;
+            mainStatus = GetComponent<Monster>().intelligence;
+        }
+        else if (cardData.description.Contains("마법") && cardData.description.Contains("물리"))
+        {
+            MainStaus = StatusType.Intelligence;
+            mainStatus = GetComponent<Monster>().intelligence;
+        }
+        else if (cardData.description.Contains("마법"))
+        {
+            MainStaus = StatusType.Intelligence;
+            mainStatus = GetComponent<Monster>().intelligence;
+        }
+        else
+        {
+            MainStaus = StatusType.Strength;
+            mainStatus = GetComponent<Monster>().strength;
+        }
+    }
+
+    public int RollToken(StatusType statusType, int mainStatus, int tokenAmount)
+    {
+        int rollResult = 0;
+        for (int i = 0; i < tokenAmount; i++)
+        {
+            int x = Random.Range(0, 100);
+            if (x > mainStatus)
+            {
+                rollResult--;
+            }
+        }
+        return rollResult;
     }
 }

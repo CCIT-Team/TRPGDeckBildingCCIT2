@@ -7,6 +7,8 @@ public class RewardDisplay : MonoBehaviour
 {
     public Image image;
     public Text rewardName;
+    int itemID = -1;
+    int gold = -1;
 
 
     public void DisplayRewardInfo(int rewardID, bool isitem = true)
@@ -14,6 +16,7 @@ public class RewardDisplay : MonoBehaviour
         if(!isitem)
         {
             rewardName.text = rewardID + "골드";
+            gold = rewardID;
         }
         else
         {
@@ -42,12 +45,15 @@ public class RewardDisplay : MonoBehaviour
                     }
                     break;
             }
+            itemID = rewardID;
         }   
     }
 
     public void GetReward()
     {
         Debug.Log(rewardName.text + "를 받았다");
+        if(itemID == -1)
+            N_BattleManager.instance.units[Random.Range(0, N_BattleManager.instance.units.Count)].GetComponent<Character>().gold += gold;
         N_BattleManager.instance.rewardUI.rewardCount--;
         gameObject.SetActive(false);
     }
