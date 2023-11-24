@@ -17,35 +17,23 @@ public class Character : Unit
     public int luck;
     public int speed;
     public int cost;
-    private int maxCost;
+    public int maxCost;
 
     public int level;
     public int exp;
     public int maxExp;
     public int gold = 0;
 
-    public int portionRegular = 0;
+    public int attackGuard = 0;
+    public int magicGuard = 0;
+
+    public int portionRegular = 0; //현재 stat테이블에 있음 이후에 인벤테이블따로 만들어야함
     public int portionLarge = 0;
 
     public bool isMyturn;
     public WorldState worldState = WorldState.Idle;
 
     private string insertQuery;
-
-    //public void SetUnitData(PlayerDefaultData stat)
-    //{
-    //    maxHp = stat.hp;
-    //    hp = maxHp;
-    //    strength = stat.strength;
-    //    intelligence = stat.intelligence;
-    //    luck = stat.luck;
-    //    speed = stat.speed;
-    //    maxCost = stat.cost;
-    //    cost = maxCost;
-    //    level = stat.level;
-    //    exp = stat.exp;
-    //    maxExp = stat.maxExp;
-    //}
 
     public void SetUnitData(PlayerStat stat)
     {
@@ -61,13 +49,17 @@ public class Character : Unit
         exp = stat.exp;
         maxExp = stat.maxExp;
         gold = stat.gold;
+        portionRegular = stat.portionRegular;
+        portionLarge = stat.portionLarge;
         isMyturn = stat.turn;
+        attackGuard = 0;
+        magicGuard = 0;
     }
 
     public string GetStatDBQuery()
     {
-        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, turn) VALUES " +
-            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp}, {gold}, {Convert.ToInt32(isMyturn)})";
+        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, portionRegular, portionLarge, turn) VALUES " +
+            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp}, {gold}, {portionRegular}, {portionLarge}, {Convert.ToInt32(isMyturn)})";
         return insertQuery;
     }
 
@@ -98,10 +90,5 @@ public class Character : Unit
         {
             maxCost++;
         }
-    }
-
-    public void SetStat(int stat)
-    {
-
     }
 }
