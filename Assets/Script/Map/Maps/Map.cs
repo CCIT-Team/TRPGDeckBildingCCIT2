@@ -64,7 +64,7 @@ public class Map : MonoBehaviour
     public Tile currentInteracteUITile;
     public WolrdMission wolrdMission;
     public Tile currentMissionTile;
-
+    public int missionNum = 0;
     [Header("Other")]
     public bool isBattle = false;
     public bool isFirst = true;
@@ -135,6 +135,24 @@ public class Map : MonoBehaviour
         wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", false);
     }
 
+    public string GetMonsterName(int MonsterID)
+    {
+        switch (MonsterID)
+        {
+            case 30000001:
+                return "해골 병사";
+            case 30000002:
+                return "해골 전사";
+            case 30000003:
+                return "되살아난 시체";
+            case 30000004:
+                return "살아있는 갑옷";
+            case 30000005:
+                return "해골 법사";
+            default:
+                return "해당 ID를 가진 몬스터가 없습니다";
+        }
+    }
     #endregion
 
     void MapSetting()
@@ -185,24 +203,19 @@ public class Map : MonoBehaviour
 
     public void PlayerMovePath(Tile objects)
     {
-        // player.transform.position = new Vector3(objects.gameObject.transform.position.x,0, objects.gameObject.transform.position.z);
         pathTileObjectList.Add(objects);
     }
     int currentPositionNum = 1;
     void MovePlayer()
     {
-        if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0)
+        if (wolrdTurn.currentPlayer.isMyturn && pathTileObjectList.Count > 0 && !dragonScript.isdragonTurn)
         {
             isPlayerMoving = true;
             wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", true);
             Vector3 nextTilePosition = pathTileObjectList[currentPositionNum].gameObject.transform.position;
             nextTilePosition.y = nextTilePosition.y + .5f;
 
-            //wolrdTurn.currentPlayer.transform.LookAt(pathTileObjectList[currentPositionNum].transform.position);
             wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(nextTilePosition - wolrdTurn.currentPlayer.transform.position).normalized;
-            //wolrdTurn.currentPlayer.transform.rotation = 
-            //    Quaternion.LookRotation(new Vector3(0, 0, pathTileObjectList[currentPositionNum].gameObject.transform.position.z) - 
-            //    new Vector3(0, 0, wolrdTurn.currentPlayer.transform.position.z)).normalized;
             wolrdTurn.currentPlayer.transform.position =
                 Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position,
                 nextTilePosition, playerSpeed);

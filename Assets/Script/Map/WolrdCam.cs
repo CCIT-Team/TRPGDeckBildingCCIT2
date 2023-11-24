@@ -6,7 +6,7 @@ public class WolrdCam : MonoBehaviour
 {
     public Transform player;
     public float smooth_speed = 0.125f;
-    public float scroll_speed = 0.001f;
+    public float scroll_speed = 0.8f;
     public Vector3 offset;
     public float rotate_speed = 5;
 
