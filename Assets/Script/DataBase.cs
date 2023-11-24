@@ -200,9 +200,11 @@ public class DataBase : MonoBehaviour
             int exp = dataReader.GetInt32(9);
             int maxExp = dataReader.GetInt32(10);
             int gold = dataReader.GetInt32(11);
-            int turn = dataReader.GetInt32(12);
+            int portionRegular = dataReader.GetInt32(12);
+            int portionLarge = dataReader.GetInt32(13);
+            int turn = dataReader.GetInt32(14);
 
-            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp, gold, turn));
+            loadStatData.Add(new PlayerStat(playerNo, strength, intelligence, luck, speed, hp, maxHp, cost, level, exp, maxExp, gold, portionRegular, portionLarge, turn));
         }
 
         dataReader.Close();
@@ -552,8 +554,10 @@ public class PlayerStat
     public int exp;
     public int maxExp;
     public int gold;
+    public int portionRegular;
+    public int portionLarge;
     public bool turn;
-    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp, int _gold, int _turn)
+    public PlayerStat(int _playerNum, int _strength, int _intelligence, int _luck, int _speed, float _hp, float _maxHp, int _cost, int _level, int _exp, int _maxExp, int _gold, int _portionRegular, int _portionLarge, int _turn)
     {
         playerNum = _playerNum;
         strength = _strength;
@@ -567,6 +571,8 @@ public class PlayerStat
         exp = _exp;
         maxExp = _maxExp;
         gold = _gold;
+        portionRegular = _portionRegular;
+        portionLarge = _portionLarge;
         turn = Convert.ToBoolean(_turn);
     }
 }

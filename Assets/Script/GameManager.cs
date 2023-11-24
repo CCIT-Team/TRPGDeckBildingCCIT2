@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
             LoadAvatar(i, position);
         }
         //ui ¿¬°á
-        playerUI.GetComponent<PlayerUIManager>().SetPlayer();
+        playerUI.GetComponent<PlayerUIManager>().SetPlayer(players.ToArray());
     }
 
     private void LoadAvatar(int index, Vector3 position)

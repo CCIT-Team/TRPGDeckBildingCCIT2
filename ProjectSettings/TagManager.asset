@@ -8,6 +8,8 @@ TagManager:
   - Dragon
   - Monster
   - PlayerUI
+  - PortionR
+  - PortionL
   layers:
   - Default
   - TransparentFX

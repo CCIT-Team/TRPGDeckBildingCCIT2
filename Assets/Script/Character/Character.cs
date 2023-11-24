@@ -27,7 +27,7 @@ public class Character : Unit
     public int attackGuard = 0;
     public int magicGuard = 0;
 
-    public int portionRegular = 0;
+    public int portionRegular = 0; //현재 stat테이블에 있음 이후에 인벤테이블따로 만들어야함
     public int portionLarge = 0;
 
     public bool isMyturn;
@@ -49,6 +49,8 @@ public class Character : Unit
         exp = stat.exp;
         maxExp = stat.maxExp;
         gold = stat.gold;
+        portionRegular = stat.portionRegular;
+        portionLarge = stat.portionLarge;
         isMyturn = stat.turn;
         attackGuard = 0;
         magicGuard = 0;
@@ -56,8 +58,8 @@ public class Character : Unit
 
     public string GetStatDBQuery()
     {
-        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, turn) VALUES " +
-            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp}, {gold}, {Convert.ToInt32(isMyturn)})";
+        insertQuery = $"INSERT INTO Stat (playerNum, strength, intelligence, luck, speed, currentHp, hp, cost, level, exp, maxExp, gold, portionRegular, portionLarge, turn) VALUES " +
+            $"({GetComponent<Character_type>().playerNum}, {strength}, {intelligence}, {luck}, {speed}, {hp}, {maxHp}, {maxCost}, {level}, {exp}, {maxExp}, {gold}, {portionRegular}, {portionLarge}, {Convert.ToInt32(isMyturn)})";
         return insertQuery;
     }
 
