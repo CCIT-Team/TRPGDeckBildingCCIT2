@@ -42,7 +42,7 @@ public class DeckDisplay : MonoBehaviour
                 card.GetComponent<DeckCardUI>().LoadCardData(i, transform.parent.parent.GetComponent<PlayerBattleUI>().boundCharacter.GetComponent<Character_type>().major);
                 displayDeck.Add(card);
             }
-            deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80+ 255* transform.childCount);
+            //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);
         }
 
     }

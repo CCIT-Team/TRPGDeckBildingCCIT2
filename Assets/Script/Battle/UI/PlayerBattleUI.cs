@@ -8,8 +8,6 @@ public class PlayerBattleUI : MonoBehaviour
     public Character boundCharacter;
     Deck boundDeck;
 
-    public PlayerStatUI statUI;
-
     [SerializeField]
     GameObject cardPrefab;
     float[] cardSize = { 150, 225 };    //1920, 1080
@@ -97,9 +95,6 @@ public class PlayerBattleUI : MonoBehaviour
     {
         boundCharacter = character;
         name = boundCharacter.name;
-        //statUI.character = boundCharacter;
-        //statUI.character_Type = boundCharacter.GetComponent<Character_type>();
-        statUI.gameObject.SetActive(true);
         foreach (int id in boundCharacter.GetComponent<Character_Card>().cardID)
         {
             boundDeck.deck.Add(int.Parse(id.ToString()));
