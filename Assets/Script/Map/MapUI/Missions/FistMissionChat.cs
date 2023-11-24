@@ -58,7 +58,8 @@ public class FistMissionChat : MonoBehaviour
 
     public void NextChat()
     {
-        if(chatint < 6)
+        SoundManager.instance.PlayUICilckSound();
+        if (chatint < 6)
         {
             t = 0;
             text.text = "";

@@ -65,7 +65,6 @@ public class Map : MonoBehaviour
     public WolrdMission wolrdMission;
     public Tile currentMissionTile;
     public int missionNum = 0;
-
     [Header("Other")]
     public bool isBattle = false;
     public bool isFirst = true;

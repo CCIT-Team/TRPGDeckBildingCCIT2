@@ -11,10 +11,12 @@ public class WolrdTurn : MonoBehaviour
     public GameObject turnNicknameObejct;
     public TMP_Text turnNickName;//누구의 턴인지 알려주는 UI
     public GameObject dragonturn;
+    Transform dragonOriginPos;
     void Start()
     {
         Map.instance.wolrdTurn = this;
         players = Map.instance.players;
+        dragonOriginPos = dragonturn.transform;
         turnNicknameObejct.SetActive(false);
         StartCoroutine(PlayTurn());
     }
@@ -41,8 +43,8 @@ public class WolrdTurn : MonoBehaviour
         players.Add(currentPlayer.gameObject);
         currentPlayer = null;
         turnNum += 1;
-        if(dragonturn.transform.position.x >= -1420) { dragonturn.transform.position -= new Vector3(100,0,0); } 
-        else { dragonturn.transform.position += new Vector3(1100, 0, 0); }
+        if(dragonturn.transform.position.x > -1220) { dragonturn.transform.position -= new Vector3(100,0,0); } 
+        else { dragonturn.transform.position = dragonOriginPos.position; }
         StartCoroutine(PlayTurn());
     }
 

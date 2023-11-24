@@ -37,11 +37,13 @@ public class TileUI : MonoBehaviour
     }
     public void OnShopUI()
     {
+        SoundManager.instance.PlayUICilckSound();
         OffShopAndHospital();
         OnShop();
     }
     public void OnHospitalUI()
     {
+        SoundManager.instance.PlayUICilckSound();
         OffShopAndHospital();
         OnHospital();
     }
@@ -50,6 +52,7 @@ public class TileUI : MonoBehaviour
     public void OnShop() { shopUI.enabled = true; }
     public void OffShop()
     {
+        SoundManager.instance.PlayUICilckSound();
         shopUI.enabled = false;
         Map.instance.startTile = null;
         Map.instance.pathTileObjectList.Clear();
@@ -64,6 +67,7 @@ public class TileUI : MonoBehaviour
     public void OnHospital() { hospital.enabled = true; }
     public void OffHospital() 
     {
+        SoundManager.instance.PlayUICilckSound();
         hospital.enabled = false;
         Map.instance.startTile = null;
         Map.instance.pathTileObjectList.Clear();
@@ -80,12 +84,14 @@ public class TileUI : MonoBehaviour
     public void OffMonsterBattle() => monsterBattleUI.enabled = false;
     public void Fight()
     {
+        SoundManager.instance.PlayUICilckSound();
         GameManager.instance.LoadScenceName("New Battle");
         Map.instance.isBattle = true;
         Debug.Log("전투진입");
     }
     public void Run()
     {
+        SoundManager.instance.PlayUICilckSound();
         OffMonsterBattle();
         Map.instance.startTile = null;
         Map.instance.pathTileObjectList.Clear();

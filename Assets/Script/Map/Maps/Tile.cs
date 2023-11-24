@@ -10,6 +10,8 @@ public class Tile : MonoBehaviour
     public TileUI tileUI;
     public List<GameObject> tiles = new List<GameObject>(6);
     public Material[] climateMaterials = new Material[3];
+
+    public GameObject[] tileSelectImage = new GameObject[2];//0 = Select 1 = SelectBold
     public TMP_Text walkAbleNumText;
     public int F => g + h;
 
@@ -109,6 +111,8 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
+        adjacentTiles.Clear();
+        FindAbjectTile();
         if (tileState == TileState.SpawnTile)
         {
             isSpawnTile = true;
@@ -311,19 +315,34 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void IsSelect(Color color)
+    #region 타일 선택
+    public void InitializeSelect()
+    {
+        tileSelectImage[0].SetActive(false);
+        tileSelectImage[1].SetActive(false);
+    }
+    public void TemporarySelection()
+    {
+        tileSelectImage[0].SetActive(true);
+        tileSelectImage[1].SetActive(false);
+    }
+    public void ConfirmSelection()
+    {
+        tileSelectImage[0].SetActive(false);
+        tileSelectImage[1].SetActive(true);
+    }
+    public void IsSelect()
     {
         if (isSelect)
         {
-            material.material = gameObject.GetComponent<MeshRenderer>().material;
-            material.material.color = color;
+
         }
         else
         {
-            material.material = gameObject.GetComponent<MeshRenderer>().material;
-            material.material.color = defaultColor;
+
         }
     }
+    #endregion
 
     #region Maker
     public void MainMissionMarkerOnOff()
@@ -510,11 +529,11 @@ public class Tile : MonoBehaviour
              adjacentTiles[0].gameObject.transform.position.z), 0.05f);
         if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
         {
-            Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
+            Map.instance.startTile = null;
             Map.instance.pathTileObjectList.Clear();
-            Map.instance.startTile = adjacentTiles[0];
-            isSelect = true;
             Map.instance.isPlayerOnEndTile = true;
+            Map.instance.currentInteracteUITile = null;
+            Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
             Map.instance.isOutofUI = false;
         }
     }
