@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18312068, g: 0.22879033, b: 0.30661458, a: 1}
+  m_IndirectSpecularColor: {r: 0.18312113, g: 0.22879107, b: 0.30661526, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1618,7 +1618,7 @@ PrefabInstance:
     - target: {fileID: 915150936255328393, guid: abe8e55760eb70e4cb6b8488b30b2563,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: InventoryScene
+      value: Map1
       objectReference: {fileID: 0}
     - target: {fileID: 1374949512754742617, guid: abe8e55760eb70e4cb6b8488b30b2563,
         type: 3}
