@@ -97,8 +97,8 @@ public class PlayerBattleUI : MonoBehaviour
     {
         boundCharacter = character;
         name = boundCharacter.name;
-        statUI.character = boundCharacter;
-        statUI.character_Type = boundCharacter.GetComponent<Character_type>();
+        //statUI.character = boundCharacter;
+        //statUI.character_Type = boundCharacter.GetComponent<Character_type>();
         statUI.gameObject.SetActive(true);
         foreach (int id in boundCharacter.GetComponent<Character_Card>().cardID)
         {

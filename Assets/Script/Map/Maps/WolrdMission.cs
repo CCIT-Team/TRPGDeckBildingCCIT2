@@ -23,6 +23,7 @@ public class WolrdMission : MonoBehaviour
     void Start()
     {
         Map.instance.wolrdMission = this;
+        mainMissionNum = Map.instance.missionNum;
     }
 
     // Update is called once per frame
@@ -50,13 +51,13 @@ public class WolrdMission : MonoBehaviour
         switch (mainMissionNum)
         {
             case 0:
-                    FirstMainMission();
+                FirstMainMission();
                 break;
             case 1:
-                    SecondMainMission();
+                SecondMainMission();
                 break;
             case 2:
-
+                ThirdMainMission();
                 break;
             case 3:
 
@@ -75,7 +76,8 @@ public class WolrdMission : MonoBehaviour
         mainMissionText.text = "왕국으로 가세요";
         Map.instance.currentMissionTile = Map.instance.kingdomTile[0].GetComponent<Tile>();
         Map.instance.kingdomTile[0].GetComponent<Tile>().isMissionOn = true;
-        Map.instance.kingdomTile[0].GetComponent<Tile>().MissionMarkerOnOff();
+        Map.instance.kingdomTile[0].GetComponent<Tile>().MainMissionMarkerOnOff();
+        Map.instance.missionNum = 0;
     }
 
     void SecondMainMission()
@@ -83,6 +85,23 @@ public class WolrdMission : MonoBehaviour
         mainMissionText.text = "몬스터를 사냥하세요";
         Map.instance.currentMissionTile = Map.instance.monsterTile[0];
         Map.instance.monsterTile[0].GetComponent<Tile>().isMissionOn = true;
-        Map.instance.monsterTile[0].GetComponent<Tile>().MissionMarkerOnOff();
+        Map.instance.monsterTile[0].GetComponent<Tile>().MainMissionMarkerOnOff();
+        Map.instance.missionNum = 1;
+        if (GameManager.instance.isVictory)
+        {
+            Map.instance.currentMissionTile.GetComponent<Tile>().isMissionOn = false;
+            Map.instance.currentMissionTile.GetComponent<Tile>().MainMissionMarkerOnOff();
+            Map.instance.currentMissionTile.GetComponent<Tile>().DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            mainMissionNum = 2;
+        }
+    }
+    void ThirdMainMission()
+    {
+        mainMissionText.text = "???로 가세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[0].GetComponent<Tile>();
+        Map.instance.monsterTile[0].GetComponent<Tile>().isMissionOn = true;
+        Map.instance.monsterTile[0].GetComponent<Tile>().MainMissionMarkerOnOff();
+        Map.instance.missionNum = 2;
     }
 }

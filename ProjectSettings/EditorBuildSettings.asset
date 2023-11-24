@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/New Battle.unity
     guid: 7bb6866dbaa54a9479741fee8d6a784a
+  - enabled: 1
+    path: Assets/Scenes/InventoryScene.unity
+    guid: d9c7fc387ae179a4483e9ef91584d036
   m_configObjects: {}

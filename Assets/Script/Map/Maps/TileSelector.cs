@@ -42,9 +42,8 @@ public class TileSelector : MonoBehaviour
                 {
                     startPoint = map.startTile;
                     startPoint.isSelect = true;
-                    startPoint.IsSelect(Color.red);
                 }
-                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn)
+                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
                 {
                     if (endPoint == null)
                     {
@@ -59,10 +58,10 @@ public class TileSelector : MonoBehaviour
                         {
                             for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
                             {
-                                Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
-                                material.color = Color.red;
-                                tilePath[i].GetComponent<Tile>().walkAbleNumText.text = walkNum.ToString();
-                                tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                                //tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
+                                tilePath[i].TemporarySelection();
+                                tilePath[i].walkAbleNumText.text = walkNum.ToString();
+                                tilePath[0].walkAbleNumText.text = "";
                                 walkNum += 1;
                             }
                         }
@@ -70,29 +69,19 @@ public class TileSelector : MonoBehaviour
                         {
                             for (int i = 0; i < tilePath.Count; i++)
                             {
-                                Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
-                                material.color = Color.red;
-                                tilePath[i].GetComponent<Tile>().walkAbleNumText.text = walkNum.ToString();
-                                tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
+                                tilePath[i].TemporarySelection();
+                                tilePath[i].walkAbleNumText.text = walkNum.ToString();
+                                tilePath[0].walkAbleNumText.text = "";
                                 walkNum += 1;
                             }
                         }
-
-                        //Material material = game.gameObject.GetComponent<MeshRenderer>().material;
-                        //material.color = Color.red;
-                        //game.GetComponent<Tile>().walkAbleNumText.text = walkNum.ToString();
-                        //tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";
-                        //walkNum += 1;
-                        //}
                     }
                     if (endPoint != tiles)
                     {
                         foreach (Tile game in tilePath)
                         {
-                            Material material = game.gameObject.GetComponent<MeshRenderer>().material;
-                            material.color = Color.white;
-
-                            game.GetComponent<Tile>().walkAbleNumText.text = "";
+                            game.InitializeSelect();
+                            game.walkAbleNumText.text = "";
                         }
                         tilePath.Clear();
                         endPoint = null;
@@ -100,7 +89,7 @@ public class TileSelector : MonoBehaviour
                 }
             }
         }
-        if (mouseButton == MouseButton.Left)
+        if (mouseButton == MouseButton.Left && !isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
         {
             if (endPoint != null)
             {
@@ -112,21 +101,17 @@ public class TileSelector : MonoBehaviour
                 if (Map.instance.wolrdTurn.currentPlayer.cost + 1 < tilePath.Count)
                 {
                     endPoint = tilePath[Map.instance.wolrdTurn.currentPlayer.cost];
-                    endPoint.IsSelect(Color.blue);
                     for (int i = 0; i < Map.instance.wolrdTurn.currentPlayer.cost + 1; i++)
                     {
-                        Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
-                        material.color = Color.cyan;
+                        tilePath[i].ConfirmSelection();
                         map.PlayerMovePath(tilePath[i]);
                     }
                 }
                 else
                 {
-                    endPoint.IsSelect(Color.blue);
                     for (int i = 0; i < tilePath.Count; i++)
                     {
-                        Material material = tilePath[i].gameObject.GetComponent<MeshRenderer>().material;
-                        material.color = Color.cyan;
+                        tilePath[i].ConfirmSelection();
                         map.PlayerMovePath(tilePath[i]);
                     }
                 }
@@ -136,9 +121,8 @@ public class TileSelector : MonoBehaviour
         {
             foreach (Tile game in tilePath)
             {
-                Material material = game.gameObject.GetComponent<MeshRenderer>().material;
-                game.GetComponent<Tile>().walkAbleNumText.text = "";
-                material.color = Color.white;
+                game.InitializeSelect();
+                game.walkAbleNumText.text = "";
             }
             Debug.Log("Clear Path List");
             tilePath.Clear();
