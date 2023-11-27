@@ -2475,6 +2475,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   customEyeColor: {fileID: 0}
+  customHairColor: []
 --- !u!1 &3027504081277315343
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,6 +5078,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   customEyeColor: {fileID: 0}
+  customHairColor: []
 --- !u!1 &5611196702545536140
 GameObject:
   m_ObjectHideFlags: 0
@@ -9016,6 +9018,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   customEyeColor: {fileID: 0}
+  customHairColor: []
 --- !u!1 &8863957188511309363
 GameObject:
   m_ObjectHideFlags: 0

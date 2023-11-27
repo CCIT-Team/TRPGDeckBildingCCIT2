@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadAvatar(int index, Vector3 position)
     {
-        GameObject unit = Instantiate(Resources.Load("Prefabs/Character/Player1", typeof(GameObject))) as GameObject;
+        GameObject unit = Instantiate(Resources.Load("Prefabs/Character/PlayerCharacter", typeof(GameObject))) as GameObject;
         //unit.transform.position = position;//나중에 맵 포지션 받아올거임
         AvatarTypeSetting(unit, index);
         AvatarPositionSetting(unit, index);

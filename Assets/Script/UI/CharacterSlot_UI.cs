@@ -29,6 +29,7 @@ public class CharacterSlot_UI : MonoBehaviour
     public SkinnedMeshRenderer[] gender_mesh;
     public SkinnedMeshRenderer[] gender_skinColor;
     public SkinnedMeshRenderer customEyeColor;
+    public SkinnedMeshRenderer[] customHairColor;
 
     TMP_InputField avatarNickName;
     TMP_Text majorText;
@@ -86,7 +87,6 @@ public class CharacterSlot_UI : MonoBehaviour
         majorText.text = majorList[major_index];
         avatarGenderText.text = avatarGenderList[avatarGender_index];
         avatarTypeText.text = avatarTypeList[avatarType_index];
-
         skinColorImage.color = SwitchSkinUIColor(skinColor_index);
         eyeColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[0];
         hairColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[1];
@@ -271,18 +271,21 @@ public class CharacterSlot_UI : MonoBehaviour
         switch (index)
         {
             case 0:
-                major[0].SetActive(false);
+                major[0].SetActive(true);
                 major[1].SetActive(false);
+                major[2].SetActive(false);
                 SwitchingWeapon(index);
                 break;
             case 1:
-                major[0].SetActive(true);
-                major[1].SetActive(false);
+                major[0].SetActive(false);
+                major[1].SetActive(true);
+                major[2].SetActive(false);
                 SwitchingWeapon(index);
                 break;
             case 2:
                 major[0].SetActive(false);
-                major[1].SetActive(true);
+                major[1].SetActive(false);
+                major[2].SetActive(true);
                 SwitchingWeapon(index);
                 break;
         }
@@ -377,6 +380,10 @@ public class CharacterSlot_UI : MonoBehaviour
     private void SetEyeColor(float offset)
     {
         customEyeColor.materials[2].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        for(int i = 0; i < customHairColor.Length; i++)
+        {
+            customHairColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        }
     }
 
     public void SetType(int num)

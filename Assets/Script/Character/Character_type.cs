@@ -20,6 +20,7 @@ public class Character_type : MonoBehaviour
     public SkinnedMeshRenderer[] gender_mesh;
     public SkinnedMeshRenderer[] gender_skinColor;
     public SkinnedMeshRenderer customEyeColor;
+    public SkinnedMeshRenderer[] customHairColor;
 
     private float positionx;
     private float positiony;
@@ -61,18 +62,21 @@ public class Character_type : MonoBehaviour
         switch (major)
         {
             case PlayerType.Major.Fighter:
-                majorObject[0].SetActive(false);
+                majorObject[0].SetActive(true);
                 majorObject[1].SetActive(false);
+                majorObject[2].SetActive(false);
                 EquipWeapon(1, "TwohandSword_claymore");
                 break;
             case PlayerType.Major.Wizard:
-                majorObject[0].SetActive(true);
-                majorObject[1].SetActive(false);
+                majorObject[0].SetActive(false);
+                majorObject[1].SetActive(true);
+                majorObject[2].SetActive(false);
                 EquipWeapon(0, "Staff_scholarship");
                 break;
             case PlayerType.Major.Cleric:
                 majorObject[0].SetActive(false);
-                majorObject[1].SetActive(true);
+                majorObject[1].SetActive(false);
+                majorObject[2].SetActive(true);
                 EquipWeapon(0, "Sheild_steel");
                 EquipWeapon(1, "Mace_mace");
                 break;
@@ -149,6 +153,10 @@ public class Character_type : MonoBehaviour
     private void SetEyeColor(float offset)
     {
         customEyeColor.materials[2].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        for(int i = 0; i < customHairColor.Length; i++)
+        {
+            customHairColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        }
     }
 
     public string GetTypeDBQuery()

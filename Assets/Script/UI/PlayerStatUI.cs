@@ -9,6 +9,7 @@ public class PlayerStatUI : MonoBehaviour
 {
     public Character linkedPlayerStat;
     public Character_type linkedPlayerType;
+    public GameObject selectUI;
 
     public TMP_Text nickName;
     public TMP_Text level;
@@ -103,12 +104,14 @@ public class PlayerStatUI : MonoBehaviour
     {
         if (linkedPlayerStat.isMyturn)
         {
-            GameObject selectUI = transform.parent.gameObject.GetComponent<PlayerUIManager>().selectUI;
+            selectUI.SetActive(true);
             transform.localScale = new Vector3(1.2f, 1.2f, 1.0f);
-            selectUI.transform.localPosition = new Vector3(selectUI.transform.localPosition.x, gameObject.transform.localPosition.y, selectUI.transform.localPosition.z);            
+            //selectUI.transform.localPosition = new Vector3(selectUI.transform.localPosition.x, gameObject.transform.localPosition.y, selectUI.transform.localPosition.z);            
         }
         else
         {
+            //GameObject selectUI = transform.parent.gameObject.GetComponent<PlayerUIManager>().selectUI;
+            selectUI.SetActive(false);
             transform.localScale = Vector3.one;
         }
     }
@@ -121,15 +124,27 @@ public class PlayerStatUI : MonoBehaviour
         luck.text = linkedPlayerStat.luck.ToString();
         speed.text = linkedPlayerStat.speed.ToString();
         gold.text = linkedPlayerStat.gold.ToString();
-        hpbar.value = linkedPlayerStat.hp / linkedPlayerStat.maxHp;
+        //hpbar.value = linkedPlayerStat.hp / linkedPlayerStat.maxHp;
         expbar.value = Convert.ToSingle(linkedPlayerStat.exp) / Convert.ToSingle(linkedPlayerStat.maxExp);
-        hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+        //hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
         expbarText.text = linkedPlayerStat.exp.ToString() + "/" + linkedPlayerStat.maxExp.ToString();
     }
-    public void UpdateHpUI()
+    public void UpdateHpUI(float value)
     {
-        hpbar.value = linkedPlayerStat.hp / linkedPlayerStat.maxHp;
-        hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+        float currentHP = linkedPlayerStat.hp;
+        float updateHP = linkedPlayerStat.hp + value;
+
+        if (updateHP > linkedPlayerStat.maxHp)
+        {
+            updateHP = linkedPlayerStat.maxHp;
+        }
+        else if(updateHP < 0)
+        {
+            updateHP = 0.0f;
+        }
+
+        //코루틴
+        StartCoroutine(HpLerp(currentHP, updateHP));
     }
     public void UpdateExpUI()
     {
@@ -271,15 +286,8 @@ public class PlayerStatUI : MonoBehaviour
         float healValue = linkedPlayerStat.maxHp * 0.3f;
 
         linkedPlayerStat.portionRegular--;
-        linkedPlayerStat.hp += healValue;
-
-        if(linkedPlayerStat.hp > linkedPlayerStat.maxHp)
-        {
-            linkedPlayerStat.hp = linkedPlayerStat.maxHp;
-        }
-
         PortionTexting();
-        UpdateHpUI();
+        UpdateHpUI(healValue);
     }
 
     public void PortionLargeHeal()
@@ -287,14 +295,27 @@ public class PlayerStatUI : MonoBehaviour
         float healValue = linkedPlayerStat.maxHp * 0.4f;
 
         linkedPlayerStat.portionLarge--;
-        linkedPlayerStat.hp += healValue;
+        PortionTexting();
+        UpdateHpUI(healValue);
+    }
 
-        if (linkedPlayerStat.hp > linkedPlayerStat.maxHp)
+    private IEnumerator HpLerp(float currentHp, float updateHp)
+    {
+        float timer = 0.0f;
+        float durtion = 1.0f;
+        float t = 0.0f;
+        while (timer <= durtion)
         {
-            linkedPlayerStat.hp = linkedPlayerStat.maxHp;
+            timer += Time.deltaTime;
+            t = timer / durtion;
+            Debug.Log(t.ToString() + "값");
+            hpbar.value = Mathf.Lerp(currentHp / linkedPlayerStat.maxHp, updateHp / linkedPlayerStat.maxHp, t);
+            hpbarText.text = (hpbar.value * linkedPlayerStat.maxHp).ToString("#.#") + "/" + linkedPlayerStat.maxHp.ToString();
+            yield return null;
         }
 
-        PortionTexting();
-        UpdateHpUI();
+        linkedPlayerStat.hp = updateHp;
+        hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+        yield return null;
     }
 }
