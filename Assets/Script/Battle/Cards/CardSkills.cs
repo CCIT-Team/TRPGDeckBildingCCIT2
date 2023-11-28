@@ -55,12 +55,18 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 {
                     if (player == playerUI.boundCharacter)
                     {
+                        Debug.Log("캐릭 고름");
                         List<int> cardID = new List<int>();
                         for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
                         {
-                            GameObject card = playerUI.handUI.transform.GetChild(0).gameObject;
-                            if (card.GetComponent<N_Card>().cardData.name.Contains("일격"))
+                            Debug.Log("패 루프"+i);
+                            GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
+                            Debug.Log("카드 : "+ card.GetComponent<N_Card>().cardData.name);
+                            if (card.GetComponent<N_Card>().cardData.type == CardData.CardType.SingleAttack ||
+                                card.GetComponent<N_Card>().cardData.type == CardData.CardType.MultiAttack ||
+                                card.GetComponent<N_Card>().cardData.type == CardData.CardType.AllAttack )
                             {
+                                Debug.Log("공격 카드 소모");
                                 cardID.Add(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
                             }
@@ -117,7 +123,42 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void AlphaStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken == 0)
+            target.Damaged(0);
+        else
+        {
+            if (performer.TryGetComponent<Character>(out Character player))
+                foreach (PlayerBattleUI playerUI in BattleUI.instance.playerUI)
+                {
+                    if (player == playerUI.boundCharacter)
+                    {
+                        Debug.Log("캐릭 고름");
+                        List<int> cardID = new List<int>();
+                        for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
+                        {
+                            Debug.Log("패 루프" + i);
+                            GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
+                            Debug.Log("카드 : " + card.GetComponent<N_Card>().cardData.name);
+                            if (card.GetComponent<N_Card>().cardData.name.Contains("일격"))
+                            {
+                                Debug.Log("일격 카드 소모");
+                                cardID.Add(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.ReturnToInstant(card);
+                            }
+                        }
+                        playerUI.boundDeck.grave.AddRange(cardID);
+                        playerUI.SetHandPosition();
+                        foreach (int id in cardID)
+                        {
+                            playerUI.boundDeck.hand.Remove(id);
+                        }
+                        damage *= cardID.Count;
+                        cardID.Clear();
+                    }
+                }
+            target.Damaged(damage * (1 - (0.1f * failedToken)));
+        }
+        target.GetComponent<UnitAnimationControl>().GetDamage();
         //부가효과 추가 필요
         //패에 일격 카드 전부 소모, 소모당 피해량 증가
     }
@@ -332,7 +373,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             }
             else
             {
-                turnChecker = UnityEngine.Object.Instantiate(new EffectTurnChecker());
+                turnChecker = character.gameObject.AddComponent<EffectTurnChecker>();
                 turnChecker.boundCharacter = character;
                 turnChecker.StartEffect(EffectType.Strength_Increase, value, extraEffect);
             }
