@@ -98,7 +98,7 @@ public class Dragon : MonoBehaviour
             moveList = astar.FindPath(currentDragonTile, targetPosition);
         }
 
-        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1f)
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 2f)
         {
             currentPositionNum = 1;
             dragonState = DragonState.BURNING;
@@ -130,7 +130,7 @@ public class Dragon : MonoBehaviour
             moveList = astar.FindPath(currentDragonTile, targetPosition);
         }
 
-        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1f)
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 2f)
         {
             currentPositionNum = 1;
             moveList.Clear();
@@ -178,7 +178,7 @@ public class Dragon : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
 
             Debug.Log(Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) + "Distance Dragon");
-            if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 1f)
+            if (Vector3.Distance(moveList[currentPositionNum].transform.position, transform.position) <= 2f)
             {
                 if (currentPositionNum < moveList.Count) { currentPositionNum += 1; } //Map.instance.wolrdTurn.turnNum += 1; }
                 else { currentPositionNum = moveList.Count - 1; } //Map.instance.wolrdTurn.turnNum += 1; }
@@ -190,7 +190,7 @@ public class Dragon : MonoBehaviour
             TargetSetting();
         }
 
-        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1f)
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 2f)
         {
             currentPositionNum = 1;
             Burning();

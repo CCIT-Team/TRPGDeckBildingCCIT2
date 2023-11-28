@@ -25,7 +25,7 @@ public class TileUI : MonoBehaviour
     }
 
     #region 상점&병원 버튼
-    public void OnShopAndHospital() { shop_hospitalUI.enabled = true; }
+    public void OnShopAndHospital() { shop_hospitalUI.enabled = true; Map.instance.isOutofUI = true; }
     public void OffShopAndHospital()
     {
         shop_hospitalUI.enabled = false;
@@ -50,7 +50,7 @@ public class TileUI : MonoBehaviour
     }
     #endregion
     #region 상점 버튼
-    public void OnShop() { shopUI.enabled = true; }
+    public void OnShop() { shopUI.enabled = true; Map.instance.isOutofUI = true; }
     public void OffShop()
     {
         SoundManager.instance.PlayUICilckSound();
@@ -65,7 +65,7 @@ public class TileUI : MonoBehaviour
     #endregion
 
     #region 병원 버튼
-    public void OnHospital() { hospital.enabled = true; }
+    public void OnHospital() { hospital.enabled = true; Map.instance.isOutofUI = true; }
     public void OffHospital() 
     {
         SoundManager.instance.PlayUICilckSound();
