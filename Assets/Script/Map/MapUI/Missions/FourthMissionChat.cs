@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ThirdMissionChat : MonoBehaviour
+public class FourthMissionChat : MonoBehaviour
 {
     public float delay;
     public TMP_Text text;
@@ -15,7 +15,8 @@ public class ThirdMissionChat : MonoBehaviour
     void Start()
     {
         StartCoroutine(output_text());
-        delay = 0.1f;
+        Map.instance.isOutofUI = true;
+        delay = 0.05f;
     }
 
     void ChatFlow()
@@ -23,31 +24,23 @@ public class ThirdMissionChat : MonoBehaviour
         switch (chatint)
         {
             case 0:
-                talk = "안녕하십니까" + " " +  Map.instance.wolrdTurn.currentPlayer.name;
+                talk = "제발 살려주세요!";
                 break;
-
             case 1:
-                talk = "저는 그리라고 합니다.";
+                talk = "마을 근처에 해골 병사들이 몰려오고 있어요!";
                 break;
-
             case 2:
-                talk = "현재 르카나 대이 나타나 성우고 있니다.";
+                talk = "저희 마을을 구해주세요!!!";
                 break;
-
             case 3:
-                talk = Map.instance.wolrdTurn.currentPlayer.name  + " "+ ".....";
-                break;
-            case 4:
-                talk = "용이 든것을 태전에 벌십시요.";
-                break;
-            case 5:
-                talk = " 있는 몬스터 무리를 토벌시길.........";
-                break;
-            case 6:
-                Map.instance.currentMissionTile.GetComponent<Tile>().isMissionOn = false;
-                Map.instance.currentMissionTile.GetComponent<Tile>().MainMissionMarkerOnOff();
                 Map.instance.isOutofUI = false;
-                Map.instance.wolrdMission.mainMissionNum = 3;
+                Map.instance.wolrdMission.mainMissionNum = 4;
+                Map.instance.startTile = null;
+                Map.instance.pathTileObjectList.Clear();
+                Map.instance.isPlayerOnEndTile = true;
+                Map.instance.currentInteracteUITile = null;
+                Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
+                Map.instance.isOutofUI = false;
                 gameObject.SetActive(false);
                 break;
 
@@ -58,7 +51,7 @@ public class ThirdMissionChat : MonoBehaviour
 
     public void NextChat()
     {
-        if(chatint < 6)
+        if(chatint < 3)
         {
             t = 0;
             text.text = "";

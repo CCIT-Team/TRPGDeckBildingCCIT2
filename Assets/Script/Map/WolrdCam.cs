@@ -48,7 +48,6 @@ public class WolrdCam : MonoBehaviour
         //}
 
         float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
-        Debug.Log(scroollWheel);
        if(scroollWheel > 0)//ÁÜ ÀÎ
         {
             if (offset.y > minimum.y)
