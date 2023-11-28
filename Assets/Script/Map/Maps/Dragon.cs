@@ -47,7 +47,7 @@ public class Dragon : MonoBehaviour
             }
             else
             {
-                if (!isTargetSetting && currentDragonTile != null)
+                if (!isTargetSetting && currentDragonTile != null && Map.instance.totalTileObjectList[216].GetComponent<Tile>() != null)
                 {
                     targetPosition = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
                     moveList = astar.FindPath(currentDragonTile, targetPosition);

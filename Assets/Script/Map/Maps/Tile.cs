@@ -211,10 +211,6 @@ public class Tile : MonoBehaviour
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
-            else
-            {
-                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
-            }
         }
         Debug.DrawRay(transform.position, transform.right + transform.forward, Color.red);
         if (Physics.Raycast(transform.position, transform.right + transform.forward, out ray0, rayDistance))//©Л╩С
@@ -229,10 +225,6 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-            }
-            else
-            {
-                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
         Debug.DrawRay(transform.position, transform.right + (transform.forward * -1), Color.red);
@@ -249,10 +241,6 @@ public class Tile : MonoBehaviour
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
-            else
-            {
-                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
-            }
         }
         Debug.DrawRay(transform.position, transform.forward * -1, Color.red);
         if (Physics.Raycast(transform.position, transform.forward * -1, out ray0, rayDistance))//го
@@ -267,10 +255,6 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-            }
-            else
-            {
-                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
         Debug.DrawRay(transform.position, (transform.right * -1) + (transform.forward * -1), Color.red);
@@ -287,10 +271,6 @@ public class Tile : MonoBehaviour
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
             }
-            else
-            {
-                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
-            }
         }
         Debug.DrawRay(transform.position, (transform.right * -1) + transform.forward, Color.red);
         if (Physics.Raycast(transform.position, (transform.right * -1) + transform.forward, out ray0, rayDistance))//аб╩С
@@ -305,10 +285,6 @@ public class Tile : MonoBehaviour
                 {
                     adjacentTiles.Add(ray0.transform.GetComponent<Tile>());
                 }
-            }
-            else
-            {
-                Debug.Log("Nothing Here" + " My Name is" + gameObject.name);
             }
         }
     }

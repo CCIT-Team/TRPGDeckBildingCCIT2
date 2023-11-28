@@ -13,7 +13,7 @@ public class AreaChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Tile"))
+        if (other.CompareTag("Tile") && other.GetComponent<Tile>() != null)
         {
             if (other == null)
             {

@@ -79,14 +79,14 @@ public class DataBase : MonoBehaviour
 
         if (dataReader.IsDBNull(0))
         {
-            Debug.Log(dataReader.IsDBNull(0) + " Empty DB");
+            //Debug.Log(dataReader.IsDBNull(0) + " Empty DB");
             dataReader.Close();
             dbConnection.Close();
             return true;
         }
         else
         {
-            Debug.Log(dataReader.IsDBNull(0) + " Not Empty DB");
+            //Debug.Log(dataReader.IsDBNull(0) + " Not Empty DB");
             dataReader.Close();
             dbConnection.Close();
             return false;
@@ -214,7 +214,7 @@ public class DataBase : MonoBehaviour
         dbCommand.CommandText = "SELECT * FROM " + tableName;
         dataReader = dbCommand.ExecuteReader();
         int[] no = new int[dataReader.FieldCount - 1];
-        Debug.Log(dataReader.FieldCount);
+        //Debug.Log(dataReader.FieldCount);
         while (dataReader.Read())
         {
             int player = dataReader.GetInt32(0);
