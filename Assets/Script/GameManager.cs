@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < DataBase.instance.loadTypeData.Count; i++)
         {
             LoadAvatar(i, position);
+            InitRenderAvatar(i, new Vector3((-20 -(i * 10)), 0, 0));
         }
         //ui ¿¬°á
         playerUI.GetComponent<PlayerUIManager>().SetPlayer(players.ToArray());
@@ -74,6 +75,12 @@ public class GameManager : MonoBehaviour
         }
         //Debug.Log(SceneManager.GetActiveScene().name.ToString());
         players.Add(unit);
+    }
+    private void InitRenderAvatar(int index, Vector3 position)
+    {
+        GameObject unit = Instantiate(Resources.Load("Prefabs/Character/RenderTexture_Player/UIPlayer"+(index+1).ToString(), typeof(GameObject))) as GameObject;
+        unit.GetComponent<RenderTexturePlayer>().SetUnitType(DataBase.instance.loadTypeData[index]);
+        unit.GetComponent<RenderTexturePlayer>().SetUnitPosition(position, new Vector3(-20, 180, 0));
     }
     private void AvatarTypeSetting(GameObject unit, int index)
     {
