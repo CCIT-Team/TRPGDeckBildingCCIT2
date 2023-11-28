@@ -12,13 +12,21 @@ public class WolrdTurn : MonoBehaviour
     public TMP_Text turnNickName;//누구의 턴인지 알려주는 UI
     public GameObject dragonturn;
     Transform dragonOriginPos;
+
+    bool iscurrentPlayer = false;
     void Start()
     {
         Map.instance.wolrdTurn = this;
         players = Map.instance.players;
         dragonOriginPos = dragonturn.transform;
         turnNicknameObejct.SetActive(false);
-        StartCoroutine(PlayTurn());
+        if(players.Count > 0) { StartCoroutine(PlayTurn()); currentPlayer = players[0].GetComponent<Character>(); }
+        else 
+        {
+            players = Map.instance.players;
+            currentPlayer = players[0].GetComponent<Character>();
+            StartCoroutine(PlayTurn());
+        }
     }
 
     private void Update()
@@ -28,12 +36,21 @@ public class WolrdTurn : MonoBehaviour
             turnNum += 1;
             Debug.Log(turnNum);
         }
+        if(!iscurrentPlayer)
+        {
+            if (currentPlayer != null)
+            {
+                iscurrentPlayer = true;
+            }
+            else
+            {
+                currentPlayer = players[0].GetComponent<Character>();
+            }
+        }
     }
     IEnumerator PlayTurn()
     {
-        //currentPlayer = players[0].GetComponent<Character>();
         if (currentPlayer == null) { currentPlayer = players[0].GetComponent<Character>(); }
-        else { currentPlayer = players[0].GetComponent<Character>(); }
         currentPlayer.GetComponent<Character>().isMyturn = true;
         StartCoroutine(OnTurnNicknameUI());
         yield return new WaitUntil(() => !currentPlayer.GetComponent<Character>().isMyturn);

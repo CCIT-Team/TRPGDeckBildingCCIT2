@@ -36,9 +36,13 @@ public class TitleUI_Manager : MonoBehaviour
         GameManager.instance.LoadScenceName(sceneName);
     }
 
-    public void ExitButton()
+    public void GameSetting()
     {
 
+    }
+    public void ExitButton()
+    {
+        Application.Quit();
     }
     #endregion
 

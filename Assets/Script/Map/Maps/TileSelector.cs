@@ -38,10 +38,9 @@ public class TileSelector : MonoBehaviour
             if (tile != null)
             {
                 Tile tiles = tile;
-                if (startPoint == null)
+                if (startPoint == null && map.startTile != null)
                 {
                     startPoint = map.startTile;
-                    startPoint.isSelect = true;
                 }
                 if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
                 {
@@ -94,7 +93,6 @@ public class TileSelector : MonoBehaviour
             if (endPoint != null)
             {
                 isEndTileSelect = true;
-                endPoint.isSelect = true;
                 tilePath.Clear();
                 tilePath = astar.FindPath(startPoint, endPoint);
                 tilePath[0].GetComponent<Tile>().walkAbleNumText.text = "";

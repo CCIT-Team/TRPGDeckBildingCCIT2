@@ -41,8 +41,6 @@ public class Tile : MonoBehaviour
 
     public bool isVillageTile = false;
 
-    public bool isSelect = false;
-
     public bool isMissionOn = false;
 
     Character player;
@@ -305,17 +303,6 @@ public class Tile : MonoBehaviour
         tileSelectImage[0].SetActive(false);
         tileSelectImage[1].SetActive(true);
     }
-    public void IsSelect()
-    {
-        if (isSelect)
-        {
-
-        }
-        else
-        {
-
-        }
-    }
     #endregion
 
     #region Maker
@@ -446,7 +433,6 @@ public class Tile : MonoBehaviour
                 if (player.isMyturn)
                 {
                     Map.instance.startTile = this;
-                    isSelect = true;
                 }
             }
             //미션 관련
@@ -496,7 +482,6 @@ public class Tile : MonoBehaviour
                 if (player.isMyturn)
                 {
                     Map.instance.startTile = this;
-                    isSelect = true;
                 }
             }
             if (Map.instance.isOutofUI && isKingdomTile || Map.instance.isOutofUI && isMonsterTile)
