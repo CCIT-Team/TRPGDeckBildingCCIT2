@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerBattleUI : MonoBehaviour
 {
     public Character boundCharacter;
-    Deck boundDeck;
+    public Deck boundDeck;
 
     [SerializeField]
     GameObject cardPrefab;

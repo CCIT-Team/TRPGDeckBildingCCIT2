@@ -327,7 +327,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         BattleUI.instance.inputBlocker.SetActive(true);
         while(true)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2.5f);
             if(!isAction)
             {
                 BattleUI.instance.inputBlocker.SetActive(false);
@@ -418,13 +418,22 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 if(ui.gameObject.activeSelf)
                     ui.StartCoroutine(ui.ActIfTurn());
             }
-            yield return new WaitUntil(() => !character.isMyturn && !IsAction);
+            yield return new WaitUntil(() => !character.isMyturn);
         }   
         else
         {
             Monster monster = currentUnit.GetComponent<Monster>();
             monster.IsMyturn = true;
             yield return new WaitUntil(() => !monster.IsMyturn && !IsAction);
+        }
+        while (true)
+        {
+            if (!IsAction)
+            {
+                yield return new WaitForSeconds(1.5f);
+                if (!IsAction)
+                    break;
+            }   
         }
         units.Add(currentUnit);
         currentUnit = null;

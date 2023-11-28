@@ -32,6 +32,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void UseCard()
     {
+        playerUI.boundCharacter.GetComponent<UnitAnimationControl>().targetControler = cardTarget.GetComponent<UnitAnimationControl>();
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
         StartCoroutine(DoCardAction());
     }

@@ -8,12 +8,24 @@ public class UnitAnimationControl : MonoBehaviour
     public delegate void CardAnimationEvent();
     public CardAnimationEvent ATEvent;
     Animator animator;
+    public UnitAnimationControl targetControler;
     public void SetAnimator()
     {
         animator = GetComponent<Animator>();
         if (animator.runtimeAnimatorController == null)
         {
-            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Test_Assets/Animations/Unit Animator Controler");
+            switch(GetComponent<Character_type>().major)    //나중에 무기 구분으로 변경
+            {
+                case PlayerType.Major.Fighter:
+                    animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/OneHanded");
+                    break;
+                case PlayerType.Major.Wizard:
+                    animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/WandStaff");
+                    break;
+                case PlayerType.Major.Cleric:
+                    animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/Shield");
+                    break;
+            }
         }
     }
 
@@ -51,6 +63,11 @@ public class UnitAnimationControl : MonoBehaviour
     public void AttackEvent()
     {
         ATEvent();
+    }
+
+    public void FakeAttackEvent()
+    {
+        targetControler.GetDamage();
     }
 
     public void DeathEvent()
