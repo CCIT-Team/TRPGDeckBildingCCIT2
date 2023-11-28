@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class FistMissionChat : MonoBehaviour
+public class SeventhMainMission : MonoBehaviour
 {
     public float delay;
     public TMP_Text text;
@@ -24,32 +24,34 @@ public class FistMissionChat : MonoBehaviour
         switch (chatint)
         {
             case 0:
-                talk = "어서오게, 모험가들이여";
+                talk = "저기.... 모험가님!";
                 break;
-
             case 1:
-                talk = "나는 아발로니아의 왕 아발론 3세라네.";
+                talk = "송구하지만 제가 부탁드리고 싶은 것이 있습니다.";
                 break;
-
             case 2:
-                talk = "현재 아르카나 대륙에 화염룡이 나타나 성과 마을을 불태우고 있다네.";
+                talk = "최근 나타난 용때문에 마을 주변에 몬스터들이 늘어서,";
                 break;
-
             case 3:
-                talk = "용의 등장으로 몬스터들이 난폭해져서 곤란한 상황이네.......";
+                talk = "근처 마을에 사시는 어머니가 걱정됩니다.";
                 break;
             case 4:
-                talk = "자네들에게 그 드래곤을 토벌하는 임무를 맡기겠네.";
+                talk = "저는 마을 방어선을 만들어야해서 쉽게 자리를 비울수가 없습니다.";
                 break;
             case 5:
-                talk = "이 임무를 완수한다면 큰 상을 내리겠네.";
+                talk = "제발 부탁드립니다 모험가님.............";
                 break;
             case 6:
-                talk = "우선 페드로 성당에 그레고리 신부에게 내 말을 전해주겠나? 그가 자네들을 도울걸세.";
+                talk = " 바로 옆 성에서 작은 포션 하나만 사서 어머니께 전달해주세요.";
                 break;
             case 7:
+                talk = "저희는 잘 있다고 전해주세요.........사례는 꼭 하겠습니다.........";
+                break;
+            case 8:
+                Map.instance.currentMissionTile.isMissionOn = false;
+                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
                 Map.instance.isOutofUI = false;
-                Map.instance.wolrdMission.mainMissionNum = 1;
+                Map.instance.wolrdMission.mainMissionNum = 7;
                 Map.instance.startTile = null;
                 Map.instance.pathTileObjectList.Clear();
                 Map.instance.isPlayerOnEndTile = true;
@@ -58,16 +60,13 @@ public class FistMissionChat : MonoBehaviour
                 Map.instance.isOutofUI = false;
                 gameObject.SetActive(false);
                 break;
-
-
         }
 
     }
 
     public void NextChat()
     {
-        SoundManager.instance.PlayUICilckSound();
-        if (chatint < 7)
+        if (chatint < 8)
         {
             t = 0;
             text.text = "";

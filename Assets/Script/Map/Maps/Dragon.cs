@@ -20,6 +20,7 @@ public class Dragon : MonoBehaviour
     bool isDestoyVillige = false;
     public bool isdragonTurn = false;
     bool isDragonNest = false;
+    bool isDragonAbleMove = false;
 
     public enum DragonState
     {
@@ -40,25 +41,110 @@ public class Dragon : MonoBehaviour
         if (currentDragonTile == null)
         {
             currentDragonTile = Map.instance.dragonStartTile;
-            TargetSetting();
+            if (isDragonAbleMove)
+            {
+                TargetSetting();
+            }
+            else
+            {
+                if (!isTargetSetting && currentDragonTile != null)
+                {
+                    targetPosition = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
+                    moveList = astar.FindPath(currentDragonTile, targetPosition);
+                    dragonState = DragonState.IDLE;
+                    dragonAni.SetTrigger("Idle");
+                    if (moveList.Count > 0) { isTargetSetting = true; Debug.Log("TargetSetting Complete!"); }
+                }
+            }
         }
-        if (Map.instance.wolrdTurn.turnNum % 12 == 0 && Map.instance.wolrdTurn.turnNum > 10)
+        if (isDragonAbleMove && Map.instance.wolrdTurn.turnNum % 12 == 0 && Map.instance.wolrdTurn.turnNum > Map.instance.wolrdTurn.turnNum - 1)
         {
             isdragonTurn = true;
             MoveDragon();
         }
 
-        if(isDragonNest)
+        if (isDragonNest)
         {
             RestNest();
         }
-    }
+        if (Map.instance.wolrdMission.mainMissionNum == 9)
+        {
+            isdragonTurn = true;
+            SpatialMove();
+        }
+        if (Map.instance.wolrdMission.mainMissionNum == 10)
+        {
+            BacktoNestAndReadytoStart();
+        }
 
+    }
+    #region 미션
+    public void SpatialMove()//미션용
+    {
+        if (isdragonTurn && moveList.Count > 0)
+        {
+            Debug.Log("Flydragon!");
+            dragonState = DragonState.FLYING;
+            dragonAni.SetTrigger("Fly");
+            Vector3 nextTilePosition = targetPosition.transform.position;
+            nextTilePosition.y = nextTilePosition.y + 2f;
+
+            transform.rotation = Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
+            transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
+        }
+        else if (moveList.Count == 0 && !isTargetSetting)
+        {
+            targetPosition = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
+            moveList = astar.FindPath(currentDragonTile, targetPosition);
+        }
+
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1f)
+        {
+            currentPositionNum = 1;
+            dragonState = DragonState.BURNING;
+            dragonAni.SetTrigger("Burn");
+            moveList[moveList.Count - 1].GetComponent<Tile>().DestroyVilege();
+            moveList.Clear();
+            currentDragonTile = Map.instance.dragonStartTile;
+            Map.instance.wolrdMission.mainMissionNum = 10;
+            targetPosition = nestTile;
+            moveList = astar.FindPath(currentDragonTile, nestTile);
+        }
+    }
+    void BacktoNestAndReadytoStart()
+    {
+        if (isdragonTurn && moveList.Count > 0)
+        {
+            Debug.Log("Flydragon!");
+            dragonState = DragonState.FLYING;
+            dragonAni.SetTrigger("Fly");
+            Vector3 nextTilePosition = targetPosition.transform.position;
+            nextTilePosition.y = nextTilePosition.y + 2f;
+
+            transform.rotation = Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
+            transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
+        }
+        else if (moveList.Count == 0 && !isTargetSetting)
+        {
+            targetPosition = nestTile;
+            moveList = astar.FindPath(currentDragonTile, targetPosition);
+        }
+
+        if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 1f)
+        {
+            currentPositionNum = 1;
+            moveList.Clear();
+            currentDragonTile = Map.instance.dragonStartTile;
+            isDragonAbleMove = true;
+            isTargetSetting = false;
+        }
+    }
+    #endregion
     void TargetSetting()
     {
         if (!isTargetSetting && currentDragonTile != null)
         {
-            targetPosition = Map.instance.kingdomTile[Random.Range(0, Map.instance.kingdomTile.Count)].GetComponent<Tile>();
+            targetPosition = Map.instance.kingdomTile[Random.Range(0, Map.instance.kingdomTile.Count)];
             moveList = astar.FindPath(currentDragonTile, targetPosition);
             dragonState = DragonState.IDLE;
             dragonAni.SetTrigger("Idle");
@@ -86,7 +172,7 @@ public class Dragon : MonoBehaviour
             dragonState = DragonState.FLYING;
             dragonAni.SetTrigger("Fly");
             Vector3 nextTilePosition = moveList[currentPositionNum].transform.position;
-            nextTilePosition.y = nextTilePosition.y + 1f;
+            nextTilePosition.y = nextTilePosition.y + 2f;
 
             transform.rotation = Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
             transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
@@ -99,7 +185,7 @@ public class Dragon : MonoBehaviour
                 currentDragonTile = Map.instance.dragonStartTile;
             }
         }
-        else if(moveList.Count == 0 && !isTargetSetting)
+        else if (moveList.Count == 0 && !isTargetSetting)
         {
             TargetSetting();
         }

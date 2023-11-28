@@ -158,8 +158,8 @@ public class Map : MonoBehaviour
     void MapSetting()
     {
         //Kingdom
-        totalTileObjectList[75].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[75].GetComponent<Tile>());
+        totalTileObjectList[7].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[7].GetComponent<Tile>());
         totalTileObjectList[88].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
         kingdomTile.Add(totalTileObjectList[88].GetComponent<Tile>());
         totalTileObjectList[178].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
@@ -171,10 +171,8 @@ public class Map : MonoBehaviour
         totalTileObjectList[468].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
         kingdomTile.Add(totalTileObjectList[468].GetComponent<Tile>());
         //Monster
-        totalTileObjectList[1].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[1].GetComponent<Tile>());
-        totalTileObjectList[50].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[50].GetComponent<Tile>());
+        totalTileObjectList[60].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[60].GetComponent<Tile>());
         totalTileObjectList[138].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         monsterTile.Add(totalTileObjectList[138].GetComponent<Tile>());
         totalTileObjectList[198].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;

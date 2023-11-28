@@ -55,6 +55,7 @@ public class Tile : MonoBehaviour
     [SerializeField] GameObject kingdomObject;
     [SerializeField] GameObject burnkingdomObject;
     [SerializeField] GameObject vileageObject;
+    [SerializeField] GameObject burnVileageObject;
     [SerializeField] GameObject monsterObject;
     [SerializeField] Transform monsterPosition;
     [SerializeField] int monsterNum;//스폰된 몬스터의 마릿수입니다
@@ -87,7 +88,6 @@ public class Tile : MonoBehaviour
     void Awake()
     {
         defaultColor = GetComponent<MeshRenderer>().material.color;
-
         kingdomObject.SetActive(false);
         vileageObject.SetActive(false);
         monsterObject.SetActive(false);
@@ -111,7 +111,6 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
-        adjacentTiles.Clear();
         FindAbjectTile();
         if (tileState == TileState.SpawnTile)
         {
@@ -186,9 +185,8 @@ public class Tile : MonoBehaviour
             adjacentTiles.Clear();
             FindAbjectTile();
         }
-        if(!isfindNeiber)
+        if (!isfindNeiber)
         {
-            FindAbjectTile();
             adjacentTiles.Clear();
             FindAbjectTile();
             isfindNeiber = true;
@@ -377,18 +375,30 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void MakeVilege()
+    {
+        vileageObject.SetActive(true);
+    }
+
     public void DestroyKingdom()
     {
         isKingdomTile = false;
         kingdomObject.SetActive(false);
         burnkingdomObject.SetActive(true);
     }
-
+    public void DestroyVilege()
+    {
+        isVillageTile = false;
+        vileageObject.SetActive(false);
+        burnVileageObject.SetActive(true);
+    }
     public void DestroyMonsterTile()
     {
         isMonsterTile = false;
+        tileUI.OffMonsterBattle();
         monsterObject.SetActive(false);
     }
+
 
     //public void MakeKingdom()
     //{
@@ -428,6 +438,20 @@ public class Tile : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             player = col.gameObject.GetComponent<Character>();
+            if (Map.instance.wolrdMission.mainMissionNum == 8 && Map.instance.currentMissionTile == this)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    adjacentTiles[i].isMissionOn = true;
+                }
+                Map.instance.currentMissionTile.isMissionOn = false;
+                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+            }
+            if (Map.instance.wolrdMission.mainMissionNum == 8 && isMissionOn)
+            {
+                Map.instance.OnUIPlayerStop();
+                Map.instance.wolrdMission.mainMissionNum = 9;
+            }
             if (climate == Climate.GRASS)
             {
                 Map.instance.mapUI.climateName.text = "초원";
@@ -449,16 +473,35 @@ public class Tile : MonoBehaviour
                     isSelect = true;
                 }
             }
+            //미션 관련
             if (isKingdomTile && !Map.instance.isOutofUI && isMissionOn)
             {
-                //Map.instance.wolrdMission.missionCleard = true;
-                //isMissionOn = false;
-                //MissionMarkerOnOff();
-                Map.instance.currentInteracteUITile = this;
-                Map.instance.OnUIPlayerStop();
-                Map.instance.isOutofUI = true;
-                Map.instance.wolrdMission.firstMainMission.SetActive(true);
+                if (Map.instance.wolrdMission.mainMissionNum == 1)
+                {
+                    Map.instance.currentInteracteUITile = this;
+                    Map.instance.OnUIPlayerStop();
+                    Map.instance.isOutofUI = true;
+                    Map.instance.wolrdMission.secondMainMission.SetActive(true);
+                }
+                if (Map.instance.wolrdMission.mainMissionNum == 7)
+                {
+                    Map.instance.currentInteracteUITile = this;
+                    Map.instance.OnUIPlayerStop();
+                    tileUI.OnShopAndHospital();
+                    Map.instance.isOutofUI = true;
+                }
             }
+            if (isVillageTile && !Map.instance.isOutofUI && isMissionOn)
+            {
+                if (Map.instance.wolrdMission.mainMissionNum == 6)
+                {
+                    Map.instance.currentInteracteUITile = this;
+                    Map.instance.OnUIPlayerStop();
+                    Map.instance.isOutofUI = true;
+                    Map.instance.wolrdMission.seventhdMainMission.SetActive(true);
+                }
+            }
+            //
         }
         if (col.CompareTag("Dragon"))
         {
@@ -484,10 +527,12 @@ public class Tile : MonoBehaviour
             {
                 StartCoroutine(WaitExitUI());
             }
-            else if (isMonsterTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
+            if (isMonsterTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
             {
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
+                if (Map.instance.currentMissionTile == this) { tileUI.missionMark.enabled = true; }
+                else { tileUI.missionMark.enabled = false; }
                 tileUI.OnMonsterBattle();
                 for (int i = 0; i < monsterGroup.Count; i++)
                 {
@@ -503,7 +548,7 @@ public class Tile : MonoBehaviour
                 tileUI.OnMonsterBattle();
                 Map.instance.isOutofUI = true;
             }
-            else if (isKingdomTile && !Map.instance.isOutofUI && !isMissionOn && !Map.instance.isPlayerMoving)
+            else if (isKingdomTile && !Map.instance.isOutofUI && !isMissionOn)
             {
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
@@ -529,7 +574,7 @@ public class Tile : MonoBehaviour
              adjacentTiles[0].gameObject.transform.position.z), 0.05f);
         if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
         {
-            Map.instance.startTile = null;
+            Map.instance.startTile = adjacentTiles[0];
             Map.instance.pathTileObjectList.Clear();
             Map.instance.isPlayerOnEndTile = true;
             Map.instance.currentInteracteUITile = null;
