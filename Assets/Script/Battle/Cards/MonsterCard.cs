@@ -21,7 +21,9 @@ public class MonsterCard : MonoBehaviour
 
     public void UseCard()
     {
+        GetComponent<UnitAnimationControl>().targetControler = cardTarget.GetComponent<UnitAnimationControl>();
         GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
+        GetComponent<UnitAnimationControl>().AttackType = SimpleTypeSelect();
         cardAction();
     }
 
@@ -139,5 +141,83 @@ public class MonsterCard : MonoBehaviour
             }
         }
         return rollResult;
+    }
+
+    int SimpleTypeSelect()
+    {
+        string nameSlot = cardData.variableName;
+        switch (nameSlot)
+        {
+            default:
+                return 0;
+            case "AlphaStrike":
+                return 0;
+            case "Bash":
+                return 1;
+            case "BitingStrike":
+                return 2;
+            case "BoldStrike":
+                return 3;
+            case "BulkUp":
+                return 4;
+            case "Cleave":
+                return 5;
+            case "CryofVictory":
+                return 4;
+            case "Defcon":
+                return 6;
+            case "DoubleAttack":
+                return 7;
+            case "EvilStrike":
+                return 8;
+            case "Focus":
+                return 9;
+            case "Parry":
+                return 10;
+            case "Slash":
+                return 11;
+            case "Smite":
+                return 12;
+            case "SpinAttack":
+                return 0;
+            case "Stroming":
+                return 0;
+            case "TrickStrike":
+                return 13;
+            case "ShootingStar":
+                return 0;
+            case "ManaShower":
+                return 0;
+            case "ManaBomb":
+                return 1;
+            case "BurningFlame":
+                return 1;
+            case "DoubleCharm":
+                return 2;
+            case "ManaCirculation":
+                return 2;
+            case "ManaAmplification":
+                return 2;
+            case "Agility":
+                return 2;
+            case "Scheme":
+                return 2;
+            case "FlameArmor":
+                return 2;
+            case "Ignition":
+                return 2;
+            case "FlameofDragon":
+                return 3;
+            case "FireBall":
+                return 4;
+            case "IceBall":
+                return 4;
+            case "ThunderBolt":
+                return 4;
+            case "ManaBullet":
+                return 4;
+            case "Flamethrower":
+                return 4;
+        }
     }
 }

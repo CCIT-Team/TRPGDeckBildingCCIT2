@@ -32,7 +32,9 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void UseCard()
     {
+        playerUI.boundCharacter.GetComponent<UnitAnimationControl>().targetControler = cardTarget.GetComponent<UnitAnimationControl>();
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
+        playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackType = SimpleTypeSelect();
         StartCoroutine(DoCardAction());
     }
 
@@ -203,5 +205,89 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         }
         costOver = false;
         costUsed = false;
+    }
+
+    int SimpleTypeSelect()
+    {
+        string nameSlot = cardData.variableName;
+        switch(nameSlot)
+        {
+            default:
+                return 0;
+            case "AlphaStrike":
+                return 0;
+            case "Bash":
+                return 1;
+            case "BitingStrike":
+                return 2;
+            case "BoldStrike":
+                return 3;
+            case "BulkUp":
+                return 4;
+            case "Cleave":
+                return 5;
+            case "CryofVictory":
+                return 4;
+            case "Defcon":
+                return 6;
+            case "DoubleAttack":
+                return 7;
+            case "EvilStrike":
+                return 8;
+            case "Focus":
+                return 9;
+            case "Parry":
+                return 10;
+            case "Slash":
+                return 11;
+            case "Smite":
+                return 12;
+            case "SpinAttack":
+                return 0;
+            case "Stroming":
+                return 0;
+            case "TrickStrike":
+                return 13;
+            case "ShootingStar":
+                return 0;
+            case "ManaShower":
+                return 0;
+            case "ManaBomb":
+                return 1;
+            case "BurningFlame":
+                return 1;
+            case "DoubleCharm":
+                return 2;
+            case "ManaCirculation":
+                return 2;
+            case "ManaAmplification":
+                return 2;
+            case "Agility":
+                return 2;
+            case "Scheme":
+                return 2;
+            case "FlameArmor":
+                return 2;
+            case "Ignition":
+                return 2;
+            case "FlameofDragon":
+                return 3;
+            case "FireBall":
+                return 4;
+            case "IceBall":
+                return 4;
+            case "ThunderBolt":
+                return 4;
+            case "ManaBullet":
+                return 4;
+            case "Flamethrower":
+                return 4;
+            case "ShieldOfLight":
+                return 14;
+            case "ShieldSlam":
+                return 15;
+            case "Shield":
+                return 16;
+        }
     }
 }

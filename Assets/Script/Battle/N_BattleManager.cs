@@ -22,6 +22,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public int[] WizardCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] ClericCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
+    public List<AudioClip> audioClips;
 
     bool isAction = false;
     bool isTurnAnnounce = false;
@@ -104,6 +105,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (playerAlive)
             {
                 GameManager.instance.isVictory = true;
+                GetComponent<AudioSource>().PlayOneShot(audioClips[0]);
                 BattleUI.instance.gameObject.SetActive(false);
                 rewardUI.GiveReward();
             } 
@@ -327,7 +329,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         BattleUI.instance.inputBlocker.SetActive(true);
         while(true)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2.5f);
             if(!isAction)
             {
                 BattleUI.instance.inputBlocker.SetActive(false);
@@ -407,6 +409,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         //Camera.main.GetComponent<BattleCameraMove>().MovePosition(currentUnit.gameObject);
         Camera.main.GetComponent<BattleCameraMove>().cameratarget = currentUnit.gameObject;
         isTurnAnnounce = true;
+        GetComponent<AudioSource>().PlayOneShot(audioClips[1]);
         StartCoroutine(DisplayCurrentTurn());
         yield return new WaitUntil(() => !isTurnAnnounce);
         if (currentUnit.TryGetComponent(out Character character))
@@ -418,13 +421,22 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 if(ui.gameObject.activeSelf)
                     ui.StartCoroutine(ui.ActIfTurn());
             }
-            yield return new WaitUntil(() => !character.isMyturn && !IsAction);
+            yield return new WaitUntil(() => !character.isMyturn);
         }   
         else
         {
             Monster monster = currentUnit.GetComponent<Monster>();
             monster.IsMyturn = true;
             yield return new WaitUntil(() => !monster.IsMyturn && !IsAction);
+        }
+        while (true)
+        {
+            if (!IsAction)
+            {
+                yield return new WaitForSeconds(1.5f);
+                if (!IsAction)
+                    break;
+            }   
         }
         units.Add(currentUnit);
         currentUnit = null;

@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour
         {
             if(value <= 0)
             {
+                hp = 0;
                 battleState = BattleState.Death;
             }
             else

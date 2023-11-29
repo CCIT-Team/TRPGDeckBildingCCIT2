@@ -20,67 +20,173 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             target.Damaged(0);
         else
             target.Damaged(damage*(1-(0.1f*failedToken)));
-        target.GetComponent<UnitAnimationControl>().GetDamage();    //영상용 임시
+        target.GetComponent<UnitAnimationControl>().GetDamage();    //임시
     }
 
     public static void Slash(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken == 0)
+            target.Damaged(0);
+        else
+            target.Damaged(damage * (1 - (0.1f * failedToken)));
+        target.GetComponent<UnitAnimationControl>().GetDamage();
     }
 
     public static void Smite(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
         //부가효과 추가 필요
+        //2턴 취약
     }
     public static void BitingStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
         //부가효과 추가 필요
+        //레벨당 데미지+5
     }
     public static void BoldStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken == 0)
+            target.Damaged(0);
+        else
+        {
+            if (performer.TryGetComponent<Character>(out Character player))
+                foreach (PlayerBattleUI playerUI in BattleUI.instance.playerUI)
+                {
+                    if (player == playerUI.boundCharacter)
+                    {
+                        Debug.Log("캐릭 고름");
+                        List<int> cardID = new List<int>();
+                        for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
+                        {
+                            Debug.Log("패 루프"+i);
+                            GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
+                            Debug.Log("카드 : "+ card.GetComponent<N_Card>().cardData.name);
+                            if (card.GetComponent<N_Card>().cardData.type == CardData.CardType.SingleAttack ||
+                                card.GetComponent<N_Card>().cardData.type == CardData.CardType.MultiAttack ||
+                                card.GetComponent<N_Card>().cardData.type == CardData.CardType.AllAttack )
+                            {
+                                Debug.Log("공격 카드 소모");
+                                cardID.Add(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.ReturnToInstant(card);
+                            }
+                        }
+                        playerUI.boundDeck.grave.AddRange(cardID);
+                        playerUI.SetHandPosition();
+                        foreach (int id in cardID)
+                        {
+                            playerUI.boundDeck.hand.Remove(id);
+                        }
+                        damage *= cardID.Count;
+                        cardID.Clear();
+                    }
+                }
+            target.Damaged(damage * (1 - (0.1f * failedToken)));
+        }
+        target.GetComponent<UnitAnimationControl>().GetDamage();
         //부가효과 추가 필요
+        //패에 모든 공격카드 소모, 소모당 피해량 증가
     }
     public static void TrickStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //1장 드로우
     }
     public static void DoubleAttack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken == 0)
+            target.Damaged(0);
+        else
+        {
+            target.Damaged(damage * (1 - (0.1f * failedToken)));
+        }
+        target.GetComponent<UnitAnimationControl>().GetDamage();
     }
     public static void EvilStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //2턴 혼란 부여
     }
     public static void Bash(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //카드 사용시 전투동안 피해량 2 영구증가
     }
     public static void Cleave(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //출혈 부여
     }
     public static void AlphaStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken == 0)
+            target.Damaged(0);
+        else
+        {
+            if (performer.TryGetComponent<Character>(out Character player))
+                foreach (PlayerBattleUI playerUI in BattleUI.instance.playerUI)
+                {
+                    if (player == playerUI.boundCharacter)
+                    {
+                        Debug.Log("캐릭 고름");
+                        List<int> cardID = new List<int>();
+                        for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
+                        {
+                            Debug.Log("패 루프" + i);
+                            GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
+                            Debug.Log("카드 : " + card.GetComponent<N_Card>().cardData.name);
+                            if (card.GetComponent<N_Card>().cardData.name.Contains("일격"))
+                            {
+                                Debug.Log("일격 카드 소모");
+                                cardID.Add(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.ReturnToInstant(card);
+                            }
+                        }
+                        playerUI.boundDeck.grave.AddRange(cardID);
+                        playerUI.SetHandPosition();
+                        foreach (int id in cardID)
+                        {
+                            playerUI.boundDeck.hand.Remove(id);
+                        }
+                        damage *= cardID.Count;
+                        cardID.Clear();
+                    }
+                }
+            target.Damaged(damage * (1 - (0.1f * failedToken)));
+        }
+        target.GetComponent<UnitAnimationControl>().GetDamage();
+        //부가효과 추가 필요
+        //패에 일격 카드 전부 소모, 소모당 피해량 증가
     }
 
     public static void SpinAttack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //광역 공격
     }
     public static void Stroming(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        float damageAddCost = damage;
-        if (performer.TryGetComponent<Character>(out Character player))
+        if (totalToken - failedToken == 0)
+            target.Damaged(0);
+        else
         {
-            damage *= player.cost;
-            player.cost = 0;
+            float damageAddCost = damage;
+            if (performer.TryGetComponent<Character>(out Character player))
+            {
+                damage *= player.cost;
+                player.cost = 0;
+                target.Damaged(damage * (1 - (0.1f * failedToken)));
+            }
+            else
+            {
+                target.Damaged(damage * (1 - (0.1f * failedToken)));
+            }
         }
-        DefaultPhysicalAttack(performer, target, damageAddCost, extraEffect, failedToken,totalToken);
+        target.GetComponent<UnitAnimationControl>().GetDamage();
     }
 
     public static void Brandish(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -90,26 +196,23 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void ShieldSlam(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //1턴간 기절 부여
     }
 
     public static void Judgment(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //1턴간 기절 부여
     }
 
     public static void SwingAttack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
     }
-    public static void HolyFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
-    {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
-    }
+
     public static void Pain(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
-    {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
-    }
-    public static void SwingAttackv(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
     }
@@ -118,10 +221,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
     }
 
-    public static void EnergyBall(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
-    {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
-    }
+   
     #endregion
     # region MagicAttack
 
@@ -132,6 +232,18 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         else
             target.Damaged(damage * (1 - (0.1f * failedToken)));
         target.GetComponent<UnitAnimationControl>().GetDamage();
+    }
+    
+    public static void EnergyBall(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+    }
+
+    public static void HolyFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
+        //부가효과 추가 필요
+        //2턴간 화상 부여
     }
 
     public static void FireBall(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -165,10 +277,15 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void BurningFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        // 2턴간 화상 부여
+
     }
     public static void FlameofDragon(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        //부가효과 추가 필요
+        //10% 확률로 2턴간 화상 부여
     }
     public static void Flamethrower(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -248,7 +365,20 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Focus(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-
+        if(target.TryGetComponent<Character>(out Character character))
+        {
+            if (character.TryGetComponent<EffectTurnChecker>(out EffectTurnChecker turnChecker))
+            {
+                turnChecker.StartEffect(EffectType.Strength_Increase, value, extraEffect);
+            }
+            else
+            {
+                turnChecker = character.gameObject.AddComponent<EffectTurnChecker>();
+                turnChecker.boundCharacter = character;
+                turnChecker.StartEffect(EffectType.Strength_Increase, value, extraEffect);
+            }
+            
+        }
     }
     public static void DoubleCharm(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -309,5 +439,10 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     #endregion
     #region DeBuff
+    #endregion
+
+    #region Coroutine
+    
+
     #endregion
 }

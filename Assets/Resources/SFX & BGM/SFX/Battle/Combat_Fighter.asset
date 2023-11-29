@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e0348d49abb78e43882f8e21142b0ca, type: 3}
+  m_Name: Combat_Fighter
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 5b0e4956ccf8214408a7699698748f84, type: 3}
+  - {fileID: 8300000, guid: cb0c3b4f15f4bc34991f42f10315e571, type: 3}
+  - {fileID: 8300000, guid: 92ace22c7bfb24f4f9ff6695275071d4, type: 3}
+  - {fileID: 8300000, guid: 003aeef3c504be943bdfd73c9f6cef69, type: 3}
+  - {fileID: 8300000, guid: 375417885e4a2f048bfeedd0e93e2add, type: 3}
+  - {fileID: 8300000, guid: 3161de69abf74764db1aa00808efaba3, type: 3}
+  - {fileID: 8300000, guid: ab2e46418c1f4644d83971004a837780, type: 3}
+  - {fileID: 8300000, guid: c851de2ba11abf947a7c453593fc76c7, type: 3}
+  - {fileID: 8300000, guid: 379aa014065249b429d39e50f111836c, type: 3}
+  - {fileID: 8300000, guid: 1b19002e0f4184f4783ca3779e4b8b21, type: 3}
+  - {fileID: 8300000, guid: 2dfd7d0062d07ed4ab00a133ce46105d, type: 3}
+  - {fileID: 8300000, guid: 4944649734a171c4f90f3253d1ce70f6, type: 3}
+  - {fileID: 8300000, guid: acb0c6e3503e02848ac9096cb5a29815, type: 3}
+  - {fileID: 8300000, guid: 2a5df55fa458ecf41830fc60ae26dece, type: 3}
+  - {fileID: 8300000, guid: 1d5d00cb51c8c1b468f1fcbf4c5bd004, type: 3}
+  - {fileID: 8300000, guid: 5b82fa713e5db7e4797894b44d97fa2e, type: 3}
+  - {fileID: 8300000, guid: 5584a105a6d1cf44aa2001cf4e29d36c, type: 3}
+  - {fileID: 8300000, guid: ac1ec67baa3fd5b4e8c0094cd80c3a42, type: 3}
+  - {fileID: 8300000, guid: 08301cc466655ae44873615ac6a86aa3, type: 3}
+  paticles: []
