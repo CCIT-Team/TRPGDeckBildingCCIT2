@@ -79,8 +79,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             target.Damaged(damage * (1 - (0.1f * failedToken)));
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();
-        //부가효과 추가 필요
-        //패에 모든 공격카드 소모, 소모당 피해량 증가
     }
     public static void TrickStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {

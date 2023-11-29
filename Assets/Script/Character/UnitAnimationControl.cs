@@ -13,8 +13,8 @@ public class UnitAnimationControl : MonoBehaviour
 
     public BattleParticleAndSound particleAndSound;
     AudioSource audioSource;
-    public int particleindex;
-    public int soundindex;
+    public int particleindex =0 ;
+    public int soundindex = 0;
 
     int attackType;
     public int AttackType
