@@ -21,6 +21,7 @@ public class CharacterSlot_UI : MonoBehaviour
     List<float> eyeColor = new List<float>();
 
     public LobbyUI_Manager manager;
+    public Animator animationModel;
 
     public GameObject[] weapon;
     public GameObject[] major;
@@ -97,7 +98,8 @@ public class CharacterSlot_UI : MonoBehaviour
     //종족 순서) 인간 0 - 엘프 1 - 다크엘프 2 - 하프오크 3
     public void NextButton(GameObject text)
     {
-        switch(text.name)
+        SoundManager.instance.PlayUICilckSound();
+        switch (text.name)
         {
             case "Major_Text":
                 if (major_index >= majorList.Count -1)
@@ -175,6 +177,7 @@ public class CharacterSlot_UI : MonoBehaviour
 
     public void PreButton(GameObject text)
     {
+        SoundManager.instance.PlayUICilckSound();
         switch (text.name)
         {
             case "Major_Text":
@@ -274,18 +277,28 @@ public class CharacterSlot_UI : MonoBehaviour
                 major[0].SetActive(true);
                 major[1].SetActive(false);
                 major[2].SetActive(false);
+                //애니메이션 연출
+                animationModel.SetBool("isKinght", true);
+                animationModel.SetBool("isWizard", false);
+                animationModel.SetBool("iscleric", false);
                 SwitchingWeapon(index);
                 break;
             case 1:
                 major[0].SetActive(false);
                 major[1].SetActive(true);
                 major[2].SetActive(false);
+                animationModel.SetBool("isKinght", false);
+                animationModel.SetBool("isWizard", true);
+                animationModel.SetBool("iscleric", false);
                 SwitchingWeapon(index);
                 break;
             case 2:
                 major[0].SetActive(false);
                 major[1].SetActive(false);
                 major[2].SetActive(true);
+                animationModel.SetBool("isKinght", false);
+                animationModel.SetBool("isWizard", false);
+                animationModel.SetBool("iscleric", true);
                 SwitchingWeapon(index);
                 break;
         }

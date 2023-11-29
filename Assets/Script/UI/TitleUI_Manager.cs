@@ -13,6 +13,10 @@ public class TitleUI_Manager : MonoBehaviour
     }
 
     #region ButtonÇÔ¼ö
+    public void PlayButtonSound()
+    {
+        SoundManager.instance.PlayUICilckSound();
+    }
     public void PlayButton(string sceneName)
     {
         if (Start_Exception())
