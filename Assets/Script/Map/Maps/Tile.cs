@@ -124,8 +124,9 @@ public class Tile : MonoBehaviour
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 3)]);
+                    tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)));
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
             else if (climate == Climate.DESERT)
@@ -134,8 +135,9 @@ public class Tile : MonoBehaviour
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
+                    tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)));
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
             else
@@ -144,8 +146,9 @@ public class Tile : MonoBehaviour
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
+                    tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)));
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
         }
@@ -495,10 +498,6 @@ public class Tile : MonoBehaviour
                 if (Map.instance.currentMissionTile == this) { tileUI.missionMark.enabled = true; }
                 else { tileUI.missionMark.enabled = false; }
                 tileUI.OnMonsterBattle();
-                for (int i = 0; i < monsterGroup.Count; i++)
-                {
-                    tileUI.monsterNum[i].SetActive(true);
-                }
                 tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
                 Map.instance.isOutofUI = true;
             }

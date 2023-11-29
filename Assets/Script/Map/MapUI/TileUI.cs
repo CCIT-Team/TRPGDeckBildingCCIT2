@@ -22,6 +22,10 @@ public class TileUI : MonoBehaviour
         shopUI.enabled = false;
         hospital.enabled = false;
         monsterBattleUI.enabled = false;
+        for (int i = 0; i < monsterNum.Length; i++)
+        {
+            monsterNum[i].SetActive(false);
+        }
     }
 
     #region 상점&병원 버튼
