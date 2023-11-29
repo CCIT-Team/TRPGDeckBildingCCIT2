@@ -23,5 +23,10 @@ public class SoundManager : MonoBehaviour
     {
         audioSource.clip = uiClickedSound;
         if (!audioSource.isPlaying) { audioSource.Play(); }
+        else if(audioSource.isPlaying)
+        {
+            audioSource.Stop();
+            audioSource.Play();
+        }
     }
 }

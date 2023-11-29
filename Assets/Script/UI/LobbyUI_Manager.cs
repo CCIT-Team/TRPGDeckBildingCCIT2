@@ -28,9 +28,9 @@ public class LobbyUI_Manager : MonoBehaviour
     }
 
     #region 버튼 함수
-
     public void Avatar_Delete_button(int num)
     {
+        SoundManager.instance.PlayUICilckSound();
         avatars_slot[num][0].gameObject.SetActive(false);
         avatars_slot[num][1].gameObject.SetActive(false);
         avatars_slot[num][2].gameObject.SetActive(false);
@@ -39,6 +39,7 @@ public class LobbyUI_Manager : MonoBehaviour
 
     public void Avatar_Create_button(int num)
     {
+        SoundManager.instance.PlayUICilckSound();
         avatars_slot[num][0].gameObject.SetActive(true);
         avatars_slot[num][1].gameObject.SetActive(true);
         avatars_slot[num][2].gameObject.SetActive(true);
@@ -47,7 +48,8 @@ public class LobbyUI_Manager : MonoBehaviour
 
     public void PlayButton(string sceneName)
     {
-        if(Input_Exception())
+        SoundManager.instance.PlayUICilckSound();
+        if (Input_Exception())
         {
             AvatarSetting();
             GetLobbyAvatar();
@@ -55,6 +57,12 @@ public class LobbyUI_Manager : MonoBehaviour
             GameManager.instance.LoadScenceName(sceneName);
             panel.SetActive(false);
         }
+    }
+
+    public void BackToTitleButton(string sceneName)
+    {
+        SoundManager.instance.PlayUICilckSound();
+        GameManager.instance.LoadScenceName(sceneName);
     }
 
     #endregion

@@ -245,6 +245,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 304572978648585914}
         m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 304572978648585914}
+        m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
         m_MethodName: ResetDataPlay
         m_Mode: 5
         m_Arguments:
@@ -1091,8 +1103,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startEX_panel: {fileID: 8081674174318310418}
-  loading_panel: {fileID: 0}
-  loadSlider: {fileID: 0}
   loadButton: {fileID: 3929608715728783770}
 --- !u!1 &3646682831820105454
 GameObject:
@@ -1621,6 +1631,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 304572978648585914}
         m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 304572978648585914}
+        m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
         m_MethodName: LoadButton
         m_Mode: 5
         m_Arguments:
@@ -2020,7 +2042,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1481624140774250224}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 304572978648585914}
+        m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5372344524524496654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,7 +2790,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2240220919529089795}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 304572978648585914}
+        m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7350537086139293744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,6 +2925,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 304572978648585914}
+        m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 304572978648585914}
         m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
         m_MethodName: PlayButton
@@ -3282,6 +3340,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 304572978648585914}
+        m_TargetAssemblyTypeName: TitleUI_Manager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 8081674174318310418}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
