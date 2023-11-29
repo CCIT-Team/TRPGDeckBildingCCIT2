@@ -47,6 +47,7 @@ public class PlayerBattleUI : MonoBehaviour
             return;
         for (int i = 0; i < drawCount; i++)
         {
+            GetComponent<AudioSource>().Play();
             int cardIndex = Random.Range(0, boundDeck.deck.Count);
             int cardID = boundDeck.deck[cardIndex];
             boundDeck.hand.Add(cardID);

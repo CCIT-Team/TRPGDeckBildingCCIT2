@@ -37,6 +37,7 @@ public class EffectTurnChecker : MonoBehaviour
         }
         else
         {
+            isBuffRun[8] = true;
             isBuffRun[(int)effectType + 8] = true;
             switch (effectType)
             {
@@ -99,11 +100,10 @@ public class EffectTurnChecker : MonoBehaviour
 
     IEnumerator Faint(EffectType effectType, float effectvalue, int turn)
     {
-        while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
+        while (turn >= 0)
         {
-            if (!isBuffRun[(int)effectType + 8]|| isBuffRun[8]) { break; }
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;
@@ -113,9 +113,9 @@ public class EffectTurnChecker : MonoBehaviour
     {
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             boundCharacter.Damaged(effectvalue);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;
@@ -125,9 +125,9 @@ public class EffectTurnChecker : MonoBehaviour
     {
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {   
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             boundCharacter.isMyturn = false;
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;
@@ -137,8 +137,8 @@ public class EffectTurnChecker : MonoBehaviour
     {
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;
@@ -149,8 +149,8 @@ public class EffectTurnChecker : MonoBehaviour
         boundCharacter.speed -= (int)effectvalue;
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.speed += (int)effectvalue;
@@ -162,8 +162,8 @@ public class EffectTurnChecker : MonoBehaviour
         boundCharacter.luck -= (int)effectvalue;
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.luck += (int)effectvalue;
@@ -175,8 +175,8 @@ public class EffectTurnChecker : MonoBehaviour
         boundCharacter.intelligence -= (int)effectvalue;
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.intelligence += (int)effectvalue;
@@ -189,8 +189,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.strength += (int)effectvalue;
@@ -203,8 +203,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.strength -= (int)effectvalue;
@@ -217,8 +217,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.intelligence -= (int)effectvalue;
@@ -231,8 +231,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.luck -= (int)effectvalue;
@@ -245,8 +245,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         boundCharacter.speed -= (int)effectvalue;
@@ -257,8 +257,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;
@@ -268,8 +268,8 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;
@@ -280,9 +280,9 @@ public class EffectTurnChecker : MonoBehaviour
         while (turn >= 0 && isBuffRun[(int)effectType + 8] && isBuffRun[8])
         {
             
-            yield return new WaitUntil(() => boundCharacter.isMyturn);
+            yield return new WaitUntil(() => boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             boundCharacter.Hp += effectvalue;
-            yield return new WaitUntil(() => !boundCharacter.isMyturn);
+            yield return new WaitUntil(() => !boundCharacter.isMyturn && isBuffRun[(int)effectType + 8] && isBuffRun[8]);
             turn--;
         }
         isBuffRun[(int)effectType + 8] = false;

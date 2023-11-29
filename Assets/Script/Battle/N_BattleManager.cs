@@ -22,6 +22,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public int[] WizardCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] ClericCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
+    public List<AudioClip> audioClips;
 
     bool isAction = false;
     bool isTurnAnnounce = false;
@@ -104,6 +105,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (playerAlive)
             {
                 GameManager.instance.isVictory = true;
+                GetComponent<AudioSource>().PlayOneShot(audioClips[0]);
                 BattleUI.instance.gameObject.SetActive(false);
                 rewardUI.GiveReward();
             } 
@@ -407,6 +409,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         //Camera.main.GetComponent<BattleCameraMove>().MovePosition(currentUnit.gameObject);
         Camera.main.GetComponent<BattleCameraMove>().cameratarget = currentUnit.gameObject;
         isTurnAnnounce = true;
+        GetComponent<AudioSource>().PlayOneShot(audioClips[1]);
         StartCoroutine(DisplayCurrentTurn());
         yield return new WaitUntil(() => !isTurnAnnounce);
         if (currentUnit.TryGetComponent(out Character character))
