@@ -47,6 +47,9 @@ public class UnitAnimationControl : MonoBehaviour
                     break;
             }
         }
+        else
+            particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Monster");
+
         if (TryGetComponent<AudioSource>(out audioSource))
             return;
         else
