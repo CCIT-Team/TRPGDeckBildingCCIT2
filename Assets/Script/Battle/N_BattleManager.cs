@@ -434,12 +434,13 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         }
         while (true)
         {
+            yield return new WaitForSeconds(0.1f);
             if (!IsAction)
             {
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(1.4f);
                 if (!IsAction)
                     break;
-            }   
+            }
         }
         units.Add(currentUnit);
         currentUnit = null;
