@@ -14,8 +14,9 @@ public class BattleParticleAndSound : ScriptableObject
     {
         audioSource.PlayOneShot(audioClips[soundIndex]);
     }
-    public void PlayParticle(int particleIndex)
+    public void PlayParticle(int particleIndex,Vector3 position)
     {
-        audioSource.PlayOneShot(audioClips[particleIndex]);
+        Destroy(Instantiate(paticles[particleIndex], position, Quaternion.identity),5);
+        
     }
 }

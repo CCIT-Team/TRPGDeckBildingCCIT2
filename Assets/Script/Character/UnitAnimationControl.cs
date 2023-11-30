@@ -13,8 +13,8 @@ public class UnitAnimationControl : MonoBehaviour
 
     public BattleParticleAndSound particleAndSound;
     AudioSource audioSource;
-    public int particleindex;
-    public int soundindex;
+    public int particleindex =0 ;
+    public int soundindex = 0;
 
     int attackType;
     public int AttackType
@@ -47,6 +47,9 @@ public class UnitAnimationControl : MonoBehaviour
                     break;
             }
         }
+        else
+            particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Monster");
+
         if (TryGetComponent<AudioSource>(out audioSource))
             return;
         else
@@ -81,7 +84,7 @@ public class UnitAnimationControl : MonoBehaviour
     {
         if (GetComponent<Unit>().Hp <= 0)
         {
-            if(TryGetComponent<PlayerType>(out PlayerType playerType))
+            if(TryGetComponent(out PlayerType playerType))
             {
                 if (playerType.gender == PlayerType.Gender.Male)
                     soundindex = 0;
@@ -109,9 +112,11 @@ public class UnitAnimationControl : MonoBehaviour
         targetControler.GetDamage();
     }
 
-    public void ParticleEvent()
+    public void ParticleEvent(int index)
     {
-        particleAndSound.PlayParticle(particleindex);
+        if (index == -1)
+            index = particleindex;
+        particleAndSound.PlayParticle(index,targetControler.gameObject.transform.position);
     }
 
     public void SoundEvent(int index)

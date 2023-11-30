@@ -56,7 +56,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     if (player == playerUI.boundCharacter)
                     {
                         Debug.Log("캐릭 고름");
-                        List<int> cardID = new List<int>();
+                        int matchCardCount = 0;
                         for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
                         {
                             Debug.Log("패 루프"+i);
@@ -67,25 +67,18 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                                 card.GetComponent<N_Card>().cardData.type == CardData.CardType.AllAttack )
                             {
                                 Debug.Log("공격 카드 소모");
-                                cardID.Add(card.GetComponent<N_Card>().cardData.no);
+                                matchCardCount++;
+                                playerUI.boundDeck.hand.Remove(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.boundDeck.grave.Add(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
                             }
                         }
-                        playerUI.boundDeck.grave.AddRange(cardID);
-                        playerUI.SetHandPosition();
-                        foreach (int id in cardID)
-                        {
-                            playerUI.boundDeck.hand.Remove(id);
-                        }
-                        damage *= cardID.Count;
-                        cardID.Clear();
+                        damage *= matchCardCount;
                     }
                 }
             target.Damaged(damage * (1 - (0.1f * failedToken)));
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();
-        //부가효과 추가 필요
-        //패에 모든 공격카드 소모, 소모당 피해량 증가
     }
     public static void TrickStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -133,8 +126,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     if (player == playerUI.boundCharacter)
                     {
                         Debug.Log("캐릭 고름");
-                        List<int> cardID = new List<int>();
-                        for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
+                        int matchCardCount = 0;
+                        for (int i = 0; i < playerUI.handUI.transform.childCount; i++)
                         {
                             Debug.Log("패 루프" + i);
                             GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
@@ -142,18 +135,13 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                             if (card.GetComponent<N_Card>().cardData.name.Contains("일격"))
                             {
                                 Debug.Log("일격 카드 소모");
-                                cardID.Add(card.GetComponent<N_Card>().cardData.no);
+                                matchCardCount++;
+                                playerUI.boundDeck.hand.Remove(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.boundDeck.grave.Add(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
                             }
                         }
-                        playerUI.boundDeck.grave.AddRange(cardID);
-                        playerUI.SetHandPosition();
-                        foreach (int id in cardID)
-                        {
-                            playerUI.boundDeck.hand.Remove(id);
-                        }
-                        damage *= cardID.Count;
-                        cardID.Clear();
+                        damage *= matchCardCount;
                     }
                 }
             target.Damaged(damage * (1 - (0.1f * failedToken)));
