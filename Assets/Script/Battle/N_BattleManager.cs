@@ -24,6 +24,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public List<AudioClip> audioClips;
 
+    public MonsterUIManager monsterUI;
+
     bool isAction = false;
     bool isTurnAnnounce = false;
 
@@ -377,6 +379,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             monsterArray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(monsterArray[i].GetComponent<Unit>());
         }
+        monsterUI.SetMonster(monsterArray);
         BattleUI.instance.BindPlayer(playerarray);
     }
 
