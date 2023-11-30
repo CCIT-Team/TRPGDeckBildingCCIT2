@@ -57,7 +57,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     {
                         Debug.Log("캐릭 고름");
                         int matchCardCount = 0;
-                        for (int i = 0; i <= playerUI.handUI.transform.childCount; i++)
+                        for (int i = 0; i < playerUI.handUI.transform.childCount; i++)
                         {
                             Debug.Log("패 루프"+i);
                             GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;

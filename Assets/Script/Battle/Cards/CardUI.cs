@@ -112,7 +112,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             for (int i = 0; i < bindCard.cardData.token; i++)
             {
                 Token token = Instantiate(BattleUI.instance.tokenPrefab, BattleUI.instance.tokenPosition.transform);
-                token.CheckToken(bindCard.MainStaus, true);
+                token.SetToken(bindCard.MainStaus);
                 token.transform.localPosition = new Vector2((-bindCard.cardData.token / 2 + i + (bindCard.cardData.token + 1) % 2 / 2f) * 160, 0);
                 tokenPreview.Add(token.gameObject);
             }

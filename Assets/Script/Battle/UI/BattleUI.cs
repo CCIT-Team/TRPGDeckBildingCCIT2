@@ -29,6 +29,7 @@ public class BattleUI : MonoBehaviour
     public GameObject tokenPosition;
     public Token tokenPrefab;
     public List<Token> tokens;
+    int faildeTokens = 0;
 
     private void Awake()
     {
@@ -48,19 +49,27 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    public int RollToken(StatusType statusType,int mainStatus,int tokenAmount)
+    public int RollTokens(StatusType statusType,int mainStatus,int tokenAmount)
     {
-        for(int i =0; i< tokenAmount; i++)
-            tokens.Add(Instantiate(tokenPrefab,tokenPosition.transform));
+        faildeTokens = 0;
+        StartCoroutine(RollToken(statusType, mainStatus, tokenAmount));
+        return faildeTokens;
+    }
+
+    IEnumerator RollToken(StatusType statusType, int mainStatus, int tokenAmount)
+    {
+        for (int i = 0; i < tokenAmount; i++)
+            tokens.Add(Instantiate(tokenPrefab, tokenPosition.transform));
 
         for (int i = 0; i < tokenAmount; i++)
         {
             tokens[i].transform.localPosition = new Vector2((-tokenAmount / 2 + i + (tokenAmount + 1) % 2 / 2f) * 160, 0);
+            tokens[i].SetToken(statusType);
         }
 
-        int rollResult = 0;
         for (int i = 0; i < tokenAmount; i++)
         {
+            yield return new WaitForSeconds(0.5f);
             int x = Random.Range(0, 100);
             if (x <= mainStatus)
             {
@@ -69,12 +78,13 @@ public class BattleUI : MonoBehaviour
             else
             {
                 tokens[i].CheckToken(statusType, false);
-                rollResult--;
+                faildeTokens++;
             }
-            Destroy(tokens[i].gameObject, 0.5f);
+            yield return new WaitForSeconds(0.5f);
         }
+        for (int i = 0; i < tokenAmount; i++)
+            Destroy(tokens[i].gameObject);
         tokens.Clear();
-        return rollResult;
     }
 
     #region ео

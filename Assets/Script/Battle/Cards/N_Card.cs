@@ -186,8 +186,8 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
         cardAction += () => playerUI.ReturnToInstant(gameObject);
         cardAction += () => N_BattleManager.instance.IsAction = true;
-        cardAction += () => token_Fail =  BattleUI.instance.RollToken(MainStaus,mainStatus, cardData.token);
-        cardAction += () => playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
+        cardAction += () => token_Fail =  BattleUI.instance.RollTokens(MainStaus,mainStatus, cardData.token);
+        cardAction += () => StartCoroutine(WaitTokenRolling(cardData.token));
     }
     
     IEnumerator DoCardAction()
@@ -205,6 +205,12 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         }
         costOver = false;
         costUsed = false;
+    }
+
+    IEnumerator WaitTokenRolling(int token)
+    {
+        yield return new WaitForSeconds(token * 1.5f);
+        playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
     }
 
     int SimpleTypeSelect()
