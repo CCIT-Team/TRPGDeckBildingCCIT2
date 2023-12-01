@@ -15401,6 +15401,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 11
     messageOptions: 0
+  - time: 0.1
+    functionName: ParticleEvent
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 9
+    messageOptions: 0
   - time: 1.9666667
     functionName: AnnounceEndAction
     data: 

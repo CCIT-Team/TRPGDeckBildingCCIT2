@@ -50,4 +50,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4944649734a171c4f90f3253d1ce70f6, type: 3}
   - {fileID: 8300000, guid: 9efbb19d8aced9f49b211dcc4b3d7140, type: 3}
   - {fileID: 8300000, guid: 003d3d0c163f55d469ade80fa27517cc, type: 3}
-  paticles: []
+  paticles:
+  - {fileID: 944121465883220921, guid: 02547780e4f768f4dae5211cbad8e890, type: 3}
+  - {fileID: 5798372092123959716, guid: 7533ffe667ec75049a4f0567b916d349, type: 3}
+  - {fileID: 7598796529746670325, guid: c0e36b881766a9a43ae1bf33855168aa, type: 3}
+  - {fileID: 2887707186667914054, guid: 4f8763c95b8416644abbf45477ac0fda, type: 3}
+  - {fileID: 9154830510119260097, guid: e6c0d8aade4beab4489717e7c442acc2, type: 3}
+  - {fileID: 5263418520992065322, guid: 0bfc4c6873e645347b8bb22865b7b80b, type: 3}
+  - {fileID: 8965063497981847968, guid: f1c1ed623b466fa439eb60e1b169b1d6, type: 3}
+  - {fileID: 4613514839194908436, guid: 4d5dff7b5ec782a4eb0e35ada3433817, type: 3}
+  - {fileID: 8004804525204888869, guid: 1f09ceb762dda104493c7dbf2985941f, type: 3}
+  - {fileID: 2017518768681303195, guid: 69cc2e76e0148404ea3a6d53652b8cdb, type: 3}
+  - {fileID: 7630587736714502895, guid: 4baeab51cea31a44980a3562ea775384, type: 3}
+  - {fileID: 7704829335191476999, guid: 6268a36e34b03a64c91b1363bb5296a0, type: 3}
+  - {fileID: 864417893136264132, guid: 1999cf9dc17abe54aa620eaa0e688be6, type: 3}

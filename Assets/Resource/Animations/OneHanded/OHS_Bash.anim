@@ -82835,6 +82835,13 @@ AnimationClip:
     intParameter: 10
     messageOptions: 0
   - time: 1.2666667
+    functionName: ParticleEvent
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
+    messageOptions: 0
+  - time: 1.2666667
     functionName: AttackEvent
     data: 
     objectReferenceParameter: {fileID: 0}

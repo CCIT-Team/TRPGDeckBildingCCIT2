@@ -46,7 +46,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             }
             else
             {
-                finalDamage = damage - character.attackGuard;
+                finalDamage = damage - monster.attackGuard;
                 monster.attackGuard = 0;
             }
         }
