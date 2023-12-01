@@ -352,14 +352,14 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i< playerarray.Length;i++)
         {
-            playerarray[i].transform.localScale *= 1.5f;
+            playerarray[i].transform.localScale *= 1.8f;
             if (playerarray[i].GetComponent<Character>().isMyturn)
             {
                 playerarray[i].GetComponent<Character>().isMyturn = false;
             }
             playerarray[i].name = playerarray[i].GetComponent<Character_type>().nickname;
             playerarray[i].transform.SetParent(playerPosition);
-            playerarray[i].transform.localPosition = new Vector3(3*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
+            playerarray[i].transform.localPosition = new Vector3(2*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
             playerarray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(playerarray[i].GetComponent<Unit>());
             if (!playerarray[i].TryGetComponent<UnitAnimationControl>(out UnitAnimationControl animControl))

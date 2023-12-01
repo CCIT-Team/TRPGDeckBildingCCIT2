@@ -26,6 +26,27 @@ public class UnitAnimationControl : MonoBehaviour
         }
     }
 
+    Vector3 defaultPosition = new Vector3();
+
+    private void Start()
+    {
+        defaultPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        if(Vector3.Magnitude(defaultPosition - transform.position) >= 1)
+        {
+            animator.SetBool("Move", true);
+            
+        }
+        else
+        {
+            animator.SetBool("Move", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Move"))
+            transform.position = Vector3.Lerp(transform.position, defaultPosition, 0.05f);
+    }
     public void SetAnimator()
     {
         animator = GetComponent<Animator>();
