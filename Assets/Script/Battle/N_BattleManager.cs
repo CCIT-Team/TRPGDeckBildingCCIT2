@@ -352,6 +352,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         GameObject[] playerarray = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i< playerarray.Length;i++)
         {
+            playerarray[i].transform.localScale *= 1.5f;
             if (playerarray[i].GetComponent<Character>().isMyturn)
             {
                 playerarray[i].GetComponent<Character>().isMyturn = false;

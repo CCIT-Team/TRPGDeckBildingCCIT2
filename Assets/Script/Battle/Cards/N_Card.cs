@@ -210,7 +210,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     IEnumerator WaitTokenRolling(int token)
     {
-        yield return new WaitForSeconds(token * 1.1f);
+        yield return new WaitForSeconds(token * 0.7f);
         token_Fail = BattleUI.instance.faildTokens;
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
     }

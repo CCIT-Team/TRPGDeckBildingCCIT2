@@ -64,7 +64,7 @@ public class BattleUI : MonoBehaviour
 
         for (int i = 0; i < tokenAmount; i++)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
             int x = Random.Range(0, 100);
             if (x <= mainStatus)
             {
@@ -75,7 +75,7 @@ public class BattleUI : MonoBehaviour
                 tokens[i].CheckToken(statusType, false);
                 faildTokens++;
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
         for (int i = 0; i < tokenAmount; i++)
             Destroy(tokens[i].gameObject);
