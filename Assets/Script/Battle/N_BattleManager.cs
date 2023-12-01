@@ -28,6 +28,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     bool isAction = false;
     bool isTurnAnnounce = false;
+    public bool isBuffRun_All = false;
 
     public bool IsAction
     {
@@ -82,6 +83,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public void EndBattle()
     {
+        isBuffRun_All = false;
         StopCoroutine(PlayTurn());
         if (currentUnit.CompareTag("Player"))
             currentUnit.GetComponent<Character>().isMyturn = false;

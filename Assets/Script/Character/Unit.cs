@@ -41,6 +41,7 @@ public class Unit : MonoBehaviour
 
     [SerializeField] public float maxHp = 0.0f;
 
+
     public float Damaged(float atk)
     {
         Hp = Hp - atk;

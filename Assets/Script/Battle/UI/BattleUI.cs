@@ -29,7 +29,8 @@ public class BattleUI : MonoBehaviour
     public GameObject tokenPosition;
     public Token tokenPrefab;
     public List<Token> tokens;
-    int faildeTokens = 0;
+    [HideInInspector]
+    public int faildTokens = 0;
 
     private void Awake()
     {
@@ -49,15 +50,9 @@ public class BattleUI : MonoBehaviour
         }
     }
 
-    public int RollTokens(StatusType statusType,int mainStatus,int tokenAmount)
+    public IEnumerator RollToken(StatusType statusType, int mainStatus, int tokenAmount)
     {
-        faildeTokens = 0;
-        StartCoroutine(RollToken(statusType, mainStatus, tokenAmount));
-        return faildeTokens;
-    }
-
-    IEnumerator RollToken(StatusType statusType, int mainStatus, int tokenAmount)
-    {
+        faildTokens = 0;
         for (int i = 0; i < tokenAmount; i++)
             tokens.Add(Instantiate(tokenPrefab, tokenPosition.transform));
 
@@ -78,7 +73,7 @@ public class BattleUI : MonoBehaviour
             else
             {
                 tokens[i].CheckToken(statusType, false);
-                faildeTokens++;
+                faildTokens++;
             }
             yield return new WaitForSeconds(0.5f);
         }

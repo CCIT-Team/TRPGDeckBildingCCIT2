@@ -85,7 +85,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         cardName.text = bindCard.cardData.name;
 
         //코스트
-        cost.text = bindCard.cardData.useCost.ToString();
+        if (bindCard.cardData.useCost == -1)
+            cost.text = "A";
+        else
+            cost.text = bindCard.cardData.useCost.ToString();
 
         //설명
         if (bindCard.cardData.description.Contains("회복"))

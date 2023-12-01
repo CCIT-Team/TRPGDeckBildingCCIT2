@@ -26,7 +26,8 @@ public class Monster :MonsterStat
         }
     }
 
-
+    public float attackGuard = 0;
+    public float magicGuard = 0;
     public override float Hp
     {
         get
