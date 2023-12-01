@@ -338,6 +338,19 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void ShieldSlam(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.Faint, 0, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.Faint, 0, extraEffect);
+        }
         //부가효과 추가 필요
         //1턴간 기절 부여
     }
@@ -345,13 +358,32 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void Judgment(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.Faint, 0, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.Faint, 0, extraEffect);
+        }
         //부가효과 추가 필요
         //1턴간 기절 부여
     }
 
     public static void SwingAttack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                DefaultPhysicalAttack(performer, unit, damage, extraEffect, failedToken, totalToken);
+            }
+        }
     }
 
     
@@ -389,6 +421,19 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void HolyFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.Burn, 0, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.Burn, 0, extraEffect);
+        }
         //부가효과 추가 필요
         //2턴간 화상 부여
     }
@@ -440,7 +485,13 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Pillaroflight(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                DefaultMagicAttack(performer, unit, damage, extraEffect, failedToken, totalToken);
+            }
+        }
     }
     public static void HolyArrow(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -450,9 +501,21 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     #endregion
     #region Defence
 
-    public static void Blessofprotect(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    public static void Blessofprotect(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+        }
     }
     public static void BulkUp(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -509,13 +572,48 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
     }
-    public static void Shield(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    public static void Shield(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+        }
     }
-    public static void Shieldoflight(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    public static void Shieldoflight(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>();
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+        }
+        if (totalToken - failedToken == 0)
+            return;
+        foreach (PlayerBattleUI targetui in BattleUI.instance.playerUI)
+        {
+            if (targetui.boundCharacter == target)
+            {
+                targetui.DrawCard(1);
+                return;
+            }
+        }
+
     }
     #endregion
     #region Buff
@@ -680,6 +778,17 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 turnChecker.StartEffect(EffectType.Regeneration, value, extraEffect);
             }
         }
+
+        if (totalToken - failedToken == 0)
+            return;
+        foreach (PlayerBattleUI targetui in BattleUI.instance.playerUI)
+        {
+            if (targetui.boundCharacter == target)
+            {
+                targetui.DrawCard(2);
+                return;
+            }
+        }
     }
     public static void Salvation(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -687,7 +796,21 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void LightAround(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.CompareTag(target.tag))
+        {
+            if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
+                turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+            else
+            {
+                turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+                if (target.TryGetComponent(out Character character))
+                    turnChecker.boundCharacter = character;
+                else
+                    turnChecker.boundMonster = target.GetComponent<Monster>();
 
+                turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+            }
+        }
     }
     public static void Purification(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -695,7 +818,26 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Contemplation(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-
+        target.Hp += value;
+        if (target.CompareTag(target.tag))
+        {
+            if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
+            {
+                turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+                turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+            }
+            else
+            {
+                turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+                if (target.TryGetComponent(out Character character))
+                    turnChecker.boundCharacter = character;
+                else
+                    turnChecker.boundMonster = target.GetComponent<Monster>();
+                    
+                turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+                turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+            }
+        }
     }
 
     public static void CryofVictory(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
