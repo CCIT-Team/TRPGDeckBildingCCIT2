@@ -423,7 +423,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
         {
-            turnChecker.StartEffect(EffectType.Burn, 0, extraEffect);
+            turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
         }
         else
         {
@@ -432,7 +432,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 turnChecker.boundCharacter = character;
             else
                 turnChecker.boundMonster = target.GetComponent<Monster>(); ;
-            turnChecker.StartEffect(EffectType.Burn, 0, extraEffect);
+            turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
         }
         //부가효과 추가 필요
         //2턴간 화상 부여
@@ -456,7 +456,16 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void ManaBomb(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken <= 0)
+            damage = 0;
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                damage = CalculateMagicDamage(target, damage, failedToken);
+                target.Damaged(damage);
+            }
+        }
     }
     public static void ShootingStar(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -464,18 +473,61 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void ManaShower(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken <= 0)
+            damage = 0;
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                damage = CalculateMagicDamage(target, damage, failedToken);
+                target.Damaged(damage);
+            }
+        }
     }
     public static void BurningFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
-        //부가효과 추가 필요
-        // 2턴간 화상 부여
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
+        }
 
     }
     public static void FlameofDragon(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (totalToken - failedToken <= 0)
+            damage = 0;
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                damage = CalculateMagicDamage(target, damage, failedToken);
+                target.Damaged(damage);
+                if(UnityEngine.Random.Range(0,100) < 10)
+                    if (unit.TryGetComponent(out EffectTurnChecker turnChecker))
+                    {
+                        turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
+                    }
+                    else
+                    {
+                        turnChecker = unit.gameObject.AddComponent<EffectTurnChecker>();
+                        if (target.TryGetComponent(out Character character))
+                            turnChecker.boundCharacter = character;
+                        else
+                            turnChecker.boundMonster = unit.GetComponent<Monster>(); ;
+                        turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
+                    }
+            }
+        }
         //부가효과 추가 필요
         //10% 확률로 2턴간 화상 부여
     }
@@ -560,17 +612,41 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         }
 
     }
-    public static void FlameArmor(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    public static void FlameArmor(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+            turnChecker.StartEffect(EffectType.MagicMirror, value, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+            turnChecker.StartEffect(EffectType.MagicMirror, value, extraEffect);
+        }
     }
     public static void Guard(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
     }
-    public static void MagicShield(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    public static void MagicShield(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+        }
     }
     public static void Shield(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -638,24 +714,32 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Agility(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.Speed_Increase, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>();
 
+            turnChecker.StartEffect(EffectType.Speed_Increase, value, extraEffect);
+        }
     }
     public static void BlessofIntelligence(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        if (target.CompareTag(target.tag))
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+        else
         {
-            if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
-                turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
             else
-            {
-                turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
-                if (target.TryGetComponent(out Character character))
-                    turnChecker.boundCharacter = character;
-                else
-                    turnChecker.boundMonster = target.GetComponent<Monster>();
+                turnChecker.boundMonster = target.GetComponent<Monster>();
 
-                turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
-            }
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
         }
     }
     public static void BlessofStrength(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
@@ -716,11 +800,31 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void ManaCirculation(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (totalToken - failedToken <= 0)
+            return;
 
+        if (target.TryGetComponent(out Character character))
+        {
+            if (character.cost + 1 >= character.maxCost)
+                character.cost = character.maxCost;
+            else
+                character.cost += 1;
+        }
     }
     public static void ManaAmplification(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>();
 
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+        }
     }
     public static void Scheme(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -737,7 +841,18 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Meditation(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>();
 
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+        }
     }
     public static void Ignition(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
