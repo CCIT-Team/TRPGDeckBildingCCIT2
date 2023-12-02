@@ -35,6 +35,8 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().targetControler = cardTarget.GetComponent<UnitAnimationControl>();
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().ATEvent = () => CardEffect();
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackType = SimpleTypeSelect();
+        playerUI.boundCharacter.GetComponent<UnitAnimationControl>().soundindex = SimpleSoundSelect();
+        playerUI.boundCharacter.GetComponent<UnitAnimationControl>().particleindex = SimpleParticleSelect();
         StartCoroutine(DoCardAction());
     }
 
@@ -218,7 +220,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     int SimpleTypeSelect()
     {
         string nameSlot = cardData.variableName;
-        switch(nameSlot)
+        switch (nameSlot)
         {
             default:
                 return 0;
@@ -256,6 +258,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
                 return 0;
             case "TrickStrike":
                 return 13;
+            //----------------------------------
             case "ShootingStar":
                 return 0;
             case "ManaShower":
@@ -290,12 +293,201 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
                 return 4;
             case "Flamethrower":
                 return 4;
+            //----------------------------------
             case "ShieldOfLight":
                 return 14;
             case "ShieldSlam":
                 return 15;
             case "Shield":
                 return 16;
+            case "Blessoflight":
+                return 17;
+            case "SwingAttack":
+                return 3;
+            case "Pillaroflight":
+                return 17;
+            case "Judgment":
+                return 8;
+            case "HolyArrow":
+                return 5;
+            case "HolyFlame":
+                return 5;
+            case "Pain":
+                return 5;
+            case "Blessofprotect":
+                return 17;
+            case "LightAround":
+                return 17;
+            case "Contemplation":
+                return 4;
+            case "BlessofStrength":
+                return 17;
+            case "Pray":
+                return 17;
+            case "BlessofIntelligence":
+                return 17;
+            case "Attack":
+                return 11;
+        }
+    }
+
+    int SimpleSoundSelect()
+    {
+        string nameSlot = cardData.variableName;
+        switch (nameSlot)
+        {
+            default:
+                return 0;
+                //----------------------------------
+            case "ShootingStar":
+                return 19;
+            case "ManaShower":
+                return 18;
+            case "ManaBomb":
+                return 18;
+            case "BurningFlame":
+                return 13;
+            case "DoubleCharm":
+                return 20;
+            case "ManaCirculation":
+                return 20;
+            case "ManaAmplification":
+                return 20;
+            case "Agility":
+                return 21;
+            case "Scheme":
+                return 20;
+            case "FlameArmor":
+                return 14;
+            case "Ignition":
+                return 18;
+            case "FlameofDragon":
+                return 16;
+            case "FireBall":
+                return 11;
+            case "IceBall":
+                return 22;
+            case "ThunderBolt":
+                return 24;
+            case "ManaBullet":
+                return 18;
+            case "Flamethrower":
+                return 12;
+                //-------------------------------
+            case "ShieldOfLight":
+                return 11;
+            case "ShieldSlam":
+                return 11;
+            case "Shield":
+                return 11;
+            case "Blessoflight":
+                return 14;
+            case "SwingAttack":
+                return 19;
+            case "Pillaroflight":
+                return 14;
+            case "Judgment":
+                return 17;
+            case "HolyArrow":
+                return 14;
+            case "HolyFlame":
+                return 18;
+            case "Pain":
+                return 15;
+            case "Blessofprotect":
+                return 14;
+            case "LightAround":
+                return 14;
+            case "Contemplation":
+                return 14;
+            case "BlessofStrength":
+                return 14;
+            case "Pray":
+                return 14;
+            case "BlessofIntelligence":
+                return 14;
+            case "Attack":
+                return 12;
+        }
+    }
+
+    int SimpleParticleSelect()
+    {
+        string nameSlot = cardData.variableName;
+        switch (nameSlot)
+        {
+            default:
+                return 0;
+            //----------------------------------
+            case "ShootingStar":
+                return 14;
+            case "ManaShower":
+                return 12;
+            case "ManaBomb":
+                return 10;
+            case "BurningFlame":
+                return 1;
+            case "DoubleCharm":
+                return 13;
+            case "ManaCirculation":
+                return 13;
+            case "ManaAmplification":
+                return 13;
+            case "Agility":
+                return 0;
+            case "Scheme":
+                return 13;
+            case "FlameArmor":
+                return 4;
+            case "Ignition":
+                return 8;
+            case "FlameofDragon":
+                return 5;
+            case "FireBall":
+                return 3;
+            case "IceBall":
+                return 7;
+            case "ThunderBolt":
+                return 15;
+            case "ManaBullet":
+                return 11;
+            case "Flamethrower":
+                return 6;
+            //----------------------------------
+            case "ShieldOfLight":
+                return 3;
+            case "ShieldSlam":
+                return 2;
+            case "Shield":
+                return 8;
+            case "Blessoflight":
+                return 3;
+            case "SwingAttack":
+                return 9;
+            case "Pillaroflight":
+                return 7;
+            case "Judgment":
+                return 5;
+            case "HolyArrow":
+                return 3;
+            case "HolyFlame":
+                return 4;
+            case "Pain":
+                return 6;
+            case "Blessofprotect":
+                return 3;
+            case "LightAround":
+                return 3;
+            case "Contemplation":
+                return 3;
+            case "BlessofStrength":
+                return 3;
+            case "Pray":
+                return 3;
+            case "BlessofIntelligence":
+                return 3;
+            case "Attack":
+                return 2;
         }
     }
 }
