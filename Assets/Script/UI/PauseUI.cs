@@ -5,18 +5,27 @@ using UnityEngine;
 public class PauseUI : MonoBehaviour
 {
     private GameObject panel;
+    private bool ispause;
 
     private void Start()
     {
+        ispause = false;
         panel = transform.GetChild(0).gameObject;
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && !ispause)
         {
-            panel.SetActive(true);
+            ispause = true;
+            panel.SetActive(ispause);
+            Map.instance.isOutofUI = true;
             Time.timeScale = 0;
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) && ispause)
+        {
+            PlayButton();
+            Map.instance.isOutofUI = false;
         }
     }
 
@@ -29,7 +38,8 @@ public class PauseUI : MonoBehaviour
     public void PlayButton()
     {
         Time.timeScale = 1;
-        panel.SetActive(false);
+        ispause = false;
+        panel.SetActive(ispause);
     }
 
     public void BackToTitleButton()

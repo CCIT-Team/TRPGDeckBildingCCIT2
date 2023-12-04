@@ -32,6 +32,8 @@ public class PlayerStatUI : MonoBehaviour
 
     private bool isPortionR = false;
     private bool isPortionL = false;
+
+    private bool hpDirector = false;
     public void InitUI()
     {
         nickName.text = linkedPlayerType.nickname;
@@ -98,6 +100,11 @@ public class PlayerStatUI : MonoBehaviour
         UpdateGuardUI();
         UpdateCostUI();
         UpdatePortionUI();
+        if(!hpDirector)
+        {
+            hpbar.value = Convert.ToSingle(linkedPlayerStat.hp) / Convert.ToSingle(linkedPlayerStat.maxHp);
+            hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+        }
     }
 
     public void UpdateSelectUI()
@@ -124,9 +131,7 @@ public class PlayerStatUI : MonoBehaviour
         luck.text = linkedPlayerStat.luck.ToString();
         speed.text = linkedPlayerStat.speed.ToString();
         gold.text = linkedPlayerStat.gold.ToString();
-        //hpbar.value = linkedPlayerStat.hp / linkedPlayerStat.maxHp;
         expbar.value = Convert.ToSingle(linkedPlayerStat.exp) / Convert.ToSingle(linkedPlayerStat.maxExp);
-        //hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
         expbarText.text = linkedPlayerStat.exp.ToString() + "/" + linkedPlayerStat.maxExp.ToString();
     }
     public void UpdateHpUI(float value)
@@ -188,7 +193,7 @@ public class PlayerStatUI : MonoBehaviour
         }
     }
 
-    public void UpdatePortionUI() //재헌이가 맵 상점에서 버튼 누를떄 같이 불러줘야함
+    public void UpdatePortionUI()
     {
         CreatePortion();
     }
@@ -284,23 +289,28 @@ public class PlayerStatUI : MonoBehaviour
     public void PortionRegularHeal()
     {
         float healValue = linkedPlayerStat.maxHp * 0.3f;
-
-        linkedPlayerStat.portionRegular--;
-        PortionTexting();
-        UpdateHpUI(healValue);
+        if (linkedPlayerStat.isMyturn)
+        {
+            linkedPlayerStat.portionRegular--;
+            PortionTexting();
+            UpdateHpUI(healValue);
+        }
     }
 
     public void PortionLargeHeal()
     {
         float healValue = linkedPlayerStat.maxHp * 0.4f;
-
-        linkedPlayerStat.portionLarge--;
-        PortionTexting();
-        UpdateHpUI(healValue);
+        if (linkedPlayerStat.isMyturn)
+        {
+            linkedPlayerStat.portionLarge--;
+            PortionTexting();
+            UpdateHpUI(healValue);
+        }
     }
 
     private IEnumerator HpLerp(float currentHp, float updateHp)
     {
+        hpDirector = true;
         float timer = 0.0f;
         float durtion = 1.0f;
         float t = 0.0f;
@@ -315,7 +325,8 @@ public class PlayerStatUI : MonoBehaviour
         }
 
         linkedPlayerStat.hp = updateHp;
-        hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+        hpbarText.text = linkedPlayerStat.hp.ToString("#.#") + "/" + linkedPlayerStat.maxHp.ToString();
+        hpDirector = false;
         yield return null;
     }
 }
