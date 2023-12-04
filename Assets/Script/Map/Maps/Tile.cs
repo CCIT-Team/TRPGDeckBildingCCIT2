@@ -126,7 +126,7 @@ public class Tile : MonoBehaviour
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 3)]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)));
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
             else if (climate == Climate.DESERT)
@@ -137,7 +137,7 @@ public class Tile : MonoBehaviour
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)));
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
             else
@@ -148,7 +148,7 @@ public class Tile : MonoBehaviour
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)));
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
         }
@@ -186,11 +186,18 @@ public class Tile : MonoBehaviour
             adjacentTiles.Clear();
             FindAbjectTile();
         }
-        if (!isfindNeiber)
+        if (this.gameObject.name == "Tile59")
         {
-            adjacentTiles.Clear();
-            FindAbjectTile();
-            isfindNeiber = true;
+            if(adjacentTiles.Count < 6)
+            {
+                Debug.Log("Not Finished Find AdjectTile");
+                adjacentTiles.Clear();
+                FindAbjectTile();
+            }
+        }
+        else
+        {
+            Debug.Log("Finished Find AdjectTile");
         }
     }
 
