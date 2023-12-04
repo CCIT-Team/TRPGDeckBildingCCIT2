@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < DataBase.instance.loadTypeData.Count; i++)
         {
             LoadAvatar(i, position);
-            InitRenderAvatar(i, new Vector3((-20 -(i * 10)), 0, 0));
+            InitRenderAvatar(i, new Vector3((-20 -(i * 10)), 50, 0));
         }
         //ui ¿¬°á
         playerUI.GetComponent<PlayerUIManager>().SetPlayer(players.ToArray());
@@ -80,7 +80,16 @@ public class GameManager : MonoBehaviour
     {
         GameObject unit = Instantiate(Resources.Load("Prefabs/Character/RenderTexture_Player/UIPlayer"+(index+1).ToString(), typeof(GameObject))) as GameObject;
         unit.GetComponent<RenderTexturePlayer>().SetUnitType(DataBase.instance.loadTypeData[index]);
-        unit.GetComponent<RenderTexturePlayer>().SetUnitPosition(position, new Vector3(-20, 180, 0));
+        Vector3 rotate = Vector3.zero;
+        if (GameManager.instance.currentScene == SceneType.Wolrd)
+        {
+            rotate = new Vector3(-20, 180, 0);
+        }
+        else if(GameManager.instance.currentScene == SceneType.Battle)
+        {
+            rotate = new Vector3(-30, -320, 0);
+        }
+        unit.GetComponent<RenderTexturePlayer>().SetUnitPosition(position, rotate);
     }
     private void AvatarTypeSetting(GameObject unit, int index)
     {
@@ -113,6 +122,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < indexs.Length; i++)
         {
             LoadMonster(indexs[i], position);
+            InitRenderMonster(indexs[i], i, new Vector3((-50 - (i * 10)), 50, 0));
         }
     }
 
@@ -141,6 +151,20 @@ public class GameManager : MonoBehaviour
                 MonsterStatSetting(unit, i);
             }
         }
+    }
+    private void InitRenderMonster(int index, int count, Vector3 position)
+    {
+        int dataIndex = 0;
+        for (int i = 0; i < DataBase.instance.monsterData.Count; i++)
+        {
+            if (DataBase.instance.monsterData[i].no == index)
+            {
+                dataIndex = i;
+            }
+        }
+        GameObject unit = Instantiate(Resources.Load("Prefabs/Monster/RenderTexture_Monster/UIMonster" + (count + 1).ToString(), typeof(GameObject))) as GameObject;
+        unit.GetComponent<RenderTextureMonster>().SetMonster(DataBase.instance.monsterData[dataIndex]);
+        unit.GetComponent<RenderTextureMonster>().SetUnitPosition(position, new Vector3(-30, -320, 0));
     }
     private void MonsterStatSetting(GameObject unit, int index)
     {
