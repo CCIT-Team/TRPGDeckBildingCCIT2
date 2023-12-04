@@ -14,7 +14,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public Transform playerPosition;
     public Transform monsterPosition;
 
-    public int startHandCount = 5;
+    public int startHandCount = 3;
+    public int maxHandCount = 5;
 
     [Tooltip("직업/무기 별 카드 시작 인덱스-1\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
     public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };

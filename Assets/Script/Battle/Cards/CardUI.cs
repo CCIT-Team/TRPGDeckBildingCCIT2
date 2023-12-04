@@ -22,6 +22,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public N_Card bindCard;
 
     public Vector3 defaultPosition = new Vector3(0,0,0);
+    Vector2 defaultSize = new Vector2(0, 0);
+    Vector3 positionDistance = new Vector3();
 
     public LayerMask layerMask;
     GameObject target;
@@ -38,8 +40,9 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     public void DisplayOnUI()
     {
+        defaultSize = new Vector2(GetComponent<RectTransform>().rect.width, GetComponent<RectTransform>().rect.height);
         //이름상자,타입
-        switch(bindCard.cardData.type)
+        switch (bindCard.cardData.type)
         {
             case CardData.CardType.SingleAttack:
             case CardData.CardType.MultiAttack:
@@ -86,7 +89,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
         //코스트
         if (bindCard.cardData.useCost == -1)
-            cost.text = "A";
+            cost.text = "All";
         else
             cost.text = bindCard.cardData.useCost.ToString();
 
@@ -96,7 +99,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         else if (bindCard.cardData.description.Contains("마법")&& bindCard.cardData.description.Contains("물리"))
             damageColor = "magenta";
         else if (bindCard.cardData.description.Contains("마법"))
-            damageColor = "blue";
+            damageColor = "#00AFFF";
         else
             damageColor = "red";
         if (!bindCard.cardData.description.Contains("x"))
@@ -112,6 +115,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         if(!isSelected)
+        {
             for (int i = 0; i < bindCard.cardData.token; i++)
             {
                 Token token = Instantiate(BattleUI.instance.tokenPrefab, BattleUI.instance.tokenPosition.transform);
@@ -119,6 +123,9 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 token.transform.localPosition = new Vector2((-bindCard.cardData.token / 2 + i + (bindCard.cardData.token + 1) % 2 / 2f) * 160, 0);
                 tokenPreview.Add(token.gameObject);
             }
+            GetComponent<RectTransform>().sizeDelta *= 1.2f;
+        }
+            
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
@@ -128,6 +135,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             Destroy(tokenPreview[i]);
         }
         tokenPreview.Clear();
+        GetComponent<RectTransform>().sizeDelta = defaultSize;
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
@@ -140,7 +148,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             tokenPreview[i].SetActive(false);
         }
         defaultPosition = transform.position;
-        transform.position = Input.mousePosition;
+        positionDistance = defaultPosition - Input.mousePosition;
+        transform.position = Input.mousePosition + positionDistance;
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
@@ -178,7 +187,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     {
         if (!isSelected)
             return;
-        transform.position = Input.mousePosition;
+        transform.position = Input.mousePosition + positionDistance;
         RaycastHit hit;
         
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80,layerMask))
