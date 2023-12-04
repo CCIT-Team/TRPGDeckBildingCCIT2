@@ -13,8 +13,13 @@ public class PlayerBattleUI : MonoBehaviour
     Vector2 cardSize = new Vector2(165, 247.5f);    //1920 x 1080
 
     Queue<GameObject> waitCardInstant = new Queue<GameObject>();
+    public Transform emptyCards;
     List<GameObject> cardInstant = new List<GameObject>();
-    public GameObject handUI;
+    public Transform hand;
+
+    public float radius = 0;
+    public float angle = 0;
+    
 
     public DeckDisplay deckDisplay;
 
@@ -34,11 +39,22 @@ public class PlayerBattleUI : MonoBehaviour
         GameObject card;
         for (int i = 0; i < 4; i++)
         {
-            card = Instantiate(cardPrefab, handUI.transform);
+            card = Instantiate(cardPrefab, emptyCards);
             waitCardInstant.Enqueue(card);
             card.SetActive(false);
         }
 
+    }
+
+    private void Update()
+    {
+        for(int i = 0; i < hand.childCount; i++)
+        {
+            hand.GetChild(i).localPosition = new Vector2((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f) * cardSize.x * 0.95f, 0);
+            //hand.GetChild(i).localPosition = new Vector2(Mathf.Cos((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2),Mathf.Sin((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2)) * radius;
+            //hand.GetChild(i).rotation = Quaternion.Euler(0, 0, (angle));
+        }
+        
     }
 
     public void DrawCard(int drawCount = 1)
@@ -57,11 +73,13 @@ public class PlayerBattleUI : MonoBehaviour
             if (waitCardInstant.Count > 0)
             {
                 cardObject = waitCardInstant.Dequeue();
+                cardObject.transform.SetParent(hand);
                 cardInstant.Add(cardObject);
             }
             else
             {
-                cardObject = Instantiate(cardPrefab, handUI.transform);
+                cardObject = Instantiate(cardPrefab, hand);
+                cardObject.transform.SetParent(hand);
                 cardInstant.Add(cardObject);
             }
             cardObject.GetComponent<N_Card>().playerUI = this;
@@ -69,22 +87,14 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
             cardObject.GetComponent<CardUI>().DisplayOnUI();
         }
-        SetHandPosition();
     }
 
-    public void SetHandPosition()
-    {
-        for (int i = 0; i < boundDeck.hand.Count; i++)
-        {
-            cardInstant[i].transform.localPosition = new Vector2((-cardInstant.Count / 2 + i + (cardInstant.Count + 1) % 2 / 2f) * cardSize.x, 0);
-        }
-    }
 
     public void ReturnToInstant(GameObject gameObject)
     {
         cardInstant.Remove(gameObject);
         waitCardInstant.Enqueue(gameObject);
-        SetHandPosition();
+        gameObject.transform.SetParent(emptyCards);
     }
 
     public void Onclick()

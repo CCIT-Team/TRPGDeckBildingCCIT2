@@ -22,6 +22,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public N_Card bindCard;
 
     public Vector3 defaultPosition = new Vector3(0,0,0);
+    int childeIndex = 0;
     Vector2 defaultSize = new Vector2(0, 0);
     Vector3 positionDistance = new Vector3();
 
@@ -143,6 +144,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if (!Input.GetMouseButton(0))
             return;
         isSelected = true;
+        childeIndex = transform.GetSiblingIndex();
+        transform.SetParent(transform.parent.parent);
         for (int i = 0; i < tokenPreview.Count; i++)
         {
             tokenPreview[i].SetActive(false);
@@ -173,6 +176,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             {
                 target = null;
                 transform.position = defaultPosition;
+                transform.SetParent(transform.parent.GetChild(1)) ;
+                transform.SetSiblingIndex(childeIndex);
             }
         }
         isSelected = false;

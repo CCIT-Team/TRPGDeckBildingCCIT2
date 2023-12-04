@@ -517,6 +517,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138798147}
   m_CullTransparentMesh: 1
+--- !u!1 &144668224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 144668225}
+  m_Layer: 5
+  m_Name: EmptyCards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &144668225
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144668224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 298031327}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &249706640
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +960,7 @@ RectTransform:
   m_Children:
   - {fileID: 2000263761}
   - {fileID: 1402600144}
+  - {fileID: 144668225}
   - {fileID: 1527506458}
   - {fileID: 646157548}
   - {fileID: 1577540987}
@@ -2365,7 +2401,8 @@ MonoBehaviour:
   boundDeck: {fileID: 0}
   cardPrefab: {fileID: 6560460090638647257, guid: 181247a445ae6ef419cdf3004f52b7f2,
     type: 3}
-  handUI: {fileID: 1372407334}
+  emptyCards: {fileID: 1605668897}
+  hand: {fileID: 1372407335}
   deckDisplay: {fileID: 676207579}
 --- !u!82 &774586873
 AudioSource:
@@ -2688,6 +2725,7 @@ MonoBehaviour:
     type: 3}
   tokens: []
   faildTokens: 0
+  tokenSounds: []
   logText: {fileID: 1135295688}
   logSize: {fileID: 1135295686}
 --- !u!1 &955635300
@@ -2760,7 +2798,8 @@ MonoBehaviour:
   boundDeck: {fileID: 0}
   cardPrefab: {fileID: 6560460090638647257, guid: 181247a445ae6ef419cdf3004f52b7f2,
     type: 3}
-  handUI: {fileID: 1402600143}
+  emptyCards: {fileID: 144668225}
+  hand: {fileID: 1402600144}
   deckDisplay: {fileID: 1577540988}
 --- !u!82 &955635305
 AudioSource:
@@ -3342,7 +3381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -299.99963}
+  m_AnchoredPosition: {x: 0, y: -299.99997}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1135295688
@@ -3543,6 +3582,7 @@ RectTransform:
   m_Children:
   - {fileID: 249706641}
   - {fileID: 1372407335}
+  - {fileID: 1605668897}
   - {fileID: 569623817}
   - {fileID: 1168390180}
   - {fileID: 676207578}
@@ -4109,6 +4149,7 @@ RectTransform:
   m_Children:
   - {fileID: 1255980619}
   - {fileID: 1175615626}
+  - {fileID: 1513332336}
   - {fileID: 274198917}
   - {fileID: 308659144}
   - {fileID: 1136406420}
@@ -4724,7 +4765,8 @@ MonoBehaviour:
   boundDeck: {fileID: 0}
   cardPrefab: {fileID: 6560460090638647257, guid: 181247a445ae6ef419cdf3004f52b7f2,
     type: 3}
-  handUI: {fileID: 1175615625}
+  emptyCards: {fileID: 1513332336}
+  hand: {fileID: 1175615626}
   deckDisplay: {fileID: 1136406421}
 --- !u!82 &1477015770
 AudioSource:
@@ -5053,6 +5095,7 @@ MonoBehaviour:
   FighterCardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   WizardCardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   ClericCardStartIndexOfType: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  audioSource: {fileID: 0}
   audioClips:
   - {fileID: 8300000, guid: 197331ac8260246489b4e0b2b1cde8d3, type: 3}
   - {fileID: 8300000, guid: b820b2acefe55e7498e98a2f0cba60ad, type: 3}
@@ -5155,6 +5198,41 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1513332335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1513332336}
+  m_Layer: 5
+  m_Name: EmptyCards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1513332336
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513332335}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1280148368}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1527506457
 GameObject:
   m_ObjectHideFlags: 0
@@ -5591,6 +5669,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577540986}
   m_CullTransparentMesh: 1
+--- !u!1 &1605668896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605668897}
+  m_Layer: 5
+  m_Name: EmptyCards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1605668897
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605668896}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1140032444}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1642817637
 GameObject:
   m_ObjectHideFlags: 0
@@ -6260,7 +6373,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 256052357}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9913627
+  m_Size: 0.9934965
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

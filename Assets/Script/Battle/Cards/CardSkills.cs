@@ -175,10 +175,10 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     {
                         Debug.Log("캐릭 고름");
                         int matchCardCount = 0;
-                        for (int i = 0; i < playerUI.handUI.transform.childCount; i++)
+                        for (int i = 0; i < playerUI.hand.childCount; i++)
                         {
                             Debug.Log("패 루프"+i);
-                            GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
+                            GameObject card = playerUI.hand.GetChild(i).gameObject;
                             Debug.Log("카드 : "+ card.GetComponent<N_Card>().cardData.name);
                             if (card.GetComponent<N_Card>().cardData.type == CardData.CardType.SingleAttack ||
                                 card.GetComponent<N_Card>().cardData.type == CardData.CardType.MultiAttack ||
@@ -277,10 +277,10 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     {
                         Debug.Log("캐릭 고름");
                         int matchCardCount = 0;
-                        for (int i = 0; i < playerUI.handUI.transform.childCount; i++)
+                        for (int i = 0; i < playerUI.hand.childCount; i++)
                         {
                             Debug.Log("패 루프" + i);
-                            GameObject card = playerUI.handUI.transform.GetChild(i).gameObject;
+                            GameObject card = playerUI.hand.GetChild(i).gameObject;
                             Debug.Log("카드 : " + card.GetComponent<N_Card>().cardData.name);
                             if (card.GetComponent<N_Card>().cardData.name.Contains("일격"))
                             {
@@ -326,9 +326,11 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateAttackDamage(unit, damage, failedToken);
-                target.Damaged(damage);
+                unit.Damaged(damage);
+                unit.GetComponent<UnitAnimationControl>().GetDamage();
             }
         }
+
     }
 
     public static void Brandish(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
