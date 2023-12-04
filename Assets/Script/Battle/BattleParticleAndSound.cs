@@ -16,7 +16,6 @@ public class BattleParticleAndSound : ScriptableObject
     }
     public void PlayParticle(int particleIndex,Vector3 position)
     {
-        Destroy(Instantiate(paticles[particleIndex], position, Quaternion.identity),5);
-        
+        Destroy(Instantiate(paticles[particleIndex], position, Quaternion.identity),5);  
     }
 }
