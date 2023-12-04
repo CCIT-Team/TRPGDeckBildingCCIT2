@@ -71,6 +71,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
                                          cardData.effectUseTurn,            //추가효과 턴
                                          token_Fail,                        //실패 토큰 수
                                          cardData.token});                  //총 토큰 수
+        playerUI.ReturnToInstant(gameObject);
         this.gameObject.SetActive(false);
     }
 
@@ -186,7 +187,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         cardAction = null;
         cardAction += () => GetComponent<CardUI>().TransferUI();
         cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
-        cardAction += () => playerUI.ReturnToInstant(gameObject);
         cardAction += () => N_BattleManager.instance.IsAction = true;
         cardAction += () => StartCoroutine(BattleUI.instance.RollToken(MainStaus,mainStatus, cardData.token));
         cardAction += () => StartCoroutine(WaitTokenRolling(cardData.token));

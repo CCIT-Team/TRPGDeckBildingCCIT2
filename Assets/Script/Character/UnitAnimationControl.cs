@@ -35,7 +35,7 @@ public class UnitAnimationControl : MonoBehaviour
 
     private void Update()
     {
-        if(Vector3.Magnitude(defaultPosition - transform.position) >= 1)
+        if(Vector3.Magnitude(defaultPosition - transform.position) >= 0.5)
         {
             animator.SetBool("Move", true);
             

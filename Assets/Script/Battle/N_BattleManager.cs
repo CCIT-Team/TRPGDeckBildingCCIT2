@@ -334,7 +334,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         BattleUI.instance.inputBlocker.SetActive(true);
         while(true)
         {
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(1.5f);
             if(!isAction)
             {
                 BattleUI.instance.inputBlocker.SetActive(false);
