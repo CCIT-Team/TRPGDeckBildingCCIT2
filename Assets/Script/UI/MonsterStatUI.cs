@@ -62,7 +62,7 @@ public class MonsterStatUI : MonoBehaviour
     public void UpdateHpUI()
     {
         hpbar.value = boundMonsterStat.hp / boundMonsterStat.maxHp;
-        hpbarText.text = boundMonsterStat.hp.ToString() + "/" + boundMonsterStat.maxHp.ToString();
+        hpbarText.text = boundMonsterStat.hp.ToString("#.#") + "/" + boundMonsterStat.maxHp.ToString();
     }
 
 
