@@ -103,7 +103,7 @@ public class PlayerStatUI : MonoBehaviour
         if(!hpDirector)
         {
             hpbar.value = Convert.ToSingle(linkedPlayerStat.hp) / Convert.ToSingle(linkedPlayerStat.maxHp);
-            hpbarText.text = linkedPlayerStat.hp.ToString() + "/" + linkedPlayerStat.maxHp.ToString();
+            hpbarText.text = linkedPlayerStat.hp.ToString("#.#") + "/" + linkedPlayerStat.maxHp.ToString();
         }
     }
 

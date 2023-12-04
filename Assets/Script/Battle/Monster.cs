@@ -39,6 +39,7 @@ public class Monster :MonsterStat
             hp = value;
             if (hp <= 0)
             {
+                hp = 0;
                 DropReward();
             }
         }
@@ -99,5 +100,6 @@ public class Monster :MonsterStat
         //¾ÆÀÌÅÛ3
         if (dropitem3 != 0 && dropitem3Percentage >= Random.Range(0, 100))
             N_BattleManager.instance.rewardUI.AddReward(true, dropitem3);
+        N_BattleManager.instance.rewardUI.GainExp(giveExp);
     }
 }

@@ -325,7 +325,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         {
             if (unit.CompareTag(target.tag))
             {
-                damage = CalculateAttackDamage(target, damage, failedToken);
+                damage = CalculateAttackDamage(unit, damage, failedToken);
                 target.Damaged(damage);
             }
         }
@@ -462,7 +462,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         {
             if (unit.CompareTag(target.tag))
             {
-                damage = CalculateMagicDamage(target, damage, failedToken);
+                damage = CalculateMagicDamage(unit, damage, failedToken);
                 target.Damaged(damage);
             }
         }
@@ -479,7 +479,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         {
             if (unit.CompareTag(target.tag))
             {
-                damage = CalculateMagicDamage(target, damage, failedToken);
+                damage = CalculateMagicDamage(unit, damage, failedToken);
                 target.Damaged(damage);
             }
         }
@@ -523,7 +523,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         {
             if (unit.CompareTag(target.tag))
             {
-                damage = CalculateMagicDamage(target, damage, failedToken);
+                damage = CalculateMagicDamage(unit, damage, failedToken);
                 target.Damaged(damage);
                 if(UnityEngine.Random.Range(0,100) < 10)
                     if (unit.TryGetComponent(out EffectTurnChecker turnChecker))
@@ -766,8 +766,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void BlessofStrength(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        if (target.CompareTag(target.tag))
-        {
             if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
                 turnChecker.StartEffect(EffectType.Strength_Increase, value, extraEffect);
             else
@@ -780,7 +778,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
                 turnChecker.StartEffect(EffectType.Strength_Increase, value, extraEffect);
             }
-        }
     }
     public static void Heal(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
@@ -882,8 +879,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Pray(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        if (target.CompareTag(target.tag))
-        {
             if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
                 turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
             else
@@ -896,12 +891,9 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
                 turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
             }
-        }
     }
     public static void Blessoflight(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        if (target.CompareTag(target.tag))
-        {
             if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
                 turnChecker.StartEffect(EffectType.Regeneration, value, extraEffect);
             else
@@ -914,7 +906,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
                 turnChecker.StartEffect(EffectType.Regeneration, value, extraEffect);
             }
-        }
 
         if (totalToken - failedToken == 0)
             return;
@@ -933,20 +924,17 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void LightAround(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-        if (target.CompareTag(target.tag))
+        if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+        else
         {
-            if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
-                turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
             else
-            {
-                turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
-                if (target.TryGetComponent(out Character character))
-                    turnChecker.boundCharacter = character;
-                else
-                    turnChecker.boundMonster = target.GetComponent<Monster>();
+                turnChecker.boundMonster = target.GetComponent<Monster>();
 
-                turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
-            }
+            turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
         }
     }
     public static void Purification(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
@@ -956,8 +944,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void Contemplation(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
         target.Hp += value;
-        if (target.CompareTag(target.tag))
-        {
             if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
             {
                 turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
@@ -974,7 +960,6 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);
                 turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
             }
-        }
     }
 
     public static void CryofVictory(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
@@ -983,7 +968,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         {
             if (unit.CompareTag(target.tag))
             {
-                if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
+                if (unit.TryGetComponent(out EffectTurnChecker turnChecker))
                     turnChecker.StartEffect(EffectType.Strength_Increase, value, extraEffect);
                 else
                 {

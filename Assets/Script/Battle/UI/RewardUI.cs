@@ -6,6 +6,7 @@ public class RewardUI : MonoBehaviour
 {
     public GameObject rewardUIPrefab;
     int rewardGold = 0;
+    int rewardExp = 0;
     List<int> rewardItem = new List<int>();
     [HideInInspector]
     public int rewardCount = 0;
@@ -34,8 +35,20 @@ public class RewardUI : MonoBehaviour
         }
     }
 
+    public void GainExp(int exp)
+    {
+        rewardExp += exp;
+    }
+
     public void GiveReward()
     {
+        foreach(Unit unit in N_BattleManager.instance.units)
+        {
+            if(unit.CompareTag("Player"))
+            {
+                unit.GetComponent<Character>().SetExp(rewardExp);
+            }
+        }
         GameObject reward;
         for (int i = 0; i< rewardItem.Count; i++)
         {

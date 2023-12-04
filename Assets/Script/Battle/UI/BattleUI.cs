@@ -31,6 +31,7 @@ public class BattleUI : MonoBehaviour
     public List<Token> tokens;
     [HideInInspector]
     public int faildTokens = 0;
+    public List<AudioClip> tokenSounds;
 
     [Header("Log")]
     public Text logText;
@@ -44,6 +45,12 @@ public class BattleUI : MonoBehaviour
         }
         else if (instance != this)
             Destroy(this);
+
+        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Success"));
+        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Fail"));
+        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Perfect"));
+        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Success"));
+        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Worst"));
     }
 
     public void BindPlayer(GameObject[] playerarray)
@@ -73,14 +80,24 @@ public class BattleUI : MonoBehaviour
             if (x <= mainStatus)
             {
                 tokens[i].CheckToken(statusType, true);
+                N_BattleManager.instance.audioSource.PlayOneShot(tokenSounds[0]);
             }
             else
             {
                 tokens[i].CheckToken(statusType, false);
+                N_BattleManager.instance.audioSource.PlayOneShot(tokenSounds[1]);
                 faildTokens++;
             }
             yield return new WaitForSeconds(0.2f);
         }
+
+        if(faildTokens == 0)
+            N_BattleManager.instance.audioSource.PlayOneShot(tokenSounds[2]);
+        else if(faildTokens == tokenAmount)
+            N_BattleManager.instance.audioSource.PlayOneShot(tokenSounds[4]);
+        else
+            N_BattleManager.instance.audioSource.PlayOneShot(tokenSounds[3]);
+
         for (int i = 0; i < tokenAmount; i++)
             Destroy(tokens[i].gameObject);
         tokens.Clear();

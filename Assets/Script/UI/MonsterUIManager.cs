@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MonsterUIManager : MonoBehaviour
 {
-    private void Awake()
-    {
-        N_BattleManager.instance.monsterUI = this;
-    }
+    //private void Awake()
+    //{
+    //    N_BattleManager.instance.monsterUI = this;
+    //}
 
     public void SetMonster(GameObject[] monster)
     {
