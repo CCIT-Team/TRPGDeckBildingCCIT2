@@ -253,9 +253,9 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
             case "Smite":
                 return 12;
             case "SpinAttack":
-                return 0;
+                return 14;
             case "Stroming":
-                return 0;
+                return 14;
             case "TrickStrike":
                 return 13;
             //----------------------------------
@@ -418,6 +418,10 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         {
             default:
                 return 0;
+            case "SpinAttack":
+                return 10;
+            case "Stroming":
+                return 11;
             //----------------------------------
             case "ShootingStar":
                 return 14;

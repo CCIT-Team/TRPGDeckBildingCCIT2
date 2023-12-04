@@ -51,7 +51,6 @@ public class RewardDisplay : MonoBehaviour
 
     public void GetReward()
     {
-        Debug.Log(rewardName.text + "를 받았다");
         if(itemID == -1)
             N_BattleManager.instance.units[Random.Range(0, N_BattleManager.instance.units.Count)].GetComponent<Character>().gold += gold;
         N_BattleManager.instance.rewardUI.rewardCount--;
@@ -60,7 +59,6 @@ public class RewardDisplay : MonoBehaviour
 
     public void DumpReward()
     {
-        Debug.Log(rewardName.text + "를 버렸다");
         N_BattleManager.instance.rewardUI.rewardCount--;
         gameObject.SetActive(false);
     }

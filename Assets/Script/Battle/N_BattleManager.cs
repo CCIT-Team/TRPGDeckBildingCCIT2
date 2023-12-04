@@ -23,6 +23,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public int[] WizardCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] ClericCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
+    public AudioSource audioSource;
     public List<AudioClip> audioClips;
 
     public MonsterUIManager monsterUI;
@@ -58,13 +59,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         StartBattle();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            currentUnit.GetComponent<Monster>().IsMyturn = false;
         if (Input.GetKeyDown(KeyCode.Return))
             ExitBattle(currentUnit);
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -110,7 +110,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             if (playerAlive)
             {
                 GameManager.instance.isVictory = true;
-                GetComponent<AudioSource>().PlayOneShot(audioClips[0]);
+                audioSource.PlayOneShot(audioClips[0]);
                 BattleUI.instance.gameObject.SetActive(false);
                 rewardUI.GiveReward();
             } 
