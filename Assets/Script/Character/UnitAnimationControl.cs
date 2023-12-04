@@ -103,7 +103,7 @@ public class UnitAnimationControl : MonoBehaviour
 
     public void GetDamage()
     {
-        if (GetComponent<Unit>().Hp <= 0)
+        if (GetComponent<Unit>().Hp < 1)
         {
             if(CompareTag("Player"))
             {

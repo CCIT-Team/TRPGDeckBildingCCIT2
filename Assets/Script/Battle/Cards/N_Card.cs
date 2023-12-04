@@ -298,7 +298,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
             case "Flamethrower":
                 return 4;
             //----------------------------------
-            case "ShieldOfLight":
+            case "Shieldoflight":
                 return 14;
             case "ShieldSlam":
                 return 15;
