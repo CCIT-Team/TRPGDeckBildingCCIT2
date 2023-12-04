@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool isVictory;
     public GameObject playerUI;
     private GameObject loading_Panel;
-    private Slider loadingBar;
+    private Image loadingBar;
     private string sceneName = null; //scene변경
 
 
@@ -178,9 +178,9 @@ public class GameManager : MonoBehaviour
     public void LoadScenceName(string name)
     {
         sceneName = name;
-        loading_Panel = Instantiate(Resources.Load("Prefabs/UI/Loading_Panel", typeof(GameObject))) as GameObject;
+        loading_Panel = Instantiate(Resources.Load("Prefabs/UI/LoadingUI_Canvas", typeof(GameObject))) as GameObject;
         //loading_Panel.transform.SetParent(GameObject.Find("Canvas").transform);
-        loadingBar = loading_Panel.transform.GetChild(0).transform.GetChild(0).GetComponent<Slider>();
+        loadingBar = loading_Panel.transform.GetChild(0).transform.GetChild(2).transform.GetChild(0).GetComponent<Image>();
         StartCoroutine(LoadScene());
         if(name == "New Battle")
         {
@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadScene()
     {
-        //yield return new WaitForSeconds(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length); //씬전환 연출 애니메이션
+        yield return new WaitForSeconds(1.0f); //씬전환 연출 애니메이션
         yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
@@ -221,24 +221,24 @@ public class GameManager : MonoBehaviour
                 DataBase.instance.SaveDB(players[i].GetComponent<Character_Card>().GetCardDBQuery());
             }
             DataBase.instance.LoadData();
-        }  
-
+        }
+        loadingBar.fillAmount = 0.0f;
         while (!op.isDone)
         {
             yield return null;
             timer += Time.deltaTime;
-            if(op.progress < 0.9f)
+            if (op.progress < 0.9f)
             {
-                loadingBar.value = Mathf.Lerp(loadingBar.value, op.progress, timer);
-                if(loadingBar.value >= op.progress)
+                loadingBar.fillAmount = Mathf.Lerp(loadingBar.fillAmount, op.progress, timer);
+                if(loadingBar.fillAmount >= op.progress)
                 {
                     timer = 0f;
                 }
             }
             else
             {
-                loadingBar.value = Mathf.Lerp(loadingBar.value, 1.0f, timer);
-                if(loadingBar.value == 1.0f)
+                loadingBar.fillAmount = Mathf.Lerp(loadingBar.fillAmount, 1.0f, timer);
+                if(loadingBar.fillAmount == 1.0f)
                 {
                     //loadingBar.value = 0.9f;
                     yield return new WaitForSeconds(1.0f);
