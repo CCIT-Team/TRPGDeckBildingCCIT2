@@ -125,7 +125,7 @@ public class BattleUI : MonoBehaviour
             else
             {
                 monsterindex++;
-                icon.renderImage.texture = (Texture)Resources.Load("Prefabs/UI/Player/Monster" + monsterindex + "Render");
+                icon.renderImage.texture = (Texture)Resources.Load("Prefabs/UI/Monster/Monster" + monsterindex);
             }
             icon.StartCoroutine(icon.DisplayTurn());
         }

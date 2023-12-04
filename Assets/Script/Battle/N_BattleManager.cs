@@ -455,7 +455,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     {
         BattleUI.instance.announceText.text = currentUnit.name + "의 턴!";
         BattleUI.instance.TurnAnnounce.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(10);
         BattleUI.instance.TurnAnnounce.SetActive(false);
         isTurnAnnounce = false;
     }
