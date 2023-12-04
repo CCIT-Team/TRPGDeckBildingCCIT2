@@ -22,7 +22,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public N_Card bindCard;
 
     public Vector3 defaultPosition = new Vector3(0,0,0);
-    int childeIndex = 0;
+    public int childeIndex = 0;
     Vector2 defaultSize = new Vector2(0, 0);
     Vector3 positionDistance = new Vector3();
 

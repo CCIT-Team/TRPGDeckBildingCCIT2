@@ -199,8 +199,12 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         yield return new WaitUntil(() => costOver || costUsed);
         if(costOver)
         {
-            Debug.Log("코스트 부족! \n" + cardData.useCost + " / "+ playerUI.boundCharacter.cost);
+            BattleUI.instance.costWarning.gameObject.SetActive(true);
+            BattleUI.instance.costWarning.GetComponent<Animator>().Play("BlinkingText", 0);
+
             transform.position = GetComponent<CardUI>().defaultPosition;
+            transform.SetParent(transform.parent.GetChild(1));
+            transform.SetSiblingIndex(GetComponent<CardUI>().childeIndex);
         }
         else if(costUsed)
         {

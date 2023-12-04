@@ -36,6 +36,7 @@ public class BattleUI : MonoBehaviour
     [Header("Log")]
     public Text logText;
     public RectTransform logSize;
+    public TMP_Text costWarning;
 
     private void Awake()
     {
@@ -45,12 +46,6 @@ public class BattleUI : MonoBehaviour
         }
         else if (instance != this)
             Destroy(this);
-
-        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Success"));
-        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Fail"));
-        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Perfect"));
-        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Success"));
-        tokenSounds.Add((AudioClip)Resources.Load("SFX & BGM/SFX/UI/Token_Worst"));
     }
 
     public void BindPlayer(GameObject[] playerarray)
