@@ -86,6 +86,7 @@ public class TileUI : MonoBehaviour
     public void Fight()
     {
         SoundManager.instance.PlayUICilckSound();
+        GameManager.instance.SetBattleMonsterSetting(Map.instance.currentInteracteUITile.monsterGroup);
         GameManager.instance.LoadScenceName("New Battle");
         Map.instance.isBattle = true;
         Debug.Log("전투진입");

@@ -58,7 +58,7 @@ public class Tile : MonoBehaviour
     [SerializeField] Transform monsterPosition;
     [SerializeField] int monsterNum;//스폰된 몬스터의 마릿수입니다
     [SerializeField] int[] monsterID = new int[] { 30000001, 30000002, 30000003, 30000004, 30000005 };//스폰될 몬스터의 ID입니다
-    [SerializeField] List<int> monsterGroup = new List<int>();
+    public List<int> monsterGroup = new List<int>();
     [SerializeField] GameObject bossObject;
     [SerializeField] GameObject MainMissionMaker;
     [SerializeField] GameObject SubMissionMaker;
@@ -108,11 +108,10 @@ public class Tile : MonoBehaviour
                 monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
-                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 3)]);
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 2)]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 3)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-                GameManager.instance.SetBattleMonsterSetting(monsterGroup);
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
             else if (climate == Climate.DESERT)
             {
@@ -123,7 +122,6 @@ public class Tile : MonoBehaviour
                     tileUI.monsterNum[i].SetActive(true);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-                GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
             else
             {
@@ -134,7 +132,6 @@ public class Tile : MonoBehaviour
                     tileUI.monsterNum[i].SetActive(true);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-                GameManager.instance.SetBattleMonsterSetting(monsterGroup);
             }
         }
         else if (tileState == TileState.BossTile)

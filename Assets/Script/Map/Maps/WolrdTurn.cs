@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class WolrdTurn : MonoBehaviour
@@ -8,7 +9,10 @@ public class WolrdTurn : MonoBehaviour
     public List<GameObject> players = new List<GameObject>();
     public Character currentPlayer;
     public int turnNum = 0;
+    public int turnTextureNum = 0;
     public GameObject turnNicknameObejct;
+    public RawImage renterTexture;
+    public Texture[] playerRenterTextures = new Texture[3];
     public TMP_Text turnNickName;//누구의 턴인지 알려주는 UI
     public GameObject dragonturn;
     Transform dragonOriginPos;
@@ -52,6 +56,7 @@ public class WolrdTurn : MonoBehaviour
     {
         if (currentPlayer == null) { currentPlayer = players[0].GetComponent<Character>(); }
         currentPlayer.GetComponent<Character>().isMyturn = true;
+        renterTexture.texture = playerRenterTextures[turnTextureNum];
         StartCoroutine(OnTurnNicknameUI());
         yield return new WaitUntil(() => !currentPlayer.GetComponent<Character>().isMyturn);
         yield return new WaitUntil(() => !Map.instance.isOutofUI);
@@ -60,8 +65,10 @@ public class WolrdTurn : MonoBehaviour
         players.Add(currentPlayer.gameObject);
         currentPlayer = null;
         turnNum += 1;
-        if(dragonturn.transform.position.x > -1220) { dragonturn.transform.position -= new Vector3(100,0,0); } 
-        else { dragonturn.transform.position = dragonOriginPos.position; }
+        if (turnTextureNum < 2) { turnTextureNum += 1; }
+        else { turnTextureNum = 0; }
+        //if(dragonturn.transform.position.x > -1220) { dragonturn.transform.position -= new Vector3(100,0,0); } 
+        //else { dragonturn.transform.position = dragonOriginPos.position; }
         StartCoroutine(PlayTurn());
     }
 
