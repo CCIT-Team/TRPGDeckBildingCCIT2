@@ -57,7 +57,7 @@ public class WolrdTurn : MonoBehaviour
         if (currentPlayer == null) { currentPlayer = players[0].GetComponent<Character>(); }
         currentPlayer.GetComponent<Character>().isMyturn = true;
         renterTexture.texture = playerRenterTextures[turnTextureNum];
-        StartCoroutine(OnTurnNicknameUI());
+        if (!Map.instance.isOutofUI) { StartCoroutine(OnTurnNicknameUI()); }
         yield return new WaitUntil(() => !currentPlayer.GetComponent<Character>().isMyturn);
         yield return new WaitUntil(() => !Map.instance.isOutofUI);
 

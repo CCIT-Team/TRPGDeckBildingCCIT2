@@ -163,7 +163,11 @@ public class Tile : MonoBehaviour
 
     private void Update()
     {
-
+        if(isMonsterTile&&Map.instance.currentInteracteUITile == this && GameManager.instance.isVictory)
+        {
+            DestroyMonsterTile();
+            GameManager.instance.isVictory = false;
+        }
     }
 
     void FindAbjectTileVer2()
