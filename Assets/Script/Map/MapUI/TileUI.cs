@@ -28,17 +28,23 @@ public class TileUI : MonoBehaviour
         }
     }
 
-    #region 상점&병원 버튼
-    public void OnShopAndHospital() { shop_hospitalUI.enabled = true; Map.instance.isOutofUI = true; }
-    public void OffShopAndHospital()
+    void InitializedPlayerTurn()
     {
-        shop_hospitalUI.enabled = false;
         Map.instance.startTile = null;
         Map.instance.pathTileObjectList.Clear();
         Map.instance.isPlayerOnEndTile = true;
         Map.instance.currentInteracteUITile = null;
         Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
+    }
+
+    #region 상점&병원 버튼
+    public void OnShopAndHospital() { shop_hospitalUI.enabled = true; Map.instance.isOutofUI = true; }
+    public void OffShopAndHospital()
+    {
+        SoundManager.instance.PlayUICilckSound();
+        shop_hospitalUI.enabled = false;
+        InitializedPlayerTurn();
     }
     public void OnShopUI()
     {
@@ -59,12 +65,7 @@ public class TileUI : MonoBehaviour
     {
         SoundManager.instance.PlayUICilckSound();
         shopUI.enabled = false;
-        Map.instance.startTile = null;
-        Map.instance.pathTileObjectList.Clear();
-        Map.instance.isPlayerOnEndTile = true;
-        Map.instance.currentInteracteUITile = null;
-        Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
-        Map.instance.isOutofUI = false;
+        InitializedPlayerTurn();
     }
     #endregion
 
@@ -74,12 +75,7 @@ public class TileUI : MonoBehaviour
     {
         SoundManager.instance.PlayUICilckSound();
         hospital.enabled = false;
-        Map.instance.startTile = null;
-        Map.instance.pathTileObjectList.Clear();
-        Map.instance.isPlayerOnEndTile = true;
-        Map.instance.currentInteracteUITile = null;
-        Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
-        Map.instance.isOutofUI = false;
+        InitializedPlayerTurn();
 
     }
     #endregion
@@ -98,12 +94,7 @@ public class TileUI : MonoBehaviour
     {
         SoundManager.instance.PlayUICilckSound();
         OffMonsterBattle();
-        Map.instance.startTile = null;
-        Map.instance.pathTileObjectList.Clear();
-        Map.instance.isPlayerOnEndTile = true;
-        Map.instance.currentInteracteUITile = null;
-        Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
-        Map.instance.isOutofUI = false;
+        InitializedPlayerTurn();
     }
     #endregion
 }

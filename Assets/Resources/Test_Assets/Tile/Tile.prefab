@@ -2493,7 +2493,6 @@ MonoBehaviour:
   isBossTile: 0
   isKingdomTile: 0
   isVillageTile: 0
-  isSelect: 0
   isMissionOn: 0
   material: {fileID: 8930374371357479334}
   kingdomObject: {fileID: 9098414221162056004}
@@ -3361,7 +3360,7 @@ GameObject:
   - component: {fileID: 8926191278867338925}
   - component: {fileID: 7814200173838189725}
   - component: {fileID: 7452588559455943985}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MissionPoint
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -6421,7 +6420,7 @@ GameObject:
   - component: {fileID: 689389864514071049}
   - component: {fileID: 3697509966629988201}
   - component: {fileID: 2098571635243391247}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MoveAbleNumber
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -9260,7 +9259,7 @@ GameObject:
   - component: {fileID: 4791151353982653077}
   - component: {fileID: 2409888335688939529}
   - component: {fileID: 8934516939600830977}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Tile Select Image
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -11085,7 +11084,7 @@ GameObject:
   - component: {fileID: 6458102006371379703}
   - component: {fileID: 8085281940851504731}
   - component: {fileID: 6140537738492088697}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Main Mission Maker
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -13228,7 +13227,7 @@ GameObject:
   - component: {fileID: 3256027053608575820}
   - component: {fileID: 3335994566115287239}
   - component: {fileID: 5468664867273451767}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sub Mission Marker
   m_TagString: Tile
   m_Icon: {fileID: 0}

@@ -33,7 +33,6 @@ public class SixthMainMission : MonoBehaviour
                 talk = "보상을 드리고 싶은데 저와 같이 마을로 가시겠어요?";
                 break;
             case 3:
-                Map.instance.isOutofUI = false;
                 Map.instance.wolrdMission.mainMissionNum = 6;
                 Map.instance.startTile = null;
                 Map.instance.pathTileObjectList.Clear();

@@ -196,6 +196,11 @@ public class WolrdMission : MonoBehaviour
         Map.instance.currentMissionTile.GetComponent<Tile>().MakeVilege();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+
+        for (int i = 0; i < 6; i++)
+        {
+            Map.instance.currentMissionTile.adjacentTiles[i].isMissionOn = true;
+        } 
         Map.instance.missionNum = 8;
     }
 

@@ -50,7 +50,6 @@ public class SeventhMainMission : MonoBehaviour
             case 8:
                 Map.instance.currentMissionTile.isMissionOn = false;
                 Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-                Map.instance.isOutofUI = false;
                 Map.instance.wolrdMission.mainMissionNum = 7;
                 Map.instance.startTile = null;
                 Map.instance.pathTileObjectList.Clear();

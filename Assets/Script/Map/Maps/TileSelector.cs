@@ -90,7 +90,7 @@ public class TileSelector : MonoBehaviour
         }
         if (mouseButton == MouseButton.Left && !isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
         {
-            if (endPoint != null)
+            if (endPoint != null && startPoint != endPoint)
             {
                 isEndTileSelect = true;
                 tilePath.Clear();

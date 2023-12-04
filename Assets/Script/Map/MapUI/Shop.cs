@@ -15,7 +15,12 @@ public class Shop : MonoBehaviour
         {
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold -= posionRegulerPrice;
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().portionRegular += 1;
-            if(Map.instance.wolrdMission.mainMissionNum == 7) { Map.instance.wolrdMission.mainMissionNum = 8; }
+            if(Map.instance.wolrdMission.mainMissionNum == 7) 
+            {
+                Map.instance.currentMissionTile.isMissionOn = false;
+                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+                Map.instance.wolrdMission.mainMissionNum = 8; 
+            }
         }
         else
         {
@@ -28,6 +33,12 @@ public class Shop : MonoBehaviour
         {
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold -= posionLargePrice;
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().portionLarge += 1;
+            if (Map.instance.wolrdMission.mainMissionNum == 7)
+            {
+                Map.instance.currentMissionTile.isMissionOn = false;
+                Map.instance.currentMissionTile.MainMissionMarkerOnOff();         
+                Map.instance.wolrdMission.mainMissionNum = 8;
+            }
         }
         else
         {

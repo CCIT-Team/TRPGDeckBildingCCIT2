@@ -69,7 +69,6 @@ public class Map : MonoBehaviour
     public bool isBattle = false;
     public bool isFirst = true;
 
-    public float playerMoveSpeed;
     public bool isPlayerOnEndTile = false;
     public bool isPlayerMoving = false;
 
