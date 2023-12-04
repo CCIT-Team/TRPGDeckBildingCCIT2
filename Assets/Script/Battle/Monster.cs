@@ -37,7 +37,7 @@ public class Monster :MonsterStat
         set
         {
             hp = value;
-            if (hp <= 0)
+            if (hp < 0)
             {
                 hp = 0;
                 DropReward();
