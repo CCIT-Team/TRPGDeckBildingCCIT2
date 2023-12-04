@@ -95,12 +95,26 @@ public class BattleUI : MonoBehaviour
     #region ео
     public void SetTurnSlider(List<Unit> units)
     {
+        int playerindex = 0;
+        int monsterindex = 0;
         for(int i = 0; i < units.Count; i++)
         {
             boundUnits.Add(units[i]);
             TurnSlider icon = Instantiate(slider, turnDisplay.transform).GetComponent<TurnSlider>();
             turnSlider.Add(icon.GetComponent<Slider>());
             icon.BindingUnit(units[i], units.Count - 1);
+            if (units[i].CompareTag("Player"))
+            {
+                playerindex++;
+                icon.renderImage.texture = (Texture)Resources.Load("Prefabs/UI/Player/Player" + playerindex + "Render");
+                if (Resources.Load("Prefabs/UI/Player/Player" + playerindex + "Render") == null)
+                    icon.renderImage.texture = (Texture)Resources.Load("Prefabs/UI/Player/Player" + playerindex + "RenderTexture");
+            }
+            else
+            {
+                monsterindex++;
+                icon.renderImage.texture = (Texture)Resources.Load("Prefabs/UI/Player/Monster" + monsterindex + "Render");
+            }
             icon.StartCoroutine(icon.DisplayTurn());
         }
     }

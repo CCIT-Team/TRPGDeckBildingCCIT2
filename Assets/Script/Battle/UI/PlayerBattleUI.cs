@@ -10,7 +10,7 @@ public class PlayerBattleUI : MonoBehaviour
 
     [SerializeField]
     GameObject cardPrefab;
-    float[] cardSize = { 150, 225 };    //1920, 1080
+    Vector2 cardSize = new Vector2(165, 247.5f);    //1920 x 1080
 
     Queue<GameObject> waitCardInstant = new Queue<GameObject>();
     List<GameObject> cardInstant = new List<GameObject>();
@@ -24,9 +24,9 @@ public class PlayerBattleUI : MonoBehaviour
     {
         boundDeck = GetComponent<Deck>();
 
-        cardSize[0] = Camera.main.pixelWidth / 1920 * cardSize[0];
-        cardSize[1] = Camera.main.pixelHeight / 1080 * cardSize[1];
-        cardPrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(cardSize[0], cardSize[1]);
+        cardSize.x = Camera.main.pixelWidth / 1920 * cardSize.x;
+        cardSize.y = Camera.main.pixelHeight / 1080 * cardSize.y;
+        cardPrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(cardSize.x, cardSize.y);
     }
 
     void Start()
@@ -76,7 +76,7 @@ public class PlayerBattleUI : MonoBehaviour
     {
         for (int i = 0; i < boundDeck.hand.Count; i++)
         {
-            cardInstant[i].transform.localPosition = new Vector2((-cardInstant.Count / 2 + i + (cardInstant.Count + 1) % 2 / 2f) * cardSize[0], 0);
+            cardInstant[i].transform.localPosition = new Vector2((-cardInstant.Count / 2 + i + (cardInstant.Count + 1) % 2 / 2f) * cardSize.x, 0);
         }
     }
 
@@ -119,7 +119,7 @@ public class PlayerBattleUI : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(true);
             if (firstturn)
             {
-                DrawCard(5);
+                DrawCard(N_BattleManager.instance.startHandCount);
                 firstturn = false;
             }
             else

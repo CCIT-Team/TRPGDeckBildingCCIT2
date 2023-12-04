@@ -128,8 +128,11 @@ public class MonsterCard : MonoBehaviour
             mainStatus = GetComponent<Monster>().strength;
         }
 
-        if ((cardData.type != CardData.CardType.SingleAttack) || (cardData.type != CardData.CardType.MultiAttack) || (cardData.type != CardData.CardType.AllAttack))
+        if (cardData.type != CardData.CardType.SingleAttack && cardData.type != CardData.CardType.MultiAttack && cardData.type != CardData.CardType.AllAttack)
+        {
             cardTarget = gameObject;
+        }
+            
     }
 
     public int RollToken(StatusType statusType, int mainStatus, int tokenAmount)
