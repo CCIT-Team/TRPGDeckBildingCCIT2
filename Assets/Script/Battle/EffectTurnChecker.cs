@@ -23,12 +23,14 @@ public enum EffectType
     AttackGuard,
     MagicGuard,
     Parry,
-    BashEffect
+    BashEffect,
+    Ignition,
+    DoubleCharm
 }
 
 public class EffectTurnChecker : MonoBehaviour
 {
-    public bool[] isBuffRun = new bool[19];
+    public bool[] isBuffRun = new bool[22];
     public EffectType effect;
     public Character boundCharacter = null;
     public Monster boundMonster = null;
@@ -100,6 +102,12 @@ public class EffectTurnChecker : MonoBehaviour
                     break;
                 case EffectType.Parry:
                     StartCoroutine(Parry(effectType, effectvalue, turn));
+                    break;
+                case EffectType.Ignition:
+                    StartCoroutine(Ignition(effectType, effectvalue, turn));
+                    break;
+                case EffectType.DoubleCharm:
+                    StartCoroutine(DoubleCharm(effectType, effectvalue, turn));
                     break;
             }
         }
@@ -539,5 +547,50 @@ public class EffectTurnChecker : MonoBehaviour
         isBuffRun[(int)effectType + 8] = false;
     }
 
+    IEnumerator Ignition(EffectType effectType, float effectvalue, int turn)
+    {
+        if (boundCharacter != null)
+        {
+            while (turn >= 0)
+            {
+                yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
+                turn--;
+            }
+        }
+        else
+        {
+            while (turn >= 0)
+            {
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                turn--;
+            }
+        }
+        isBuffRun[(int)effectType + 8] = false;
+    }
+
+    IEnumerator DoubleCharm(EffectType effectType, float effectvalue, int turn)
+    {
+        if (boundCharacter != null)
+        {
+            while (turn >= 0)
+            {
+                yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
+                turn--;
+            }
+        }
+        else
+        {
+            while (turn >= 0)
+            {
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                turn--;
+            }
+        }
+        isBuffRun[(int)effectType + 8] = false;
+    }
 
 }

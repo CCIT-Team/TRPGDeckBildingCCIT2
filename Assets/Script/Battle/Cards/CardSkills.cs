@@ -486,6 +486,12 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void BurningFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker effectTurnChecker) && effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition])
+        {
+            damage += 3;
+            effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition] = false;
+        }
+
         DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
         {
@@ -504,8 +510,15 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void FlameofDragon(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker effectTurnChecker) && effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition])
+        {
+            damage += 3;
+            effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition] = false;
+        }
+
         if (totalToken - failedToken <= 0)
             damage = 0;
+
         foreach (Unit unit in N_BattleManager.instance.units)
         {
             if (unit.CompareTag(target.tag))
@@ -528,11 +541,14 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     }
             }
         }
-        //부가효과 추가 필요
-        //10% 확률로 2턴간 화상 부여
     }
     public static void Flamethrower(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker effectTurnChecker) && effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition])
+        {
+            damage += 3;
+            effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition] = false;
+        }
         DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
     }
     public static void Pillaroflight(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -614,6 +630,12 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void FlameArmor(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (target.TryGetComponent(out EffectTurnChecker effectTurnChecker) && effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition])
+        {
+            value += 3;
+            effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition] = false;
+        }
+
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
         {
             turnChecker.StartEffect(EffectType.MagicGuard, value, extraEffect);

@@ -421,7 +421,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (currentUnit.TryGetComponent(out Character character))
         {
             character.isMyturn = true;
-            character.cost += 1;
+            character.cost = character.maxCost;
             foreach (PlayerBattleUI ui in BattleUI.instance.playerUI)
             {
                 if(ui.gameObject.activeSelf)

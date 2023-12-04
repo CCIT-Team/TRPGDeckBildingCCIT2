@@ -32,6 +32,10 @@ public class BattleUI : MonoBehaviour
     [HideInInspector]
     public int faildTokens = 0;
 
+    [Header("Log")]
+    public Text logText;
+    public RectTransform logSize;
+
     private void Awake()
     {
         if (instance == null)
@@ -64,7 +68,7 @@ public class BattleUI : MonoBehaviour
 
         for (int i = 0; i < tokenAmount; i++)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
             int x = Random.Range(0, 100);
             if (x <= mainStatus)
             {
@@ -75,11 +79,17 @@ public class BattleUI : MonoBehaviour
                 tokens[i].CheckToken(statusType, false);
                 faildTokens++;
             }
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
         }
         for (int i = 0; i < tokenAmount; i++)
             Destroy(tokens[i].gameObject);
         tokens.Clear();
+    }
+
+    public void AddLog(string log)
+    {
+        logText.text += "\n" + log;
+        logSize.sizeDelta += new Vector2(0, 30);
     }
 
     #region ео

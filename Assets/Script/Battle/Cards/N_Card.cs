@@ -63,7 +63,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void CardEffect()
     {
-        Debug.Log(playerUI.boundCharacter.name + "이(가) " + cardTarget.name + "에게 " + cardData.name + "을(를) 사용");
+        BattleUI.instance.AddLog(playerUI.boundCharacter.name + "이(가) " + cardTarget.name + "에게 " + cardData.name + "을(를) 사용");
         var skill = CardSkills.SearchSkill(cardData.variableName);
         skill.Invoke(null, new object[] { playerUI.boundCharacter,          //사용자
                                          cardTarget.GetComponent<Unit>(),   //사용 대상
@@ -212,7 +212,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     IEnumerator WaitTokenRolling(int token)
     {
-        yield return new WaitForSeconds(token * 0.7f);
+        yield return new WaitForSeconds(token * 0.5f);
         token_Fail = BattleUI.instance.faildTokens;
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
     }
