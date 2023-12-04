@@ -8,6 +8,7 @@ using TMPro;
 public class MonsterStatUI : MonoBehaviour
 {
     public Monster boundMonsterStat;
+    public GameObject selectUI;
 
     public TMP_Text nickName;
     public TMP_Text level;
@@ -18,23 +19,18 @@ public class MonsterStatUI : MonoBehaviour
     public Slider hpbar;
     public TMP_Text hpbarText;
 
-    public GameObject costs;
-
     public void InitUI()
     {
         nickName.text = boundMonsterStat.name;
         level.text = boundMonsterStat.level.ToString();
+
         hpbar.value = boundMonsterStat.hp / boundMonsterStat.maxHp;
         hpbarText.text = boundMonsterStat.hp.ToString() + "/" + boundMonsterStat.maxHp.ToString();
       
         guard.text = "0";
         magicGuard.text = "0";
-        //for (int i = 0; i < boundMonsterStat.cost; i++)
-        //{
-        //    costs.transform.GetChild(i).gameObject.SetActive(true);
-        //}
-            guard.transform.parent.gameObject.SetActive(true);
-            magicGuard.transform.parent.gameObject.SetActive(true);
+        guard.transform.parent.gameObject.SetActive(true);
+        magicGuard.transform.parent.gameObject.SetActive(true);
     }
 
     public void LinkingMonster(GameObject monster)
@@ -46,21 +42,19 @@ public class MonsterStatUI : MonoBehaviour
     {
         UpdateSelectUI();
         UpdateHpUI();
-        //UpdateGuardUI();
-        //UpdateCostUI();
+        UpdateGuardUI();
     }
 
     public void UpdateSelectUI()
     {
         if (boundMonsterStat.IsMyturn)
         {
-            GameObject selectUI = transform.parent.gameObject.GetComponent<MonsterUIManager>().selectUI;
+            selectUI.SetActive(true);
             transform.localScale = new Vector3(1.2f, 1.2f, 1.0f);
-            selectUI.transform.localPosition = new Vector3(selectUI.transform.localPosition.x, gameObject.transform.localPosition.y, selectUI.transform.localPosition.z);
-            //selectUI.SetActive(true);
         }
         else
         {
+            selectUI.SetActive(false);
             transform.localScale = Vector3.one;
         }
     }
@@ -72,31 +66,9 @@ public class MonsterStatUI : MonoBehaviour
     }
 
 
-    /*public void UpdateGuardUI()
+    public void UpdateGuardUI()
     {
         guard.text = boundMonsterStat.attackGuard.ToString();
         magicGuard.text = boundMonsterStat.magicGuard.ToString();
-    }*/
-
-    /*public void UpdateCostUI()
-    {
-        int activeCost = 0;
-        for(int i = 0; i < costs.transform.childCount; i++)
-        {
-            if(costs.transform.GetChild(i).gameObject.activeInHierarchy)
-            {
-                activeCost++;
-            }
-        }
-
-        for (int i = 0; i < activeCost; i++)
-        {
-            costs.transform.GetChild(i).transform.GetChild(1).gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < boundMonsterStat.cost; i++)
-        {
-            costs.transform.GetChild(i).transform.GetChild(1).gameObject.SetActive(true);
-        }
-    }*/
+    }
 }

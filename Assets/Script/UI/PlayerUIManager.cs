@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerUIManager : MonoBehaviour
 {
-    private GameObject[] player;
-
     private void Awake()
     {
         GameManager.instance.playerUI = gameObject;
@@ -13,7 +11,6 @@ public class PlayerUIManager : MonoBehaviour
 
     public void SetPlayer(GameObject[] player)
     {
-        //player = GameObject.FindGameObjectsWithTag("Player");
         GameObject childUI;
         for (int i = 0; i < player.Length; i++)
         {
