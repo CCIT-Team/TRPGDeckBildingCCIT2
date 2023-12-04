@@ -172,6 +172,8 @@ MonoBehaviour:
   - {fileID: 303927957634089745}
   - {fileID: 1586178321016117872}
   - {fileID: 8438218691692354411}
+  attackGuard: 0
+  magicGuard: 0
 --- !u!114 &2805582895845003250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +250,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9d7cd1632b6004b9f59e3b40112145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetControler: {fileID: 0}
+  particleAndSound: {fileID: 0}
+  particleindex: 0
+  soundindex: 0
 --- !u!1 &6245576000949538944
 GameObject:
   m_ObjectHideFlags: 0
