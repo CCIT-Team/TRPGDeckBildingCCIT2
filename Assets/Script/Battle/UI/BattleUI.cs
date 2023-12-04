@@ -19,6 +19,7 @@ public class BattleUI : MonoBehaviour
     List<Slider> turnSlider = new List<Slider>();
 
     public GameObject TurnAnnounce;
+    public RawImage announceImage;
     public TMP_Text announceText;
 
     [Header("Player")]
@@ -46,6 +47,11 @@ public class BattleUI : MonoBehaviour
         }
         else if (instance != this)
             Destroy(this);
+    }
+
+    private void Update()
+    {
+        announceImage.color = new Color(1,1,1,announceText.color.a);
     }
 
     public void BindPlayer(GameObject[] playerarray)
@@ -101,7 +107,7 @@ public class BattleUI : MonoBehaviour
     public void AddLog(string log)
     {
         logText.text += "\n" + log;
-        logSize.sizeDelta += new Vector2(0, 30);
+        logSize.sizeDelta += new Vector2(0, 60);
     }
 
     #region ео
