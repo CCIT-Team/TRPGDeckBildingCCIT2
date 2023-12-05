@@ -134,7 +134,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             }
             GetComponent<RectTransform>().sizeDelta *= 1.2f;
         }
-            
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
@@ -149,46 +148,50 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        if (!Input.GetMouseButton(0))
-            return;
-        isSelected = true;
-        childeIndex = transform.GetSiblingIndex();
-        transform.SetParent(transform.parent.parent);
-        for (int i = 0; i < tokenPreview.Count; i++)
+        if (Input.GetMouseButton(0)&&!isSelected)
         {
-            tokenPreview[i].SetActive(false);
+            isSelected = true;
+            childeIndex = transform.GetSiblingIndex();
+            transform.SetParent(transform.parent.parent);
+            for (int i = 0; i < tokenPreview.Count; i++)
+            {
+                tokenPreview[i].SetActive(false);
+            }
+            defaultPosition = transform.position;
+            positionDistance = defaultPosition - Input.mousePosition;
+            transform.position = Input.mousePosition + positionDistance;
         }
-        defaultPosition = transform.position;
-        positionDistance = defaultPosition - Input.mousePosition;
-        transform.position = Input.mousePosition + positionDistance;
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
-        if (layerMask == 0)
+        if (Input.GetMouseButtonUp(0))
         {
-            target = bindCard.playerUI.boundCharacter.gameObject;
-            bindCard.cardTarget = target;
-            bindCard.UseCard();
-        }
-        else
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80, layerMask))
+            if (layerMask == 0)
             {
-                target = hit.transform.gameObject;
+                target = bindCard.playerUI.boundCharacter.gameObject;
                 bindCard.cardTarget = target;
                 bindCard.UseCard();
             }
             else
             {
-                target = null;
-                transform.position = defaultPosition;
-                transform.SetParent(transform.parent.GetChild(2)) ;
-                transform.SetSiblingIndex(childeIndex);
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80, layerMask))
+                {
+                    target = hit.transform.gameObject;
+                    bindCard.cardTarget = target;
+                    bindCard.UseCard();
+                }
+                else
+                {
+                    target = null;
+                    transform.position = defaultPosition;
+                    transform.SetParent(transform.parent.GetChild(2));
+                    transform.SetSiblingIndex(childeIndex);
+                }
             }
+            isSelected = false;
         }
-        isSelected = false;
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)

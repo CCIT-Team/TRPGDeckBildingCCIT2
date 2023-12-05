@@ -137,7 +137,7 @@ public class UnitAnimationControl : MonoBehaviour
     {
         if (index == -1)
             index = particleindex;
-        particleAndSound.PlayParticle(index,targetControler.gameObject.transform.position);
+        particleAndSound.PlayParticle(index,targetControler.gameObject.transform.position + new Vector3(0,1,0));
     }
 
     public void SoundEvent(int index)
