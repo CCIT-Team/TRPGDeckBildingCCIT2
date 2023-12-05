@@ -165,7 +165,7 @@ public class Tile : MonoBehaviour
 
     private void Update()
     {
-        if(isMonsterTile&&Map.instance.currentInteracteUITile == this && GameManager.instance.isVictory)
+        if (isMonsterTile && Map.instance.currentInteracteUITile == this && GameManager.instance.isVictory)
         {
             DestroyMonsterTile();
             GameManager.instance.isVictory = false;
@@ -207,7 +207,7 @@ public class Tile : MonoBehaviour
                 adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
             }
         }
-    }  
+    }
 
     #region 타일 선택
     public void InitializeSelect()
@@ -342,6 +342,20 @@ public class Tile : MonoBehaviour
             {
                 Map.instance.OnUIPlayerStop();
                 Map.instance.wolrdMission.mainMissionNum = 9;
+            }
+            if (Map.instance.wolrdMission.mainMissionNum == 11 && isMissionOn)
+            {
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                Map.instance.isOutofUI = true;
+                Map.instance.wolrdMission.eleventhdMainMission.SetActive(true);
+            }
+            if (Map.instance.wolrdMission.mainMissionNum == 12 && isMissionOn)
+            {
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                Map.instance.isOutofUI = true;
+                Map.instance.wolrdMission.twelfthdMainMission.SetActive(true);
             }
             //
         }

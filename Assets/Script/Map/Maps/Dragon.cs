@@ -107,6 +107,7 @@ public class Dragon : MonoBehaviour
             Map.instance.wolrdMission.mainMissionNum = 10;
             targetPosition = nestTile;
             moveList = astar.FindPath(currentDragonTile, nestTile);
+            isBack = true;
             Map.instance.wolrdMission.mainMissionNum = 11;
             StartCoroutine(TurnEndDragon());
         }

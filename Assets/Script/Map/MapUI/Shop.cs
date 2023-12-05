@@ -6,6 +6,8 @@ public class Shop : MonoBehaviour
 {
     public int posionRegulerPrice = 18;
     public int posionLargePrice = 35;
+    public int healPrise = 20;
+    public int deleteCurse = 40;
 
     public GameObject noMoney;
     #region 상점
@@ -63,7 +65,7 @@ public class Shop : MonoBehaviour
     }
     public void BuyingDeleteCurse()
     {
-        //큰 포션 1업
+        
     }
     #endregion
 }

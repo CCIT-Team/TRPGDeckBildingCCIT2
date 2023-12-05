@@ -215,7 +215,7 @@ public class WolrdMission : MonoBehaviour
 
     void TwelfthMainMission()
     {
-        mainMissionText.text = "소식을 확인하세요";
+        mainMissionText.text = "소식을 전달하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
