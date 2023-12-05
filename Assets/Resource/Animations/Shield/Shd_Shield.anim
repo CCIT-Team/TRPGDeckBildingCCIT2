@@ -151626,7 +151626,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 11
     messageOptions: 0
-  - time: 1.9333333
+  - time: 1.9
     functionName: AnnounceEndAction
     data: 
     objectReferenceParameter: {fileID: 0}
