@@ -43,7 +43,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 isAction = value;
 
             if(isAction)
+            {
                 StartCoroutine(WaitingWhileAction());
+                StartCoroutine(DoActionOff());
+            }
+                
         }
     }
 
@@ -338,6 +342,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             BattleUI.instance.inputBlocker.SetActive(false);
         else
             StartCoroutine(WaitingWhileAction());
+    }
+
+    IEnumerator DoActionOff()
+    {
+        yield return new WaitForSeconds(4);
+        isAction = false;
     }
 
     //--------------------------------------
