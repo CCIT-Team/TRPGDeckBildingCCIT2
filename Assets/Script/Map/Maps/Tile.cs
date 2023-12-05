@@ -109,18 +109,18 @@ public class Tile : MonoBehaviour
                 for (int i = 0; i < monsterNum; i++)
                 {
                     //monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 2)]);
-                    monsterGroup.Add(monsterID[0]);
+                    monsterGroup.Add(monsterID[2]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
                 //Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-                Instantiate(Map.instance.monsterList[0], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                Instantiate(Map.instance.monsterList[2], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
             else if (climate == Climate.DESERT)
             {
                 monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
-                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 4)]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
@@ -130,7 +130,7 @@ public class Tile : MonoBehaviour
                 monsterNum = UnityEngine.Random.Range(2, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
-                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 5)]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
@@ -268,6 +268,7 @@ public class Tile : MonoBehaviour
     public void DestroyKingdom()
     {
         isKingdomTile = false;
+        Map.instance.isOutofUI = false;
         kingdomObject.SetActive(false);
         burnkingdomObject.SetActive(true);
     }
@@ -280,6 +281,7 @@ public class Tile : MonoBehaviour
     public void DestroyMonsterTile()
     {
         isMonsterTile = false;
+        Map.instance.isOutofUI = false;
         tileUI.OffMonsterBattle();
         monsterObject.SetActive(false);
     }
@@ -310,7 +312,7 @@ public class Tile : MonoBehaviour
                     Map.instance.startTile = this;
                 }
             }
-            //미션 관련
+            #region 미션용
             if (isKingdomTile && !Map.instance.isOutofUI && isMissionOn)
             {
                 if (Map.instance.wolrdMission.mainMissionNum == 1)
@@ -357,7 +359,7 @@ public class Tile : MonoBehaviour
                 Map.instance.isOutofUI = true;
                 Map.instance.wolrdMission.twelfthdMainMission.SetActive(true);
             }
-            //
+            #endregion
         }
         if (col.CompareTag("Dragon"))
         {
