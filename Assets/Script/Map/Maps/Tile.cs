@@ -108,14 +108,16 @@ public class Tile : MonoBehaviour
                 monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
-                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 2)]);
+                    //monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 2)]);
+                    monsterGroup.Add(monsterID[0]);
                     tileUI.monsterNum[i].SetActive(true);
                 }
-                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                //Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                Instantiate(Map.instance.monsterList[0], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
             else if (climate == Climate.DESERT)
             {
-                monsterNum = UnityEngine.Random.Range(2, 4);
+                monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(2, 4)]);
@@ -125,7 +127,7 @@ public class Tile : MonoBehaviour
             }
             else
             {
-                monsterNum = UnityEngine.Random.Range(2, 6);
+                monsterNum = UnityEngine.Random.Range(2, 4);
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(3, 5)]);
