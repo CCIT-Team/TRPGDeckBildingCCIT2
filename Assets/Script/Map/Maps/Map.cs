@@ -51,7 +51,7 @@ public class Map : MonoBehaviour
     public List<GameObject> players = new List<GameObject>();
     public RuntimeAnimatorController[] wolrdPlayerAnimator = new RuntimeAnimatorController[3];
     public bool isOutofUI = false;
-    [SerializeField] float playerSpeed = 0.05f;
+    [SerializeField] float playerSpeed = 2;
     [Header("Monster")]
     public Dragon dragonScript;
     public GameObject dragon;
@@ -236,7 +236,7 @@ public class Map : MonoBehaviour
             wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(nextTilePosition - wolrdTurn.currentPlayer.transform.position).normalized;
             wolrdTurn.currentPlayer.transform.position =
                 Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position,
-                nextTilePosition, playerSpeed);
+                nextTilePosition, playerSpeed * Time.deltaTime);
 
             if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f && isPlayerMoving)
             {

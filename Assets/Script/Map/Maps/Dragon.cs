@@ -86,9 +86,9 @@ public class Dragon : MonoBehaviour
             dragonAni.SetTrigger("Fly");
             Vector3 nextTilePosition = targetPosition.transform.position;
             nextTilePosition.y = nextTilePosition.y + 2f;
-
+            dragonSpeed = 3;
             transform.rotation = Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
-            transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed * Time.deltaTime);
         }
         //else if (moveList.Count == 0 && !isTargetSetting)
         //{
@@ -119,7 +119,7 @@ public class Dragon : MonoBehaviour
         Vector3 nextTilePosition = targetPosition.transform.position;
         nextTilePosition.y = nextTilePosition.y + 2f;
         transform.rotation = Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
-        transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed * Time.deltaTime);
 
         if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 2f)
         {

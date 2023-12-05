@@ -7726,7 +7726,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 41fc23e4516280b4fb9261f0efc77deb, type: 2}
   - {fileID: 9100000, guid: 0bfe33c9b779bb5409fde25d09264537, type: 2}
   isOutofUI: 0
-  playerSpeed: 0.08
+  playerSpeed: 2
   dragonScript: {fileID: 0}
   dragon: {fileID: 3778034857689625960, guid: 7d7131f55dc0b41498e8b74714a605da, type: 3}
   instantiateDragon: {fileID: 0}
