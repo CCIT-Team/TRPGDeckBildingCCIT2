@@ -11,7 +11,7 @@ public class DeckCardUI : MonoBehaviour
     public Image type;
     public Image nameBox;
     public Text cardName;
-    public Image image;
+    public RawImage image;
     public Text description;
     public Text amount;
 
@@ -85,6 +85,10 @@ public class DeckCardUI : MonoBehaviour
 
         //코스트
         cost.text = cardData.useCost.ToString();
+
+        image.texture = (Texture)Resources.Load("UI/Cards/" + cardData.variableName);
+        if (cardData.variableName == "Defcon")
+            image.texture = (Texture)Resources.Load("UI/Cards/Defcon_fighter");
 
         //설명
         string dummy;

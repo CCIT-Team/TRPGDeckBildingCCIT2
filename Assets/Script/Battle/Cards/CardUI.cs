@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler,IPointerEnterHandler,IPointerExitHandler
 {
     public Image backGroundImage;
-    public Image image;
+    public RawImage image;
     public Text cardName;
     public Image nameBoxImage;
     public Image typeImage;
@@ -94,6 +94,14 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         else
             cost.text = bindCard.cardData.useCost.ToString();
 
+        //이미지
+        image.texture = (Texture)Resources.Load("UI/Cards/" + bindCard.cardData.variableName);
+        if(bindCard.cardData.variableName == "Defcon")
+            image.texture = (Texture)Resources.Load("UI/Cards/Defcon_fighter");
+
+
+
+
         //설명
         if (bindCard.cardData.description.Contains("회복"))
             damageColor = "green";
@@ -176,7 +184,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             {
                 target = null;
                 transform.position = defaultPosition;
-                transform.SetParent(transform.parent.GetChild(1)) ;
+                transform.SetParent(transform.parent.GetChild(2)) ;
                 transform.SetSiblingIndex(childeIndex);
             }
         }

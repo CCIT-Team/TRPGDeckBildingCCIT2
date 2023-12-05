@@ -316,7 +316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4155354174160416074}
   - component: {fileID: 730554865268589613}
-  - component: {fileID: 7981894247378070760}
+  - component: {fileID: 3864395227753311989}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -351,7 +351,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5649710771017988788}
   m_CullTransparentMesh: 1
---- !u!114 &7981894247378070760
+--- !u!114 &3864395227753311989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5649710771017988788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -371,16 +371,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &6444849202923077225
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backGroundImage: {fileID: 7761547435388745894}
-  image: {fileID: 7981894247378070760}
+  image: {fileID: 3864395227753311989}
   cardName: {fileID: 6286388788943058658}
   nameBoxImage: {fileID: 3556293156766621545}
   typeImage: {fileID: 7292708169950051919}
@@ -619,9 +616,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: aaed03943e3cd1c47ba702ea432d5a7c, type: 3}
   bindCard: {fileID: 0}
   defaultPosition: {x: 0, y: 0, z: 0}
+  childeIndex: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  "\uC720\uB2C8\uD2F0\uBCD1\uC2E0": {fileID: 21300000, guid: 500dc49a7dbe0804e947b5d9d7e4f3b6,
+    type: 3}
 --- !u!1 &7137490351024470306
 GameObject:
   m_ObjectHideFlags: 0

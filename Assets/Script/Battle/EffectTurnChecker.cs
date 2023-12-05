@@ -39,7 +39,8 @@ public class EffectTurnChecker : MonoBehaviour
     {
         if (isBuffRun[(int)effectType + 8])
         {
-
+            isBuffRun[(int)effectType + 8] = false;
+            StartEffect(effectType, effectvalue, turn);
         }
         else
         {
@@ -121,9 +122,8 @@ public class EffectTurnChecker : MonoBehaviour
 
     IEnumerator Faint(EffectType effectType, float effectvalue, int turn)
     {
-        //---------------------------------
         if(boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 boundCharacter.isMyturn = false;
@@ -131,11 +131,11 @@ public class EffectTurnChecker : MonoBehaviour
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 boundMonster.IsMyturn = false;
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -144,7 +144,7 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator Burn(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 boundCharacter.Damaged(boundCharacter.maxHp * effectvalue);
@@ -152,11 +152,11 @@ public class EffectTurnChecker : MonoBehaviour
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 boundMonster.Damaged(boundMonster.maxHp * effectvalue);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -165,17 +165,17 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator Confusion(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -184,17 +184,17 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator Weak(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -206,7 +206,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.speed -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -217,10 +217,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.speed -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.speed += (int)effectvalue;
@@ -233,7 +233,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.luck -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -244,10 +244,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.luck -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.luck += (int)effectvalue;
@@ -260,7 +260,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.intelligence -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -271,10 +271,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.intelligence -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.intelligence += (int)effectvalue;
@@ -287,7 +287,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.strength -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -298,10 +298,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.strength -= (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.strength += (int)effectvalue;
@@ -314,7 +314,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.strength += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -325,10 +325,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.strength += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.strength -= (int)effectvalue;
@@ -341,7 +341,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.intelligence += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -352,10 +352,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.intelligence += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.intelligence -= (int)effectvalue;
@@ -368,7 +368,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.luck += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -379,10 +379,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.luck += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.luck -= (int)effectvalue;
@@ -395,7 +395,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.speed += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -406,10 +406,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.speed += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.speed -= (int)effectvalue;
@@ -419,17 +419,17 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator Thorn(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -437,17 +437,17 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator MagicMirror(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -456,7 +456,7 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator Regeneration(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 boundCharacter.Hp += effectvalue;
@@ -464,11 +464,11 @@ public class EffectTurnChecker : MonoBehaviour
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 boundMonster.Hp += effectvalue;
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -477,17 +477,17 @@ public class EffectTurnChecker : MonoBehaviour
     IEnumerator Parry(EffectType effectType, float effectvalue, int turn)
     {
         if (boundCharacter != null)
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         else
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         isBuffRun[(int)effectType + 8] = false;
@@ -498,7 +498,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.attackGuard += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -509,10 +509,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.attackGuard += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.attackGuard = 0;
@@ -525,7 +525,7 @@ public class EffectTurnChecker : MonoBehaviour
         if (boundCharacter != null)
         {
             boundCharacter.magicGuard += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -536,10 +536,10 @@ public class EffectTurnChecker : MonoBehaviour
         else
         {
             boundMonster.magicGuard += (int)effectvalue;
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
             boundMonster.magicGuard = 0;
@@ -551,7 +551,7 @@ public class EffectTurnChecker : MonoBehaviour
     {
         if (boundCharacter != null)
         {
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -560,10 +560,10 @@ public class EffectTurnChecker : MonoBehaviour
         }
         else
         {
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         }
@@ -574,7 +574,7 @@ public class EffectTurnChecker : MonoBehaviour
     {
         if (boundCharacter != null)
         {
-            while (turn >= 0)
+            while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
@@ -583,10 +583,10 @@ public class EffectTurnChecker : MonoBehaviour
         }
         else
         {
-            while (turn >= 0)
+            while (turn >= -1)
             {
-                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
-                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
+                yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
         }
