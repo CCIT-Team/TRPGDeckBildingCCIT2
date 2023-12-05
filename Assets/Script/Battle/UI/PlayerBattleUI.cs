@@ -65,6 +65,8 @@ public class PlayerBattleUI : MonoBehaviour
     {
         if (drawCount > boundDeck.deck.Count + boundDeck.grave.Count)
             return;
+        if (boundDeck.hand.Count >= N_BattleManager.instance.maxHandCount)
+            return;
         for (int i = 0; i < drawCount; i++)
         {
             GetComponent<AudioSource>().Play();
