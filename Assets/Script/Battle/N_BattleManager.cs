@@ -332,15 +332,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     IEnumerator WaitingWhileAction()
     {
         BattleUI.instance.inputBlocker.SetActive(true);
-        while(true)
-        {
-            yield return new WaitForSeconds(1.5f);
-            if(!isAction)
-            {
-                BattleUI.instance.inputBlocker.SetActive(false);
-                break;
-            }
-        }
+        yield return new WaitWhile(() => isAction);
+        yield return new WaitForSeconds(1.5f);
+        if (!isAction)
+            BattleUI.instance.inputBlocker.SetActive(false);
+        else
+            StartCoroutine(WaitingWhileAction());
     }
 
     //--------------------------------------

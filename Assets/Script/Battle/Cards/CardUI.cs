@@ -22,6 +22,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public N_Card bindCard;
 
     public Vector3 defaultPosition = new Vector3(0,0,0);
+    public Transform defaultParent;
     public int childeIndex = 0;
     Vector2 defaultSize = new Vector2(0, 0);
     Vector3 positionDistance = new Vector3();
@@ -42,6 +43,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public void DisplayOnUI()
     {
         defaultSize = new Vector2(GetComponent<RectTransform>().rect.width, GetComponent<RectTransform>().rect.height);
+        defaultParent = transform.parent;
+
         //이름상자,타입
         switch (bindCard.cardData.type)
         {
@@ -186,7 +189,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 {
                     target = null;
                     transform.position = defaultPosition;
-                    transform.SetParent(transform.parent.GetChild(2));
+                    transform.SetParent(defaultParent);
                     transform.SetSiblingIndex(childeIndex);
                 }
             }

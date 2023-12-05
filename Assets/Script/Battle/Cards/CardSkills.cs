@@ -923,7 +923,18 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Ignition(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
+        if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.Intelliegence_Increase, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (performer.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>();
 
+            turnChecker.StartEffect(EffectType.Ignition, value, extraEffect);
+        }
     }
     public static void Pray(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {

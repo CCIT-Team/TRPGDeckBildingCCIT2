@@ -40,6 +40,7 @@ public class TurnSlider : MonoBehaviour
             }
             else
             {
+                BattleUI.instance.announceImage.texture = renderImage.texture;
                 slider.value = 0;
                 slider.handleRect.localScale = new Vector3(1.3f,1.3f,1);
             }
