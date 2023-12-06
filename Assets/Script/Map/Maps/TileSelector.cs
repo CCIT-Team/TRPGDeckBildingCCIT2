@@ -44,7 +44,7 @@ public class TileSelector : MonoBehaviour
                 }
                 if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
                 {
-                    if (endPoint == null)
+                    if (startPoint != null && endPoint == null)
                     {
                         endPoint = tiles;
                         tilePath = astar.FindPath(startPoint, endPoint);
@@ -75,6 +75,10 @@ public class TileSelector : MonoBehaviour
                             }
                         }
                     }
+                    else
+                    {
+                        startPoint = Map.instance.startTile;
+                    }
                     if (endPoint != tiles && tilePath != null)
                     {
                         foreach (Tile game in tilePath)
@@ -90,7 +94,7 @@ public class TileSelector : MonoBehaviour
         }
         if (mouseButton == MouseButton.Left && !isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
         {
-            if (endPoint != null && startPoint != endPoint)
+            if (startPoint != null && endPoint != null && startPoint != endPoint)
             {
                 isEndTileSelect = true;
                 tilePath.Clear();

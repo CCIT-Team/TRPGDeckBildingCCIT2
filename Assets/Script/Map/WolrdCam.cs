@@ -7,6 +7,7 @@ public class WolrdCam : MonoBehaviour
     public Transform player;
     public float smooth_speed = 0.125f;
     public float scroll_speed = 0.8f;
+    public float cameraMoveing_Speed = 8f;
     public Vector3 offset;
     public float rotate_speed = 5;
 
@@ -32,14 +33,21 @@ public class WolrdCam : MonoBehaviour
             player = Map.instance.instantiateDragon.transform;
             smooth_speed = 0.25f;
         }
-
         if (player != null && !Map.instance.isOutofUI)
         {
+            if (Input.GetKey(KeyCode.A) && transform.position.x > -7) { offset.x -= cameraMoveing_Speed * Time.deltaTime; if (Map.instance.isPlayerMoving) { offset = originpos; } } 
+            else { if (Map.instance.isPlayerMoving) { offset = originpos; } }
+            if (Input.GetKey(KeyCode.D) && transform.position.x < 45) { offset.x += cameraMoveing_Speed * Time.deltaTime; if (Map.instance.isPlayerMoving) { offset = originpos; } }
+            else { if (Map.instance.isPlayerMoving) { offset = originpos; } }
+            if (Input.GetKey(KeyCode.W) && transform.position.z < 40) { offset.z += cameraMoveing_Speed * Time.deltaTime; if (Map.instance.isPlayerMoving) { offset = originpos; } }
+            else { if (Map.instance.isPlayerMoving) { offset = originpos; } }
+            if (Input.GetKey(KeyCode.S) && transform.position.z > -10) { offset.z -= cameraMoveing_Speed * Time.deltaTime; if (Map.instance.isPlayerMoving) { offset = originpos; } }
+            else { if (Map.instance.isPlayerMoving) { offset = originpos; } }
+
             Vector3 desired_position = player.transform.position + offset;
             Vector3 smoothed_position = Vector3.Lerp(transform.position, desired_position, smooth_speed);
             transform.position = smoothed_position;
         }
-
         //if (player != null )
         //{
         //    Vector3 desired_position = player.transform.position + offset;
