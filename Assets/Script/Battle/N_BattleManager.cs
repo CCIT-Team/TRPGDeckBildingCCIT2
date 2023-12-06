@@ -384,8 +384,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         GameObject[] monsterArray = GameObject.FindGameObjectsWithTag("Monster");
         for (int i =0; i < monsterArray.Length; i++)
         {
-            monsterArray[i].GetComponent<Monster>().SetMonster();
             monsterArray[i].transform.SetParent(monsterPosition);
+            monsterArray[i].GetComponent<Monster>().SetMonster();
             monsterArray[i].transform.localPosition = new Vector3(3 * (i - monsterArray.Length / 2 + (monsterArray.Length + 1) % 2 / 2f), 0, 0);
             monsterArray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(monsterArray[i].GetComponent<Unit>());

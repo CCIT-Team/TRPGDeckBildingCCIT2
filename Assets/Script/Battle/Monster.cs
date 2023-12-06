@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 public class Monster :MonsterStat
 {
+    public TMP_Text monstername;
+
     [Header("¿ÜÇü")]
     public GameObject[] monsterList;
     public GameObject[] weaponList;
@@ -52,6 +55,11 @@ public class Monster :MonsterStat
         GetComponent<UnitAnimationControl>().SetAnimator();
     }
 
+    private void Update()
+    {
+        monstername.transform.LookAt(Camera.main.transform);
+    }
+
     void AddActInDeck()
     {
         deck.deck.Add(action1);
@@ -82,6 +90,17 @@ public class Monster :MonsterStat
     public void SetMonster()
     {
         gameObject.name = _name;
+        for (int i = 0; transform.parent.childCount  > 1 && i < transform.parent.childCount; i++)
+        {
+            if (transform.parent.GetChild(i).gameObject != gameObject)
+            {
+                if(transform.parent.GetChild(i).gameObject.name == gameObject.name)
+                    gameObject.name = _name + " 2";
+                if (transform.parent.GetChild(i).gameObject.name == gameObject.name)
+                    gameObject.name = _name + " 3";
+            }
+        }
+        monstername.text = gameObject.name;
         monsterList[int.Parse(no.ToString().Substring(no.ToString().Length - 3))-1].SetActive(true);
         weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
         AddActInDeck();
