@@ -28,6 +28,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     Vector3 positionDistance = new Vector3();
 
     public LayerMask layerMask;
+    List<GameObject> canUseList = new();
     GameObject target;
 
     string damageColor = "red";
@@ -135,6 +136,9 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 token.transform.localPosition = new Vector2((-bindCard.cardData.token / 2 + i + (bindCard.cardData.token + 1) % 2 / 2f) * 160, 0);
                 tokenPreview.Add(token.gameObject);
             }
+            
+            
+            
             GetComponent<RectTransform>().sizeDelta *= 1.2f;
         }
     }
@@ -163,6 +167,20 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             defaultPosition = transform.position;
             positionDistance = defaultPosition - Input.mousePosition;
             transform.position = Input.mousePosition + positionDistance;
+        }
+        if (layerMask == 1 << N_BattleManager.instance.currentUnit.gameObject.layer)
+        {
+            canUseList.Add(N_BattleManager.instance.currentUnit.gameObject);
+            Debug.Log(N_BattleManager.instance.currentUnit.gameObject.name);
+
+        }
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (layerMask == 1 << unit.gameObject.layer)
+            {
+                canUseList.Add(unit.gameObject);
+                Debug.Log(unit.gameObject.name);
+            }
         }
     }
 
@@ -195,6 +213,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             }
             isSelected = false;
         }
+        canUseList.Clear();
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
