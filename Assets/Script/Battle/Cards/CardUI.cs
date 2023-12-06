@@ -28,7 +28,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     Vector3 positionDistance = new Vector3();
 
     public LayerMask layerMask;
-    List<GameObject> canUseList = new();;
+    List<GameObject> canUseList = new();
     GameObject target;
 
     string damageColor = "red";
