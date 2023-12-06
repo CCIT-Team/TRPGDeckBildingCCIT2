@@ -57,7 +57,7 @@ public class Monster :MonsterStat
 
     private void Update()
     {
-        monstername.transform.LookAt(Camera.main.transform);
+        monstername.transform.parent.LookAt(Camera.main.transform);
     }
 
     void AddActInDeck()
