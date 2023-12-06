@@ -396,10 +396,10 @@ public class Tile : MonoBehaviour
             }
             else if (isBossTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
             {
-                Map.instance.currentInteracteUITile = this;
-                Map.instance.OnUIPlayerStop();
-                tileUI.OnMonsterBattle();
-                Map.instance.isOutofUI = true;
+                //Map.instance.currentInteracteUITile = this;
+                //Map.instance.OnUIPlayerStop();
+                //tileUI.OnMonsterBattle();
+                //Map.instance.isOutofUI = true;
             }
             else if (isKingdomTile && !Map.instance.isOutofUI && !isMissionOn)
             {

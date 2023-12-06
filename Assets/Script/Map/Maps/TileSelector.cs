@@ -75,7 +75,7 @@ public class TileSelector : MonoBehaviour
                             }
                         }
                     }
-                    if (endPoint != tiles)
+                    if (endPoint != tiles && tilePath != null)
                     {
                         foreach (Tile game in tilePath)
                         {
@@ -115,7 +115,7 @@ public class TileSelector : MonoBehaviour
                 }
             }
         }
-        if (map.isPlayerOnEndTile)
+        if (map.isPlayerOnEndTile && tilePath != null)
         {
             foreach (Tile game in tilePath)
             {

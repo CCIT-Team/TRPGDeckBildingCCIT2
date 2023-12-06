@@ -51,10 +51,7 @@ public class FistMissionChat : MonoBehaviour
                 Map.instance.isOutofUI = false;
                 Map.instance.wolrdMission.mainMissionNum = 1;
                 Map.instance.startTile = null;
-                Map.instance.pathTileObjectList.Clear();
-                Map.instance.isPlayerOnEndTile = true;
                 Map.instance.currentInteracteUITile = null;
-                Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
                 Map.instance.isOutofUI = false;
                 gameObject.SetActive(false);
                 break;
