@@ -147,7 +147,7 @@ public class EffectTurnChecker : MonoBehaviour
             while (turn >= -1)
             {
                 yield return new WaitUntil(() => (boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
-                boundCharacter.Damaged(boundCharacter.maxHp * effectvalue);
+                boundCharacter.Damaged((int)(boundCharacter.maxHp * effectvalue));
                 yield return new WaitUntil(() => (!boundCharacter.isMyturn && isBuffRun[(int)effectType + 8]) || !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }
@@ -155,7 +155,7 @@ public class EffectTurnChecker : MonoBehaviour
             while (turn >= -1)
             {
                 yield return new WaitUntil(() => boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
-                boundMonster.Damaged(boundMonster.maxHp * effectvalue);
+                boundMonster.Damaged((int)(boundCharacter.maxHp * effectvalue));
                 yield return new WaitUntil(() => !boundMonster.IsMyturn && isBuffRun[(int)effectType + 8] && !N_BattleManager.instance.isBuffRun_All);
                 turn--;
             }

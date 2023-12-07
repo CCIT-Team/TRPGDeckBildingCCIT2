@@ -38,6 +38,7 @@ public class BattleUI : MonoBehaviour
     public Text logText;
     public RectTransform logSize;
     public TMP_Text costWarning;
+    public Damage damagePrefab;
 
     private void Awake()
     {
