@@ -44,6 +44,7 @@ public class PauseUI : MonoBehaviour
 
     public void BackToTitleButton()
     {
+        Time.timeScale = 1;
         GameManager.instance.LoadScenceName("Title");
     }
 
