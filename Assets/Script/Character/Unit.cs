@@ -45,6 +45,7 @@ public class Unit : MonoBehaviour
     public float Damaged(float atk)
     {
         Hp = Hp - atk;
+        BattleUI.instance.damagePrefab.ShotDamage((int)atk,gameObject);
         return Hp;
     }
 
