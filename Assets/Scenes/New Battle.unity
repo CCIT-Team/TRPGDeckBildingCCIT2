@@ -3985,7 +3985,7 @@ MonoBehaviour:
   logText: {fileID: 1135295688}
   logSize: {fileID: 1135295686}
   costWarning: {fileID: 217961680}
-  damagePrefab: {fileID: 620531734206918907, guid: bfa10ae786f8cec46abde90baf54a9e7,
+  damagePrefab: {fileID: 8215751991757608489, guid: 90cc27dcc8fa2db4db74ac3c3a2b567a,
     type: 3}
 --- !u!1 &955635300
 GameObject:
@@ -4525,7 +4525,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 6.3408484, y: -299.9999}
+  m_AnchoredPosition: {x: 6.3408484, y: -299.99933}
   m_SizeDelta: {x: -17, y: 300}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1135295688
@@ -7946,7 +7946,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 256052357}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.00000010172526
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
