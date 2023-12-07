@@ -170,16 +170,13 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         }
         if (layerMask == 1 << N_BattleManager.instance.currentUnit.gameObject.layer)
         {
-            canUseList.Add(N_BattleManager.instance.currentUnit.gameObject);
-            Debug.Log(N_BattleManager.instance.currentUnit.gameObject.name);
-
+            canUseList.Add(Instantiate(BattleUI.instance.targetIndicator, N_BattleManager.instance.currentUnit.gameObject.transform.position, Quaternion.identity));
         }
         foreach (Unit unit in N_BattleManager.instance.units)
         {
             if (layerMask == 1 << unit.gameObject.layer)
             {
-                canUseList.Add(unit.gameObject);
-                Debug.Log(unit.gameObject.name);
+                canUseList.Add(Instantiate(BattleUI.instance.targetIndicator, unit.transform.position, Quaternion.identity));
             }
         }
     }
@@ -213,7 +210,12 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             }
             isSelected = false;
         }
+        foreach(GameObject indicator in canUseList)
+        {
+            Destroy(indicator);
+        }
         canUseList.Clear();
+        BattleUI.instance.currentTargetIndicator.SetActive(false);
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
@@ -231,6 +233,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80,layerMask))
         {
             target = hit.transform.gameObject;
+            BattleUI.instance.currentTargetIndicator.transform.position = target.transform.position;
+            BattleUI.instance.currentTargetIndicator.SetActive(true);
         }
     }
 

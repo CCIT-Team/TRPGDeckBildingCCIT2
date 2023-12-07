@@ -101,7 +101,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         else
         {
             damage = CalculateAttackDamage(target, damage, failedToken);
-            target.Damaged(damage);
+            target.Damaged((int)damage);
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();    //임시
     }
@@ -158,7 +158,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 damage += performer.GetComponent<Monster>().level * 5;
             }
             damage = CalculateAttackDamage(target, damage, failedToken);
-            target.Damaged(damage);
+            target.Damaged((int)damage);
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();
     }
@@ -196,7 +196,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     }
                 }
             damage = CalculateAttackDamage(target, damage, failedToken);
-            target.Damaged(damage);
+            target.Damaged((int)damage);
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();
     }
@@ -249,12 +249,12 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     public static void Cleave(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
-        if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
             turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
         else
         {
             turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
-            if (performer.TryGetComponent(out Character character))
+            if (target.TryGetComponent(out Character character))
                 turnChecker.boundCharacter = character;
             else
                 turnChecker.boundMonster = target.GetComponent<Monster>(); ;
@@ -296,7 +296,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     }
                 }
             damage = CalculateAttackDamage(target, damage, failedToken);
-            target.Damaged(damage);
+            target.Damaged((int)damage);
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();
     }
@@ -328,7 +328,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateAttackDamage(unit, damage, failedToken);
-                unit.Damaged(damage);
+                unit.Damaged((int)damage);
                 unit.GetComponent<UnitAnimationControl>().GetDamage();
             }
 
@@ -336,7 +336,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
         {
             damage = CalculateAttackDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
-            N_BattleManager.instance.currentUnit.Damaged(damage);
+            N_BattleManager.instance.currentUnit.Damaged((int)damage);
             N_BattleManager.instance.currentUnit.GetComponent<UnitAnimationControl>().GetDamage();
         }
 
@@ -417,7 +417,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         else
         {
             damage = CalculateMagicDamage(target, damage, failedToken);
-            target.Damaged(damage);
+            target.Damaged((int)damage);
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();    //임시
     }
@@ -477,13 +477,13 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateMagicDamage(unit, damage, failedToken);
-                target.Damaged(damage);
+                target.Damaged((int)damage);
             }
         }
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
         {
                 damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
-                target.Damaged(damage);
+                target.Damaged((int)damage);
         }
 
     }
@@ -500,13 +500,13 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateMagicDamage(unit, damage, failedToken);
-                target.Damaged(damage);
+                target.Damaged((int)damage);
             }
         }
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
         {
                 damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
-                target.Damaged(damage);
+                target.Damaged((int)damage);
         }
     }
     public static void BurningFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -549,7 +549,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateMagicDamage(unit, damage, failedToken);
-                target.Damaged(damage);
+                target.Damaged((int)damage);
                 if(UnityEngine.Random.Range(0,100) < 10)
                     if (unit.TryGetComponent(out EffectTurnChecker turnChecker))
                     {
@@ -569,7 +569,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
         {
             damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
-            target.Damaged(damage);
+            target.Damaged((int)damage);
             if (UnityEngine.Random.Range(0, 100) < 10)
                 if (N_BattleManager.instance.currentUnit.TryGetComponent(out EffectTurnChecker turnChecker))
                 {

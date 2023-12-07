@@ -88,6 +88,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public void EndBattle()
     {
+        AccelerateTime();
         isBuffRun_All = false;
         StopCoroutine(PlayTurn());
         if (currentUnit.CompareTag("Player"))
@@ -350,6 +351,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         isAction = false;
     }
 
+    public void AccelerateTime(float mul = 1)
+    {
+        Time.timeScale = mul;
+    }
+
     //--------------------------------------
     #region 턴
     void AddTurnPool()//시작 시 유닛 추가용 코드
@@ -367,7 +373,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             }
             playerarray[i].name = playerarray[i].GetComponent<Character_type>().nickname;
             playerarray[i].transform.SetParent(playerPosition);
-            playerarray[i].transform.localPosition = new Vector3(2*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
+            playerarray[i].transform.localPosition = new Vector3(2.3f*(i - playerarray.Length/2 + (playerarray.Length+1) % 2 / 2f), 0, 0);
             playerarray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(playerarray[i].GetComponent<Unit>());
             if (!playerarray[i].TryGetComponent<UnitAnimationControl>(out UnitAnimationControl animControl))

@@ -49,8 +49,6 @@ GameObject:
   - component: {fileID: 6282089364461282096}
   - component: {fileID: 379018624256569516}
   - component: {fileID: 3721852228773068458}
-  - component: {fileID: 2805582895845003250}
-  - component: {fileID: 8108656864531462688}
   - component: {fileID: 6805637696104779763}
   - component: {fileID: 3987349117350374792}
   m_Layer: 7
@@ -176,49 +174,6 @@ MonoBehaviour:
   - {fileID: 8438218691692354411}
   attackGuard: 0
   magicGuard: 0
---- !u!114 &2805582895845003250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709659028461558467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59393a219f642b14db715d7cea1a0d2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deck: 81f0fa0282f0fa0283f0fa02
-  hand: 
-  grave: 
---- !u!114 &8108656864531462688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709659028461558467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f8b2f8ceb6389446a6d27324206b54f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardID: 0
-  tokens: 
-  cardData:
-    no: 0
-    name: 
-    variableName: 
-    type: 0
-    description: 
-    defaultXvalue: 0
-    effect: 
-    effectUseTurn: 0
-    useCost: 0
-    token: 0
-  cardTarget: {fileID: 0}
-  finalVlaue: 0
-  token_Fail: 0
 --- !u!95 &6805637696104779763
 Animator:
   serializedVersion: 5
@@ -349,10 +304,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.4
+  m_fontSize: 0.15
+  m_fontSizeBase: 0.15
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0.05
   m_fontSizeMax: 1
   m_fontStyle: 0
