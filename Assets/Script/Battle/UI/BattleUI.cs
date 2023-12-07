@@ -9,6 +9,9 @@ public class BattleUI : MonoBehaviour
     public static BattleUI instance;
     public GameObject inputBlocker;
 
+    public GameObject targetIndicator;
+    public GameObject currentTargetIndicator;
+
     [Header("TurnDisplay")]
 
     [SerializeField]
