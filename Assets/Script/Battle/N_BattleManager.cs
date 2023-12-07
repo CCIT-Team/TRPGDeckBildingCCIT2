@@ -88,6 +88,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
 
     public void EndBattle()
     {
+        AccelerateTime();
         isBuffRun_All = false;
         StopCoroutine(PlayTurn());
         if (currentUnit.CompareTag("Player"))
@@ -348,6 +349,11 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     {
         yield return new WaitForSeconds(4);
         isAction = false;
+    }
+
+    public void AccelerateTime(float mul = 1)
+    {
+        Time.timeScale = mul;
     }
 
     //--------------------------------------
