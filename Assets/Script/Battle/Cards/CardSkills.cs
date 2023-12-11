@@ -171,6 +171,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (performer.TryGetComponent<Character>(out Character player))
                 foreach (PlayerBattleUI playerUI in BattleUI.instance.playerUI)
                 {
+                    if (!playerUI.gameObject.activeSelf)
+                        continue;
                     if (player == playerUI.boundCharacter)
                     {
                         Debug.Log("캐릭 고름");
@@ -205,6 +207,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
         foreach (PlayerBattleUI performerui in BattleUI.instance.playerUI)
         {
+            if (!performerui.gameObject.activeSelf)
+                continue;
             if (performerui.boundCharacter == performer)
             {
                 performerui.DrawCard(1);
@@ -273,6 +277,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (performer.TryGetComponent<Character>(out Character player))
                 foreach (PlayerBattleUI playerUI in BattleUI.instance.playerUI)
                 {
+                    if (!playerUI.gameObject.activeSelf)
+                        continue;
                     if (player == playerUI.boundCharacter)
                     {
                         Debug.Log("캐릭 고름");
@@ -668,6 +674,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
         foreach (PlayerBattleUI targetui in BattleUI.instance.playerUI)
         {
+            if (!targetui.gameObject.activeSelf)
+                continue;
             if (targetui.boundCharacter == target)
             {
                 targetui.DrawCard(1);
@@ -753,6 +761,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             return;
         foreach (PlayerBattleUI targetui in BattleUI.instance.playerUI)
         {
+            if (!targetui.gameObject.activeSelf)
+                continue;
             if (targetui.boundCharacter == target)
             {
                 targetui.DrawCard(1);
@@ -899,7 +909,9 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             return;
         foreach(PlayerBattleUI targetui in BattleUI.instance.playerUI)
         {
-            if(targetui.boundCharacter == target)
+            if (!targetui.gameObject.activeSelf)
+                continue;
+            if (targetui.boundCharacter == target)
             {
                 targetui.DrawCard(2);
                 return;
@@ -970,6 +982,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             return;
         foreach (PlayerBattleUI targetui in BattleUI.instance.playerUI)
         {
+            if (!targetui.gameObject.activeSelf)
+                continue;
             if (targetui.boundCharacter == target)
             {
                 targetui.DrawCard(2);

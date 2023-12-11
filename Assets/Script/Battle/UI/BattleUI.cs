@@ -62,6 +62,7 @@ public class BattleUI : MonoBehaviour
     {
         for(int i = 0; i < playerarray.Length; i++)
         {
+            playerUI[i].gameObject.SetActive(true);
             playerUI[i].BindCharacter(playerarray[i].GetComponent<Character>());
         }
     }
@@ -153,7 +154,9 @@ public class BattleUI : MonoBehaviour
 
         foreach(PlayerBattleUI PUI in playerUI)
         {
-            if(PUI.boundCharacter == unitIcon.boundUnit)
+            if (!PUI.gameObject.activeSelf)
+                continue;
+            if (PUI.boundCharacter == unitIcon.boundUnit)
             {
                 PUI.UnBindCharacter();
                 PUI.gameObject.SetActive(false);
