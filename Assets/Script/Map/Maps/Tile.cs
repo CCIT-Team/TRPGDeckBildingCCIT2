@@ -7,7 +7,7 @@ using TMPro;
 
 public class Tile : MonoBehaviour
 {
-    public TileUI tileUI;
+    TileUI tileUI;
 
     public Material[] climateMaterials = new Material[3];
 
@@ -95,6 +95,9 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         FindAbjectTileVer2();
+
+        tileUI = Map.instance.tileUI;
+
         if (tileState == TileState.SpawnTile)
         {
             isSpawnTile = true;

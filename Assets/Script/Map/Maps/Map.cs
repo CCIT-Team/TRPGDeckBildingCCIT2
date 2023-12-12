@@ -64,6 +64,7 @@ public class Map : MonoBehaviour
     public Tile currentInteracteUITile;
     public WolrdMission wolrdMission;
     public Tile currentMissionTile;
+    public TileUI tileUI;
     public int missionNum = 0;
     [Header("Other")]
     public bool isBattle = false;
