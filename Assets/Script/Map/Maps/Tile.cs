@@ -393,6 +393,10 @@ public class Tile : MonoBehaviour
                 Map.instance.OnUIPlayerStop();
                 if (Map.instance.currentMissionTile == this) { tileUI.missionMark.enabled = true; }
                 else { tileUI.missionMark.enabled = false; }
+                for (int i = 0; i < tileUI.monsterNum.Length; i++)
+                {
+                    tileUI.monsterNum[i].SetActive(false);
+                }
                 tileUI.OnMonsterBattle();
                 tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
                 Map.instance.isOutofUI = true;

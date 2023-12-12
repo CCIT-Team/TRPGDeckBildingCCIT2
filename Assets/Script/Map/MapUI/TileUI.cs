@@ -22,10 +22,6 @@ public class TileUI : MonoBehaviour
         shopUI.SetActive(false);
         hospital.SetActive(false);
         monsterBattleUI.SetActive(false);
-        for (int i = 0; i < monsterNum.Length; i++)
-        {
-            monsterNum[i].SetActive(false);
-        }
     }
 
     void InitializedPlayerTurn()
