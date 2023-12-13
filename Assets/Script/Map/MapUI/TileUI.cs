@@ -30,7 +30,6 @@ public class TileUI : MonoBehaviour
         Map.instance.pathTileObjectList.Clear();
         Map.instance.isPlayerOnEndTile = true;
         Map.instance.currentInteracteUITile = null;
-        Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
         Map.instance.isOutofUI = false;
     }
 

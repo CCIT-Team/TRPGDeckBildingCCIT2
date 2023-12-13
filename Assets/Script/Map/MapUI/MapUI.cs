@@ -24,6 +24,11 @@ public class MapUI : MonoBehaviour
         
     }
 
+    public void TurnEnd()
+    {
+        wolrdTurn.currentPlayer.isMyturn = false;
+        wolrdTurn.currentPlayer.GetComponent<Character>().cost = wolrdTurn.currentPlayer.GetComponent<Character>().maxCost;
+    }
 
     public void SetTurnSlider(List<GameObject> players)
     {

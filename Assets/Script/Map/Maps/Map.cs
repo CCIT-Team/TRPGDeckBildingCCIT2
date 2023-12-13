@@ -243,6 +243,7 @@ public class Map : MonoBehaviour
             {
                 if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
                 else { currentPositionNum = pathTileObjectList.Count - 1; }
+                wolrdTurn.currentPlayer.GetComponent<Character>().cost -= 1;
                 isPlayerMoving = false;
             }
         }
@@ -251,7 +252,6 @@ public class Map : MonoBehaviour
         {
             if (!isOutofUI)
             {
-                wolrdTurn.currentPlayer.isMyturn = false;
                 startTile = null;
                 currentPositionNum = 1;
                 pathTileObjectList.Clear();
