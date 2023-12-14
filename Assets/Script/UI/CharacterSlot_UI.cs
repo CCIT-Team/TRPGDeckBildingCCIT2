@@ -20,6 +20,10 @@ public class CharacterSlot_UI : MonoBehaviour
     //0~12 눈 색
     List<float> eyeColor = new List<float>();
 
+    private readonly string[] majorK = new string[] { "파이터", "위자드", "클레릭" };
+    private readonly string[] genderK = new string[] { "남성", "여성" };
+    private readonly string[] typeK = new string[] { "인간", "엘프", "드로우", "하프오크" };
+
     public LobbyUI_Manager manager;
     public Animator animationModel;
 
@@ -85,9 +89,9 @@ public class CharacterSlot_UI : MonoBehaviour
             eyeColor.Add(eyeColor_Offset);
         }
 
-        majorText.text = majorList[major_index];
-        avatarGenderText.text = avatarGenderList[avatarGender_index];
-        avatarTypeText.text = avatarTypeList[avatarType_index];
+        majorText.text = majorK[major_index];
+        avatarGenderText.text = genderK[avatarGender_index];
+        avatarTypeText.text = typeK[avatarType_index];
         skinColorImage.color = SwitchSkinUIColor(skinColor_index);
         eyeColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[0];
         hairColorImage.color = SwitchEyeHairUIColor(eyeColor_index)[1];
@@ -105,21 +109,21 @@ public class CharacterSlot_UI : MonoBehaviour
                 if (major_index >= majorList.Count -1)
                     major_index = -1;
 
-                majorText.text = majorList[++major_index];
+                majorText.text = majorK[++major_index];
                 SwitchingMajor(major_index);
                 break;
             case "AvatarGender_Text":
                 if (avatarGender_index >= avatarGenderList.Count -1)
                     avatarGender_index = -1;
 
-                avatarGenderText.text = avatarGenderList[++avatarGender_index];
+                avatarGenderText.text = genderK[++avatarGender_index];
                 SwitchingGender(avatarGender_index);
                 break;
             case "AvatarType_Text":
                 if (avatarType_index >= avatarTypeList.Count -1)
                     avatarType_index = -1;
 
-                avatarTypeText.text = avatarTypeList[++avatarType_index];
+                avatarTypeText.text = typeK[++avatarType_index];
 
                 if (avatarType_index == 0)
                     skinColor_index = 0;
@@ -184,21 +188,21 @@ public class CharacterSlot_UI : MonoBehaviour
                 if (major_index <= 0)
                     major_index = majorList.Count;
 
-                majorText.text = majorList[--major_index];
+                majorText.text = majorK[--major_index];
                 SwitchingMajor(major_index);
                 break;
             case "AvatarGender_Text":
                 if (avatarGender_index <= 0)
                     avatarGender_index = avatarGenderList.Count;
 
-                avatarGenderText.text = avatarGenderList[--avatarGender_index];
+                avatarGenderText.text = genderK[--avatarGender_index];
                 SwitchingGender(avatarGender_index);
                 break;
             case "AvatarType_Text":
                 if (avatarType_index <= 0)
                     avatarType_index = avatarTypeList.Count;
 
-                avatarTypeText.text = avatarTypeList[--avatarType_index];
+                avatarTypeText.text = typeK[--avatarType_index];
 
                 if (avatarType_index == 0)
                     skinColor_index = 0;

@@ -60,20 +60,18 @@ public class GameManager : MonoBehaviour
     private void LoadAvatar(int index, Vector3 position)
     {
         GameObject unit = Instantiate(Resources.Load("Prefabs/Character/PlayerCharacter", typeof(GameObject))) as GameObject;
-        //unit.transform.position = position;//나중에 맵 포지션 받아올거임
         AvatarTypeSetting(unit, index);
         AvatarPositionSetting(unit, index);
         AvatarStatSetting(unit, index);
         AvatarCardSetting(unit, index);
         if (unit.GetComponent<Character_type>().pos == Vector3.zero)
         {
-            unit.transform.position = position;//나중에 맵 포지션 받아올거임
+            unit.transform.position = position;
         }
         else
         {
             unit.transform.position = unit.GetComponent<Character_type>().pos;
         }
-        //Debug.Log(SceneManager.GetActiveScene().name.ToString());
         players.Add(unit);
     }
     private void InitRenderAvatar(int index, Vector3 position)
@@ -81,11 +79,11 @@ public class GameManager : MonoBehaviour
         GameObject unit = Instantiate(Resources.Load("Prefabs/Character/RenderTexture_Player/UIPlayer"+(index+1).ToString(), typeof(GameObject))) as GameObject;
         unit.GetComponent<RenderTexturePlayer>().SetUnitType(DataBase.instance.loadTypeData[index]);
         Vector3 rotate = Vector3.zero;
-        if (GameManager.instance.currentScene == SceneType.Wolrd)
+        if (instance.currentScene == SceneType.Wolrd)
         {
             rotate = new Vector3(-20, 180, 0);
         }
-        else if(GameManager.instance.currentScene == SceneType.Battle)
+        else if(instance.currentScene == SceneType.Battle)
         {
             rotate = new Vector3(-30, -320, 0);
         }
@@ -147,7 +145,7 @@ public class GameManager : MonoBehaviour
             if (DataBase.instance.monsterData[i].no == index)
             {
                 GameObject unit = Instantiate(Resources.Load("Prefabs/Monster/Monster", typeof(GameObject))) as GameObject;
-                unit.transform.position = position;//나중에 맵 포지션 받아올거임
+                unit.transform.position = position;
                 MonsterStatSetting(unit, i);
             }
         }
@@ -194,7 +192,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadScene()
     {
-        yield return new WaitForSeconds(1.0f); //씬전환 연출 애니메이션
+        yield return new WaitForSeconds(1.0f);
         yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
@@ -223,6 +221,8 @@ public class GameManager : MonoBehaviour
             DataBase.instance.LoadData();
         }
         loadingBar.fillAmount = 0.0f;
+
+
         while (!op.isDone)
         {
             yield return null;
@@ -246,14 +246,6 @@ public class GameManager : MonoBehaviour
                 }
                 yield return null;
             }
-
-            //if (op.progress >= 0.9f)
-            //{
-
-            //    yield return new WaitForSeconds(1.0f);
-            //    op.allowSceneActivation = true;
-            //}
-            //yield return null;
         }
         SceneManager.sceneLoaded += ActiveSceneMap;
     }
