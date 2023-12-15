@@ -236,6 +236,11 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             BattleUI.instance.currentTargetIndicator.transform.position = target.transform.position;
             BattleUI.instance.currentTargetIndicator.SetActive(true);
         }
+        else
+        {
+            target = null;
+            BattleUI.instance.currentTargetIndicator.SetActive(false);
+        }
     }
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
