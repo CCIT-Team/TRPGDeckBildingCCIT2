@@ -7,7 +7,8 @@ public class InventoryUI : MonoBehaviour
 {
     private GameObject inventory;
 
-    public Image equipmentSlot;
+    public Image equipmentLeftSlot;
+    public Image equipmentRightSlot;
     public GameObject[] scrollViewBox;
     public GameObject itemSlot;
     
@@ -153,7 +154,8 @@ public class InventoryUI : MonoBehaviour
 
     public void SetItemButton()
     {
-        SetInvenItem(12001001, 10);
+        //SetInvenItem(12001001, 10);
+        SetInvenItem(12001012, 10);
         SortingTotal();
     }
     private void Update()
