@@ -13,6 +13,7 @@ public class Character_type : MonoBehaviour
     private float eyeColor;
     private GameObject weapon;
 
+    public GameObject inventory;
     public Transform[] weaponPosition;
     public GameObject[] majorObject;
     public GameObject[] genderObject;
@@ -30,6 +31,19 @@ public class Character_type : MonoBehaviour
 
     private string insertQuery;
 
+    private void Start()
+    {
+        UISetting();
+    }
+
+    private void UISetting()
+    {
+        GameObject inven = Instantiate(inventory);
+        GameObject canvas = GameObject.Find("Canvas").gameObject;
+        inven.transform.SetParent(canvas.transform);
+        inven.transform.localPosition = new Vector3(Screen.width / 2, 0, 0);
+        inven.GetComponent<InventoryUI>().likedPlayer = gameObject;
+    }
     public void SetUnitType(PlayerType type)
     {
         playerNum = type.playerNum;

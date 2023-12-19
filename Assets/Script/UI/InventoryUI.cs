@@ -17,6 +17,7 @@ public class InventoryUI : MonoBehaviour
     public List<InventorySlotUI> weaponIndex = new List<InventorySlotUI>();
     public List<InventorySlotUI> armorIndex = new List<InventorySlotUI>();
     public List<InventorySlotUI> jewelIndex = new List<InventorySlotUI>();
+    public GameObject likedPlayer;
     private GameObject slot;
     private bool isOpen;
     private void Start()
@@ -129,7 +130,8 @@ public class InventoryUI : MonoBehaviour
                 isOpen = false;
                 timer += Time.deltaTime;
                 t = timer / durtion;
-                inventory.transform.localPosition = Vector3.Lerp(new Vector3(960, 0, 0), new Vector3(1609, 0, 0), t);
+                //inventory.transform.localPosition = Vector3.Lerp(new Vector3(960, 0, 0), new Vector3(1609, 0, 0), t);
+                inventory.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(0, 0), new Vector2(inventory.GetComponent<Image>().preferredWidth, 0), t);
                 yield return null;
             }
         }
@@ -140,7 +142,8 @@ public class InventoryUI : MonoBehaviour
                 isOpen = true;
                 timer += Time.deltaTime;
                 t = timer / durtion;
-                inventory.transform.localPosition = Vector3.Lerp(new Vector3(1609, 0, 0), new Vector3(960, 0, 0), t);
+                //inventory.transform.localPosition = Vector3.Lerp(new Vector3(1609, 0, 0), new Vector3(960, 0, 0), t);
+                inventory.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(inventory.GetComponent<Image>().preferredWidth, 0), new Vector2(0, 0), t);
                 yield return null;
             }
         }
@@ -160,20 +163,30 @@ public class InventoryUI : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if(likedPlayer.GetComponent<Character>().isMyturn)
         {
-            StartCoroutine(OpenCloseLerp());
-        }
+            inventory.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                Debug.Log(inventory.GetComponent<Image>().preferredWidth);
+                StartCoroutine(OpenCloseLerp());
+            }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            SetInvenItem(12000001, 10);
-            SortingTotal();
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                SetInvenItem(12001012, 10);
+                SortingTotal();
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                SetInvenItem(12001001, 10);
+                SortingTotal();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        else if(!likedPlayer.GetComponent<Character>().isMyturn)
         {
-            SetInvenItem(12001001, 10);
-            SortingTotal();
+            inventory.SetActive(false);
         }
+       
     }
 }

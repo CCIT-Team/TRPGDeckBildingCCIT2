@@ -364,6 +364,8 @@ MonoBehaviour:
   major: 0
   gender: 0
   avatarType: 0
+  inventory: {fileID: 3909863699009919076, guid: 26a8b160351fad243aa0e1ecc6921ba6,
+    type: 3}
   weaponPosition:
   - {fileID: 2527854226098208250}
   - {fileID: 3355388784229957554}

@@ -98,7 +98,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                     isLeft = true;
                     rootObject.equipmentLeftSlot.sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
                     rootObject.equipmentLeftSlot.color = Color.white;
-                    rootObject.equipmentLeftSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.weaponData[i]);
+                    rootObject.equipmentLeftSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_itemNo));
                 }
                 else if(DataBase.instance.weaponData[i].type == WeaponData.Type.Staff)
                 {
@@ -117,9 +117,9 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                     isLeft = false;
                     rootObject.equipmentRightSlot.sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
                     rootObject.equipmentRightSlot.color = Color.white;
-                    rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.weaponData[i]);
+                    rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_itemNo));
                 }
-                Equipweapon(isLeft, i, _itemNo);
+                //Equipweapon(isLeft, i, _itemNo);
             }
         }
         ResetSlot();
