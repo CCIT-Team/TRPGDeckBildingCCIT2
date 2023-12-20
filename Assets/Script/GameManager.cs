@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         playerUI.GetComponent<PlayerUIManager>().SetPlayer(players.ToArray());
     }
 
-    private void LoadAvatar(int index, Vector3 position)
+    private void LoadAvatar(int index, Vector3 position) //갯수별로 스폰 시킬수있도록 짜기, 인벤 장비에 따라 카드 수정
     {
         GameObject unit = Instantiate(Resources.Load("Prefabs/Character/PlayerCharacter", typeof(GameObject))) as GameObject;
         AvatarTypeSetting(unit, index);

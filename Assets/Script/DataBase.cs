@@ -37,6 +37,8 @@ public class DataBase : MonoBehaviour
     public List<PlayerPosition> loadPositionData = new List<PlayerPosition>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
     public List<PlayerCard> loadCardData = new List<PlayerCard>();
+
+    private List<WeaponData> tempWeaponData = new List<WeaponData>();
     private const string defaultDatadbPath = "/DefaultData.db";
     private const string playerDataTable = "PlayerData";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
@@ -70,6 +72,7 @@ public class DataBase : MonoBehaviour
 
     public WeaponData SelectWeapon(int weaponNo)
     {
+        tempWeaponData.Clear();
         IDbConnection dbConnection = ConnectionDB(defaultDatadbPath);
         IDbCommand dbCommand = dbConnection.CreateCommand();
 
@@ -77,49 +80,54 @@ public class DataBase : MonoBehaviour
 
         IDataReader dataReader = dbCommand.ExecuteReader();
 
-        int no = dataReader.GetInt32(0);
-        string name = dataReader.GetString(1);
-        WeaponData.Type type = (WeaponData.Type)Enum.Parse(typeof(WeaponData.Type), dataReader.GetString(2));
-        Grade grade = (Grade)Enum.Parse(typeof(Grade), dataReader.GetString(3));
-        int level = dataReader.GetInt32(4);
-        WeaponData.EquipType equipType = (WeaponData.EquipType)Enum.Parse(typeof(WeaponData.EquipType), dataReader.GetString(5));
-        int strength = dataReader.GetInt32(6);
-        int intelligence = dataReader.GetInt32(7);
-        int luck = dataReader.GetInt32(8);
-        int speed = dataReader.GetInt32(9);
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            WeaponData.Type type = (WeaponData.Type)Enum.Parse(typeof(WeaponData.Type), dataReader.GetString(2));
+            Grade grade = (Grade)Enum.Parse(typeof(Grade), dataReader.GetString(3));
+            int level = dataReader.GetInt32(4);
+            WeaponData.EquipType equipType = (WeaponData.EquipType)Enum.Parse(typeof(WeaponData.EquipType), dataReader.GetString(5));
+            int strength = dataReader.GetInt32(6);
+            int intelligence = dataReader.GetInt32(7);
+            int luck = dataReader.GetInt32(8);
+            int speed = dataReader.GetInt32(9);
 
-        int getCard1 = dataReader.GetInt32(10);
-        int getCard1Count = dataReader.GetInt32(11);
+            int getCard1 = dataReader.GetInt32(10);
+            int getCard1Count = dataReader.GetInt32(11);
 
-        int getCard2 = dataReader.GetInt32(12);
-        int getCard2Count = dataReader.GetInt32(13);
+            int getCard2 = dataReader.GetInt32(12);
+            int getCard2Count = dataReader.GetInt32(13);
 
-        int getCard3 = dataReader.GetInt32(14);
-        int getCard3Count = dataReader.GetInt32(15);
+            int getCard3 = dataReader.GetInt32(14);
+            int getCard3Count = dataReader.GetInt32(15);
 
-        int getCard4 = dataReader.GetInt32(16);
-        int getCard4Count = dataReader.GetInt32(17);
+            int getCard4 = dataReader.GetInt32(16);
+            int getCard4Count = dataReader.GetInt32(17);
 
-        int getCard5 = dataReader.GetInt32(18);
-        int getCard5Count = dataReader.GetInt32(19);
+            int getCard5 = dataReader.GetInt32(18);
+            int getCard5Count = dataReader.GetInt32(19);
 
-        int getCard6 = dataReader.GetInt32(20);
-        int getCard6Count = dataReader.GetInt32(21);
+            int getCard6 = dataReader.GetInt32(20);
+            int getCard6Count = dataReader.GetInt32(21);
 
-        int getCard7 = dataReader.GetInt32(22);
-        int getCard7Count = dataReader.GetInt32(23);
+            int getCard7 = dataReader.GetInt32(22);
+            int getCard7Count = dataReader.GetInt32(23);
 
-        int getCard8 = dataReader.GetInt32(24);
-        int getCard8Count = dataReader.GetInt32(25);
+            int getCard8 = dataReader.GetInt32(24);
+            int getCard8Count = dataReader.GetInt32(25);
 
-        int buyGold = dataReader.GetInt32(26);
-        int sellGold = dataReader.GetInt32(27);
+            int buyGold = dataReader.GetInt32(26);
+            int sellGold = dataReader.GetInt32(27);
+
+            tempWeaponData.Add(new WeaponData(no, name, type, grade, level, equipType, strength, intelligence, luck, speed,
+                getCard1, getCard1Count, getCard2, getCard2Count, getCard3, getCard3Count, getCard4, getCard4Count, getCard5, getCard5Count, getCard6, getCard6Count, getCard7, getCard7Count, getCard8, getCard8Count,
+                buyGold, sellGold));
+        }
 
         dataReader.Close();
         dbConnection.Close();
-        return new WeaponData(no, name, type, grade, level, equipType, strength, intelligence, luck, speed,
-                getCard1, getCard1Count, getCard2, getCard2Count, getCard3, getCard3Count, getCard4, getCard4Count, getCard5, getCard5Count, getCard6, getCard6Count, getCard7, getCard7Count, getCard8, getCard8Count,
-                buyGold, sellGold); //sql 에러남 고쳐야함
+        return tempWeaponData[0];
     }
 
     public bool IsEmptyDB()
