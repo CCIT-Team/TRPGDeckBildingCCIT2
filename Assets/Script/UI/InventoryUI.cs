@@ -168,7 +168,6 @@ public class InventoryUI : MonoBehaviour
             inventory.SetActive(true);
             if (Input.GetKeyDown(KeyCode.I))
             {
-                Debug.Log(inventory.GetComponent<Image>().preferredWidth);
                 StartCoroutine(OpenCloseLerp());
             }
 

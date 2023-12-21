@@ -20,9 +20,9 @@ public class CharacterSlot_UI : MonoBehaviour
     //0~12 눈 색
     List<float> eyeColor = new List<float>();
 
-    private readonly string[] majorK = new string[] { "파이터", "위자드", "클레릭" };
-    private readonly string[] genderK = new string[] { "남성", "여성" };
-    private readonly string[] typeK = new string[] { "인간", "엘프", "드로우", "하프오크" };
+    private readonly string[] majorK = new string[] { "전사", "마법사", "성직자" };
+    private readonly string[] genderK = new string[] { "남", "여" };
+    private readonly string[] typeK = new string[] { "휴먼", "엘프", "다크엘프", "하프오크" };
 
     public LobbyUI_Manager manager;
     public Animator animationModel;
@@ -410,9 +410,12 @@ public class CharacterSlot_UI : MonoBehaviour
             case 0:
                 manager.avatar_0.Add("1");
                 manager.avatar_0.Add(avatarNickName_index);
-                manager.avatar_0.Add(majorText.text);
-                manager.avatar_0.Add(avatarGenderText.text);
-                manager.avatar_0.Add(avatarTypeText.text);
+                //manager.avatar_0.Add(majorText.text);
+                manager.avatar_0.Add(majorList[major_index]);
+                //manager.avatar_0.Add(avatarGenderText.text);
+                manager.avatar_0.Add(avatarGenderList[avatarGender_index]);
+                //manager.avatar_0.Add(avatarTypeText.text);
+                manager.avatar_0.Add(avatarTypeList[avatarType_index]);
                 manager.avatar_0.Add(skinColor[skinColor_index].ToString());
                 manager.avatar_0.Add(eyeColor[eyeColor_index].ToString());
                 break;
@@ -420,9 +423,12 @@ public class CharacterSlot_UI : MonoBehaviour
             case 1:
                 manager.avatar_1.Add("2");
                 manager.avatar_1.Add(avatarNickName_index);
-                manager.avatar_1.Add(majorText.text);
-                manager.avatar_1.Add(avatarGenderText.text);
-                manager.avatar_1.Add(avatarTypeText.text);
+                //manager.avatar_1.Add(majorText.text);
+                manager.avatar_1.Add(majorList[major_index]);
+                //manager.avatar_1.Add(avatarGenderText.text);
+                manager.avatar_1.Add(avatarGenderList[avatarGender_index]);
+                //manager.avatar_1.Add(avatarTypeText.text);
+                manager.avatar_1.Add(avatarTypeList[avatarType_index]);
                 manager.avatar_1.Add(skinColor[skinColor_index].ToString());
                 manager.avatar_1.Add(eyeColor[eyeColor_index].ToString());
                 break;
@@ -430,9 +436,12 @@ public class CharacterSlot_UI : MonoBehaviour
             case 2:
                 manager.avatar_2.Add("3");
                 manager.avatar_2.Add(avatarNickName_index);
-                manager.avatar_2.Add(majorText.text);
-                manager.avatar_2.Add(avatarGenderText.text);
-                manager.avatar_2.Add(avatarTypeText.text);
+                //manager.avatar_0.Add(majorText.text);
+                manager.avatar_2.Add(majorList[major_index]);
+                //manager.avatar_2.Add(avatarGenderText.text);
+                manager.avatar_2.Add(avatarGenderList[avatarGender_index]);
+                //manager.avatar_2.Add(avatarTypeText.text);
+                manager.avatar_2.Add(avatarTypeList[avatarType_index]);
                 manager.avatar_2.Add(skinColor[skinColor_index].ToString());
                 manager.avatar_2.Add(eyeColor[eyeColor_index].ToString());
                 break;

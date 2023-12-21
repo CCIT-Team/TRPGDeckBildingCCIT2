@@ -25,7 +25,7 @@ public class Character_Card : MonoBehaviour
     public void ChangeCard(int[] _deleteCardID, int[] _addCardID )
     {
         DeleteCard(_deleteCardID);
-        AddCardData(_addCardID);
+        //AddCardData(_addCardID);
     }
 
     public void DeleteCard(int[] _cardID)
@@ -34,9 +34,19 @@ public class Character_Card : MonoBehaviour
             cardID.Remove(_cardID[i]);
     }
 
-    public void AddCardData(int[] _cardID)
+    public void AddCardData(List<int> _cardList)
     {
-        cardID.AddRange(_cardID);
+        for (int i = 0; i < cardID.Count; i++)
+        {
+            if(cardID[i] == 0)
+            {
+                for(int j = 0; j < _cardList.Count; j++)
+                {
+                    cardID[i + j] = _cardList[j];
+                }
+                break; 
+            }
+        }
     }
 
     public string GetCardDBQuery()
