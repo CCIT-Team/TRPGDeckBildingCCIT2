@@ -16,45 +16,31 @@ public class Character_Equipment : MonoBehaviour
         isRightWeapon = false;
     }
 
-    public void AddDeck(WeaponData _weaponNo)
+    public void AddStat(int[] _weaponStsts)
     {
-        int cardCount = 0;
-        cardCount = _weaponNo.getCard1Count;
-        Debug.Log(cardCount);
-        for (int j = 0; j < cardCount; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard1);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard2Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard2);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard3Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard3);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard4Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard4);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard5Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard5);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard6Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard6);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard7Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard7);
-        }
-        for (int j = cardCount; j < cardCount + _weaponNo.getCard8Count; j++)
-        {
-            rightWeaponCard.Add(_weaponNo.getCard8);
-        }
-
-
-        GetComponent<Character_Card>().AddCardData(rightWeaponCard);
+        int index = 0;
+        GetComponent<Character>().strength += _weaponStsts[index++];
+        GetComponent<Character>().intelligence += _weaponStsts[index++];
+        GetComponent<Character>().luck += _weaponStsts[index++];
+        GetComponent<Character>().speed += _weaponStsts[index++];
     }
+    public void AddDeck(List<int> _weaponCard)
+    {
+        GetComponent<Character_Card>().AddCardData(_weaponCard);
+    }
+
+    public void DiscardStat(int[] _weaponStsts)
+    {
+        int index = 0;
+        GetComponent<Character>().strength -= _weaponStsts[index++];
+        GetComponent<Character>().intelligence -= _weaponStsts[index++];
+        GetComponent<Character>().luck -= _weaponStsts[index++];
+        GetComponent<Character>().speed -= _weaponStsts[index++];
+    }
+
+    public void DiscardCard(List<int> _weaponCard)
+    {
+        GetComponent<Character_Card>().DeleteCard(_weaponCard);
+    }
+
 }

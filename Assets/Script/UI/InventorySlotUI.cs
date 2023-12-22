@@ -57,7 +57,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         }
     }
 
-    public void OnPointerClick(PointerEventData evenData) //플레이어 연결
+    public void OnPointerClick(PointerEventData evenData)
     {
         if(evenData.button == PointerEventData.InputButton.Right)
         {
@@ -125,7 +125,9 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 rootObject.equipmentRightSlot.sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
                 rootObject.equipmentRightSlot.color = Color.white;
                 rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));
-                rootObject.likedPlayer.GetComponent<Character_Equipment>().AddDeck(DataBase.instance.SelectWeapon(_no));
+
+                rootObject.likedPlayer.GetComponent<Character_Equipment>().AddDeck(rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().GetWeaponCard());
+                rootObject.likedPlayer.GetComponent<Character_Equipment>().AddStat(rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().GetStats());
             }
         }
     }

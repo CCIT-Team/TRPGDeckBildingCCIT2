@@ -846,6 +846,7 @@ public class MonsterData
 #region 무기 데이터
 public enum Grade
 {
+    none,
     uncommon,
     common,
     rare,
@@ -857,6 +858,7 @@ public class WeaponData
 {
     public enum Type
     {
+        None,
         OnehandSword,
         TwohandSword,
         Axe,
@@ -869,6 +871,7 @@ public class WeaponData
     }
     public enum EquipType
     {
+        None,
         OneHand,
         TwoHand
     }

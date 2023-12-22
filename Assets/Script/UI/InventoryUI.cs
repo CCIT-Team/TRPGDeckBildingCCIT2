@@ -127,6 +127,7 @@ public class InventoryUI : MonoBehaviour
         {
             while (timer <= durtion)
             {
+                Map.instance.isOutofUI = false;
                 isOpen = false;
                 timer += Time.deltaTime;
                 t = timer / durtion;
@@ -139,6 +140,7 @@ public class InventoryUI : MonoBehaviour
         {
             while (timer <= durtion)
             {
+                Map.instance.isOutofUI = true;
                 isOpen = true;
                 timer += Time.deltaTime;
                 t = timer / durtion;
