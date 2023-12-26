@@ -55,12 +55,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         costUsed = true;
     }
 
-    void RemoveInHand(Deck deck)
-    {
-        deck.hand.Remove(cardData.no);
-        deck.grave.Add(cardData.no);
-    }
-
     public void CardEffect()
     {
         BattleUI.instance.AddLog(playerUI.boundCharacter.name + "이(가) " + cardTarget.name + "에게 " + cardData.name + "을(를) 사용");
@@ -72,7 +66,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
                                          token_Fail,                        //실패 토큰 수
                                          cardData.token});                  //총 토큰 수
         playerUI.ReturnToInstant(gameObject);
-        this.gameObject.SetActive(false);
     }
 
     public float CalculateCardValue()
@@ -186,7 +179,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
     {
         cardAction = null;
         cardAction += () => GetComponent<CardUI>().TransferUI();
-        cardAction += () => RemoveInHand(playerUI.GetComponent<Deck>());
+        cardAction += () => playerUI.GetComponent<Deck>().HandToGrave(cardData.no);
         cardAction += () => N_BattleManager.instance.IsAction = true;
         cardAction += () => StartCoroutine(BattleUI.instance.RollToken(MainStaus,mainStatus, cardData.token));
         cardAction += () => StartCoroutine(WaitTokenRolling(cardData.token));

@@ -29,17 +29,17 @@ public class DeckDisplay : MonoBehaviour
     public void SetDisplay(Deck deck)
     {
         GameObject card;
-        foreach(int i in deck.deck)
+        for(int i = 0; i < deck.DeckCount; i++) 
         {
-            if(displayDeck.Exists(x => x.GetComponent<DeckCardUI>().cardData.no == i))
+            if(displayDeck.Exists(x => x.GetComponent<DeckCardUI>().cardData.no == deck.GetCard(i)))
             {
-                displayDeck.Find(x => x.GetComponent<DeckCardUI>().cardData.no == i).GetComponent<DeckCardUI>().AddAmount(1);
+                displayDeck.Find(x => x.GetComponent<DeckCardUI>().cardData.no == deck.GetCard(i)).GetComponent<DeckCardUI>().AddAmount(1);
             }
             else
             {
                 card = Instantiate(cardPreFab_D, deckTransform);
                 //직업덱 사라지면 수정
-                card.GetComponent<DeckCardUI>().LoadCardData(i, transform.parent.parent.GetComponent<PlayerBattleUI>().boundCharacter.GetComponent<Character_type>().major);
+                card.GetComponent<DeckCardUI>().LoadCardData(deck.GetCard(i), transform.parent.parent.GetComponent<PlayerBattleUI>().boundCharacter.GetComponent<Character_type>().major);
                 displayDeck.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);

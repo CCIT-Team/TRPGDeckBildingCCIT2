@@ -11,6 +11,8 @@ public class BattleUI : MonoBehaviour
 
     public GameObject targetIndicator;
     public GameObject currentTargetIndicator;
+    public Transform cardHighlightPosition;
+    public Transform cardStartTransform;
 
     [Header("TurnDisplay")]
 

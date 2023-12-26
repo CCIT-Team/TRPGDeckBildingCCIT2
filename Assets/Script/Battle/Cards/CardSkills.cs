@@ -188,10 +188,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                             {
                                 Debug.Log("공격 카드 소모");
                                 matchCardCount++;
-                                playerUI.boundDeck.hand.Remove(card.GetComponent<N_Card>().cardData.no);
-                                playerUI.boundDeck.grave.Add(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.boundDeck.HandToGrave(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
-                                card.SetActive(false);
                             }
                         }
                         damage *= matchCardCount;
@@ -292,10 +290,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                             {
                                 Debug.Log("일격 카드 소모");
                                 matchCardCount++;
-                                playerUI.boundDeck.hand.Remove(card.GetComponent<N_Card>().cardData.no);
-                                playerUI.boundDeck.grave.Add(card.GetComponent<N_Card>().cardData.no);
+                                playerUI.boundDeck.HandToGrave(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
-                                card.SetActive(false);
                             }
                         }
                         damage *= matchCardCount;

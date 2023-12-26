@@ -33,13 +33,6 @@ public class MonsterCard : MonoBehaviour
         return finalVlaue;
     }
 
-
-    void RemoveInHand(Deck deck)
-    {
-        deck.hand.Remove(cardID);
-        deck.grave.Add(cardID);
-    }
-
     public void CardEffect()
     {
         var skill = CardSkills.SearchSkill(cardData.variableName);
@@ -58,7 +51,7 @@ public class MonsterCard : MonoBehaviour
     {
         SetCardData(cardID);
         cardAction = null;
-        cardAction += () => RemoveInHand(GetComponent<Deck>());
+        cardAction += () => GetComponent<Deck>().HandToGrave(cardID);
         cardAction += () => N_BattleManager.instance.IsAction = true;
         cardAction += () => token_Fail = RollToken(MainStaus,mainStatus, cardData.token);
         cardAction += () => GetComponent<UnitAnimationControl>().AttackAnimation();

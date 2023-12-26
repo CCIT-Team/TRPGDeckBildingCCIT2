@@ -17,6 +17,7 @@ public class PlayerBattleUI : MonoBehaviour
     public Transform emptyCards;
     List<GameObject> cardInstant = new List<GameObject>();
     public Transform hand;
+    public Transform DeckTransform;
 
     public float radius = 0;
     public float angle = 0;
@@ -63,36 +64,51 @@ public class PlayerBattleUI : MonoBehaviour
 
     public void DrawCard(int drawCount = 1)
     {
-        if (drawCount > boundDeck.deck.Count + boundDeck.grave.Count)
+        if (drawCount > boundDeck.DeckCount + boundDeck.GraveCount)
+        {
+            drawCount = boundDeck.DeckCount + boundDeck.GraveCount;
             return;
-        if (boundDeck.hand.Count >= N_BattleManager.instance.maxHandCount)
+        }
+        if (boundDeck.HandCount >= N_BattleManager.instance.maxHandCount)
             return;
         for (int i = 0; i < drawCount; i++)
         {
+            if(boundDeck.DeckCount <= 0)
+            {
+                boundDeck.Refill();
+                boundCharacter.Hp -= Mathf.Round(boundCharacter.maxHp / 3);
+                if (boundCharacter.Hp <= 0)
+                {
+                    boundCharacter.GetComponent<UnitAnimationControl>().DeathAnimation();
+                }
+            }
             GetComponent<AudioSource>().Play();
-            int cardIndex = Random.Range(0, boundDeck.deck.Count);
-            int cardID = boundDeck.deck[cardIndex];
-            boundDeck.hand.Add(cardID);
-            boundDeck.deck.RemoveAt(cardIndex);
-            boundDeck.DeckCounter--;
+            int cardID = boundDeck.DrawCard(Random.Range(0, boundDeck.DeckCount));
+            GameObject cardParent = new GameObject("card"+( hand.childCount + 1 ));
             GameObject cardObject;
+            cardParent.transform.SetParent(hand);
             if (waitCardInstant.Count > 0)
             {
                 cardObject = waitCardInstant.Dequeue();
-                cardObject.transform.SetParent(hand);
-                cardInstant.Add(cardObject);
+                cardObject.transform.SetParent(BattleUI.instance.cardHighlightPosition);
             }
             else
             {
-                cardObject = Instantiate(cardPrefab, hand);
-                cardObject.transform.SetParent(hand);
-                cardInstant.Add(cardObject);
+                cardObject = Instantiate(cardPrefab, BattleUI.instance.cardHighlightPosition);
             }
+            cardObject.GetComponent<CardUI>().defaultParent = cardParent.transform;
+            cardInstant.Add(cardObject);
             cardObject.GetComponent<N_Card>().playerUI = this;
             cardObject.SetActive(true);
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
             cardObject.GetComponent<CardUI>().DisplayOnUI();
+            cardObject.GetComponent<Animator>().enabled = true;
         }
+    }
+
+    void RefillDeck()
+    {
+
     }
 
 
@@ -101,6 +117,7 @@ public class PlayerBattleUI : MonoBehaviour
         cardInstant.Remove(gameObject);
         waitCardInstant.Enqueue(gameObject);
         gameObject.transform.SetParent(emptyCards);
+        gameObject.SetActive(false);
     }
 
     public void Onclick()
@@ -114,10 +131,9 @@ public class PlayerBattleUI : MonoBehaviour
         name = boundCharacter.name;
         foreach (int id in boundCharacter.GetComponent<Character_Card>().cardID)
         {
-            boundDeck.deck.Add(int.Parse(id.ToString()));
+            boundDeck.AddCard(int.Parse(id.ToString()));
         }
-        boundDeck.deck.RemoveAll(x => x == 0);
-        boundDeck.DeckCounter = boundDeck.deck.Count;
+        boundDeck.OrganizeDeck();
         deckDisplay.SetDisplay(boundDeck);
         if (!boundCharacter.isMyturn)
             transform.GetChild(0).gameObject.SetActive(false);

@@ -13,6 +13,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public Image typeImage;
     public Text cost;
     public Text description;
+    public GameObject backSide;
 
     [Header("리소스")]
     public Sprite[] nameBoxSprits;
@@ -44,7 +45,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public void DisplayOnUI()
     {
         defaultSize = new Vector2(GetComponent<RectTransform>().rect.width, GetComponent<RectTransform>().rect.height);
-        defaultParent = transform.parent;
 
         //이름상자,타입
         switch (bindCard.cardData.type)
@@ -136,9 +136,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 token.transform.localPosition = new Vector2((-bindCard.cardData.token / 2 + i + (bindCard.cardData.token + 1) % 2 / 2f) * 160, 0);
                 tokenPreview.Add(token.gameObject);
             }
-            
-            
-            
             GetComponent<RectTransform>().sizeDelta *= 1.2f;
         }
     }

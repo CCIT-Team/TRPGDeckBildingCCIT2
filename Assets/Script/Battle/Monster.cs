@@ -62,17 +62,16 @@ public class Monster :MonsterStat
 
     void AddActInDeck()
     {
-        deck.deck.Add(action1);
-        deck.deck.Add(action2);
-        deck.deck.Add(action3);
-        deck.deck.RemoveAll(x => x == 0);
-        deck.DeckCounter = deck.deck.Count;
+        deck.AddCard(action1);
+        deck.AddCard(action2);
+        deck.AddCard(action3);
+        deck.OrganizeDeck();
     }
 
     public void SelectAction()
     {
-        int i = Random.Range(0, deck.DeckCounter);
-        card.cardID = deck.deck[i];
+        int i = Random.Range(0, deck.DeckCount);
+        card.cardID = deck.DrawCard(i);
         while(true)
         {
             card.cardTarget = N_BattleManager.instance.units[Random.Range(0, N_BattleManager.instance.units.Count)].gameObject;

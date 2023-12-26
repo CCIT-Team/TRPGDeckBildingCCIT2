@@ -468,6 +468,7 @@ GameObject:
   - component: {fileID: 6885798371438040764}
   - component: {fileID: 3866745606124921709}
   - component: {fileID: 310997900398861569}
+  - component: {fileID: 5175327135197045650}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -492,6 +493,7 @@ RectTransform:
   - {fileID: 4020904351168216865}
   - {fileID: 907261313095635546}
   - {fileID: 3150217307440281848}
+  - {fileID: 4619399682281601583}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -598,6 +600,7 @@ MonoBehaviour:
   typeImage: {fileID: 7292708169950051919}
   cost: {fileID: 5804188175409018338}
   description: {fileID: 6473307477637547593}
+  backSide: {fileID: 8684663351030923308}
   nameBoxSprits:
   - {fileID: 21300000, guid: f0176738d5fccdf419d77778cc390716, type: 3}
   - {fileID: 21300000, guid: bf6430bc54ad4634cb91db682e1dcf9e, type: 3}
@@ -616,12 +619,30 @@ MonoBehaviour:
   - {fileID: 21300000, guid: aaed03943e3cd1c47ba702ea432d5a7c, type: 3}
   bindCard: {fileID: 0}
   defaultPosition: {x: 0, y: 0, z: 0}
+  defaultParent: {fileID: 0}
   childeIndex: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 128
-  "\uC720\uB2C8\uD2F0\uBCD1\uC2E0": {fileID: 21300000, guid: 500dc49a7dbe0804e947b5d9d7e4f3b6,
-    type: 3}
+--- !u!114 &5175327135197045650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6560460090638647257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf08f897f63cd0b4589e451eab8d0516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backSide: {fileID: 8684663351030923308}
+  FrontSideParts:
+  - {fileID: 1019013237454460768}
+  - {fileID: 2136611625543711405}
+  rectTransform: {fileID: 190728255294633842}
+  speed: 0.25
+  distance: 20
 --- !u!1 &7137490351024470306
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,3 +817,75 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1.5, y: -1.5}
   m_UseGraphicAlpha: 1
+--- !u!1 &8684663351030923308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4619399682281601583}
+  - component: {fileID: 1821278523995735055}
+  - component: {fileID: 1759866025036054259}
+  m_Layer: 5
+  m_Name: BackSide
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &4619399682281601583
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684663351030923308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 190728255294633842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1821278523995735055
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684663351030923308}
+  m_CullTransparentMesh: 1
+--- !u!114 &1759866025036054259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684663351030923308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: def5874e8c6880d4cb4ed5425fa1e2e7, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
