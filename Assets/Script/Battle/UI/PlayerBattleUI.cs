@@ -67,42 +67,10 @@ public class PlayerBattleUI : MonoBehaviour
         if (drawCount > boundDeck.DeckCount + boundDeck.GraveCount)
         {
             drawCount = boundDeck.DeckCount + boundDeck.GraveCount;
-            return;
         }
         if (boundDeck.HandCount >= N_BattleManager.instance.maxHandCount)
             return;
-        for (int i = 0; i < drawCount; i++)
-        {
-            if(boundDeck.DeckCount <= 0)
-            {
-                boundDeck.Refill();
-                boundCharacter.Hp -= Mathf.Round(boundCharacter.maxHp / 3);
-                if (boundCharacter.Hp <= 0)
-                {
-                    boundCharacter.GetComponent<UnitAnimationControl>().DeathAnimation();
-                }
-            }
-            GetComponent<AudioSource>().Play();
-            int cardID = boundDeck.DrawCard(Random.Range(0, boundDeck.DeckCount));
-            GameObject cardParent = new GameObject("card"+( hand.childCount + 1 ));
-            GameObject cardObject;
-            cardParent.transform.SetParent(hand);
-            if (waitCardInstant.Count > 0)
-            {
-                cardObject = waitCardInstant.Dequeue();
-                cardObject.transform.SetParent(cardParent.transform);
-            }
-            else
-            {
-                cardObject = Instantiate(cardPrefab, cardParent.transform);
-            }
-            cardObject.GetComponent<CardUI>().defaultParent = cardParent.transform;
-            cardInstant.Add(cardObject);
-            cardObject.GetComponent<N_Card>().playerUI = this;
-            cardObject.SetActive(true);
-            cardObject.GetComponent<N_Card>().GetCardData(cardID);
-            cardObject.GetComponent<CardUI>().DisplayOnUI();
-        }
+        StartCoroutine(DrawCoroutine(drawCount));
     }
 
     void RefillDeck()
@@ -115,6 +83,7 @@ public class PlayerBattleUI : MonoBehaviour
     {
         cardInstant.Remove(gameObject);
         waitCardInstant.Enqueue(gameObject);
+        gameObject.GetComponent<CardAnimation>().isdrawn = false;
         gameObject.transform.SetParent(emptyCards);
         gameObject.SetActive(false);
     }
@@ -141,6 +110,43 @@ public class PlayerBattleUI : MonoBehaviour
     public void UnBindCharacter()
     {
         boundCharacter = null;
+    }
+
+    IEnumerator DrawCoroutine(int drawCount)
+    {
+        for (int i = 0; i < drawCount; i++)
+        {
+            if (boundDeck.DeckCount <= 0)
+            {
+                boundDeck.Refill();
+                boundCharacter.Hp -= Mathf.Round(boundCharacter.maxHp / 3);
+                if (boundCharacter.Hp <= 0)
+                {
+                    boundCharacter.GetComponent<UnitAnimationControl>().DeathAnimation();
+                }
+            }
+            GetComponent<AudioSource>().Play();
+            int cardID = boundDeck.DrawCard(Random.Range(0, boundDeck.DeckCount));
+            GameObject cardParent = new GameObject("card" + (hand.childCount + 1));
+            GameObject cardObject;
+            cardParent.transform.SetParent(hand);
+            if (waitCardInstant.Count > 0)
+            {
+                cardObject = waitCardInstant.Dequeue();
+                cardObject.transform.SetParent(cardParent.transform);
+            }
+            else
+            {
+                cardObject = Instantiate(cardPrefab, cardParent.transform);
+            }
+            cardObject.GetComponent<CardUI>().defaultParent = cardParent.transform;
+            cardInstant.Add(cardObject);
+            cardObject.GetComponent<N_Card>().playerUI = this;
+            cardObject.SetActive(true);
+            cardObject.GetComponent<N_Card>().GetCardData(cardID);
+            cardObject.GetComponent<CardUI>().DisplayOnUI();
+            yield return new WaitUntil(() => cardObject.GetComponent<CardAnimation>().isdrawn);
+        }
     }
 
     public IEnumerator ActIfTurn()
