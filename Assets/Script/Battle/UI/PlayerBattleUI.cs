@@ -90,11 +90,11 @@ public class PlayerBattleUI : MonoBehaviour
             if (waitCardInstant.Count > 0)
             {
                 cardObject = waitCardInstant.Dequeue();
-                cardObject.transform.SetParent(BattleUI.instance.cardHighlightPosition);
+                cardObject.transform.SetParent(cardParent.transform);
             }
             else
             {
-                cardObject = Instantiate(cardPrefab, BattleUI.instance.cardHighlightPosition);
+                cardObject = Instantiate(cardPrefab, cardParent.transform);
             }
             cardObject.GetComponent<CardUI>().defaultParent = cardParent.transform;
             cardInstant.Add(cardObject);
@@ -102,7 +102,6 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.SetActive(true);
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
             cardObject.GetComponent<CardUI>().DisplayOnUI();
-            cardObject.GetComponent<Animator>().enabled = true;
         }
     }
 
