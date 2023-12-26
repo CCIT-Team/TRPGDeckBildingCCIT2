@@ -10,6 +10,7 @@ TagManager:
   - PlayerUI
   - PortionR
   - PortionL
+  - BattleRange
   layers:
   - Default
   - TransparentFX

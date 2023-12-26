@@ -11,7 +11,10 @@ public class TileUI : MonoBehaviour
     public GameObject hospital;
     public GameObject monsterBattleUI;
     public Image missionMark;
-    public GameObject[] monsterNum = new GameObject[5];//몬스터 마릿수
+    public GameObject[] monsterNumUI = new GameObject[5];//몬스터 마릿수 타일
+    public GameObject[] players = new GameObject[3];//플레이어
+    public int playerNumber = 0;
+    public GameObject[] playerNumUI = new GameObject[3];//플레이어 마릿수 타일
     public TMP_Text monsterName;
 
     public Shop shop;

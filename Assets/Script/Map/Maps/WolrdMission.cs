@@ -9,6 +9,8 @@ public class WolrdMission : MonoBehaviour
     public TMP_Text mainMissionText;
     public TMP_Text subMissionText;
 
+    public Sprite[] missionCharacter;
+
     public Transform mainMissionUITransform;
     public Transform subMissionUITransform;
 
@@ -29,7 +31,7 @@ public class WolrdMission : MonoBehaviour
     void Start()
     {
         Map.instance.wolrdMission = this;
-        mainMissionNum = Map.instance.missionNum;
+        //mainMissionNum = Map.instance.missionNum;
     }
 
     // Update is called once per frame

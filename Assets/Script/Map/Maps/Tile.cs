@@ -23,7 +23,7 @@ public class Tile : MonoBehaviour
 
     public Vector3Int position;
 
-    public List<GameObject> adjacentTilesObject = new List<GameObject>(6);
+    public Tile[] adjacentTilesObject = new Tile[6];
 
     public List<Tile> adjacentTiles = new List<Tile>(6);
 
@@ -106,6 +106,10 @@ public class Tile : MonoBehaviour
         {
             isMonsterTile = true;
             monsterObject.SetActive(true);
+            for (int i = 0; i < adjacentTiles.Count; i++)
+            {
+                adjacentTiles[i].tag = "BattleRange";
+            }
             if (climate == Climate.GRASS)
             {
                 monsterNum = UnityEngine.Random.Range(1, 4);
@@ -113,7 +117,6 @@ public class Tile : MonoBehaviour
                 {
                     //monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 2)]);
                     monsterGroup.Add(monsterID[2]);
-                    tileUI.monsterNum[i].SetActive(true);
                 }
                 //Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 Instantiate(Map.instance.monsterList[2], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
@@ -124,7 +127,6 @@ public class Tile : MonoBehaviour
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 4)]);
-                    tileUI.monsterNum[i].SetActive(true);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
@@ -134,7 +136,6 @@ public class Tile : MonoBehaviour
                 for (int i = 0; i < monsterNum; i++)
                 {
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 5)]);
-                    tileUI.monsterNum[i].SetActive(true);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
@@ -182,32 +183,32 @@ public class Tile : MonoBehaviour
             if (Map.instance.totalTileObjectList[tile].gameObject.transform.position ==
                 new Vector3(transform.position.x, 0, transform.position.z + 1.732051f))//상
             {
-                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
+                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>());
             }
             if (Map.instance.totalTileObjectList[tile].gameObject.transform.position ==
                 new Vector3(transform.position.x + 1.5f, 0, transform.position.z + 0.8660254f))
             {
-                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
+                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>());
             }
             if (Map.instance.totalTileObjectList[tile].gameObject.transform.position ==
                 new Vector3(transform.position.x + 1.5f, 0, transform.position.z - 0.8660254f))
             {
-                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
+                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>());
             }
             if (Map.instance.totalTileObjectList[tile].gameObject.transform.position ==
                 new Vector3(transform.position.x, 0, transform.position.z - 1.732051f))//하
             {
-                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
+                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>());
             }
             if (Map.instance.totalTileObjectList[tile].gameObject.transform.position ==
                new Vector3(transform.position.x - 1.5f, 0, transform.position.z - 0.8660254f))
             {
-                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
+                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>());
             }
             if (Map.instance.totalTileObjectList[tile].gameObject.transform.position ==
                 new Vector3(transform.position.x - 1.5f, 0, transform.position.z + 0.8660254f))
             {
-                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>()); ;
+                adjacentTiles.Add(Map.instance.totalTileObjectList[tile].gameObject.GetComponent<Tile>());
             }
         }
     }
@@ -228,6 +229,20 @@ public class Tile : MonoBehaviour
         tileSelectImage[0].SetActive(false);
         tileSelectImage[1].SetActive(true);
     }
+
+    //List<Tile> RangeOfTileEvent(Tile tile)
+    //{
+    //    List<Tile> eventRange = new List<Tile>();
+    //    for (int i = 0; i < tile.adjacentTiles.Count; i++)
+    //    {
+    //        eventRange.Add(tile.adjacentTiles[i]);
+    //    }
+    //    //eventRange.Add(tile.adjacentTiles[0].adjacentTiles[]);
+
+    //    return eventRange;
+
+    //}
+
     #endregion
 
     #region Maker
@@ -284,6 +299,10 @@ public class Tile : MonoBehaviour
     public void DestroyMonsterTile()
     {
         isMonsterTile = false;
+        for (int i = 0; i < adjacentTiles.Count; i++)
+        {
+            adjacentTiles[i].tag = "";
+        }
         Map.instance.isOutofUI = false;
         tileUI.OffMonsterBattle();
         monsterObject.SetActive(false);
@@ -383,6 +402,19 @@ public class Tile : MonoBehaviour
                     Map.instance.startTile = this;
                 }
             }
+
+            if (gameObject.CompareTag("BattleRange"))//전투에 들어가는 범위
+            {
+                if (tileUI.players[0] == null) { tileUI.players[0] = other.gameObject; tileUI.playerNumber = 1; }
+                else if (tileUI.players[1] == null
+                    && tileUI.players[0].gameObject.name != other.gameObject.name)
+                { tileUI.players[1] = other.gameObject; tileUI.playerNumber = 2; }
+                else if (tileUI.players[2] == null
+                    && tileUI.players[0].gameObject.name != other.gameObject.name
+                    && tileUI.players[1].gameObject.name != other.gameObject.name)
+                { tileUI.players[2] = other.gameObject; tileUI.playerNumber = 3; }
+            }
+
             if (Map.instance.isOutofUI && isKingdomTile || Map.instance.isOutofUI && isMonsterTile)
             {
                 StartCoroutine(WaitExitUI());
@@ -393,9 +425,13 @@ public class Tile : MonoBehaviour
                 Map.instance.OnUIPlayerStop();
                 if (Map.instance.currentMissionTile == this) { tileUI.missionMark.enabled = true; }
                 else { tileUI.missionMark.enabled = false; }
-                for (int i = 0; i < tileUI.monsterNum.Length; i++)
+                for (int i = 0; i < monsterNum; i++)
                 {
-                    tileUI.monsterNum[i].SetActive(false);
+                    tileUI.monsterNumUI[i].SetActive(true);
+                }
+                for (int i = 0; i < tileUI.playerNumber; i++)
+                {
+                    tileUI.playerNumUI[i].SetActive(true);
                 }
                 tileUI.OnMonsterBattle();
                 tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
@@ -419,6 +455,23 @@ public class Tile : MonoBehaviour
         if (other.CompareTag("Dragon"))
         {
             Map.instance.dragonStartTile = this;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (gameObject.CompareTag("BattleRange"))//전투에 들어가는 범위
+            {
+                if (tileUI.players[0] != null) { tileUI.players[0] = null; tileUI.playerNumber = 2; }
+                else if (tileUI.players[1] != null
+                    && tileUI.players[0].gameObject.name != other.gameObject.name)
+                { tileUI.players[1] = null; tileUI.playerNumber = 1; }
+                else if (tileUI.players[2] != null
+                    && tileUI.players[0].gameObject.name != other.gameObject.name
+                    && tileUI.players[1].gameObject.name != other.gameObject.name)
+                { tileUI.players[2] = null; tileUI.playerNumber = 0; }
+            }
         }
     }
 
