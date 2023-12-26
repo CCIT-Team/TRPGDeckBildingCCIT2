@@ -175,7 +175,7 @@ public class InventoryUI : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                SetInvenItem(12001012, 10);
+                SetInvenItem(12001002, 10);
                 SortingTotal();
             }
             if (Input.GetKeyDown(KeyCode.D))

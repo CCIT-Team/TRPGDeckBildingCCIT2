@@ -122,6 +122,19 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         {
             if (!rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon)
             {
+                rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon = true;
+                rootObject.equipmentRightSlot.sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
+                rootObject.equipmentRightSlot.color = Color.white;
+                rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));
+
+                rootObject.likedPlayer.GetComponent<Character_Equipment>().AddDeck(rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().GetWeaponCard());
+                rootObject.likedPlayer.GetComponent<Character_Equipment>().AddStat(rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().GetStats());
+            }
+            else
+            {
+                rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().UnEquip(); //교체되는 부분
+
+                rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon = true;
                 rootObject.equipmentRightSlot.sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
                 rootObject.equipmentRightSlot.color = Color.white;
                 rootObject.equipmentRightSlot.gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));

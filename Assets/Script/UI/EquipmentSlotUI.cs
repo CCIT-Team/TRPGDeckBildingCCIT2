@@ -151,11 +151,13 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         Debug.Log("나감");
     }
 
-    private void UnEquip()
+    public void UnEquip()
     {
+        Debug.Log("교체");
         GetComponent<Image>().sprite = null;
         GetComponent<Image>().color = Color.clear;
         rootObject.SetInvenItem(no,1);
+        rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon = false;
         rootObject.likedPlayer.GetComponent<Character_Equipment>().DiscardStat(stats);
         rootObject.likedPlayer.GetComponent<Character_Equipment>().DiscardCard(weaponCard);
         ClearData();

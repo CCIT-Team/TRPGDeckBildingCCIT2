@@ -221,7 +221,7 @@ public class LobbyUI_Manager : MonoBehaviour
                 {
                     card[j] = DataBase.instance.defaultData[i].card2;
                 }
-                //cardCount += DataBase.instance.defaultData[i].card2Count;
+                cardCount += DataBase.instance.defaultData[i].card2Count;
                 for (int j = cardCount; j < cardCount + DataBase.instance.defaultData[i].card3Count; j++)
                 {
                     card[j] = DataBase.instance.defaultData[i].card3;
