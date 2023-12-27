@@ -8,6 +8,7 @@ public class BattleUI : MonoBehaviour
 {
     public static BattleUI instance;
     public GameObject inputBlocker;
+    public GameObject playeruiPrefab;
 
     public GameObject targetIndicator;
     public GameObject currentTargetIndicator;
@@ -28,7 +29,7 @@ public class BattleUI : MonoBehaviour
     public TMP_Text announceText;
 
     [Header("Player")]
-    public PlayerBattleUI[] playerUI = new PlayerBattleUI[3];
+    public List<PlayerBattleUI> playerUI = new();
     List<Unit> boundUnits = new List<Unit>();
 
     [Header("Token")]
@@ -62,6 +63,11 @@ public class BattleUI : MonoBehaviour
 
     public void BindPlayer(GameObject[] playerarray)
     {
+        if(playerarray.Length > playerUI.Count)
+            for(int i = 0; i < playerarray.Length - playerUI.Count; i++)
+            {
+                playerUI.Add(Instantiate(playeruiPrefab.GetComponent<PlayerBattleUI>(), playerUI[0].transform.parent));
+            }
         for(int i = 0; i < playerarray.Length; i++)
         {
             playerUI[i].gameObject.SetActive(true);
