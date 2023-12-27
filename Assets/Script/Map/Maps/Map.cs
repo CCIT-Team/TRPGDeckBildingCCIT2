@@ -66,6 +66,7 @@ public class Map : MonoBehaviour
     public Tile currentMissionTile;
     public TileUI tileUI;
     public int missionNum = 1;
+    public int missionChatNum = 0;
     [Header("Other")]
     public bool isBattle = false;
     public bool isFirst = true;
@@ -252,14 +253,19 @@ public class Map : MonoBehaviour
         {
             if (!isOutofUI)
             {
-                startTile = null;
-                currentPositionNum = 1;
-                pathTileObjectList.Clear();
-                isPlayerOnEndTile = true;
-                isPlayerMoving = false;
-                wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", false);
+                ResetAstarPath();
             }
         }
+    }
+
+    public void ResetAstarPath()
+    {
+        startTile = null;
+        currentPositionNum = 1;
+        pathTileObjectList.Clear();
+        isPlayerOnEndTile = true;
+        isPlayerMoving = false;
+        wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", false);
     }
     int movePoint;
     int currentPoint = -1;

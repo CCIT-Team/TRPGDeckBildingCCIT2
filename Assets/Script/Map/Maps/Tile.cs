@@ -337,14 +337,14 @@ public class Tile : MonoBehaviour
             #region ¹Ì¼Ç¿ë
             if (isKingdomTile && !Map.instance.isOutofUI && isMissionOn)
             {
-                if (Map.instance.wolrdMission.mainMissionNum == 1)
+                if (Map.instance.wolrdMission.mainMissionNum == 2)
                 {
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
-                    Map.instance.wolrdMission.secondMainMission.SetActive(true);
+                    Map.instance.wolrdMission.mission.SetActive(true);
                 }
-                if (Map.instance.wolrdMission.mainMissionNum == 7)
+                if (Map.instance.wolrdMission.mainMissionNum ==8)
                 {
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();
@@ -354,32 +354,32 @@ public class Tile : MonoBehaviour
             }
             if (isVillageTile && !Map.instance.isOutofUI && isMissionOn)
             {
-                if (Map.instance.wolrdMission.mainMissionNum == 6)
+                if (Map.instance.wolrdMission.mainMissionNum == 7)
                 {
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
-                    Map.instance.wolrdMission.seventhdMainMission.SetActive(true);
+                    Map.instance.wolrdMission.mission.SetActive(true);
                 }
             }
-            if (Map.instance.wolrdMission.mainMissionNum == 8 && isMissionOn)
+            if (Map.instance.wolrdMission.mainMissionNum == 9 && isMissionOn)
             {
                 Map.instance.OnUIPlayerStop();
-                Map.instance.wolrdMission.mainMissionNum = 9;
-            }
-            if (Map.instance.wolrdMission.mainMissionNum == 11 && isMissionOn)
-            {
-                Map.instance.currentInteracteUITile = this;
-                Map.instance.OnUIPlayerStop();
-                Map.instance.isOutofUI = true;
-                Map.instance.wolrdMission.eleventhdMainMission.SetActive(true);
+                Map.instance.wolrdMission.mainMissionNum = 10;
             }
             if (Map.instance.wolrdMission.mainMissionNum == 12 && isMissionOn)
             {
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
                 Map.instance.isOutofUI = true;
-                Map.instance.wolrdMission.twelfthdMainMission.SetActive(true);
+                Map.instance.wolrdMission.mission.SetActive(true);
+            }
+            if (Map.instance.wolrdMission.mainMissionNum == 13 && isMissionOn)
+            {
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                Map.instance.isOutofUI = true;
+                Map.instance.wolrdMission.mission.SetActive(true);
             }
             #endregion
         }

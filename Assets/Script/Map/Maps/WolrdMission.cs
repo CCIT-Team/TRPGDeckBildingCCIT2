@@ -1,40 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 public class WolrdMission : MonoBehaviour
 {
-    public Animator missionButtonAni;
+    [SerializeField] Animator missionButtonAni;
     bool isWindowOn = false;
     public TMP_Text mainMissionText;
     public TMP_Text subMissionText;
 
-    public Sprite[] missionCharacter;
+    public Image missionCharacter;
+    public TMP_Text chracterName;
 
     public Transform mainMissionUITransform;
     public Transform subMissionUITransform;
 
-    public GameObject firstMainMission;
-    public GameObject secondMainMission;
-    public GameObject fourthdMainMission;
-    public GameObject sixthdMainMission;
-    public GameObject seventhdMainMission;
-    public GameObject eleventhdMainMission;
-    public GameObject twelfthdMainMission;
-    public GameObject subMissionUIObject;
+    public Sprite[] missionChraterImage = new Sprite[5];
 
-    public List<GameObject> missions = new List<GameObject>();
+    public  GameObject mission;
+
     public bool missionCleard = false;
 
-    public int mainMissionNum = 0;
+    public int mainMissionNum = 1;
 
+  // public  List<Dictionary<string, object>> data_Dialog;
     void Start()
     {
         Map.instance.wolrdMission = this;
-        //mainMissionNum = Map.instance.missionNum;
+        mainMissionNum = Map.instance.missionNum;
+        //data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
     }
 
-    // Update is called once per frame
     void Update()
     {
         CheckMissionNum();
@@ -58,56 +55,74 @@ public class WolrdMission : MonoBehaviour
     {
         switch (mainMissionNum)
         {
-            case 0:
+            case 1:
                 FirstMainMission();
                 break;
-            case 1:
+            case 2:
                 SecondMainMission();
                 break;
-            case 2:
+            case 3:
                 ThirdMainMission();
                 break;
-            case 3:
+            case 4:
                 FourthMainMission();
                 break;
-            case 4:
+            case 5:
                 FifthMainMission();
                 break;
-            case 5:
+            case 6:
                 SixthMainMission();
                 break;
-            case 6:
+            case 7:
                 SeventhMainMission();
                 break;
-            case 7:
+            case 8:
                 EighthMainMission();
                 break;
-            case 8:
+            case 9:
                 NinthMainMission();
                 break;
-            case 9:
+            case 10:
                 //용 날라가기
                 break;
-            case 10:
-                //용 돌아가기
-                break;
             case 11:
-                EleventhMainMission();
+                //용 돌아가기
                 break;
             case 12:
                 TwelfthMainMission();
                 break;
             case 13:
+                ThirdthMainMission();
+                break;
+            case 14:
                 mainMissionText.text = "플레이해주셔서 감사합니다!!";
                 break;
+        }
+    }
+
+    #region 미션
+    public void NextMission()
+    {
+        if(mission.GetComponent<Mission>().isEndScript)
+        {
+            mission.GetComponent<Mission>().SCVDataReadAndSet();
+            mainMissionNum += 1;
+            Map.instance.missionChatNum += 1;
+            if (Map.instance.currentMissionTile != null)
+            {
+                Map.instance.currentMissionTile.isMissionOn = false;
+                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+            }
+            mission.GetComponent<Mission>().isEndScript = false;
+            gameObject.SetActive(true);
         }
     }
 
     void FirstMainMission()
     {
         mainMissionUITransform.gameObject.SetActive(false);
-        firstMainMission.SetActive(true);
-        Map.instance.missionNum = 0;
+        gameObject.SetActive(true);
+        Map.instance.missionNum = 1;
     }
 
 
@@ -118,7 +133,7 @@ public class WolrdMission : MonoBehaviour
         Map.instance.currentMissionTile = Map.instance.kingdomTile[0].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 1;
+        Map.instance.missionNum = 2;
     }
 
     void ThirdMainMission()
@@ -127,21 +142,20 @@ public class WolrdMission : MonoBehaviour
         Map.instance.currentMissionTile = Map.instance.monsterTile[0];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 2;
+        Map.instance.missionNum = 3;
         if (GameManager.instance.isVictory)
         {
             Map.instance.currentMissionTile.isMissionOn = false;
             Map.instance.currentMissionTile.MainMissionMarkerOnOff();
             Map.instance.currentMissionTile.DestroyMonsterTile();
             Map.instance.isOutofUI = false;
-            mainMissionNum = 3;
+            NextMission();
         }
     }
     void FourthMainMission()
     {
         GameManager.instance.isVictory = false;
-        fourthdMainMission.SetActive(true);
-        Map.instance.missionNum = 3;
+        Map.instance.missionNum = 4;
     }
 
     void FifthMainMission()
@@ -153,22 +167,21 @@ public class WolrdMission : MonoBehaviour
         Map.instance.totalTileObjectList[78].GetComponent<Tile>().MakeVilege();
         Map.instance.monsterTile[1].isMissionOn = true;
         Map.instance.monsterTile[1].MainMissionMarkerOnOff();
-        Map.instance.missionNum = 4;
+        Map.instance.missionNum = 5;
         if (GameManager.instance.isVictory)
         {
             Map.instance.currentMissionTile.isMissionOn = false;
             Map.instance.currentMissionTile.MainMissionMarkerOnOff();
             Map.instance.currentMissionTile.DestroyMonsterTile();
             Map.instance.isOutofUI = false;
-            mainMissionNum = 5;
+            NextMission();
         }
     }
 
     void SixthMainMission()
     {
         GameManager.instance.isVictory = false;
-        sixthdMainMission.SetActive(true);
-        mainMissionNum = 5;
+        mainMissionNum = 6;
     }
 
     void SeventhMainMission()
@@ -177,7 +190,7 @@ public class WolrdMission : MonoBehaviour
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        mainMissionNum = 6;
+        mainMissionNum = 7;
     }
 
     void EighthMainMission()
@@ -186,7 +199,7 @@ public class WolrdMission : MonoBehaviour
         Map.instance.currentMissionTile = Map.instance.kingdomTile[3].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        mainMissionNum = 7;
+        mainMissionNum = 8;
     }
 
     void NinthMainMission()
@@ -203,24 +216,26 @@ public class WolrdMission : MonoBehaviour
         {
             Map.instance.currentMissionTile.adjacentTiles[i].isMissionOn = true;
         } 
-        Map.instance.missionNum = 8;
+        Map.instance.missionNum = 9;
+
     }
 
-    void EleventhMainMission()
+    void TwelfthMainMission()
     {
         mainMissionText.text = "마을을 확인하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 11;
+        Map.instance.missionNum = 12;
     }
 
-    void TwelfthMainMission()
+    void ThirdthMainMission()
     {
         mainMissionText.text = "소식을 전달하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 12;
+        Map.instance.missionNum = 13;
     }
+    #endregion
 }

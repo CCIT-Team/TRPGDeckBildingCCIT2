@@ -5,86 +5,63 @@ using TMPro;
 
 public class Mission : MonoBehaviour
 {
+    public WolrdMission wolrdMission;
+    public bool isEndScript = false;
     public float delay;
     public TMP_Text text;
     public TMP_Text nexttext;
     string talk;
     int t = 0;
     int chatint = 0;
-    int mainMissionnum = 1;
 
     List<Dictionary<string, object>> data_Dialog;
 
     void Start()
     {
         data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
-        mainMissionnum = Map.instance.missionNum;
+        SCVDataReadAndSet();
         StartCoroutine(Output_text());
         Map.instance.isOutofUI = true;
-    }
-
-    void Update()
-    {
-
-    }
-
-    void ChatFlow()
-    {
-        switch (mainMissionnum)
-        {
-
-        }
-
-
     }
 
     public void NextChat()
     {
         SoundManager.instance.PlayUICilckSound();
-        //if (chatint < data_Dialog.Count-1 && (int)data_Dialog[chatint]["Chapter"] == mainMissionnum)
-        //{
-        //    t = 0;
-        //    text.text = "";
-        //    chatint++;
-        //    StartCoroutine(output_text());
-
-        if ((int)data_Dialog[chatint]["Chapter"] == Map.instance.missionNum)
+        if ((int)data_Dialog[Map.instance.missionChatNum]["Chapter"] == wolrdMission.mainMissionNum)
         {
             t = 0;
             text.text = "";
-            chatint++;
+            Map.instance.missionChatNum++;
             StartCoroutine(Output_text());
         }
-        else if(data_Dialog[chatint]["Chapter"] == null )
-        {
-            Map.instance.isOutofUI = false;
-            //Map.instance.wolrdMission.mainMissionNum = 1;
-            Map.instance.missionNum += 1;
-            Map.instance.startTile = null;
-            Map.instance.currentInteracteUITile = null;
-            Map.instance.isOutofUI = false;
-            chatint++;
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Map.instance.isOutofUI = false;
-            //Map.instance.wolrdMission.mainMissionNum = 1;
-            Map.instance.missionNum += 1;
-            Map.instance.startTile = null;
-            Map.instance.currentInteracteUITile = null;
-            Map.instance.isOutofUI = false;
-            chatint++;
-            gameObject.SetActive(false);
-        }
     }
+
+    public void SCVDataReadAndSet()
+    {
+        Debug.Log("¹Ù²ã!");
+        data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
+        wolrdMission.missionCharacter.sprite = wolrdMission.missionChraterImage[(int)data_Dialog[Map.instance.missionChatNum]["Chracter"]];
+        wolrdMission.chracterName.text = data_Dialog[Map.instance.missionChatNum]["ChracterName"].ToString();
+        wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
+    }
+
     IEnumerator Output_text()
     {
         nexttext.enabled = false;
-        if(data_Dialog[chatint]["Content"].ToString() != "") { text.text += data_Dialog[chatint]["Content"].ToString()[t]; }
-        else {StopCoroutine(Output_text()); }
+        if (data_Dialog[Map.instance.missionChatNum]["Content"].ToString() != "") { text.text += data_Dialog[Map.instance.missionChatNum]["Content"].ToString()[t]; }
+        else 
+        {
+            isEndScript = true;
+            Map.instance.startTile = null;
+            Map.instance.currentInteracteUITile = null;
+            Map.instance.isOutofUI = false;
+            Map.instance.missionChatNum += 1;
+            gameObject.SetActive(false);
+            wolrdMission.NextMission();
+            //StopCoroutine(Output_text());
+        }
         yield return new WaitForSeconds(delay);
-        if (t < data_Dialog[chatint]["Content"].ToString().Length - 1)
+        if (t < data_Dialog[Map.instance.missionChatNum]["Content"].ToString().Length - 1)
         {
             t++;
             StartCoroutine(Output_text());

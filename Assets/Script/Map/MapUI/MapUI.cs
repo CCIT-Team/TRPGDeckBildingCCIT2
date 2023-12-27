@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class MapUI : MonoBehaviour
@@ -26,8 +27,11 @@ public class MapUI : MonoBehaviour
 
     public void TurnEnd()
     {
-        wolrdTurn.currentPlayer.isMyturn = false;
-        wolrdTurn.currentPlayer.GetComponent<Character>().cost = wolrdTurn.currentPlayer.GetComponent<Character>().maxCost;
+        if(!Map.instance.isPlayerMoving)
+        {
+            wolrdTurn.currentPlayer.isMyturn = false;
+            wolrdTurn.currentPlayer.GetComponent<Character>().cost = wolrdTurn.currentPlayer.GetComponent<Character>().maxCost;
+        }
     }
 
     public void SetTurnSlider(List<GameObject> players)

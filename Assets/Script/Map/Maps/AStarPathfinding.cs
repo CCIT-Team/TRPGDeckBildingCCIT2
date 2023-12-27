@@ -83,13 +83,10 @@ public class AStarPathfinding
             }
 
             finalPathTiles.Reverse();
-            Debug.Log("Done!");
         }
         else
         {
-            Debug.Log("I Can`t Find Path!");
         }
-       // Debug.Log("Done!");
         return finalPathTiles;
     }
 
