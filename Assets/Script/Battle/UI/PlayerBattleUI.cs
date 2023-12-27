@@ -102,7 +102,7 @@ public class PlayerBattleUI : MonoBehaviour
             boundDeck.AddCard(int.Parse(id.ToString()));
         }
         boundDeck.OrganizeDeck();
-        deckDisplay.SetDisplay(boundDeck);
+        deckDisplay.SetDeck(boundDeck);
         if (!boundCharacter.isMyturn)
             transform.GetChild(0).gameObject.SetActive(false);
     }

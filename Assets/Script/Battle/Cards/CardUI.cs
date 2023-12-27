@@ -155,8 +155,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if (Input.GetMouseButton(0)&&!isSelected)
         {
             isSelected = true;
-            childeIndex = transform.GetSiblingIndex();
-            transform.SetParent(transform.parent.parent);
+            //childeIndex = transform.GetSiblingIndex();
+            //transform.SetParent(transform.parent.parent);
             for (int i = 0; i < tokenPreview.Count; i++)
             {
                 tokenPreview[i].SetActive(false);
@@ -201,8 +201,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 {
                     target = null;
                     transform.position = defaultPosition;
-                    transform.SetParent(defaultParent);
-                    transform.SetSiblingIndex(childeIndex);
+                    //transform.SetParent(defaultParent);
+                    //transform.SetSiblingIndex(childeIndex);
                 }
             }
             isSelected = false;
@@ -247,6 +247,9 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     public void TransferUI()
     {
+        GameObject parent = transform.parent.gameObject;
+        transform.SetParent(transform.parent.parent.parent);
+        Destroy(parent);
         transform.position = new Vector2(Camera.main.pixelWidth*2,0);
     }
 }

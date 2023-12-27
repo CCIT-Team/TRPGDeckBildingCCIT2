@@ -54,4 +54,19 @@ public class Deck : MonoBehaviour   //덱 정보를 소지하고 플레이어의 장비에서 카�
         deck.AddRange(grave);
         grave.Clear();
     }
+
+    public List<int> GetHandList()
+    {
+        return hand;
+    }
+
+    public List<int> GetDeckList()
+    {
+        return deck;
+    }
+
+    public List<int> GetGraveList()
+    {
+        return grave;
+    }
 }
