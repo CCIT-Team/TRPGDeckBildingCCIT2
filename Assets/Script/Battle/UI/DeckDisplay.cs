@@ -56,8 +56,7 @@ public class DeckDisplay : MonoBehaviour
             else
             {
                 card = Instantiate(cardPreFab_D, deckTransform);
-                //직업덱 사라지면 수정
-                card.GetComponent<DeckCardUI>().LoadCardData(deckCards[i], transform.parent.parent.GetComponent<PlayerBattleUI>().boundCharacter.GetComponent<Character_type>().major);
+                card.GetComponent<DeckCardUI>().LoadCardData(deckCards[i]);
                 displayDeck.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);
@@ -71,8 +70,7 @@ public class DeckDisplay : MonoBehaviour
             else
             {
                 card = Instantiate(cardPreFab_D, handTransform);
-                //직업덱 사라지면 수정
-                card.GetComponent<DeckCardUI>().LoadCardData(handCards[i], transform.parent.parent.GetComponent<PlayerBattleUI>().boundCharacter.GetComponent<Character_type>().major);
+                card.GetComponent<DeckCardUI>().LoadCardData(handCards[i]);
                 displayHand.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);
@@ -86,8 +84,7 @@ public class DeckDisplay : MonoBehaviour
             else
             {
                 card = Instantiate(cardPreFab_D, graveTransform);
-                //직업덱 사라지면 수정
-                card.GetComponent<DeckCardUI>().LoadCardData(graveCards[i], transform.parent.parent.GetComponent<PlayerBattleUI>().boundCharacter.GetComponent<Character_type>().major);
+                card.GetComponent<DeckCardUI>().LoadCardData(graveCards[i]);
                 displayGrave.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);

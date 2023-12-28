@@ -182,9 +182,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                             Debug.Log("패 루프"+i);
                             GameObject card = playerUI.hand.GetChild(i).gameObject;
                             Debug.Log("카드 : "+ card.GetComponent<N_Card>().cardData.name);
-                            if (card.GetComponent<N_Card>().cardData.type == CardData.CardType.SingleAttack ||
-                                card.GetComponent<N_Card>().cardData.type == CardData.CardType.MultiAttack ||
-                                card.GetComponent<N_Card>().cardData.type == CardData.CardType.AllAttack )
+                            if (card.GetComponent<N_Card>().cardData.attackType == CardData.AttackType.Attack)
                             {
                                 Debug.Log("공격 카드 소모");
                                 matchCardCount++;

@@ -28,52 +28,32 @@ public class DeckCardUI : MonoBehaviour
         amountValue += i;
         amount.text = "x" + amountValue.ToString();
     }
-    public void LoadCardData(int cardID, PlayerType.Major major)    //나중에 두번째 인수 삭제
+    public void LoadCardData(int cardID)    //나중에 두번째 인수 삭제
     {
-        switch(major)
+        cardData = DataBase.instance.cardData.Find(x => x.no == cardID);
+        switch (cardData.attackType)
         {
-            case PlayerType.Major.Fighter:
-                cardData = DataBase.instance.fighterCardData.Find(x => x.no == cardID);
-                break;
-            case PlayerType.Major.Wizard:
-                cardData = DataBase.instance.wizardCardData.Find(x => x.no == cardID);
-                break;
-            case PlayerType.Major.Cleric:
-                cardData = DataBase.instance.clericCardData.Find(x => x.no == cardID);
-                break;
-        }
-        //cardData = DataBase.instance.cardData.Find(x => x.no == cardID);
-        switch (cardData.type)
-        {
-            case CardData.CardType.SingleAttack:
-            case CardData.CardType.MultiAttack:
-            case CardData.CardType.AllAttack:
+            case CardData.AttackType.Attack:
                 nameBox.sprite = nameBoxSprits[0];
                 type.sprite = typeSprits[0];
                 backGround.sprite = backgroundSprits[0];
                 break;
-            case CardData.CardType.SingleDefence:
-            case CardData.CardType.MultiDefence:
-            case CardData.CardType.AllDenfence:
+            case CardData.AttackType.Defence:
                 nameBox.sprite = nameBoxSprits[1];
                 type.sprite = typeSprits[1];
                 backGround.sprite = backgroundSprits[1];
                 break;
-            case CardData.CardType.SingleEndow:
-            case CardData.CardType.MultiEndow:
-            case CardData.CardType.AllEndow:
+            case CardData.AttackType.Endow:
                 nameBox.sprite = nameBoxSprits[2];
                 type.sprite = typeSprits[2];
                 backGround.sprite = backgroundSprits[2];
                 break;
-            case CardData.CardType.SingleIncrease:
-            case CardData.CardType.MultiIncrease:
-            case CardData.CardType.AllIncrease:
+            case CardData.AttackType.Increase:
                 nameBox.sprite = nameBoxSprits[3];
                 type.sprite = typeSprits[3];
                 backGround.sprite = backgroundSprits[3];
                 break;
-            case CardData.CardType.CardDraw:
+            case CardData.AttackType.CardDraw:
                 nameBox.sprite = nameBoxSprits[3];
                 type.sprite = typeSprits[3];
                 backGround.sprite = backgroundSprits[4];

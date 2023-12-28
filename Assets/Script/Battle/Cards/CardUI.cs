@@ -47,41 +47,33 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         defaultSize = new Vector2(GetComponent<RectTransform>().rect.width, GetComponent<RectTransform>().rect.height);
 
         //이름상자,타입
-        switch (bindCard.cardData.type)
+        switch (bindCard.cardData.attackType)
         {
-            case CardData.CardType.SingleAttack:
-            case CardData.CardType.MultiAttack:
-            case CardData.CardType.AllAttack:
+            case CardData.AttackType.Attack:
                 nameBoxImage.sprite = nameBoxSprits[0];
                 typeImage.sprite = typeSprits[0];
                 backGroundImage.sprite = backGroundSprites[0];
                 layerMask = 1 << LayerMask.NameToLayer("Monster");
                 break;
-            case CardData.CardType.SingleDefence:
-            case CardData.CardType.MultiDefence:
-            case CardData.CardType.AllDenfence:
+            case CardData.AttackType.Defence:
                 nameBoxImage.sprite = nameBoxSprits[1];
                 typeImage.sprite = typeSprits[1];
                 backGroundImage.sprite = backGroundSprites[1];
                 layerMask = 1 << LayerMask.NameToLayer("Player");
                 break;
-            case CardData.CardType.SingleEndow:
-            case CardData.CardType.MultiEndow:
-            case CardData.CardType.AllEndow:
+            case CardData.AttackType.Endow:
                 nameBoxImage.sprite = nameBoxSprits[2];
                 typeImage.sprite = typeSprits[2];
                 backGroundImage.sprite = backGroundSprites[2];
                 layerMask = 1 << LayerMask.NameToLayer("Player");
                 break;
-            case CardData.CardType.SingleIncrease:
-            case CardData.CardType.MultiIncrease:
-            case CardData.CardType.AllIncrease:
+            case CardData.AttackType.Increase:
                 nameBoxImage.sprite = nameBoxSprits[3];
                 typeImage.sprite = typeSprits[3];
                 backGroundImage.sprite = backGroundSprites[3];
                 layerMask = 1 << LayerMask.NameToLayer("Player");
                 break;
-            case CardData.CardType.CardDraw:
+            case CardData.AttackType.CardDraw:
                 nameBoxImage.sprite = nameBoxSprits[3];
                 typeImage.sprite = typeSprits[3];
                 backGroundImage.sprite = backGroundSprites[4];

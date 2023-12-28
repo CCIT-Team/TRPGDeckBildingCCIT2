@@ -79,77 +79,78 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         int loopCounter = 0;
         while(playerUI.boundCharacter == null) { if (loopCounter++ >= 100) break; }
 
-        int indexNumber = int.Parse(no.ToString().Substring(2));
-        int weaponType = int.Parse(no.ToString().Substring(0, 2));
-        //switch (weaponType)
+        cardData = DataBase.instance.cardData.Find(x => x.no == no);
+        //int indexNumber = int.Parse(no.ToString().Substring(2));
+        //int weaponType = int.Parse(no.ToString().Substring(0, 2));
+        /*switch (weaponType)
+        {
+            case 50:    //워리어
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[0]];
+                break;
+            case 51:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[3]];
+                break;
+            case 52:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[4]];
+                break;
+            case 53:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[5]];
+                break;
+            case 54:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[6]];
+                break;
+            case 55:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[7]];
+                break;
+            case 56:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[8]];
+                break;
+            case 57:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[9]];
+                break;
+            case 58:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[10]];
+                break;
+            case 59:
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[11]];
+                break;
+            case 60:    //메지션
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[1]];
+                break;
+            case 70:    //클레릭
+                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
+                break;
+        }*/
+        //switch(playerUI.boundCharacter.GetComponent<Character_type>().major)
         //{
-        //    case 50:    //워리어
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[0]];
+        //    case PlayerType.Major.Fighter:
+        //        {
+        //            foreach(CardData cData in DataBase.instance.fighterCardData)
+        //            {
+        //                if (weaponType == int.Parse(cData.no.ToString().Substring(0,2)) && indexNumber == int.Parse(cData.no.ToString().Substring(2)))
+        //                    cardData = cData;
+        //            }
+        //        }
         //        break;
-        //    case 51:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[3]];
+        //    case PlayerType.Major.Wizard:
+        //        {
+        //            foreach (CardData cData in DataBase.instance.wizardCardData)
+        //            {
+        //                if (weaponType == int.Parse(cData.no.ToString().Substring(0, 2)) && indexNumber == int.Parse(cData.no.ToString().Substring(2)))
+        //                    cardData = cData;
+        //            }
+        //        }
         //        break;
-        //    case 52:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[4]];
-        //        break;
-        //    case 53:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[5]];
-        //        break;
-        //    case 54:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[6]];
-        //        break;
-        //    case 55:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[7]];
-        //        break;
-        //    case 56:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[8]];
-        //        break;
-        //    case 57:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[9]];
-        //        break;
-        //    case 58:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[10]];
-        //        break;
-        //    case 59:
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[11]];
-        //        break;
-        //    case 60:    //메지션
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[1]];
-        //        break;
-        //    case 70:    //클레릭
-        //        cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
+        //    case PlayerType.Major.Cleric:
+        //        {
+        //            foreach (CardData cData in DataBase.instance.clericCardData)
+        //            {
+        //                if (weaponType == int.Parse(cData.no.ToString().Substring(0, 2)) && indexNumber == int.Parse(cData.no.ToString().Substring(2)))
+        //                    cardData = cData;
+        //            }
+        //        }
         //        break;
         //}
-        switch(playerUI.boundCharacter.GetComponent<Character_type>().major)
-        {
-            case PlayerType.Major.Fighter:
-                {
-                    foreach(CardData cData in DataBase.instance.fighterCardData)
-                    {
-                        if (weaponType == int.Parse(cData.no.ToString().Substring(0,2)) && indexNumber == int.Parse(cData.no.ToString().Substring(2)))
-                            cardData = cData;
-                    }
-                }
-                break;
-            case PlayerType.Major.Wizard:
-                {
-                    foreach (CardData cData in DataBase.instance.wizardCardData)
-                    {
-                        if (weaponType == int.Parse(cData.no.ToString().Substring(0, 2)) && indexNumber == int.Parse(cData.no.ToString().Substring(2)))
-                            cardData = cData;
-                    }
-                }
-                break;
-            case PlayerType.Major.Cleric:
-                {
-                    foreach (CardData cData in DataBase.instance.clericCardData)
-                    {
-                        if (weaponType == int.Parse(cData.no.ToString().Substring(0, 2)) && indexNumber == int.Parse(cData.no.ToString().Substring(2)))
-                            cardData = cData;
-                    }
-                }
-                break;
-        }
 
 
         if (cardData.description.Contains("회복"))

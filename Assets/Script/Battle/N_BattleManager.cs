@@ -17,11 +17,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public int startHandCount = 3;
     public int maxHandCount = 5;
 
-    [Tooltip("직업/무기 별 카드 시작 인덱스-1\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프\n 7 = 완드\n 8 = 클럽\n 9 = 메이스\n 10 = 헤머\n 11 = 도끼")]
-    public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] FighterCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] WizardCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] ClericCardStartIndexOfType = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    [Tooltip("직업/무기 별 카드 시작 인덱스\n 0 = 워리어\n 1 = 메지션\n 2 = 클레릭\n 3 = 한손검\n 4 = 양손검\n 5 = 방패\n 6 = 스태프/완드\n 7 = 클럽\n 8 = 메이스\n 9 = 헤머\n 10 = 도끼")]
+    public int[] CardStartIndexOfType = { -1,-1,-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
     public AudioSource audioSource;
     public List<AudioClip> audioClips;
@@ -207,7 +204,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                     break;
             }
         }
-        foreach (CardData cardData in DataBase.instance.fighterCardData)
+        /*foreach (CardData cardData in DataBase.instance.fighterCardData)
         {
             indexByWeapon = int.Parse(cardData.no.ToString().Substring(0, 2));
             switch (indexByWeapon)  //직업,장비 별 시작 인덱스이므로 그 직업의 번호가 아닌 다음 번호에 ++
@@ -332,7 +329,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 case 59:
                     break;
             }
-        }
+        }*/
     }
     
     IEnumerator WaitingWhileAction()

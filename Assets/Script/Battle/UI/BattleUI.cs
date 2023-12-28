@@ -63,11 +63,17 @@ public class BattleUI : MonoBehaviour
 
     public void BindPlayer(GameObject[] playerarray)
     {
-        if(playerarray.Length > playerUI.Count)
-            for(int i = 0; i < playerarray.Length - playerUI.Count; i++)
+        Debug.Log("first : " + playerarray.Length + ", " + playerUI.Count);
+        if (playerarray.Length > playerUI.Count)
+        {
+            int count = playerarray.Length - playerUI.Count;
+            for (int i = 0; i < count; i++)
             {
                 playerUI.Add(Instantiate(playeruiPrefab.GetComponent<PlayerBattleUI>(), playerUI[0].transform.parent));
+                Debug.Log(i);
             }
+        } 
+        Debug.Log(playerarray.Length + ", " + playerUI.Count);
         for(int i = 0; i < playerarray.Length; i++)
         {
             playerUI[i].gameObject.SetActive(true);
