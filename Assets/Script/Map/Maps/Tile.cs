@@ -19,8 +19,6 @@ public class Tile : MonoBehaviour
 
     public int h;
 
-    public int rayDistance;
-
     public Vector3Int position;
 
     public Tile[] adjacentTilesObject = new Tile[6];
@@ -68,9 +66,11 @@ public class Tile : MonoBehaviour
 
     public enum Climate
     {
-        GRASS,
-        DESERT,
-        JUNGLE
+        GOLDENPLACE,
+        FORGOTTENFOREST,
+        TEADELOSDESERT,
+        WITCHSSWAMPLAND,
+        VOLANO
     };
 
     public enum TileState
@@ -110,7 +110,7 @@ public class Tile : MonoBehaviour
             {
                 adjacentTiles[i].tag = "BattleRange";
             }
-            if (climate == Climate.GRASS)
+            if (climate == Climate.GOLDENPLACE)
             {
                 monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
@@ -121,7 +121,7 @@ public class Tile : MonoBehaviour
                 //Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 Instantiate(Map.instance.monsterList[2], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
-            else if (climate == Climate.DESERT)
+            else if (climate == Climate.FORGOTTENFOREST)
             {
                 monsterNum = UnityEngine.Random.Range(1, 4);
                 for (int i = 0; i < monsterNum; i++)
@@ -129,6 +129,24 @@ public class Tile : MonoBehaviour
                     monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 4)]);
                 }
                 Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(2, 4)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+            }
+            else if(climate == Climate.TEADELOSDESERT)
+            {
+                monsterNum = UnityEngine.Random.Range(2, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 5)]);
+                }
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+            }
+            else if (climate == Climate.WITCHSSWAMPLAND)
+            {
+                monsterNum = UnityEngine.Random.Range(2, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[UnityEngine.Random.Range(1, 5)]);
+                }
+                Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(3, 5)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
             }
             else
             {
@@ -264,16 +282,24 @@ public class Tile : MonoBehaviour
         switch (ClimateNum)
         {
             case 1:
-                climate = Climate.GRASS;
+                climate = Climate.GOLDENPLACE;
                 material.material = climateMaterials[0];
                 break;
             case 2:
-                climate = Climate.DESERT;
+                climate = Climate.FORGOTTENFOREST;
                 material.material = climateMaterials[1];
                 break;
             case 3:
-                climate = Climate.JUNGLE;
+                climate = Climate.TEADELOSDESERT;
                 material.material = climateMaterials[2];
+                break;
+            case 4:
+                climate = Climate.WITCHSSWAMPLAND;
+                material.material = climateMaterials[3];
+                break;
+            case 5:
+                climate = Climate.VOLANO;
+                material.material = climateMaterials[4];
                 break;
         }
     }
@@ -317,17 +343,25 @@ public class Tile : MonoBehaviour
             {
                 tileUI = Map.instance.tileUI;
             }
-            if (climate == Climate.GRASS)
+            if (climate == Climate.GOLDENPLACE)
             {
-                Map.instance.mapUI.climateName.text = "ÃÊ¿ø";
+                Map.instance.mapUI.climateName.text = "È²±Ý µéÆÇ";
             }
-            else if (climate == Climate.DESERT)
+            else if (climate == Climate.FORGOTTENFOREST)
             {
-                Map.instance.mapUI.climateName.text = "»ç¸·";
+                Map.instance.mapUI.climateName.text = "ÀØÇôÁø ½£";
+            }
+            else if (climate == Climate.TEADELOSDESERT)
+            {
+                Map.instance.mapUI.climateName.text = "Å¸µ¨·Î½º »ç¸·";
+            }
+            else if (climate == Climate.WITCHSSWAMPLAND)
+            {
+                Map.instance.mapUI.climateName.text = "¸¶³àÀÇ ´ËÁö´ë";
             }
             else
             {
-                Map.instance.mapUI.climateName.text = "Á¤±Û";
+                Map.instance.mapUI.climateName.text = "È­»ê ±â½¾";
             }
 
             if (Map.instance.startTile == null)

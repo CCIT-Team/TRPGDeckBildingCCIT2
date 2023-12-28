@@ -95,7 +95,55 @@ public class WolrdMission : MonoBehaviour
                 ThirdthMainMission();
                 break;
             case 14:
-                mainMissionText.text = "플레이해주셔서 감사합니다!!";
+                Fourteenth();
+                break;
+            case 15:
+                Fifteenth();
+                break;
+            case 16:
+                Sixteenth();
+                break;
+            case 17:
+                Seventeenth();
+                break;
+            case 18:
+                Eighteenth();
+                break;
+            case 19:
+                Nineteenth();
+                break;
+            case 20:
+                Twentieth();
+                break;
+            case 21:
+                Twenthfirst();
+                break;
+            case 22:
+                Twenthsecond();
+                break;
+            case 23:
+                Twenththird();
+                break;
+            case 24:
+                Twenthfourth();
+                break;
+            case 25:
+                Twenthfifth();
+                break;
+            case 26:
+                Twenthsixth();
+                break;
+            case 27:
+                Twenthseventh();
+                break;
+            case 28:
+                Twentheighth();
+                break;
+            case 29:
+                Twenthninth();
+                break;
+            case 30:
+                thirtieth();
                 break;
         }
     }
@@ -126,7 +174,6 @@ public class WolrdMission : MonoBehaviour
     void SecondMainMission()
     {
         mainMissionUITransform.gameObject.SetActive(true);
-        mainMissionText.text = "왕국으로 가세요";
         Map.instance.currentMissionTile = Map.instance.kingdomTile[0].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -135,7 +182,6 @@ public class WolrdMission : MonoBehaviour
 
     void ThirdMainMission()
     {
-        mainMissionText.text = "공동묘지로 가세요";
         Map.instance.currentMissionTile = Map.instance.monsterTile[0];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -161,7 +207,6 @@ public class WolrdMission : MonoBehaviour
 
     void FifthMainMission()
     {
-        mainMissionText.text = "마을 근처 몬스터를 토벌하세요";
         Map.instance.currentMissionTile = Map.instance.monsterTile[1];
         Map.instance.totalTileObjectList[78].GetComponent<Tile>().tileState = Tile.TileState.VillageTile;
         Map.instance.totalTileObjectList[78].GetComponent<Tile>().isVillageTile = true;
@@ -191,7 +236,6 @@ public class WolrdMission : MonoBehaviour
 
     void SeventhMainMission()
     {
-        mainMissionText.text = "마을로 이동하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -200,7 +244,6 @@ public class WolrdMission : MonoBehaviour
 
     void EighthMainMission()
     {
-        mainMissionText.text = "성으로 이동하세요";
         Map.instance.currentMissionTile = Map.instance.kingdomTile[3].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -209,7 +252,6 @@ public class WolrdMission : MonoBehaviour
 
     void NinthMainMission()
     {
-        mainMissionText.text = "포션을 전달하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
         Map.instance.currentMissionTile.GetComponent<Tile>().tileState = Tile.TileState.VillageTile;
         Map.instance.currentMissionTile.GetComponent<Tile>().isVillageTile = true;
@@ -227,7 +269,6 @@ public class WolrdMission : MonoBehaviour
 
     void TwelfthMainMission()
     {
-        mainMissionText.text = "마을을 확인하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -235,6 +276,140 @@ public class WolrdMission : MonoBehaviour
     }
 
     void ThirdthMainMission()
+    {
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Fourteenth()
+    {
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Fifteenth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Sixteenth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Seventeenth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Eighteenth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Nineteenth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twentieth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthfirst()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthsecond()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenththird()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthfourth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthfifth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthsixth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthseventh()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twentheighth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void Twenthninth()
+    {
+        mainMissionText.text = "소식을 전달하세요";
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile.isMissionOn = true;
+        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        Map.instance.missionNum = 13;
+    }
+    void thirtieth()
     {
         mainMissionText.text = "소식을 전달하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();

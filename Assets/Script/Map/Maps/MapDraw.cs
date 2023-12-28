@@ -4,9 +4,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class MapDraw : MonoBehaviour
+public class MapDraw
 {
-    public List<Vector2> siteList;
     public Sprite DrawVoronoiToSprite(Voronoi voronoi)
     {
         Rect rect = voronoi.PlotBounds;
@@ -14,7 +13,6 @@ public class MapDraw : MonoBehaviour
         int height = Mathf.RoundToInt(rect.height);
         Color[] pixelColors = Enumerable.Repeat(Color.white, width * height).ToArray();
         var siteCoords = voronoi.SiteCoords();
-        siteList = siteCoords;
         int a = 0;
         // 무게중심 그리기
         foreach (var coord in siteCoords)
@@ -118,7 +116,6 @@ public class MapDraw : MonoBehaviour
         int height = Mathf.RoundToInt(rect.height);
         Color[] pixelColors = Enumerable.Repeat(Color.white, width * height).ToArray();
         var siteCoords = voronoi.SiteCoords();
-        siteList = siteCoords;
 
         // 무게중심 그리기
         foreach (var coord in siteCoords)

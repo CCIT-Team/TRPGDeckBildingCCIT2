@@ -28,16 +28,32 @@ public class Map_old : MonoBehaviour
     private int _seed = 0;
 
     public GameObject hexagon;
+    public Transform tiles;
+    public MapDraw mapDraw;
     GameObject tileObject;
     int tileNum = 0;
-    public GameObject[] tile = new GameObject[3800];
 
     private void Awake()
     {
-        tile = new GameObject[3800];
         var voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
        // voronoiMapRenderer.sprite = MapDraw.DrawVoronoiToSprite(voronoi);
         GenerateMap();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            foreach (Transform child in tiles)
+            {
+                Destroy(child.gameObject);
+            }
+            _seed += 1;
+            GenerateMap();
+            var voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
+            voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
+            voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
+        }
     }
 
     public void GenerateMap()
@@ -93,18 +109,16 @@ public class Map_old : MonoBehaviour
                 {
                     if (x % 2 == 0)
                     {
-                        tileObject = Instantiate(hexagon, new Vector2(x * 1.5f, y * Mathf.Sqrt(3)), Quaternion.identity, transform);
+                        tileObject = Instantiate(hexagon, new Vector2(x * 1.5f, y * Mathf.Sqrt(3)), Quaternion.identity, tiles);
                         tileObject.transform.Rotate(new Vector3(-90, 0, 0));
                         tileObject.name = "Tile" + tileNum;
-                        tile[tileNum] = tileObject;
                         tileNum += 1;
                     }
                     else
                     {
-                        tileObject = Instantiate(hexagon, new Vector2(x * 1.5f, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, transform);
+                        tileObject = Instantiate(hexagon, new Vector2(x * 1.5f, y * Mathf.Sqrt(3) + Mathf.Sqrt(3) / 2), Quaternion.identity, tiles);
                         tileObject.transform.Rotate(new Vector3(-90, 0, 0));
                         tileObject.name = "Tile" + tileNum;
-                        tile[tileNum] = tileObject;
                         tileNum += 1;
                     }
                 }

@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 
 public class Map : MonoBehaviour
 {
     public static Map instance;
-    public MapDraw mapDraw;
+    public MapDraw mapDraw = new MapDraw();
     public Vector2Int size;
 
     [SerializeField] private int nodeAmount = 0;
@@ -23,9 +24,6 @@ public class Map : MonoBehaviour
     [SerializeField] private SpriteRenderer noiseMapRenderer = null;
     [SerializeField] private bool lockSeed = true;
     [SerializeField] private int _seed = 0;
-    [SerializeField] Rect wolrdRect;
-    [SerializeField] int wolrdRectx = 0;
-    [SerializeField] int wolrdRecty = 0;
     Voronoi voronoi;
 
     [Header("Climate")]
@@ -40,9 +38,6 @@ public class Map : MonoBehaviour
     [HideInInspector] public Tile startTile;
     [HideInInspector] public Tile dragonStartTile;
     public List<GameObject> totalTileObjectList;
-    //public List<GameObject> grassTileObjectList;
-    //public List<GameObject> desertTileObjectList;
-    //public List<GameObject> junglelTileObjectList;
     public List<Tile> pathTileObjectList;
     public List<Tile> kingdomTile;
     public List<Tile> monsterTile;
@@ -85,15 +80,15 @@ public class Map : MonoBehaviour
             GenerateMap();
             isFirst = false;
         }
-        wolrdRect = new Rect(22.5f, 24, wolrdRectx, wolrdRecty);
-        size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
+        //wolrdRect = new Rect(22.5f, 24, wolrdRectx, wolrdRecty);
+        //size = new Vector2Int(Mathf.RoundToInt(wolrdRectx), Mathf.RoundToInt(wolrdRecty));
         voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
         GameManager.instance.GetLoadAvatar(
             new Vector3(totalTileObjectList[0].transform.position.x,
             totalTileObjectList[0].transform.position.y + 0.5f,
             totalTileObjectList[0].transform.position.z));
-        players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+        players.AddRange(GameManager.instance.players);
         for (int i = 0; i < players.Count; i++)
         {
             players[i].name = players[i].GetComponent<Character_type>().nickname;
@@ -158,46 +153,94 @@ public class Map : MonoBehaviour
 
     void MapSetting()
     {
+        #region GoldenPlace
         //Kingdom
-        totalTileObjectList[7].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[7].GetComponent<Tile>());
-        totalTileObjectList[88].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[88].GetComponent<Tile>());
-        totalTileObjectList[178].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[178].GetComponent<Tile>());
-        totalTileObjectList[221].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[221].GetComponent<Tile>());
-        totalTileObjectList[412].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[412].GetComponent<Tile>());
-        totalTileObjectList[468].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
-        kingdomTile.Add(totalTileObjectList[468].GetComponent<Tile>());
+        totalTileObjectList[75].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[75].GetComponent<Tile>());
+        totalTileObjectList[217].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[217].GetComponent<Tile>());
+
         //Monster
-        totalTileObjectList[60].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[60].GetComponent<Tile>());
+        totalTileObjectList[71].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[71].GetComponent<Tile>());
+        totalTileObjectList[196].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[196].GetComponent<Tile>());
+        #endregion
+        #region ForgottenForest
+        //Kingdom
+        totalTileObjectList[416].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[416].GetComponent<Tile>());
+        totalTileObjectList[708].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[708].GetComponent<Tile>());
+
+        //Monster
+        totalTileObjectList[412].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[412].GetComponent<Tile>());
+        totalTileObjectList[574].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[574].GetComponent<Tile>());
+        totalTileObjectList[611].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[611].GetComponent<Tile>());
+        #endregion
+        #region TeadelosDesert
+        //Kingdom
+        totalTileObjectList[239].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[239].GetComponent<Tile>());
+        totalTileObjectList[81].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[81].GetComponent<Tile>());
+
+        //Monster
+        totalTileObjectList[207].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[207].GetComponent<Tile>());
         totalTileObjectList[138].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         monsterTile.Add(totalTileObjectList[138].GetComponent<Tile>());
-        totalTileObjectList[198].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[198].GetComponent<Tile>());
         totalTileObjectList[368].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         monsterTile.Add(totalTileObjectList[368].GetComponent<Tile>());
-        totalTileObjectList[275].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[275].GetComponent<Tile>());
-        totalTileObjectList[185].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[185].GetComponent<Tile>());
-        totalTileObjectList[323].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[323].GetComponent<Tile>());
-        totalTileObjectList[518].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[518].GetComponent<Tile>());
-        totalTileObjectList[544].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[544].GetComponent<Tile>());
-        totalTileObjectList[129].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[129].GetComponent<Tile>());
+        #endregion
+        #region Witch'sSwampland
+        //Kingdom
+        totalTileObjectList[728].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[728].GetComponent<Tile>());
 
+        //Monster
+        totalTileObjectList[532].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[532].GetComponent<Tile>());
+        totalTileObjectList[701].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[701].GetComponent<Tile>());
+        totalTileObjectList[528].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[528].GetComponent<Tile>());
+        totalTileObjectList[755].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[755].GetComponent<Tile>());
+        totalTileObjectList[806].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[806].GetComponent<Tile>());
+        totalTileObjectList[855].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[855].GetComponent<Tile>());
+        #endregion
+        #region Volcano
+        //Kingdom
+        totalTileObjectList[622].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[622].GetComponent<Tile>());
+        totalTileObjectList[308].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
+        kingdomTile.Add(totalTileObjectList[308].GetComponent<Tile>());
 
-        totalTileObjectList[347].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
-        instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[347].gameObject.transform.position.x,
-            1.5f, totalTileObjectList[347].gameObject.transform.position.z), Quaternion.identity, transform);
+        //Monster
+        totalTileObjectList[282].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[282].GetComponent<Tile>());
+        totalTileObjectList[360].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[360].GetComponent<Tile>());
+        totalTileObjectList[522].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[522].GetComponent<Tile>());
+        totalTileObjectList[590].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[590].GetComponent<Tile>());
+        totalTileObjectList[717].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[717].GetComponent<Tile>());
+        totalTileObjectList[650].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[650].GetComponent<Tile>());
+        //Boss
+        totalTileObjectList[648].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
+        instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[648].gameObject.transform.position.x,
+            1.5f, totalTileObjectList[648].gameObject.transform.position.z), Quaternion.identity, transform);
         dragonScript = instantiateDragon.GetComponent<Dragon>();
+        #endregion
     }
 
     public void PlayerMovePath(Tile objects)
@@ -260,12 +303,21 @@ public class Map : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            foreach (Transform t in transform) 
+            {
+                Destroy(t.gameObject);
+            }
+            GenerateMap();
+            voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
+            voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
+        }
     }
 
     public void GenerateMap()
     {
         var noiseColors = CreateMapShape(size, noiseFrequency, noiseOctave);
-
         noiseMapRenderer.sprite = mapDraw.DrawSprite(size, noiseColors);
     }
 
@@ -325,7 +377,6 @@ public class Map : MonoBehaviour
     private float[] CreateMapShape(Vector2Int size, float frequency, int octave)
     {
         var seed = (_seed == 0) ? Random.Range(1, int.MaxValue) : _seed;
-
         var noise = new FastNoiseLite();
         noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
         noise.SetFractalType(FastNoiseLite.FractalType.FBm);
@@ -353,14 +404,6 @@ public class Map : MonoBehaviour
                         tile.position = new Vector3Int(x, 0, y);
                         tileObject.name = "Tile" + tileNum;
                         totalTileObjectList.Add(tileObject);
-                        if (wolrdRectx < totalTileObjectList[tileNum].transform.position.x)
-                        {
-                            wolrdRectx = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.x);
-                        }
-                        if (wolrdRecty < totalTileObjectList[tileNum].transform.position.z)
-                        {
-                            wolrdRecty = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.z);
-                        }
                         tileNum += 1;
                     }
                     else
@@ -370,26 +413,16 @@ public class Map : MonoBehaviour
                         tile.position = new Vector3Int(x, 0, y);
                         tileObject.name = "Tile" + tileNum;
                         totalTileObjectList.Add(tileObject);
-                        if (wolrdRectx < totalTileObjectList[tileNum].transform.position.x)
-                        {
-                            wolrdRectx = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.x);
-                        }
-                        if (wolrdRecty < totalTileObjectList[tileNum].transform.position.z)
-                        {
-                            wolrdRecty = Convert.ToInt32(totalTileObjectList[tileNum].transform.position.z);
-                        }
                         tileNum += 1;
                     }
+                }
+                else
+                {
+                    Debug.Log("off");
                 }
                 ++index;
             }
         }
         return colorDatas;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector3(wolrdRect.x, 0, wolrdRect.y), new Vector3(size.x, 0, size.y));
     }
 }
