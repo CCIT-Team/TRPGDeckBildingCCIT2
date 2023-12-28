@@ -31,6 +31,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     bool isAction = false;
     bool isTurnAnnounce = false;
     public bool isBuffRun_All = false;
+    public bool isHandOver = false;
 
     public bool IsAction
     {

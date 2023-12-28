@@ -21,7 +21,7 @@ public class PlayerBattleUI : MonoBehaviour
 
     public float radius = 0;
     public float angle = 0;
-    
+    public int maxHandCount = 5;
 
     public DeckDisplay deckDisplay;
 
@@ -73,9 +73,10 @@ public class PlayerBattleUI : MonoBehaviour
         StartCoroutine(DrawCoroutine(drawCount));
     }
 
-    void RefillDeck()
+    public void CostDraw()
     {
-
+        boundCharacter.cost -= 1;
+        DrawCard();
     }
 
 
@@ -147,6 +148,8 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.GetComponent<CardUI>().DisplayOnUI();
             yield return new WaitUntil(() => cardObject.GetComponent<CardAnimation>().isdrawn);
         }
+        if (hand.childCount > maxHandCount)
+            N_BattleManager.instance.isHandOver = true;
     }
 
     public IEnumerator ActIfTurn()
