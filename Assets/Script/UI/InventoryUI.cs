@@ -82,12 +82,24 @@ public class InventoryUI : MonoBehaviour
                 weaponIndex[emptySlot].SetSlotItem(number, 1);
                 break;
             case 22000:
-                emptySlot = IsHaveSlot(armorIndex);
-                armorIndex[emptySlot].SetSlotItem(number, 1);
-                break;
-            case 32000:
-                emptySlot = IsHaveSlot(jewelIndex);
-                jewelIndex[emptySlot].SetSlotItem(number, 1);
+                for(int i = 0; i < DataBase.instance.armorData.Count; i++)
+                {
+                    if (DataBase.instance.armorData[i].no == number && DataBase.instance.armorData[i].type == ArmorData.Type.Armor)
+                    {
+                        emptySlot = IsHaveSlot(armorIndex);
+                        armorIndex[emptySlot].SetSlotItem(number, 1);
+                    }
+                    else if(DataBase.instance.armorData[i].no == number && DataBase.instance.armorData[i].type == ArmorData.Type.Head)
+                    {
+                        emptySlot = IsHaveSlot(armorIndex);
+                        armorIndex[emptySlot].SetSlotItem(number, 1);
+                    }
+                    else if (DataBase.instance.armorData[i].no == number && DataBase.instance.armorData[i].type == ArmorData.Type.Jewel)
+                    {
+                        emptySlot = IsHaveSlot(jewelIndex);
+                        jewelIndex[emptySlot].SetSlotItem(number, 1);
+                    }
+                }
                 break;
         }
     }
@@ -181,6 +193,10 @@ public class InventoryUI : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
             {
                 SetInvenItem(12001001, 10);
+                SetInvenItem(22000001, 10);
+                SetInvenItem(22000002, 10);
+                SetInvenItem(22000020, 10);
+                SetInvenItem(12000001, 10);
                 SortingTotal();
             }
         }
