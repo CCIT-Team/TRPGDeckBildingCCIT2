@@ -51,12 +51,13 @@ public class DeckDisplay : MonoBehaviour
         {
             if(displayDeck.Exists(x => x.GetComponent<DeckCardUI>().cardData.no == deckCards[i]))
             {
-                displayDeck.Find(x => x.GetComponent<DeckCardUI>().cardData.no == deckCards[i]).GetComponent<DeckCardUI>().AddAmount(1);
+                displayDeck.Find(x => x.GetComponent<DeckCardUI>().cardData.no == deckCards[i]).GetComponent<DeckCardUI>().SetAmount(deckCards.FindAll(x => x == deckCards[i]).Count);
             }
             else
             {
                 card = Instantiate(cardPreFab_D, deckTransform);
                 card.GetComponent<DeckCardUI>().LoadCardData(deckCards[i]);
+                card.GetComponent<DeckCardUI>().SetAmount(deckCards.FindAll(x => x == deckCards[i]).Count);
                 displayDeck.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);
@@ -65,12 +66,13 @@ public class DeckDisplay : MonoBehaviour
         {
             if (displayHand.Exists(x => x.GetComponent<DeckCardUI>().cardData.no == handCards[i]))
             {
-                displayHand.Find(x => x.GetComponent<DeckCardUI>().cardData.no == handCards[i]).GetComponent<DeckCardUI>().AddAmount(1);
+                displayHand.Find(x => x.GetComponent<DeckCardUI>().cardData.no == handCards[i]).GetComponent<DeckCardUI>().SetAmount(handCards.FindAll(x => x == handCards[i]).Count);
             }
             else
             {
                 card = Instantiate(cardPreFab_D, handTransform);
                 card.GetComponent<DeckCardUI>().LoadCardData(handCards[i]);
+                card.GetComponent<DeckCardUI>().SetAmount(handCards.FindAll(x => x == handCards[i]).Count);
                 displayHand.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);
@@ -79,12 +81,13 @@ public class DeckDisplay : MonoBehaviour
         {
             if (displayGrave.Exists(x => x.GetComponent<DeckCardUI>().cardData.no == graveCards[i]))
             {
-                displayGrave.Find(x => x.GetComponent<DeckCardUI>().cardData.no == graveCards[i]).GetComponent<DeckCardUI>().AddAmount(1);
+                displayGrave.Find(x => x.GetComponent<DeckCardUI>().cardData.no == graveCards[i]).GetComponent<DeckCardUI>().SetAmount(graveCards.FindAll(x => x == graveCards[i]).Count);
             }
             else
             {
                 card = Instantiate(cardPreFab_D, graveTransform);
                 card.GetComponent<DeckCardUI>().LoadCardData(graveCards[i]);
+                card.GetComponent<DeckCardUI>().SetAmount(graveCards.FindAll(x => x == graveCards[i]).Count);
                 displayGrave.Add(card);
             }
             //deckTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0,80 + 255 * transform.childCount);

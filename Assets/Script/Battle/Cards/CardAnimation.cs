@@ -24,7 +24,8 @@ public class CardAnimation : MonoBehaviour
     {
         N_BattleManager.instance.IsAction = true;
         Debug.Log("Draw");
-        transform.position = BattleUI.instance.cardStartTransform.position - new Vector3(transform.root.GetComponent<RectTransform>().position.x,0,0) ;
+        yield return new WaitUntil(() => transform.parent.name == "DrawnCard");
+        transform.position = BattleUI.instance.cardStartTransform.position;
         Debug.Log("T:"+BattleUI.instance.cardStartTransform.position);
         Debug.Log("C:" + transform.position);
         transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -71,6 +72,7 @@ public class CardAnimation : MonoBehaviour
         transform.localPosition = Vector3.zero;
         transform.localScale = Vector3.one;
         isdrawn = true;
+        yield return new WaitForSeconds(0.1f);
         N_BattleManager.instance.IsAction = false;
     }
 }
