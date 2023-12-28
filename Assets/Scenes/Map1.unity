@@ -2755,6 +2755,11 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 408800912600904506, guid: 322593f526ef4f044bb9bf1cfa1b65f6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 572343310383258487, guid: 322593f526ef4f044bb9bf1cfa1b65f6,
         type: 3}
       propertyPath: m_IsActive
@@ -2920,10 +2925,7 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Run
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7316929684900323819, guid: 322593f526ef4f044bb9bf1cfa1b65f6, type: 3}
-    - {fileID: 7643685997850299728, guid: 322593f526ef4f044bb9bf1cfa1b65f6, type: 3}
-    - {fileID: 125625655718417530, guid: 322593f526ef4f044bb9bf1cfa1b65f6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5987100837376289751, guid: 322593f526ef4f044bb9bf1cfa1b65f6,
@@ -5640,7 +5642,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e57c18649b7a704087b90686f795f66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wolrdMission: {fileID: 1550965600}
   isEndScript: 0
   delay: 0
   text: {fileID: 704233680}
@@ -6173,6 +6174,7 @@ MonoBehaviour:
   currentMissionTile: {fileID: 0}
   tileUI: {fileID: 1418112461}
   missionNum: 1
+  missionChatNum: 0
   isBattle: 0
   isFirst: 1
   isPlayerOnEndTile: 0

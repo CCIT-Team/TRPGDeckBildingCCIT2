@@ -299,13 +299,13 @@ public class Tile : MonoBehaviour
     public void DestroyMonsterTile()
     {
         isMonsterTile = false;
+        monsterObject.SetActive(false);
         for (int i = 0; i < adjacentTiles.Count; i++)
         {
-            adjacentTiles[i].tag = "";
+            adjacentTiles[i].tag = "Tile";
         }
         Map.instance.isOutofUI = false;
-        tileUI.OffMonsterBattle();
-        monsterObject.SetActive(false);
+        //tileUI.OffMonsterBattle();
     }
 
     private void OnTriggerEnter(Collider col)
@@ -339,10 +339,11 @@ public class Tile : MonoBehaviour
             {
                 if (Map.instance.wolrdMission.mainMissionNum == 2)
                 {
+                    Map.instance.wolrdMission.mission.SetActive(true);
+                    Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
-                    Map.instance.wolrdMission.mission.SetActive(true);
                 }
                 if (Map.instance.wolrdMission.mainMissionNum ==8)
                 {
@@ -356,10 +357,11 @@ public class Tile : MonoBehaviour
             {
                 if (Map.instance.wolrdMission.mainMissionNum == 7)
                 {
+                    Map.instance.wolrdMission.mission.SetActive(true);
+                    Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
-                    Map.instance.wolrdMission.mission.SetActive(true);
                 }
             }
             if (Map.instance.wolrdMission.mainMissionNum == 9 && isMissionOn)
@@ -369,17 +371,19 @@ public class Tile : MonoBehaviour
             }
             if (Map.instance.wolrdMission.mainMissionNum == 12 && isMissionOn)
             {
+                Map.instance.wolrdMission.mission.SetActive(true);
+                Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
                 Map.instance.isOutofUI = true;
-                Map.instance.wolrdMission.mission.SetActive(true);
             }
             if (Map.instance.wolrdMission.mainMissionNum == 13 && isMissionOn)
             {
+                Map.instance.wolrdMission.mission.SetActive(true);
+                Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
                 Map.instance.isOutofUI = true;
-                Map.instance.wolrdMission.mission.SetActive(true);
             }
             #endregion
         }

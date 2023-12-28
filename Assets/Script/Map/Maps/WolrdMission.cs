@@ -103,8 +103,6 @@ public class WolrdMission : MonoBehaviour
     #region ¹Ì¼Ç
     public void NextMission()
     {
-        if(mission.GetComponent<Mission>().isEndScript)
-        {
             mission.GetComponent<Mission>().SCVDataReadAndSet();
             mainMissionNum += 1;
             Map.instance.missionChatNum += 1;
@@ -115,7 +113,6 @@ public class WolrdMission : MonoBehaviour
             }
             mission.GetComponent<Mission>().isEndScript = false;
             gameObject.SetActive(true);
-        }
     }
 
     void FirstMainMission()
@@ -145,9 +142,9 @@ public class WolrdMission : MonoBehaviour
         Map.instance.missionNum = 3;
         if (GameManager.instance.isVictory)
         {
-            Map.instance.currentMissionTile.isMissionOn = false;
-            Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-            Map.instance.currentMissionTile.DestroyMonsterTile();
+            Map.instance.monsterTile[0].isMissionOn = false;
+            Map.instance.monsterTile[0].MainMissionMarkerOnOff();
+            Map.instance.monsterTile[0].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
             NextMission();
         }
@@ -155,6 +152,10 @@ public class WolrdMission : MonoBehaviour
     void FourthMainMission()
     {
         GameManager.instance.isVictory = false;
+        Map.instance.wolrdMission.mission.SetActive(true);
+        Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
         Map.instance.missionNum = 4;
     }
 
@@ -170,9 +171,9 @@ public class WolrdMission : MonoBehaviour
         Map.instance.missionNum = 5;
         if (GameManager.instance.isVictory)
         {
-            Map.instance.currentMissionTile.isMissionOn = false;
-            Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-            Map.instance.currentMissionTile.DestroyMonsterTile();
+            Map.instance.monsterTile[1].isMissionOn = false;
+            Map.instance.monsterTile[1].MainMissionMarkerOnOff();
+            Map.instance.monsterTile[1].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
             NextMission();
         }
@@ -181,6 +182,10 @@ public class WolrdMission : MonoBehaviour
     void SixthMainMission()
     {
         GameManager.instance.isVictory = false;
+        Map.instance.wolrdMission.mission.SetActive(true);
+        Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
         mainMissionNum = 6;
     }
 

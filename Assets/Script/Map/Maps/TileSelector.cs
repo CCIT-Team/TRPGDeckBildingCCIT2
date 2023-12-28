@@ -42,9 +42,10 @@ public class TileSelector : MonoBehaviour
                 {
                     startPoint = map.startTile;
                 }
-                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && !Map.instance.dragonScript.isdragonTurn)
+                if (!isEndTileSelect && !Map.instance.isOutofUI && Map.instance.wolrdTurn.currentPlayer.isMyturn && 
+                    !Map.instance.dragonScript.isdragonTurn && Map.instance.wolrdTurn.currentPlayer.cost != 0)
                 {
-                    if (startPoint != null && endPoint == null)
+                    if (startPoint != null && endPoint == null && startPoint != endPoint)
                     {
                         endPoint = tiles;
                         tilePath = astar.FindPath(startPoint, endPoint);
