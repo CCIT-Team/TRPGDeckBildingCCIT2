@@ -115,27 +115,6 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-    //    GameManager.instance.GetLoadAvatar(
-    //new Vector3(totalTileObjectList[0].transform.position.x,
-    //totalTileObjectList[0].transform.position.y + 0.5f,
-    //totalTileObjectList[0].transform.position.z));
-    //    players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
-    //    for (int i = 0; i < players.Count; i++)
-    //    {
-    //        players[i].name = players[i].GetComponent<Character_type>().nickname;
-    //        if (players[i].GetComponent<Character_type>().major == PlayerType.Major.Fighter)
-    //        {
-    //            players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[0];
-    //        }
-    //        if (players[i].GetComponent<Character_type>().major == PlayerType.Major.Wizard)
-    //        {
-    //            players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[1];
-    //        }
-    //        if (players[i].GetComponent<Character_type>().major == PlayerType.Major.Cleric)
-    //        {
-    //            players[i].GetComponent<Animator>().runtimeAnimatorController = wolrdPlayerAnimator[2];
-    //        }
-    //    }
         mapUI.SetTurnSlider(players);
     }
 
@@ -272,6 +251,15 @@ public class Map : MonoBehaviour
     private void Update()
     {
         MovePlayer();
+
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            Time.timeScale = 3;
+        }
+        if (Input.GetKeyUp(KeyCode.F1))
+        {
+            Time.timeScale = 1;
+        }
     }
 
     public void GenerateMap()

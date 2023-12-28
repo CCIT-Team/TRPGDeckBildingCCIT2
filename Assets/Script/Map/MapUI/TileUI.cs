@@ -25,6 +25,12 @@ public class TileUI : MonoBehaviour
         shopUI.SetActive(false);
         hospital.SetActive(false);
         monsterBattleUI.SetActive(false);
+
+        if (Map.instance.tileUI == null )
+        {
+            Debug.Log("ReConnectTileUI");
+            Map.instance.tileUI = this;
+        }
     }
 
     void InitializedPlayerTurn()

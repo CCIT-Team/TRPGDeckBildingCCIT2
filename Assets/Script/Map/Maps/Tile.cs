@@ -313,7 +313,10 @@ public class Tile : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             player = col.gameObject.GetComponent<Character>();
-
+            if (tileUI == null)
+            {
+                tileUI = Map.instance.tileUI;
+            }
             if (climate == Climate.GRASS)
             {
                 Map.instance.mapUI.climateName.text = "ÃÊ¿ø";
@@ -345,7 +348,7 @@ public class Tile : MonoBehaviour
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
                 }
-                if (Map.instance.wolrdMission.mainMissionNum ==8)
+                if (Map.instance.wolrdMission.mainMissionNum == 8)
                 {
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();

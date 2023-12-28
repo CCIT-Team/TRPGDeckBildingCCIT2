@@ -11,6 +11,7 @@ TagManager:
   - PortionR
   - PortionL
   - BattleRange
+  - TileUI
   layers:
   - Default
   - TransparentFX
