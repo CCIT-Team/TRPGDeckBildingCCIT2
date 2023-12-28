@@ -12,9 +12,10 @@ public class BattleUI : MonoBehaviour
 
     public GameObject targetIndicator;
     public GameObject currentTargetIndicator;
+    public CardDumpZone cardDumpZone;
     public Transform cardHighlightPosition;
     public Transform cardStartTransform;
-    public Transform cardSelectTransform;
+    public Transform extraCardTransform;
 
     [Header("TurnDisplay")]
 

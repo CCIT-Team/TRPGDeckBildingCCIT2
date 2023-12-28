@@ -36,6 +36,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     string damageColor = "red";
 
     bool isSelected = false;
+    public bool isDumping = false;
 
     private void Awake()
     {
@@ -96,7 +97,20 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if(bindCard.cardData.variableName == "Defcon")
             image.texture = (Texture)Resources.Load("UI/Cards/Defcon_fighter");
 
-
+        switch (bindCard.cardData.skillType)
+        {
+            case CardData.SkillType.MultiEnemy:
+            case CardData.SkillType.SingleEnemy:
+                layerMask = 1 << LayerMask.NameToLayer("Monster");
+                break;
+            case CardData.SkillType.SingleFriendly:
+            case CardData.SkillType.MultiMyself:
+                layerMask = 1 << LayerMask.NameToLayer("Player");
+                break;
+            case CardData.SkillType.SingleMyself:
+                layerMask = 0;
+                break;
+        }
 
 
         //Ό³Έν
@@ -116,6 +130,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                          + (bindCard.CalculateCardValue()).ToString()
                          + "</color></b>"
                          + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
+        gameObject.name = bindCard.cardData.variableName;
     }
     List<GameObject> tokenPreview = new List<GameObject>();
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
@@ -148,11 +163,14 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        if (Input.GetMouseButton(0)&&!isSelected)
+        if (Input.GetMouseButtonDown(0)&&!isSelected)
         {
             isSelected = true;
-            listIndex = transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.FindIndex(x => x == transform.parent.gameObject);
-            transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.Remove(transform.parent.gameObject);
+            if(transform.parent.parent != BattleUI.instance.extraCardTransform)
+            {
+                listIndex = bindCard.playerUI.handList.FindIndex(x => x == transform.parent.gameObject);
+                bindCard.playerUI.handList.Remove(transform.parent.gameObject);
+            }
             for (int i = 0; i < tokenPreview.Count; i++)
             {
                 tokenPreview[i].SetActive(false);
@@ -160,25 +178,55 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             defaultPosition = transform.position;
             positionDistance = defaultPosition - Input.mousePosition;
             transform.position = Input.mousePosition + positionDistance;
-        }
-        if (layerMask == 1 << N_BattleManager.instance.currentUnit.gameObject.layer)
-        {
-            canUseList.Add(Instantiate(BattleUI.instance.targetIndicator, N_BattleManager.instance.currentUnit.gameObject.transform.position, Quaternion.identity));
-        }
-        foreach (Unit unit in N_BattleManager.instance.units)
-        {
-            if (layerMask == 1 << unit.gameObject.layer)
+
+            if(N_BattleManager.instance.isHandOver)
             {
-                canUseList.Add(Instantiate(BattleUI.instance.targetIndicator, unit.transform.position, Quaternion.identity));
+                BattleUI.instance.cardDumpZone.SetCardRect(gameObject);
             }
+            else
+            {
+                if (layerMask == 1 << N_BattleManager.instance.currentUnit.gameObject.layer)
+                {
+                    canUseList.Add(Instantiate(BattleUI.instance.targetIndicator, N_BattleManager.instance.currentUnit.gameObject.transform.position, Quaternion.identity));
+                }
+                foreach (Unit unit in N_BattleManager.instance.units)
+                {
+                    if (layerMask == 1 << unit.gameObject.layer)
+                    {
+                        canUseList.Add(Instantiate(BattleUI.instance.targetIndicator, unit.transform.position, Quaternion.identity));
+                    }
+                }
+            } 
         }
+
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
         if (Input.GetMouseButtonUp(0))
         {
-            if (layerMask == 0)
+            if(N_BattleManager.instance.isHandOver)
+            {
+                if (isDumping)
+                {
+                    if (BattleUI.instance.extraCardTransform.GetChild(0) != null)
+                    {
+                        bindCard.playerUI.handList.Add(BattleUI.instance.extraCardTransform.GetChild(0).gameObject);
+                        BattleUI.instance.extraCardTransform.GetChild(0).SetParent(bindCard.playerUI.hand);
+                    }
+                    bindCard.playerUI.boundDeck.HandToGrave(bindCard.cardData.no);
+                    BattleUI.instance.cardDumpZone.SetCardRect();
+                    N_BattleManager.instance.isHandOver = false;
+                    Destroy(transform.parent);
+                }
+                else
+                {
+                    transform.position = defaultPosition;
+                    if(transform.parent.parent != BattleUI.instance.extraCardTransform)
+                        bindCard.playerUI.handList.Insert(listIndex, transform.parent.gameObject);
+                }
+            }
+            else if (layerMask == 0)
             {
                 target = bindCard.playerUI.boundCharacter.gameObject;
                 bindCard.cardTarget = target;
@@ -197,10 +245,9 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 {
                     target = null;
                     transform.position = defaultPosition;
-                    transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.Insert(listIndex,transform.parent.gameObject);
+                    bindCard.playerUI.handList.Insert(listIndex,transform.parent.gameObject);
                 }
             }
-
             isSelected = false;
         }
         foreach(GameObject indicator in canUseList)
@@ -221,18 +268,20 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if (!isSelected)
             return;
         transform.position = Input.mousePosition + positionDistance;
-        RaycastHit hit;
-        
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80,layerMask))
+        if(!N_BattleManager.instance.isHandOver)
         {
-            target = hit.transform.gameObject;
-            BattleUI.instance.currentTargetIndicator.transform.position = target.transform.position;
-            BattleUI.instance.currentTargetIndicator.SetActive(true);
-        }
-        else
-        {
-            target = null;
-            BattleUI.instance.currentTargetIndicator.SetActive(false);
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 80, layerMask))
+            {
+                target = hit.transform.gameObject;
+                BattleUI.instance.currentTargetIndicator.transform.position = target.transform.position;
+                BattleUI.instance.currentTargetIndicator.SetActive(true);
+            }
+            else
+            {
+                target = null;
+                BattleUI.instance.currentTargetIndicator.SetActive(false);
+            }
         }
     }
 
@@ -244,8 +293,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public void TransferUI()
     {
         GameObject parent = transform.parent.gameObject;
-        transform.SetParent(transform.parent.parent.parent);
-        transform.parent.parent.GetComponent<PlayerBattleUI>().handList.Remove(parent);
+        transform.SetParent(bindCard.playerUI.transform);
+        bindCard.playerUI.handList.Remove(parent);
         Destroy(parent);
         transform.position = new Vector2(Camera.main.pixelWidth*2,0);
     }

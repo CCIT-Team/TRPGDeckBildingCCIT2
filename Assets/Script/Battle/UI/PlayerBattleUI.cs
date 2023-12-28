@@ -128,13 +128,20 @@ public class PlayerBattleUI : MonoBehaviour
             }
             GetComponent<AudioSource>().Play();
             int cardID = boundDeck.DrawCard(Random.Range(0, boundDeck.DeckCount));
-            GameObject cardParent = new GameObject("DrawCard");
+            GameObject cardParent = new GameObject("Card");
             GameObject cardObject;
-            if(hand.childCount >= 5)
+            if(hand.childCount >= N_BattleManager.instance.maxHandCount)
             {
-                cardParent.transform.SetParent(BattleUI.instance.cardSelectTransform);
+                cardParent.transform.SetParent(BattleUI.instance.extraCardTransform);
+                cardParent.transform.localPosition = new Vector3(0, 0, 0);
+                N_BattleManager.instance.isHandOver = true;
             }
-            cardParent.transform.SetParent(hand);
+            else
+            {
+                cardParent.transform.SetParent(hand);
+                handList.Add(cardParent);
+            }
+            cardParent.name = "DrawnCard";
             if (waitCardInstant.Count > 0)
             {
                 cardObject = waitCardInstant.Dequeue();
@@ -150,12 +157,15 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.SetActive(true);
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
             cardObject.GetComponent<CardUI>().DisplayOnUI();
-            handList.Add(cardParent);
             yield return new WaitUntil(() => cardObject.GetComponent<CardAnimation>().isdrawn);
-            cardParent.name = "card" + (hand.childCount);
+            if (N_BattleManager.instance.isHandOver)
+            {
+                BattleUI.instance.cardDumpZone.gameObject.SetActive(true);
+                yield return new WaitUntil(() => !N_BattleManager.instance.isHandOver);
+                BattleUI.instance.cardDumpZone.gameObject.SetActive(false);
+            }
+            cardParent.name = "card";
         }
-        if (hand.childCount > N_BattleManager.instance.maxHandCount)
-            N_BattleManager.instance.isHandOver = true;
     }
 
     public IEnumerator ActIfTurn()
