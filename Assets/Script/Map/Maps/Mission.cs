@@ -55,10 +55,6 @@ public class Mission : MonoBehaviour
         {
             Map.instance.wolrdMission.chracterName.text = data_Dialog[Map.instance.missionChatNum]["ChracterName"].ToString();
         }
-        if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
-        {
-            Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-        }
     }
 
     IEnumerator Output_text()
@@ -68,7 +64,8 @@ public class Mission : MonoBehaviour
         { text.text += data_Dialog[Map.instance.missionChatNum]["Content"].ToString()[t]; }
         else 
         {
-            if(data_Dialog[Map.instance.missionChatNum]["Battle"].ToString() == "")
+
+            if (data_Dialog[Map.instance.missionChatNum]["Battle"].ToString() == "")
             {
                 isEndScript = true;
                 Map.instance.startTile = null;
@@ -87,6 +84,10 @@ public class Mission : MonoBehaviour
         }
         else
         {
+            if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
+            {
+                Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
+            }
             nexttext.enabled = true;
         }
     }
