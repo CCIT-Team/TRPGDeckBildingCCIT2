@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
     private GameObject inventory;
+
+    public Image equipmentLeftSlot;
+    public Image equipmentRightSlot;
     public GameObject[] scrollViewBox;
     public GameObject itemSlot;
     
@@ -13,7 +17,9 @@ public class InventoryUI : MonoBehaviour
     public List<InventorySlotUI> weaponIndex = new List<InventorySlotUI>();
     public List<InventorySlotUI> armorIndex = new List<InventorySlotUI>();
     public List<InventorySlotUI> jewelIndex = new List<InventorySlotUI>();
+    public GameObject likedPlayer;
     private GameObject slot;
+    private bool isOpen;
     private void Start()
     {
         inventory = transform.GetChild(0).gameObject;
@@ -108,27 +114,80 @@ public class InventoryUI : MonoBehaviour
         {
             if(itemIndex[i].ishave)
             {
-                Debug.Log("µé¾î¿È");
-                //totalIndex.IndexOf;
                 totalIndex[IsHaveSlot(totalIndex)] = itemIndex[i];
             }
         }
     }
+    private IEnumerator OpenCloseLerp()
+    {
+        float timer = 0.0f;
+        float durtion = 0.25f;
+        float t = 0.0f;
+        if(isOpen)
+        {
+            while (timer <= durtion)
+            {
+                Map.instance.isOutofUI = false;
+                isOpen = false;
+                timer += Time.deltaTime;
+                t = timer / durtion;
+                //inventory.transform.localPosition = Vector3.Lerp(new Vector3(960, 0, 0), new Vector3(1609, 0, 0), t);
+                inventory.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(0, 0), new Vector2(inventory.GetComponent<Image>().preferredWidth, 0), t);
+                yield return null;
+            }
+        }
+        else
+        {
+            while (timer <= durtion)
+            {
+                Map.instance.isOutofUI = true;
+                isOpen = true;
+                timer += Time.deltaTime;
+                t = timer / durtion;
+                //inventory.transform.localPosition = Vector3.Lerp(new Vector3(1609, 0, 0), new Vector3(960, 0, 0), t);
+                inventory.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(inventory.GetComponent<Image>().preferredWidth, 0), new Vector2(0, 0), t);
+                yield return null;
+            }
+        }
+        yield return null;
+    }
+
+    public void ButtonCoroutie()
+    {
+        StartCoroutine(OpenCloseLerp());
+    }
+
+    public void SetItemButton()
+    {
+        //SetInvenItem(12001001, 10);
+        SetInvenItem(12001012, 10);
+        SortingTotal();
+    }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I) && !inventory.activeInHierarchy)
+        if(likedPlayer.GetComponent<Character>().isMyturn)
         {
             inventory.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                StartCoroutine(OpenCloseLerp());
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                SetInvenItem(12001002, 10);
+                SortingTotal();
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                SetInvenItem(12001001, 10);
+                SortingTotal();
+            }
         }
-        else if(Input.GetKeyDown(KeyCode.I) && inventory.activeInHierarchy)
+        else if(!likedPlayer.GetComponent<Character>().isMyturn)
         {
             inventory.SetActive(false);
         }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            SetInvenItem(12000001, 10);
-            SortingTotal();
-        }
+       
     }
 }

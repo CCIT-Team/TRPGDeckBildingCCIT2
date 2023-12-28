@@ -107,10 +107,10 @@ public class UnitAnimationControl : MonoBehaviour
         {
             if(CompareTag("Player"))
             {
-                if (GetComponent<Character_type>().genderObject[0].activeSelf)
-                    soundindex = 0;
-                else
-                    soundindex = 1;
+                //if (GetComponent<Character_type>().genderObject[0].activeSelf)
+                //    soundindex = 0;
+                //else
+                //    soundindex = 1;
             }
             else
                 soundindex = 0;

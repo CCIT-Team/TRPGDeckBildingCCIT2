@@ -116,8 +116,8 @@ public class LobbyUI_Manager : MonoBehaviour
                 insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_0[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_0[0], avatar_0[2]));
-                //DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_0[2]));
-                DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_0[0], avatar_0[2]));
+                DataBase.instance.SaveDB(AvatarCardSetting(avatar_0[0], avatar_0[2]));
+                //DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_0[0], avatar_0[2]));
                 break;
             case 1:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_1[0]}, '{avatar_1[1]}', '{avatar_1[2]}', '{avatar_1[3]}', '{avatar_1[4]}', '{avatar_1[5]}', '{avatar_1[6]}')";
@@ -125,8 +125,8 @@ public class LobbyUI_Manager : MonoBehaviour
                 insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_1[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_1[0], avatar_1[2]));
-                //DataBase.instance.SaveDB(AvatarCardSetting(avatar_1[0], avatar_1[2]));
-                DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_1[0], avatar_1[2]));
+                DataBase.instance.SaveDB(AvatarCardSetting(avatar_1[0], avatar_1[2]));
+                //DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_1[0], avatar_1[2]));
                 break;
             case 2:
                 insertQuery = $"INSERT INTO Type (playerNum, nickname, major, sex, type, skinColor, eyeColor) VALUES ({avatar_2[0]}, '{avatar_2[1]}', '{avatar_2[2]}', '{avatar_2[3]}', '{avatar_2[4]}', '{avatar_2[5]}', '{avatar_2[6]}')";
@@ -134,8 +134,8 @@ public class LobbyUI_Manager : MonoBehaviour
                 insertQuery = $"INSERT INTO Position (playerNum, positionX, positionY, positionZ) VALUES ({avatar_2[0]}, '{initPos.ToString()}', '{initPos.ToString()}', '{initPos.ToString()}')";
                 DataBase.instance.SaveDB(insertQuery);
                 DataBase.instance.SaveDB(AvatarStatSetting(avatar_2[0], avatar_2[2]));
-               //DataBase.instance.SaveDB(AvatarCardSetting(avatar_2[0], avatar_2[2]));
-               DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_2[0], avatar_2[2]));
+                DataBase.instance.SaveDB(AvatarCardSetting(avatar_2[0], avatar_2[2]));
+                //DataBase.instance.SaveDB(NewAvatarCardSetting(avatar_2[0], avatar_2[2]));
                 break;
         }
     }
