@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,19 +25,41 @@ public class Character_Card : MonoBehaviour
 
     public void ChangeCard(int[] _deleteCardID, int[] _addCardID )
     {
-        DeleteCard(_deleteCardID);
-        AddCardData(_addCardID);
+        //DeleteCard(_deleteCardID);
+        //AddCardData(_addCardID);
     }
 
-    public void DeleteCard(int[] _cardID)
+    public void DeleteCard(List<int> _cardList)
     {
-        for(int i = 0; i < _cardID.Length; i++)
-            cardID.Remove(_cardID[i]);
+        int index = 0;
+        for(int i = 0; i < cardID.Count; i++)
+        {
+            if(cardID[i] == _cardList[index])
+            {
+                cardID[i] = 0;
+                index++;
+                i = 0;
+            }
+
+            if (index >= _cardList.Count)
+                break;
+        }
+        cardID.Sort(new Comparison<int>((n1, n2) => n2.CompareTo(n1))); //내림차순 정렬
     }
 
-    public void AddCardData(int[] _cardID)
+    public void AddCardData(List<int> _cardList)
     {
-        cardID.AddRange(_cardID);
+        for (int i = 0; i < cardID.Count; i++)
+        {
+            if(cardID[i] == 0)
+            {
+                for(int j = 0; j < _cardList.Count; j++)
+                {
+                    cardID[i + j] = _cardList[j];
+                }
+                break; 
+            }
+        }
     }
 
     public string GetCardDBQuery()

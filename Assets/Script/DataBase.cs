@@ -37,6 +37,8 @@ public class DataBase : MonoBehaviour
     public List<PlayerPosition> loadPositionData = new List<PlayerPosition>();
     public List<PlayerStat> loadStatData = new List<PlayerStat>();
     public List<PlayerCard> loadCardData = new List<PlayerCard>();
+
+    private List<WeaponData> tempWeaponData = new List<WeaponData>();
     private const string defaultDatadbPath = "/DefaultData.db";
     private const string playerDataTable = "PlayerData";
     private const string playerDataPath_1 = "/Save/Slot1/PlayerData.db";
@@ -66,6 +68,66 @@ public class DataBase : MonoBehaviour
     public void Deliver_column(string typeQuery, string statQuery)
     {
         //SaveDB(typeQuery, statQuery);
+    }
+
+    public WeaponData SelectWeapon(int weaponNo)
+    {
+        tempWeaponData.Clear();
+        IDbConnection dbConnection = ConnectionDB(defaultDatadbPath);
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+
+        dbCommand.CommandText = "SELECT * FROM WeaponData Where no = " + weaponNo.ToString();
+
+        IDataReader dataReader = dbCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int no = dataReader.GetInt32(0);
+            string name = dataReader.GetString(1);
+            WeaponData.Type type = (WeaponData.Type)Enum.Parse(typeof(WeaponData.Type), dataReader.GetString(2));
+            Grade grade = (Grade)Enum.Parse(typeof(Grade), dataReader.GetString(3));
+            int level = dataReader.GetInt32(4);
+            WeaponData.EquipType equipType = (WeaponData.EquipType)Enum.Parse(typeof(WeaponData.EquipType), dataReader.GetString(5));
+            int strength = dataReader.GetInt32(6);
+            int intelligence = dataReader.GetInt32(7);
+            int luck = dataReader.GetInt32(8);
+            int speed = dataReader.GetInt32(9);
+
+            int getCard1 = dataReader.GetInt32(10);
+            int getCard1Count = dataReader.GetInt32(11);
+
+            int getCard2 = dataReader.GetInt32(12);
+            int getCard2Count = dataReader.GetInt32(13);
+
+            int getCard3 = dataReader.GetInt32(14);
+            int getCard3Count = dataReader.GetInt32(15);
+
+            int getCard4 = dataReader.GetInt32(16);
+            int getCard4Count = dataReader.GetInt32(17);
+
+            int getCard5 = dataReader.GetInt32(18);
+            int getCard5Count = dataReader.GetInt32(19);
+
+            int getCard6 = dataReader.GetInt32(20);
+            int getCard6Count = dataReader.GetInt32(21);
+
+            int getCard7 = dataReader.GetInt32(22);
+            int getCard7Count = dataReader.GetInt32(23);
+
+            int getCard8 = dataReader.GetInt32(24);
+            int getCard8Count = dataReader.GetInt32(25);
+
+            int buyGold = dataReader.GetInt32(26);
+            int sellGold = dataReader.GetInt32(27);
+
+            tempWeaponData.Add(new WeaponData(no, name, type, grade, level, equipType, strength, intelligence, luck, speed,
+                getCard1, getCard1Count, getCard2, getCard2Count, getCard3, getCard3Count, getCard4, getCard4Count, getCard5, getCard5Count, getCard6, getCard6Count, getCard7, getCard7Count, getCard8, getCard8Count,
+                buyGold, sellGold));
+        }
+
+        dataReader.Close();
+        dbConnection.Close();
+        return tempWeaponData[0];
     }
 
     public bool IsEmptyDB()
@@ -315,7 +377,11 @@ public class DataBase : MonoBehaviour
             int dropitem3 = dataReader.GetInt32(18);
             int dropitem3Percentage = dataReader.GetInt32(19);
 
-            monsterData.Add(new MonsterData(no, name, level, type, hp, strength, intelligence, luck, speed, action1, action2, action3, giveExp, dropGold, dropitem1, dropitem1Percentage, dropitem2, dropitem2Percentage, dropitem3, dropitem3Percentage));
+            string appearanceArea1 = dataReader.GetString(20);
+            string appearanceArea2 = dataReader.GetString(21);
+            string appearanceArea3 = dataReader.GetString(22);
+
+            monsterData.Add(new MonsterData(no, name, level, type, hp, strength, intelligence, luck, speed, action1, action2, action3, giveExp, dropGold, dropitem1, dropitem1Percentage, dropitem2, dropitem2Percentage, dropitem3, dropitem3Percentage, appearanceArea1, appearanceArea2, appearanceArea3));
         }
         dataReader.Close();
 
@@ -428,7 +494,8 @@ public class DataBase : MonoBehaviour
     }
     private void LoadCardData(IDbCommand dbCommand, IDataReader dataReader)
     {
-        string[] tableNames = { "Fighter_CardDeck", "Wizard_CardDeck", "Cleric_CardDeck", "OnehandSword_CardData", "TwohandSword_CardData" };
+        //string[] tableNames = { "Fighter_CardDeck", "Wizard_CardDeck", "Cleric_CardDeck", "OnehandSword_CardData", "TwohandSword_CardData" };
+        string[] tableNames = { "Axe_CardData", "Mace_CardData", "Shield_CardData", "StaffWand_CardData", "TwohandSword_CardData", "Culb_CardData", "OnehandSword_CardData", "Hammer_CardData" };
 
         for (int i = 0; i < tableNames.Length; i++)
         {
@@ -440,30 +507,35 @@ public class DataBase : MonoBehaviour
                 int no = dataReader.GetInt32(0);
                 string name = dataReader.GetString(1);
                 string variableName = dataReader.GetString(2);
-                CardData.CardType type = (CardData.CardType)Enum.Parse(typeof(CardData.CardType), dataReader.GetString(3));
-                string description = dataReader.GetString(4);
-                int defaultXvalue = dataReader.GetInt32(5);
-                string effect = dataReader.GetString(6);
-                int effectUseTurn = dataReader.GetInt32(7);
-                int useCost = dataReader.GetInt32(8);
-                int token = dataReader.GetInt32(9);
+                CardData.SkillType skillType = (CardData.SkillType)Enum.Parse(typeof(CardData.SkillType), dataReader.GetString(3));
+                CardData.AttackType attackType = (CardData.AttackType)Enum.Parse(typeof(CardData.AttackType), dataReader.GetString(4));
+                CardData.UseStatType useStatType = (CardData.UseStatType)Enum.Parse(typeof(CardData.UseStatType), dataReader.GetString(5));
+                string description = dataReader.GetString(6);
+                int defaultXvalue = dataReader.GetInt32(7);
+                string effect = dataReader.GetString(8);
+                int effectUseTurn = dataReader.GetInt32(9);
+                int useCost = dataReader.GetInt32(10);
+                int token = dataReader.GetInt32(11);
 
-                if (tableNames[i] == "Fighter_CardDeck")
-                {
-                    fighterCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-                }
-                else if (tableNames[i] == "Wizard_CardDeck")
-                {
-                    wizardCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-                }
-                else if (tableNames[i] == "Cleric_CardDeck")
-                {
-                    clericCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-                }
-                else
-                {
-                    cardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
-                }
+
+                cardData.Add(new CardData(no, name, variableName, skillType, attackType, useStatType, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+
+                //if (tableNames[i] == "Fighter_CardDeck")
+                //{
+                //    fighterCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                //}
+                //else if (tableNames[i] == "Wizard_CardDeck")
+                //{
+                //    wizardCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                //}
+                //else if (tableNames[i] == "Cleric_CardDeck")
+                //{
+                //    clericCardData.Add(new CardData(no, name, variableName, type, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                //}
+                //else
+                //{
+                //    cardData.Add(new CardData(no, name, variableName, skillType, attackType, useStatType, description, defaultXvalue, effect, effectUseTurn, useCost, token));
+                //}
             }
 
             dataReader.Close();
@@ -694,10 +766,44 @@ public class CardData
 
         CardDraw
     }
+
+    public enum SkillType
+    {
+        SingleEnemy,
+        MultiEnemy,
+        All,
+
+        SingleMyself,
+        MultiMyself,
+
+        SingleFriendly
+    }
+
+    public enum AttackType
+    {
+        Attack,
+        Defence,
+        CardDraw,
+        Increase,
+        Enemy,
+        Endow
+    }
+
+    public enum UseStatType
+    {
+        None,
+        Strength,
+        Intellect
+    }
+
+
     public int no;
     public string name;
     public string variableName;
-    public CardType type;
+    public CardType type; //지울거
+    public SkillType skillType;
+    public AttackType attackType;
+    public UseStatType useStatType;
     public string description;
     public int defaultXvalue;
     public string effect;
@@ -705,12 +811,14 @@ public class CardData
     public int useCost;
     public int token;
 
-    public CardData(int _no, string _name, string _variableName, CardType _type, string _description, int _defaultXvalue, string _effect, int _effectUseTurn, int _useCost, int _token)
+    public CardData(int _no, string _name, string _variableName, SkillType _skillType, AttackType _attackType, UseStatType _useStatType, string _description, int _defaultXvalue, string _effect, int _effectUseTurn, int _useCost, int _token)
     {
         no = _no;
         name = _name;
         variableName = _variableName;
-        type = _type;
+        skillType = _skillType;
+        attackType = _attackType;
+        useStatType = _useStatType;
         description = _description;
         defaultXvalue = _defaultXvalue;
         effect = _effect;
@@ -727,7 +835,10 @@ public class MonsterData
 {
     public enum Type
     {
-        Undead
+        undead,
+        human,
+        monster,
+        dragon
     }
     public int no;
     public string name;
@@ -749,10 +860,14 @@ public class MonsterData
     public int dropitem2Percentage;
     public int dropitem3;
     public int dropitem3Percentage;
+    public string appearanceArea1;
+    public string appearanceArea2;
+    public string appearanceArea3;
 
     public MonsterData(int _no, string _name, int _level, Type _type, float _hp, int _strength, int _intelligence, int _luck, int _speed, 
         int _action1, int _action2, int _action3, int _giveExp, int _dropGold, 
-        int _dropitem1, int _dropitem1Percentage, int _dropitem2, int _dropitem2Percentage, int _dropitem3, int _dropitem3Percentage)
+        int _dropitem1, int _dropitem1Percentage, int _dropitem2, int _dropitem2Percentage, int _dropitem3, int _dropitem3Percentage,
+        string _appearanceArea1, string _appearanceArea2, string _appearanceArea3)
     {
         no = _no;
         name = _name;
@@ -777,6 +892,33 @@ public class MonsterData
         dropitem2Percentage = _dropitem2Percentage;
         dropitem3 = _dropitem3;
         dropitem3Percentage = _dropitem3Percentage;
+
+        if(_appearanceArea1 == "null")
+        {
+            appearanceArea1 = null;
+        }
+        else
+        {
+            appearanceArea1 = _appearanceArea1;
+        }
+
+        if (_appearanceArea2 == "null")
+        {
+            appearanceArea2 = null;
+        }
+        else
+        {
+            appearanceArea2 = _appearanceArea2;
+        }
+
+        if (_appearanceArea3 == "null")
+        {
+            appearanceArea3 = null;
+        }
+        else
+        {
+            appearanceArea3 = _appearanceArea3;
+        }
     }
 }
 #endregion
@@ -784,6 +926,7 @@ public class MonsterData
 #region 무기 데이터
 public enum Grade
 {
+    none,
     uncommon,
     common,
     rare,
@@ -795,6 +938,7 @@ public class WeaponData
 {
     public enum Type
     {
+        None,
         OnehandSword,
         TwohandSword,
         Axe,
@@ -807,6 +951,7 @@ public class WeaponData
     }
     public enum EquipType
     {
+        None,
         OneHand,
         TwoHand
     }

@@ -13,14 +13,17 @@ public class Character_type : MonoBehaviour
     private float eyeColor;
     private GameObject weapon;
 
+    public GameObject inventory;
+    public InventoryUI invenUI;
     public Transform[] weaponPosition;
     public GameObject[] majorObject;
-    public GameObject[] genderObject;
-    public GameObject[] typeObject;
-    public SkinnedMeshRenderer[] gender_mesh;
-    public SkinnedMeshRenderer[] gender_skinColor;
-    public SkinnedMeshRenderer customEyeColor;
-    public SkinnedMeshRenderer[] customHairColor;
+    //public GameObject[] genderObject;
+    //public GameObject[] typeObject;
+    public SkinnedMeshRenderer[] genderAndType;
+    //public SkinnedMeshRenderer[] gender_mesh;
+    //public SkinnedMeshRenderer[] gender_skinColor;
+    //public SkinnedMeshRenderer customEyeColor;
+    //public SkinnedMeshRenderer[] customHairColor;
 
     private float positionx;
     private float positiony;
@@ -30,6 +33,20 @@ public class Character_type : MonoBehaviour
 
     private string insertQuery;
 
+    private void Start()
+    {
+        UISetting();
+    }
+
+    private void UISetting()
+    {
+        GameObject inven = Instantiate(inventory);
+        GameObject canvas = GameObject.Find("Canvas").gameObject;
+        inven.transform.SetParent(canvas.transform);
+        inven.transform.localPosition = new Vector3(Screen.width / 2, 0, 0);
+        invenUI = inven.GetComponent<InventoryUI>();
+        inven.GetComponent<InventoryUI>().likedPlayer = gameObject;
+    }
     public void SetUnitType(PlayerType type)
     {
         playerNum = type.playerNum;
@@ -96,21 +113,31 @@ public class Character_type : MonoBehaviour
         switch (gender)
         {
             case PlayerType.Gender.Male:
-                genderObject[0].SetActive(true);
-                genderObject[1].SetActive(false);
+                //genderObject[0].SetActive(true);
+                //genderObject[1].SetActive(false);
 
-                for (int i = 0; i < gender_mesh.Length; i++)
+                //for (int i = 0; i < gender_mesh.Length; i++)
+                //{
+                //    gender_mesh[i].SetBlendShapeWeight(0, 0);
+                //}
+
+                for (int i = 0; i < genderAndType.Length; i++)
                 {
-                    gender_mesh[i].SetBlendShapeWeight(0, 0);
+                    genderAndType[i].SetBlendShapeWeight(0, 0);
                 }
 
                 break;
             case PlayerType.Gender.Female:
-                genderObject[0].SetActive(false);
-                genderObject[1].SetActive(true);
-                for (int i = 0; i < gender_mesh.Length; i++)
+                //genderObject[0].SetActive(false);
+                //genderObject[1].SetActive(true);
+                //for (int i = 0; i < gender_mesh.Length; i++)
+                //{
+                //    gender_mesh[i].SetBlendShapeWeight(0, 100);
+                //}
+
+                for (int i = 0; i < genderAndType.Length; i++)
                 {
-                    gender_mesh[i].SetBlendShapeWeight(0, 100);
+                    genderAndType[i].SetBlendShapeWeight(0, 100);
                 }
                 break;
         }
@@ -120,43 +147,53 @@ public class Character_type : MonoBehaviour
         switch (type)
         {
             case PlayerType.AvatarType.Human:
-                typeObject[0].SetActive(true);
-                typeObject[1].SetActive(false);
-                typeObject[2].SetActive(false);
+                genderAndType[0].SetBlendShapeWeight(1, 0);
+                genderAndType[0].SetBlendShapeWeight(2, 0);
+                //typeObject[0].SetActive(true);
+                //typeObject[1].SetActive(false);
+                //typeObject[2].SetActive(false);
                 break;
             case PlayerType.AvatarType.Elf:
-                typeObject[0].SetActive(false);
-                typeObject[1].SetActive(true);
-                typeObject[2].SetActive(false);
+                genderAndType[0].SetBlendShapeWeight(1, 100);
+                genderAndType[0].SetBlendShapeWeight(2, 0);
+                //typeObject[0].SetActive(false);
+                //typeObject[1].SetActive(true);
+                //typeObject[2].SetActive(false);
                 break;
             case PlayerType.AvatarType.DarkElf:
-                typeObject[0].SetActive(false);
-                typeObject[1].SetActive(true);
-                typeObject[2].SetActive(false);
+                genderAndType[0].SetBlendShapeWeight(1, 100);
+                genderAndType[0].SetBlendShapeWeight(2, 0);
+                //typeObject[0].SetActive(false);
+                //typeObject[1].SetActive(true);
+                //typeObject[2].SetActive(false);
                 break;
             case PlayerType.AvatarType.HalfOrc:
-                typeObject[0].SetActive(false);
-                typeObject[1].SetActive(false);
-                typeObject[2].SetActive(true);
+                genderAndType[0].SetBlendShapeWeight(1, 0);
+                genderAndType[0].SetBlendShapeWeight(2, 100);
+                //typeObject[0].SetActive(false);
+                //typeObject[1].SetActive(false);
+                //typeObject[2].SetActive(true);
                 break;
         }
     }
 
     private void SetSkinColor(float offset)
     {
-        for (int i = 0; i < gender_skinColor.Length; i++)
-        {
-            gender_skinColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
-        }
+        genderAndType[0].materials[1].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        //for (int i = 0; i < gender_skinColor.Length; i++)
+        //{
+        //    gender_skinColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        //}
     }
 
     private void SetEyeColor(float offset)
     {
-        customEyeColor.materials[2].SetTextureOffset("_BaseMap", new Vector2(0, offset));
-        for(int i = 0; i < customHairColor.Length; i++)
-        {
-            customHairColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
-        }
+        genderAndType[0].materials[2].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        //customEyeColor.materials[2].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        //for(int i = 0; i < customHairColor.Length; i++)
+        //{
+        //    customHairColor[i].materials[0].SetTextureOffset("_BaseMap", new Vector2(0, offset));
+        //}
     }
 
     public string GetTypeDBQuery()
