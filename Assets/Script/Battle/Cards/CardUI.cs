@@ -25,7 +25,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public Vector3 defaultPosition = new Vector3(0,0,0);
     public Transform defaultParent;
     public int childeIndex = 0;
-    Vector2 defaultSize = new Vector2(0, 0);
+    public int listIndex = 0;
+    Vector2 defaultSize = new Vector2(165, 247.5f);
     Vector3 positionDistance = new Vector3();
 
     public LayerMask layerMask;
@@ -128,6 +129,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 token.transform.localPosition = new Vector2((-bindCard.cardData.token / 2 + i + (bindCard.cardData.token + 1) % 2 / 2f) * 160, 0);
                 tokenPreview.Add(token.gameObject);
             }
+            childeIndex = transform.parent.GetSiblingIndex();
+            transform.parent.SetAsLastSibling();
             GetComponent<RectTransform>().sizeDelta *= 1.2f;
         }
     }
@@ -139,6 +142,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             Destroy(tokenPreview[i]);
         }
         tokenPreview.Clear();
+        transform.parent.SetSiblingIndex(childeIndex);
         GetComponent<RectTransform>().sizeDelta = defaultSize;
     }
 
@@ -147,8 +151,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if (Input.GetMouseButton(0)&&!isSelected)
         {
             isSelected = true;
-            //childeIndex = transform.GetSiblingIndex();
-            //transform.SetParent(transform.parent.parent);
+            listIndex = transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.FindIndex(x => x == transform.parent.gameObject);
+            transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.Remove(transform.parent.gameObject);
             for (int i = 0; i < tokenPreview.Count; i++)
             {
                 tokenPreview[i].SetActive(false);
@@ -193,10 +197,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 {
                     target = null;
                     transform.position = defaultPosition;
-                    //transform.SetParent(defaultParent);
-                    //transform.SetSiblingIndex(childeIndex);
+                    transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.Insert(listIndex,transform.parent.gameObject);
                 }
             }
+
             isSelected = false;
         }
         foreach(GameObject indicator in canUseList)
@@ -241,6 +245,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     {
         GameObject parent = transform.parent.gameObject;
         transform.SetParent(transform.parent.parent.parent);
+        transform.parent.parent.GetComponent<PlayerBattleUI>().handList.Remove(parent);
         Destroy(parent);
         transform.position = new Vector2(Camera.main.pixelWidth*2,0);
     }

@@ -18,10 +18,10 @@ public class PlayerBattleUI : MonoBehaviour
     List<GameObject> cardInstant = new List<GameObject>();
     public Transform hand;
     public Transform DeckTransform;
+    public List<GameObject> handList = new();
 
     public float radius = 0;
     public float angle = 0;
-    public int maxHandCount = 5;
 
     public DeckDisplay deckDisplay;
 
@@ -52,9 +52,9 @@ public class PlayerBattleUI : MonoBehaviour
 
     private void Update()
     {
-        for(int i = 0; i < hand.childCount; i++)
+        for(int i = 0; i < handList.Count; i++)
         {
-            hand.GetChild(i).localPosition = new Vector2((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f) * cardSize.x * 0.95f, 0);
+            handList[i].transform.localPosition = new Vector2((-handList.Count / 2 + i + (handList.Count + 1) % 2 / 2f) * cardSize.x * 0.95f, 0);
             //hand.GetChild(i).localPosition = new Vector2(Mathf.Cos((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2),Mathf.Sin((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2)) * radius;
             //hand.GetChild(i).rotation = Quaternion.Euler(0, 0, (angle));
         }
@@ -128,8 +128,12 @@ public class PlayerBattleUI : MonoBehaviour
             }
             GetComponent<AudioSource>().Play();
             int cardID = boundDeck.DrawCard(Random.Range(0, boundDeck.DeckCount));
-            GameObject cardParent = new GameObject("card" + (hand.childCount + 1));
+            GameObject cardParent = new GameObject("DrawCard");
             GameObject cardObject;
+            if(hand.childCount >= 5)
+            {
+                cardParent.transform.SetParent(BattleUI.instance.cardSelectTransform);
+            }
             cardParent.transform.SetParent(hand);
             if (waitCardInstant.Count > 0)
             {
@@ -146,9 +150,11 @@ public class PlayerBattleUI : MonoBehaviour
             cardObject.SetActive(true);
             cardObject.GetComponent<N_Card>().GetCardData(cardID);
             cardObject.GetComponent<CardUI>().DisplayOnUI();
+            handList.Add(cardParent);
             yield return new WaitUntil(() => cardObject.GetComponent<CardAnimation>().isdrawn);
+            cardParent.name = "card" + (hand.childCount);
         }
-        if (hand.childCount > maxHandCount)
+        if (hand.childCount > N_BattleManager.instance.maxHandCount)
             N_BattleManager.instance.isHandOver = true;
     }
 

@@ -197,8 +197,8 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
             BattleUI.instance.costWarning.GetComponent<Animator>().Play("BlinkingText", 0);
 
             transform.position = GetComponent<CardUI>().defaultPosition;
-            transform.SetParent(GetComponent<CardUI>().defaultParent);
-            transform.SetSiblingIndex(GetComponent<CardUI>().childeIndex);
+            transform.parent.parent.parent.parent.GetComponent<PlayerBattleUI>().handList.Insert(GetComponent<CardUI>().listIndex,transform.parent.gameObject);
+            //transform.SetSiblingIndex(GetComponent<CardUI>().childeIndex);
         }
         else if(costUsed)
         {
