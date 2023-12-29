@@ -15,6 +15,7 @@ public class Character_type : MonoBehaviour
 
     public GameObject inventory;
     public InventoryUI invenUI;
+
     public Transform[] weaponPosition;
     public GameObject[] majorObject;
     //public GameObject[] genderObject;
@@ -42,6 +43,7 @@ public class Character_type : MonoBehaviour
     {
         GameObject inven = Instantiate(inventory);
         GameObject canvas = GameObject.Find("Canvas").gameObject;
+
         inven.transform.SetParent(canvas.transform);
         inven.transform.localPosition = new Vector3(Screen.width / 2, 0, 0);
         invenUI = inven.GetComponent<InventoryUI>();
