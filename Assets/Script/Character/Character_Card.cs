@@ -62,6 +62,20 @@ public class Character_Card : MonoBehaviour
         }
     }
 
+    public int GetHaveCard()
+    {
+        int cardCount = 0;
+        for(int i = 0; i < cardID.Count; i++)
+        {
+            if(cardID[i] != 0)
+            {
+                cardCount++;
+            }
+        }
+
+        return cardCount;
+    }
+
     public string GetCardDBQuery()
     {
         Debug.Log(cardID.Count);
