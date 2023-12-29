@@ -217,7 +217,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                     bindCard.playerUI.boundDeck.HandToGrave(bindCard.cardData.no);
                     BattleUI.instance.cardDumpZone.SetCardRect();
                     N_BattleManager.instance.isHandOver = false;
-                    Destroy(transform.parent);
+                    Destroy(transform.parent.gameObject);
                 }
                 else
                 {

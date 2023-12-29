@@ -68,8 +68,6 @@ public class PlayerBattleUI : MonoBehaviour
         {
             drawCount = boundDeck.DeckCount + boundDeck.GraveCount;
         }
-        if (boundDeck.HandCount >= N_BattleManager.instance.maxHandCount)
-            return;
         StartCoroutine(DrawCoroutine(drawCount));
     }
 

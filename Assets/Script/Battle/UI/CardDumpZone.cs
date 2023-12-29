@@ -28,7 +28,6 @@ public class CardDumpZone : MonoBehaviour
         {
             dumpCard.isDumping = true;
             image.color = new Color(0.85f, 0.1f, 0.1f,0.5f);
-            Debug.Log(cardRectTransform.gameObject.name);
         }
         else if(cardRectTransform != null)
         {
