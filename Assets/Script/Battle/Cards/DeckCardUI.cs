@@ -23,6 +23,11 @@ public class DeckCardUI : MonoBehaviour
     public Sprite[] typeSprits;
     public Sprite[] backgroundSprits;
 
+    public void SetAmount(int i)
+    {
+        amountValue = i;
+        amount.text = "x" + amountValue.ToString();
+    }
     public void AddAmount(int i)
     {
         amountValue += i;

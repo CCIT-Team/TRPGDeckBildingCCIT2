@@ -26,7 +26,7 @@ public class TileUI : MonoBehaviour
         hospital.SetActive(false);
         monsterBattleUI.SetActive(false);
 
-        if (Map.instance.tileUI == null )
+        if (Map.instance != null && Map.instance.tileUI == null)
         {
             Debug.Log("ReConnectTileUI");
             Map.instance.tileUI = this;
@@ -75,7 +75,7 @@ public class TileUI : MonoBehaviour
 
     #region 병원 버튼
     public void OnHospital() { hospital.SetActive(true); Map.instance.isOutofUI = true; }
-    public void OffHospital() 
+    public void OffHospital()
     {
         SoundManager.instance.PlayUICilckSound();
         hospital.SetActive(false);

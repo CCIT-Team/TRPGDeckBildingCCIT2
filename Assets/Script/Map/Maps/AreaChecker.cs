@@ -24,16 +24,24 @@ public class AreaChecker : MonoBehaviour
                 switch (climateNum)
                 {
                     case 0:
-                        other.GetComponent<Tile>().climate = Tile.Climate.GRASS;
+                        other.GetComponent<Tile>().climate = Tile.Climate.GOLDENPLACE;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[0];
                         break;
                     case 1:
-                        other.GetComponent<Tile>().climate = Tile.Climate.DESERT;
+                        other.GetComponent<Tile>().climate = Tile.Climate.FORGOTTENFOREST;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[1];
                         break;
                     case 2:
-                        other.GetComponent<Tile>().climate = Tile.Climate.JUNGLE;
+                        other.GetComponent<Tile>().climate = Tile.Climate.TEADELOSDESERT;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[2];
+                        break;
+                    case 3:
+                        other.GetComponent<Tile>().climate = Tile.Climate.WITCHSSWAMPLAND;
+                        other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[3];
+                        break;
+                    case 4:
+                        other.GetComponent<Tile>().climate = Tile.Climate.VOLANO;
+                        other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[4];
                         break;
                 }
             }

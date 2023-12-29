@@ -572,6 +572,9 @@ MonoBehaviour:
     name: 
     variableName: 
     type: 0
+    skillType: 0
+    attackType: 0
+    useStatType: 0
     description: 
     defaultXvalue: 0
     effect: 
@@ -621,6 +624,7 @@ MonoBehaviour:
   defaultPosition: {x: 0, y: 0, z: 0}
   defaultParent: {fileID: 0}
   childeIndex: 0
+  listIndex: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -641,8 +645,10 @@ MonoBehaviour:
   - {fileID: 1019013237454460768}
   - {fileID: 2136611625543711405}
   distance: 1
-  drawSpeed: 0.25
-  handSpeed: 0.3
+  drawSpeed: 0.3
+  handSpeed: 0.5
+  highlightTime: 0.4
+  isdrawn: 0
 --- !u!1 &7137490351024470306
 GameObject:
   m_ObjectHideFlags: 0
