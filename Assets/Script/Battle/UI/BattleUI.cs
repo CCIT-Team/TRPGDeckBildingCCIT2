@@ -12,6 +12,7 @@ public class BattleUI : MonoBehaviour
 
     public GameObject targetIndicator;
     public GameObject currentTargetIndicator;
+    public GameObject Accelerator;
     public CardDumpZone cardDumpZone;
     public Transform cardHighlightPosition;
     public Transform cardStartTransform;

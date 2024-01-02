@@ -1529,6 +1529,7 @@ MonoBehaviour:
   targetIndicator: {fileID: 8190842359906518716, guid: 5a51efd2f921639479e93393fa0acfd1,
     type: 3}
   currentTargetIndicator: {fileID: 2005228505}
+  Accelerator: {fileID: 265545553}
   cardDumpZone: {fileID: 1172245842}
   cardHighlightPosition: {fileID: 1002793641}
   cardStartTransform: {fileID: 197696934}
@@ -2564,13 +2565,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576886060}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07465821, y: -0.78799355, z: 0.108821645, w: -0.6013737}
-  m_LocalPosition: {x: 3.51, y: 3.18, z: 11.73}
+  m_LocalRotation: {x: 0.06781366, y: -0.8750203, z: 0.1132134, w: 0.46575058}
+  m_LocalPosition: {x: 12.770845, y: 3.67, z: 12.008369}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 15.147, y: -254.804, z: -0.785}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1576886064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3239,13 +3240,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862600250}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12257141, y: -0.4134209, z: 0.048910163, w: 0.90092576}
-  m_LocalPosition: {x: 7.060839, y: 3.18, z: -2.7549477}
+  m_LocalRotation: {x: 0.13179797, y: 0, z: 0, w: 0.9912766}
+  m_LocalPosition: {x: 0, y: 4.3, z: -6.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 859020883}
-  m_LocalEulerAnglesHint: {x: 15.147, y: -164.804, z: -0.785}
+  m_LocalEulerAnglesHint: {x: 15.147, y: 0, z: 0}
 --- !u!1 &1877601743
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,7 +3366,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 256052357}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999654
+  m_Size: 0.99999124
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

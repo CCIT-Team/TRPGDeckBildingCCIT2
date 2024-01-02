@@ -87,6 +87,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public void EndBattle()
     {
         AccelerateTime();
+        BattleUI.instance.Accelerator.SetActive(false);
         isBuffRun_All = false;
         StopCoroutine(PlayTurn());
         if (currentUnit.CompareTag("Player"))

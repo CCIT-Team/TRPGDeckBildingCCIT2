@@ -52,7 +52,15 @@ public class Monster :MonsterStat
     {
         deck = gameObject.AddComponent<Deck>();
         card = gameObject.AddComponent<MonsterCard>();
-        GetComponent<UnitAnimationControl>().SetAnimator();
+        if (no == 30000023)
+        {
+            Destroy(GetComponent<UnitAnimationControl>());
+            gameObject.AddComponent<DragonAnimationControl>().SetAnimator();
+        }
+        else
+        {
+            GetComponent<UnitAnimationControl>().SetAnimator();
+        }
     }
 
     private void Update()
@@ -100,8 +108,17 @@ public class Monster :MonsterStat
             }
         }
         monstername.text = gameObject.name;
-        monsterList[int.Parse(no.ToString().Substring(no.ToString().Length - 3))-1].SetActive(true);
-        weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
+        if(no == 30000023)
+        {
+            Destroy(GetComponent<UnitAnimationControl>());
+            gameObject.AddComponent<DragonAnimationControl>().SetAnimator();
+            monsterList[16].SetActive(true);
+        }
+        else
+        {
+            monsterList[int.Parse(no.ToString().Substring(no.ToString().Length - 3)) - 1].SetActive(true);
+            weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
+        }
         AddActInDeck();
         Hp = maxHp;
     }

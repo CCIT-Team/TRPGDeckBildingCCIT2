@@ -7,12 +7,12 @@ public class UnitAnimationControl : MonoBehaviour
 {
     public delegate void CardAnimationEvent();
     public CardAnimationEvent ATEvent;
-    Animator animator;
+    public Animator animator;
     public UnitAnimationControl targetControler;
 
 
     public BattleParticleAndSound particleAndSound;
-    AudioSource audioSource;
+    protected AudioSource audioSource;
     public int particleindex =0 ;
     public int soundindex = 0;
 
@@ -26,7 +26,7 @@ public class UnitAnimationControl : MonoBehaviour
         }
     }
 
-    Vector3 defaultPosition = new Vector3();
+    protected Vector3 defaultPosition = new Vector3();
 
     private void Start()
     {
