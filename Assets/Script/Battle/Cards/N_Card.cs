@@ -144,6 +144,51 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
     }
 
+    int TypeSelectByNo()
+    {
+        int number = int.Parse(cardData.no.ToString().Substring(0, 2) + cardData.variableName.ToString().Substring(cardData.no.ToString().Length - 2));
+        switch (cardData.no)
+        {
+            default:
+                return 0;
+            case 1:
+            case 91:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 3;
+            case 4:
+                return 4;
+            case 5:
+                return 5;
+            case 6:
+                return 6;
+            case 7:
+                return 7;
+            case 8:
+                return 8;
+            case 9:
+                return 9;
+            case 10:
+                return 10;
+            case 11:
+                return 11;
+            case 12:
+                return 12;
+            case 13:
+                return 13;
+            case 14:
+                return 14;
+            case 15:
+                return 15;
+            case 16:
+                return 16;
+            case 17:
+                return 17;
+        }
+    }
+
     int SimpleTypeSelect()
     {
         string nameSlot = cardData.variableName;
