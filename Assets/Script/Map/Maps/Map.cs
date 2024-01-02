@@ -41,6 +41,7 @@ public class Map : MonoBehaviour
     public List<Tile> pathTileObjectList;
     public List<Tile> kingdomTile;
     public List<Tile> monsterTile;
+    public List<Tile> missionMonsterTile;
     int tileNum = 0;
     [Header("Player")]
     public List<GameObject> players = new List<GameObject>();
@@ -153,6 +154,24 @@ public class Map : MonoBehaviour
 
     void MapSetting()
     {
+        #region MissionMonsterGroup
+        totalTileObjectList[71].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        missionMonsterTile.Add(totalTileObjectList[71].GetComponent<Tile>());
+        totalTileObjectList[196].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        missionMonsterTile.Add(totalTileObjectList[196].GetComponent<Tile>());
+        totalTileObjectList[511].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        missionMonsterTile.Add(totalTileObjectList[511].GetComponent<Tile>());
+        totalTileObjectList[836].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        missionMonsterTile.Add(totalTileObjectList[836].GetComponent<Tile>());
+        totalTileObjectList[161].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        missionMonsterTile.Add(totalTileObjectList[161].GetComponent<Tile>());
+        totalTileObjectList[302].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        missionMonsterTile.Add(totalTileObjectList[302].GetComponent<Tile>());
+        totalTileObjectList[648].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
+        instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[648].gameObject.transform.position.x,
+            1.5f, totalTileObjectList[648].gameObject.transform.position.z), Quaternion.identity, transform);
+        dragonScript = instantiateDragon.GetComponent<Dragon>();
+        #endregion
         #region GoldenPlace
         //Kingdom
         totalTileObjectList[75].GetComponent<Tile>().tileState = Tile.TileState.KingdomTile;
@@ -161,10 +180,10 @@ public class Map : MonoBehaviour
         kingdomTile.Add(totalTileObjectList[217].GetComponent<Tile>());
 
         //Monster
-        totalTileObjectList[71].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[71].GetComponent<Tile>());
-        totalTileObjectList[196].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
-        monsterTile.Add(totalTileObjectList[196].GetComponent<Tile>());
+        //totalTileObjectList[71].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        //monsterTile.Add(totalTileObjectList[71].GetComponent<Tile>());
+        //totalTileObjectList[196].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        //monsterTile.Add(totalTileObjectList[196].GetComponent<Tile>());
         #endregion
         #region ForgottenForest
         //Kingdom
@@ -174,6 +193,8 @@ public class Map : MonoBehaviour
         kingdomTile.Add(totalTileObjectList[708].GetComponent<Tile>());
 
         //Monster
+        totalTileObjectList[412].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
+        monsterTile.Add(totalTileObjectList[511].GetComponent<Tile>());
         totalTileObjectList[412].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         monsterTile.Add(totalTileObjectList[412].GetComponent<Tile>());
         totalTileObjectList[574].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
@@ -235,11 +256,6 @@ public class Map : MonoBehaviour
         monsterTile.Add(totalTileObjectList[717].GetComponent<Tile>());
         totalTileObjectList[650].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         monsterTile.Add(totalTileObjectList[650].GetComponent<Tile>());
-        //Boss
-        totalTileObjectList[648].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
-        instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[648].gameObject.transform.position.x,
-            1.5f, totalTileObjectList[648].gameObject.transform.position.z), Quaternion.identity, transform);
-        dragonScript = instantiateDragon.GetComponent<Dragon>();
         #endregion
     }
 
@@ -294,10 +310,14 @@ public class Map : MonoBehaviour
     private void Update()
     {
         MovePlayer();
-
-        if(Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Time.timeScale = 3;
+            wolrdTurn.currentPlayer.maxCost = 8;
+            wolrdTurn.currentPlayer.cost = 8;
+        }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Time.timeScale = 10;
         }
         if (Input.GetKeyUp(KeyCode.F1))
         {

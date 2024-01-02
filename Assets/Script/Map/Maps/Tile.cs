@@ -106,10 +106,10 @@ public class Tile : MonoBehaviour
         {
             isMonsterTile = true;
             monsterObject.SetActive(true);
-            for (int i = 0; i < adjacentTiles.Count; i++)
-            {
-                adjacentTiles[i].tag = "BattleRange";
-            }
+            //for (int i = 0; i < adjacentTiles.Count; i++)
+            //{
+            //    adjacentTiles[i].tag = "BattleRange";
+            //}
             if (climate == Climate.GOLDENPLACE)
             {
                 monsterNum = UnityEngine.Random.Range(1, 4);
@@ -374,7 +374,7 @@ public class Tile : MonoBehaviour
             #region 미션용
             if (isKingdomTile && !Map.instance.isOutofUI && isMissionOn)
             {
-                if (Map.instance.wolrdMission.mainMissionNum == 2)
+                if (Map.instance.missionNum == 2)
                 {
                     Map.instance.wolrdMission.mission.SetActive(true);
                     Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
@@ -382,17 +382,41 @@ public class Tile : MonoBehaviour
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
                 }
-                if (Map.instance.wolrdMission.mainMissionNum == 8)
+                if (Map.instance.missionNum == 8)
                 {
                     Map.instance.currentInteracteUITile = this;
                     Map.instance.OnUIPlayerStop();
-                    tileUI.OnShopAndHospital();
+                    tileUI.Oncastle();
+                    Map.instance.isOutofUI = true;
+                }
+                if (Map.instance.missionNum == 15)
+                {
+                    Map.instance.wolrdMission.mission.SetActive(true);
+                    Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
+                    Map.instance.currentInteracteUITile = this;
+                    Map.instance.OnUIPlayerStop();
+                    Map.instance.isOutofUI = true;
+                }
+                if(Map.instance.missionNum == 17)
+                {
+                    Map.instance.wolrdMission.mission.SetActive(true);
+                    Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
+                    Map.instance.currentInteracteUITile = this;
+                    Map.instance.OnUIPlayerStop();
+                    Map.instance.isOutofUI = true;
+                }
+                if (Map.instance.missionNum == 25)
+                {
+                    Map.instance.wolrdMission.mission.SetActive(true);
+                    Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
+                    Map.instance.currentInteracteUITile = this;
+                    Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
                 }
             }
             if (isVillageTile && !Map.instance.isOutofUI && isMissionOn)
             {
-                if (Map.instance.wolrdMission.mainMissionNum == 7)
+                if (Map.instance.missionNum == 7)
                 {
                     Map.instance.wolrdMission.mission.SetActive(true);
                     Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
@@ -401,12 +425,12 @@ public class Tile : MonoBehaviour
                     Map.instance.isOutofUI = true;
                 }
             }
-            if (Map.instance.wolrdMission.mainMissionNum == 9 && isMissionOn)
+            if (Map.instance.missionNum == 9 && isMissionOn)
             {
                 Map.instance.OnUIPlayerStop();
-                Map.instance.wolrdMission.mainMissionNum = 10;
+                Map.instance.wolrdMission.NextMission();
             }
-            if (Map.instance.wolrdMission.mainMissionNum == 12 && isMissionOn)
+            if (Map.instance.missionNum == 12 && isMissionOn)
             {
                 Map.instance.wolrdMission.mission.SetActive(true);
                 Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
@@ -414,7 +438,7 @@ public class Tile : MonoBehaviour
                 Map.instance.OnUIPlayerStop();
                 Map.instance.isOutofUI = true;
             }
-            if (Map.instance.wolrdMission.mainMissionNum == 13 && isMissionOn)
+            if (Map.instance.missionNum == 13 && isMissionOn)
             {
                 Map.instance.wolrdMission.mission.SetActive(true);
                 Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
@@ -444,17 +468,17 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            if (gameObject.CompareTag("BattleRange"))//전투에 들어가는 범위
-            {
-                if (tileUI.players[0] == null) { tileUI.players[0] = other.gameObject; tileUI.playerNumber = 1; }
-                else if (tileUI.players[1] == null
-                    && tileUI.players[0].gameObject.name != other.gameObject.name)
-                { tileUI.players[1] = other.gameObject; tileUI.playerNumber = 2; }
-                else if (tileUI.players[2] == null
-                    && tileUI.players[0].gameObject.name != other.gameObject.name
-                    && tileUI.players[1].gameObject.name != other.gameObject.name)
-                { tileUI.players[2] = other.gameObject; tileUI.playerNumber = 3; }
-            }
+            //if (gameObject.CompareTag("BattleRange"))//전투에 들어가는 범위
+            //{
+            //    if (tileUI.players[0] == null) { tileUI.players[0] = other.gameObject; tileUI.playerNumber = 1; }
+            //    else if (tileUI.players[1] == null
+            //        && tileUI.players[0].gameObject.name != other.gameObject.name)
+            //    { tileUI.players[1] = other.gameObject; tileUI.playerNumber = 2; }
+            //    else if (tileUI.players[2] == null
+            //        && tileUI.players[0].gameObject.name != other.gameObject.name
+            //        && tileUI.players[1].gameObject.name != other.gameObject.name)
+            //    { tileUI.players[2] = other.gameObject; tileUI.playerNumber = 3; }
+            //}
 
             if (Map.instance.isOutofUI && isKingdomTile || Map.instance.isOutofUI && isMonsterTile)
             {
@@ -470,10 +494,10 @@ public class Tile : MonoBehaviour
                 {
                     tileUI.monsterNumUI[i].SetActive(true);
                 }
-                for (int i = 0; i < tileUI.playerNumber; i++)
-                {
-                    tileUI.playerNumUI[i].SetActive(true);
-                }
+                //for (int i = 0; i < tileUI.playerNumber; i++)
+                //{
+                //    tileUI.playerNumUI[i].SetActive(true);
+                //}
                 tileUI.OnMonsterBattle();
                 tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
                 Map.instance.isOutofUI = true;
@@ -489,7 +513,7 @@ public class Tile : MonoBehaviour
             {
                 Map.instance.currentInteracteUITile = this;
                 Map.instance.OnUIPlayerStop();
-                tileUI.OnShopAndHospital();
+                tileUI.Oncastle();
                 Map.instance.isOutofUI = true;
             }
         }
@@ -502,17 +526,17 @@ public class Tile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (gameObject.CompareTag("BattleRange"))//전투에 들어가는 범위
-            {
-                if (tileUI.players[0] != null) { tileUI.players[0] = null; tileUI.playerNumber = 2; }
-                else if (tileUI.players[1] != null
-                    && tileUI.players[0].gameObject.name != other.gameObject.name)
-                { tileUI.players[1] = null; tileUI.playerNumber = 1; }
-                else if (tileUI.players[2] != null
-                    && tileUI.players[0].gameObject.name != other.gameObject.name
-                    && tileUI.players[1].gameObject.name != other.gameObject.name)
-                { tileUI.players[2] = null; tileUI.playerNumber = 0; }
-            }
+            //if (gameObject.CompareTag("BattleRange"))//전투에 들어가는 범위
+            //{
+            //    if (tileUI.players[0] != null) { tileUI.players[0] = null; tileUI.playerNumber = 2; }
+            //    else if (tileUI.players[1] != null
+            //        && tileUI.players[0].gameObject.name != other.gameObject.name)
+            //    { tileUI.players[1] = null; tileUI.playerNumber = 1; }
+            //    else if (tileUI.players[2] != null
+            //        && tileUI.players[0].gameObject.name != other.gameObject.name
+            //        && tileUI.players[1].gameObject.name != other.gameObject.name)
+            //    { tileUI.players[2] = null; tileUI.playerNumber = 0; }
+            //}
         }
     }
 
