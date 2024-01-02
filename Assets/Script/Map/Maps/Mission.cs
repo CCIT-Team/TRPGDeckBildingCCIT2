@@ -19,6 +19,7 @@ public class Mission : MonoBehaviour
     {
         data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
         SCVDataReadAndSet();
+        t = 0;
         StartCoroutine(Output_text());
         Map.instance.isOutofUI = true;
     }
@@ -27,6 +28,7 @@ public class Mission : MonoBehaviour
     {
         data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
         SCVDataReadAndSet();
+        t = 0;
         StartCoroutine(Output_text());
         Map.instance.isOutofUI = true;
     }
@@ -34,7 +36,7 @@ public class Mission : MonoBehaviour
     public void NextChat()
     {
         SoundManager.instance.PlayUICilckSound();
-        if ((int)data_Dialog[Map.instance.missionChatNum]["Chapter"] == Map.instance.wolrdMission.mainMissionNum)
+        if ((int)data_Dialog[Map.instance.missionChatNum]["Chapter"] == Map.instance.missionNum)
         {
             t = 0;
             text.text = "";
@@ -55,6 +57,10 @@ public class Mission : MonoBehaviour
         {
             Map.instance.wolrdMission.chracterName.text = data_Dialog[Map.instance.missionChatNum]["ChracterName"].ToString();
         }
+        if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
+        {
+            Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
+        }
     }
 
     IEnumerator Output_text()
@@ -64,7 +70,6 @@ public class Mission : MonoBehaviour
         { text.text += data_Dialog[Map.instance.missionChatNum]["Content"].ToString()[t]; }
         else 
         {
-
             if (data_Dialog[Map.instance.missionChatNum]["Battle"].ToString() == "")
             {
                 isEndScript = true;
@@ -72,9 +77,14 @@ public class Mission : MonoBehaviour
                 Map.instance.currentInteracteUITile = null;
                 Map.instance.isOutofUI = false;
                 gameObject.SetActive(false);
+                if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
+                {
+                    Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
+                }
                 Map.instance.wolrdMission.NextMission();
                 StopCoroutine(Output_text());
             }
+            StopCoroutine(Output_text());
         }
         yield return new WaitForSeconds(delay);
         if (t < data_Dialog[Map.instance.missionChatNum]["Content"].ToString().Length - 1)

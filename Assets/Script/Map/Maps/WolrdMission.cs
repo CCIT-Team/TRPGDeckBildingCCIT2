@@ -18,17 +18,14 @@ public class WolrdMission : MonoBehaviour
 
     public Sprite[] missionChraterImage = new Sprite[5];
 
-    public  GameObject mission;
+    public GameObject mission;
 
     public bool missionCleard = false;
 
-    public int mainMissionNum = 1;
-
-  // public  List<Dictionary<string, object>> data_Dialog;
+    // public  List<Dictionary<string, object>> data_Dialog;
     void Start()
     {
         Map.instance.wolrdMission = this;
-        mainMissionNum = Map.instance.missionNum;
         //data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
     }
 
@@ -53,7 +50,7 @@ public class WolrdMission : MonoBehaviour
 
     public void CheckMissionNum()
     {
-        switch (mainMissionNum)
+        switch (Map.instance.missionNum)
         {
             case 1:
                 FirstMainMission();
@@ -86,6 +83,10 @@ public class WolrdMission : MonoBehaviour
                 //용 날라가기
                 break;
             case 11:
+                for (int i = 0; i < Map.instance.currentMissionTile.adjacentTiles.Count; i++)
+                {
+                    Map.instance.currentMissionTile.adjacentTiles[i].isMissionOn = false;
+                }
                 //용 돌아가기
                 break;
             case 12:
@@ -151,16 +152,25 @@ public class WolrdMission : MonoBehaviour
     #region 미션
     public void NextMission()
     {
-            mission.GetComponent<Mission>().SCVDataReadAndSet();
-            mainMissionNum += 1;
-            Map.instance.missionChatNum += 1;
-            if (Map.instance.currentMissionTile != null)
-            {
-                Map.instance.currentMissionTile.isMissionOn = false;
-                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-            }
-            mission.GetComponent<Mission>().isEndScript = false;
-            gameObject.SetActive(true);
+        Map.instance.missionNum += 1;
+        Map.instance.missionChatNum += 1;
+        mission.GetComponent<Mission>().SCVDataReadAndSet();
+        if (Map.instance.currentMissionTile != null)
+        {
+            Map.instance.currentMissionTile.isMissionOn = false;
+            Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+        }
+        mission.GetComponent<Mission>().isEndScript = false;
+        mainMissionUITransform.gameObject.SetActive(true);
+        //mission.SetActive(true);
+    }
+
+    void TurnOnMissionPanel()
+    {
+        if(mission.activeSelf == false)
+        {
+            mission.SetActive(true);
+        }
     }
 
     void FirstMainMission()
@@ -173,7 +183,6 @@ public class WolrdMission : MonoBehaviour
 
     void SecondMainMission()
     {
-        mainMissionUITransform.gameObject.SetActive(true);
         Map.instance.currentMissionTile = Map.instance.kingdomTile[0].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -182,15 +191,15 @@ public class WolrdMission : MonoBehaviour
 
     void ThirdMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.monsterTile[0];
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[0];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
         Map.instance.missionNum = 3;
         if (GameManager.instance.isVictory)
         {
-            Map.instance.monsterTile[0].isMissionOn = false;
-            Map.instance.monsterTile[0].MainMissionMarkerOnOff();
-            Map.instance.monsterTile[0].DestroyMonsterTile();
+            Map.instance.missionMonsterTile[0].isMissionOn = false;
+            Map.instance.missionMonsterTile[0].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[0].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
             NextMission();
         }
@@ -198,8 +207,6 @@ public class WolrdMission : MonoBehaviour
     void FourthMainMission()
     {
         GameManager.instance.isVictory = false;
-        Map.instance.wolrdMission.mission.SetActive(true);
-        Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
         Map.instance.OnUIPlayerStop();
         Map.instance.isOutofUI = true;
         Map.instance.missionNum = 4;
@@ -207,18 +214,18 @@ public class WolrdMission : MonoBehaviour
 
     void FifthMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.monsterTile[1];
-        Map.instance.totalTileObjectList[78].GetComponent<Tile>().tileState = Tile.TileState.VillageTile;
-        Map.instance.totalTileObjectList[78].GetComponent<Tile>().isVillageTile = true;
-        Map.instance.totalTileObjectList[78].GetComponent<Tile>().MakeVilege();
-        Map.instance.monsterTile[1].isMissionOn = true;
-        Map.instance.monsterTile[1].MainMissionMarkerOnOff();
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[1];
+        Map.instance.totalTileObjectList[119].GetComponent<Tile>().tileState = Tile.TileState.VillageTile;
+        Map.instance.totalTileObjectList[119].GetComponent<Tile>().isVillageTile = true;
+        Map.instance.totalTileObjectList[119].GetComponent<Tile>().MakeVilege();
+        Map.instance.missionMonsterTile[1].isMissionOn = true;
+        Map.instance.missionMonsterTile[1].MainMissionMarkerOnOff();
         Map.instance.missionNum = 5;
         if (GameManager.instance.isVictory)
         {
-            Map.instance.monsterTile[1].isMissionOn = false;
-            Map.instance.monsterTile[1].MainMissionMarkerOnOff();
-            Map.instance.monsterTile[1].DestroyMonsterTile();
+            Map.instance.missionMonsterTile[1].isMissionOn = false;
+            Map.instance.missionMonsterTile[1].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[1].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
             NextMission();
         }
@@ -227,49 +234,47 @@ public class WolrdMission : MonoBehaviour
     void SixthMainMission()
     {
         GameManager.instance.isVictory = false;
-        Map.instance.wolrdMission.mission.SetActive(true);
-        Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
         Map.instance.OnUIPlayerStop();
         Map.instance.isOutofUI = true;
-        mainMissionNum = 6;
+        Map.instance.missionNum = 6;
     }
 
     void SeventhMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[119].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        mainMissionNum = 7;
+        Map.instance.missionNum = 7;
     }
 
     void EighthMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.kingdomTile[3].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.kingdomTile[1].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        mainMissionNum = 8;
+        Map.instance.missionNum = 8;
     }
 
     void NinthMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
-        Map.instance.currentMissionTile.GetComponent<Tile>().tileState = Tile.TileState.VillageTile;
-        Map.instance.currentMissionTile.GetComponent<Tile>().isVillageTile = true;
-        Map.instance.currentMissionTile.GetComponent<Tile>().MakeVilege();
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[248].GetComponent<Tile>();
+        Map.instance.currentMissionTile.tileState = Tile.TileState.VillageTile;
+        Map.instance.currentMissionTile.isVillageTile = true;
+        Map.instance.currentMissionTile.MakeVilege();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < Map.instance.currentMissionTile.adjacentTiles.Count; i++)
         {
             Map.instance.currentMissionTile.adjacentTiles[i].isMissionOn = true;
-        } 
+        }
         Map.instance.missionNum = 9;
 
     }
 
     void TwelfthMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[248].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
         Map.instance.missionNum = 12;
@@ -277,145 +282,170 @@ public class WolrdMission : MonoBehaviour
 
     void ThirdthMainMission()
     {
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[119].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
         Map.instance.missionNum = 13;
     }
     void Fourteenth()
     {
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        TurnOnMissionPanel();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 14;
     }
     void Fifteenth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.kingdomTile[0].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 15;
     }
     void Sixteenth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[2];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 16;
+        if (GameManager.instance.isVictory)
+        {
+            Map.instance.missionMonsterTile[2].isMissionOn = false;
+            Map.instance.missionMonsterTile[2].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[2].DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            NextMission();
+        }
     }
     void Seventeenth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        GameManager.instance.isVictory = false;
+        Map.instance.currentMissionTile = Map.instance.kingdomTile[3].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 17;
     }
     void Eighteenth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[3];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 18;
+        if (GameManager.instance.isVictory)
+        {
+            Map.instance.missionMonsterTile[3].isMissionOn = false;
+            Map.instance.missionMonsterTile[3].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[3].DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            NextMission();
+        }
     }
     void Nineteenth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        GameManager.instance.isVictory = false;
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 19;
     }
     void Twentieth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[4];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 20;
+        if (GameManager.instance.isVictory)
+        {
+            Map.instance.missionMonsterTile[4].isMissionOn = false;
+            Map.instance.missionMonsterTile[4].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[4].DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            NextMission();
+        }
     }
     void Twenthfirst()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        GameManager.instance.isVictory = false;
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 21;
     }
     void Twenthsecond()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        TurnOnMissionPanel();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 22;
     }
     void Twenththird()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        TurnOnMissionPanel();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 23;
     }
     void Twenthfourth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[5];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 24;
+        if (GameManager.instance.isVictory)
+        {
+            Map.instance.missionMonsterTile[5].isMissionOn = false;
+            Map.instance.missionMonsterTile[5].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[5].DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            NextMission();
+        }
     }
     void Twenthfifth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        GameManager.instance.isVictory = false;
+        Map.instance.currentMissionTile = Map.instance.kingdomTile[7].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 25;
     }
     void Twenthsixth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        TurnOnMissionPanel();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 26;
     }
     void Twenthseventh()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        TurnOnMissionPanel();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 27;
     }
     void Twentheighth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        TurnOnMissionPanel();
+        Map.instance.OnUIPlayerStop();
+        Map.instance.isOutofUI = true;
+        Map.instance.missionNum = 28;
     }
     void Twenthninth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
+        Map.instance.currentMissionTile = Map.instance.missionMonsterTile[6];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        Map.instance.missionNum = 29;
+        if (GameManager.instance.isVictory)
+        {
+            Map.instance.missionMonsterTile[6].isMissionOn = false;
+            Map.instance.missionMonsterTile[6].MainMissionMarkerOnOff();
+            Map.instance.missionMonsterTile[6].DestroyMonsterTile();
+            Map.instance.isOutofUI = false;
+            NextMission();
+        }
     }
     void thirtieth()
     {
-        mainMissionText.text = "소식을 전달하세요";
-        Map.instance.currentMissionTile = Map.instance.totalTileObjectList[78].GetComponent<Tile>();
-        Map.instance.currentMissionTile.isMissionOn = true;
-        Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-        Map.instance.missionNum = 13;
+        GameManager.instance.isVictory = false;
+        Map.instance.OnUIPlayerStop();
+        Map.instance.missionNum = 30;
     }
     #endregion
 }

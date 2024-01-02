@@ -6,7 +6,7 @@ using TMPro;
 
 public class TileUI : MonoBehaviour
 {
-    public GameObject shop_hospitalUI;
+    public GameObject castle;
     public GameObject shopUI;
     public GameObject hospital;
     public GameObject monsterBattleUI;
@@ -21,7 +21,7 @@ public class TileUI : MonoBehaviour
 
     void Awake()
     {
-        shop_hospitalUI.SetActive(false);
+        castle.SetActive(false);
         shopUI.SetActive(false);
         hospital.SetActive(false);
         monsterBattleUI.SetActive(false);
@@ -43,23 +43,23 @@ public class TileUI : MonoBehaviour
     }
 
     #region 상점&병원 버튼
-    public void OnShopAndHospital() { shop_hospitalUI.SetActive(true); ; Map.instance.isOutofUI = true; }
-    public void OffShopAndHospital()
+    public void Oncastle() { castle.SetActive(true); ; Map.instance.isOutofUI = true; }
+    public void Offcastle()
     {
         SoundManager.instance.PlayUICilckSound();
-        shop_hospitalUI.SetActive(false);
+        castle.SetActive(false);
         InitializedPlayerTurn();
     }
     public void OnShopUI()
     {
         SoundManager.instance.PlayUICilckSound();
-        OffShopAndHospital();
+        Offcastle();
         OnShop();
     }
     public void OnHospitalUI()
     {
         SoundManager.instance.PlayUICilckSound();
-        OffShopAndHospital();
+        Offcastle();
         OnHospital();
     }
     #endregion

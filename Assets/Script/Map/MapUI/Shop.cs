@@ -9,7 +9,17 @@ public class Shop : MonoBehaviour
     public int healPrise = 20;
     public int deleteCurse = 40;
 
+   public  List<ShopItem> itemList = new List<ShopItem>();
+
+    public GameObject item;
+    public Transform itemListTransform;
     public GameObject noMoney;
+
+    private void Start()
+    {
+        itemList.Clear();
+        ShopSellItems();
+    }
     #region ªÛ¡°
     public void BuyingRegulerPosion()
     {
@@ -17,12 +27,13 @@ public class Shop : MonoBehaviour
         {
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold -= posionRegulerPrice;
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().portionRegular += 1;
-            if(Map.instance.wolrdMission.mainMissionNum == 8) 
+            if(Map.instance.missionNum == 8) 
             {
                 Map.instance.currentMissionTile.isMissionOn = false;
                 Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-                Map.instance.wolrdMission.mainMissionNum = 9; 
+                Map.instance.wolrdMission.NextMission();
             }
+            //Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.SetInvenItem();
         }
         else
         {
@@ -35,11 +46,12 @@ public class Shop : MonoBehaviour
         {
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold -= posionLargePrice;
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().portionLarge += 1;
-            if (Map.instance.wolrdMission.mainMissionNum == 8)
+            if (Map.instance.missionNum == 8)
             {
                 Map.instance.currentMissionTile.isMissionOn = false;
-                Map.instance.currentMissionTile.MainMissionMarkerOnOff();         
-                Map.instance.wolrdMission.mainMissionNum = 9;
+                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
+                Map.instance.missionNum = 9;
+                Map.instance.wolrdMission.NextMission();
             }
         }
         else
@@ -48,7 +60,59 @@ public class Shop : MonoBehaviour
         }
     }
 
-    IEnumerator Comebackwiththemoney()
+    public void ShopSellItems()
+    {
+        GameObject posionR = Instantiate(item, itemListTransform);
+        posionR.GetComponent<GetShopItem>().item = itemList[0];
+        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        GameObject posionL = Instantiate(item, itemListTransform);
+        posionR.GetComponent<GetShopItem>().item = itemList[1];
+        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        GameObject sword = Instantiate(item, itemListTransform);
+        posionR.GetComponent<GetShopItem>().item = itemList[2];
+        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        GameObject armor = Instantiate(item, itemListTransform);
+        posionR.GetComponent<GetShopItem>().item = itemList[Random.Range(3, 7)];
+        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        //switch (Map.instance.wolrdTurn.currentPlayer.level)
+        //{
+        //    case 1:
+        //        GameObject posionR = Instantiate(item,itemListTransform);
+        //        posionR.GetComponent<GetShopItem>().item = itemList[0];
+        //        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        //        GameObject posionL = Instantiate(item, itemListTransform);
+        //        posionR.GetComponent<GetShopItem>().item = itemList[1];
+        //        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        //        GameObject sword = Instantiate(item, itemListTransform);
+        //        posionR.GetComponent<GetShopItem>().item = itemList[2];
+        //        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        //        GameObject armor = Instantiate(item, itemListTransform);
+        //        posionR.GetComponent<GetShopItem>().item = itemList[Random.Range(3,7)];
+        //        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        //        break;
+        //    case 3:
+
+        //        break;
+        //    case 5:
+
+        //        break;
+        //    case 7:
+
+        //        break;
+        //    case 9:
+
+        //        break;
+        //    case 10:
+
+        //        break;
+        //    case 11:
+
+        //        break;
+        //}
+
+    }
+
+    public IEnumerator Comebackwiththemoney()
     {
         noMoney.SetActive(true);
         yield return new WaitForSeconds(1);

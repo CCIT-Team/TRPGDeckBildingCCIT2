@@ -52,7 +52,7 @@ public class TwelfthMainMission : MonoBehaviour
                 Map.instance.currentMissionTile.isMissionOn = false;
                 Map.instance.currentMissionTile.MainMissionMarkerOnOff();
                 Map.instance.isOutofUI = false;
-                Map.instance.wolrdMission.mainMissionNum = 13;
+                Map.instance.missionNum = 13;
                 Map.instance.startTile = null;
                 Map.instance.pathTileObjectList.Clear();
                 Map.instance.isPlayerOnEndTile = true;
