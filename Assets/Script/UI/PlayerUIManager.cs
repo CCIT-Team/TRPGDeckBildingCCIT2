@@ -14,7 +14,7 @@ public class PlayerUIManager : MonoBehaviour
         GameObject childUI;
         for (int i = 0; i < player.Length; i++)
         {
-            childUI = transform.GetChild(i + 3).gameObject;
+            childUI = transform.GetChild(i).gameObject;
             childUI.SetActive(true);
             childUI.GetComponent<PlayerStatUI>().LinkingPlayer(player[i]);
             childUI.GetComponent<PlayerStatUI>().InitUI();

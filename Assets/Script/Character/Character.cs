@@ -12,6 +12,8 @@ public class Character : Unit
         Walking,
         Death
     }
+    public PlayerStatUI simpleUI;
+
     public int strength;
     public int intelligence;
     public int luck;
