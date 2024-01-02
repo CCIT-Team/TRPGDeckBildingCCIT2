@@ -45,7 +45,7 @@ public class Character_type : MonoBehaviour
         GameObject canvas = GameObject.Find("Canvas").gameObject;
 
         inven.transform.SetParent(canvas.transform);
-        inven.transform.localPosition = new Vector3(Screen.width / 2, 0, 0);
+        inven.transform.localPosition = new Vector3(0, 0, 0);
         invenUI = inven.GetComponent<InventoryUI>();
         inven.GetComponent<InventoryUI>().likedPlayer = gameObject;
     }

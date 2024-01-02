@@ -2,202 +2,173 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
     private GameObject inventory;
 
-    public Image equipmentLeftSlot;
-    public Image equipmentRightSlot;
+    public Image[] equipmentSlot;
+    public TMP_Text[] equipmentSlotText;
     public GameObject[] scrollViewBox;
     public GameObject itemSlot;
-    
-    public List<InventorySlotUI> totalIndex = new List<InventorySlotUI>();
-    public List<InventorySlotUI> itemIndex = new List<InventorySlotUI>();
-    public List<InventorySlotUI> weaponIndex = new List<InventorySlotUI>();
+
+    public TMP_Text str;
+    public TMP_Text intl;
+    public TMP_Text luk;
+    public TMP_Text spd;
+    public TMP_Text money;
+
+    public GameObject[] avatar;
+    public GameObject cardGrid;
+
+    public List<InventorySlotUI> helmetIndex = new List<InventorySlotUI>();
     public List<InventorySlotUI> armorIndex = new List<InventorySlotUI>();
+    public List<InventorySlotUI> weaponIndex = new List<InventorySlotUI>();
     public List<InventorySlotUI> jewelIndex = new List<InventorySlotUI>();
+    public List<InventorySlotUI> itemIndex = new List<InventorySlotUI>();
     public GameObject likedPlayer;
     private GameObject slot;
-    private bool isOpen;
+
     private void Start()
     {
         inventory = transform.GetChild(0).gameObject;
+        str.text = likedPlayer.GetComponent<Character>().strength.ToString();
+        intl.text = likedPlayer.GetComponent<Character>().intelligence.ToString();
+        luk.text = likedPlayer.GetComponent<Character>().luck.ToString();
+        spd.text = likedPlayer.GetComponent<Character>().speed.ToString();
+        money.text = likedPlayer.GetComponent<Character>().gold.ToString();
 
-        int temp = 0;
-        for (int i = 0; i < scrollViewBox.Length; i++)
+        if(likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Fighter)
         {
-            if (i == 0)
-            {
-                for (int j = 0; j < 200; j++)
-                {
-                    slot = Instantiate(itemSlot);
-                    slot.transform.SetParent(scrollViewBox[temp].transform);
-                    slot.GetComponent<InventorySlotUI>().SetSlotNumber(InventorySlotUI.ItemType.none, j);
-                    totalIndex.Add(slot.GetComponent<InventorySlotUI>());
-                }
-                temp++;
-            }
-            else
-            {
-                for (int k = 0; k < 50; k++)
-                {
-                    slot = Instantiate(itemSlot);
-                    slot.transform.SetParent(scrollViewBox[temp].transform);
-                    slot.GetComponent<InventorySlotUI>().SetSlotNumber(InventorySlotUI.ItemType.none + temp, k);
-                    switch(temp)
-                    {
-                        case 1:
-                            itemIndex.Add(slot.GetComponent<InventorySlotUI>());
-                            break;
-                        case 2:
-                            weaponIndex.Add(slot.GetComponent<InventorySlotUI>());
-                            break;
-                        case 3:
-                            armorIndex.Add(slot.GetComponent<InventorySlotUI>());
-                            break;
-                        case 4:
-                            jewelIndex.Add(slot.GetComponent<InventorySlotUI>());
-
-                            break;
-                    }
-                }
-                temp++;
-            }
+            avatar[0].SetActive(true);
+            avatar[1].SetActive(false);
+            avatar[2].SetActive(false);
         }
+        else if(likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Wizard)
+        {
+            avatar[0].SetActive(false);
+            avatar[1].SetActive(true);
+            avatar[2].SetActive(false);
+        }
+        else if (likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Cleric)
+        {
+            avatar[0].SetActive(false);
+            avatar[1].SetActive(false);
+            avatar[2].SetActive(true);
+        }
+
+        inventory.SetActive(false);
+    }
+
+    public void UpdateStat()
+    {
+        str.text = likedPlayer.GetComponent<Character>().strength.ToString();
+        intl.text = likedPlayer.GetComponent<Character>().intelligence.ToString();
+        luk.text = likedPlayer.GetComponent<Character>().luck.ToString();
+        spd.text = likedPlayer.GetComponent<Character>().speed.ToString();
     }
 
     public void SetInvenItem(int number, int amount)
     {
         int index = int.Parse(number.ToString().Substring(0, 5));
-        int emptySlot = 0;
         switch (index)
         {
             case 12000:
-                emptySlot = IsHaveSlot(itemIndex);
-                itemIndex[emptySlot].SetSlotItem(number, amount);
+                slot = Instantiate(itemSlot);
+                slot.transform.SetParent(scrollViewBox[4].transform);
+                slot.GetComponent<InventorySlotUI>().SetSlotType(InventorySlotUI.ItemType.item);
+                itemIndex.Add(slot.GetComponent<InventorySlotUI>());
+                itemIndex[itemIndex.Count - 1].SetSlotItem(number, amount);
                 break;
             case 12001:
-                emptySlot = IsHaveSlot(weaponIndex);
-                weaponIndex[emptySlot].SetSlotItem(number, 1);
+                slot = Instantiate(itemSlot);
+                slot.transform.SetParent(scrollViewBox[2].transform);
+                slot.GetComponent<InventorySlotUI>().SetSlotType(InventorySlotUI.ItemType.weapon);
+                weaponIndex.Add(slot.GetComponent<InventorySlotUI>());
+                weaponIndex[weaponIndex.Count-1].SetSlotItem(number, 1);
                 break;
             case 22000:
                 for(int i = 0; i < DataBase.instance.armorData.Count; i++)
                 {
                     if (DataBase.instance.armorData[i].no == number && DataBase.instance.armorData[i].type == ArmorData.Type.Armor)
                     {
-                        emptySlot = IsHaveSlot(armorIndex);
-                        armorIndex[emptySlot].SetSlotItem(number, 1);
+                        slot = Instantiate(itemSlot);
+                        slot.transform.SetParent(scrollViewBox[1].transform);
+                        slot.GetComponent<InventorySlotUI>().SetSlotType(InventorySlotUI.ItemType.armor);
+                        armorIndex.Add(slot.GetComponent<InventorySlotUI>());
+                        armorIndex[armorIndex.Count - 1].SetSlotItem(number, 1);
                     }
                     else if(DataBase.instance.armorData[i].no == number && DataBase.instance.armorData[i].type == ArmorData.Type.Head)
                     {
-                        emptySlot = IsHaveSlot(armorIndex);
-                        armorIndex[emptySlot].SetSlotItem(number, 1);
+                        slot = Instantiate(itemSlot);
+                        slot.transform.SetParent(scrollViewBox[0].transform);
+                        slot.GetComponent<InventorySlotUI>().SetSlotType(InventorySlotUI.ItemType.helmet);
+                        helmetIndex.Add(slot.GetComponent<InventorySlotUI>());
+                        helmetIndex[helmetIndex.Count - 1].SetSlotItem(number, 1);
                     }
                     else if (DataBase.instance.armorData[i].no == number && DataBase.instance.armorData[i].type == ArmorData.Type.Jewel)
                     {
-                        emptySlot = IsHaveSlot(jewelIndex);
-                        jewelIndex[emptySlot].SetSlotItem(number, 1);
+                        slot = Instantiate(itemSlot);
+                        slot.transform.SetParent(scrollViewBox[3].transform);
+                        slot.GetComponent<InventorySlotUI>().SetSlotType(InventorySlotUI.ItemType.jewel);
+                        jewelIndex.Add(slot.GetComponent<InventorySlotUI>());
+                        jewelIndex[jewelIndex.Count - 1].SetSlotItem(number, 1);
                     }
                 }
                 break;
         }
     }
 
-    public void GetInvenItem()
+    public void ButtonOpen()
     {
-
-    }
-
-    private int IsHaveSlot(List<InventorySlotUI> invenList)
-    {
-        for(int i = 0; i < invenList.Count; i++)
+        if (likedPlayer.GetComponent<Character>().isMyturn)
         {
-            if(!invenList[i].ishave)
-            {
-                return i;
-            }
+            inventory.SetActive(true);
         }
-        return 0;
-    }
-    private void SortingTotal()
-    {
-        for(int i = 0; i < itemIndex.Count; i++)
-        {
-            if(itemIndex[i].ishave)
-            {
-                totalIndex[IsHaveSlot(totalIndex)] = itemIndex[i];
-            }
-        }
-    }
-    private IEnumerator OpenCloseLerp()
-    {
-        float timer = 0.0f;
-        float durtion = 0.25f;
-        float t = 0.0f;
-        if(isOpen)
-        {
-            while (timer <= durtion)
-            {
-                Map.instance.isOutofUI = false;
-                isOpen = false;
-                timer += Time.deltaTime;
-                t = timer / durtion;
-                //inventory.transform.localPosition = Vector3.Lerp(new Vector3(960, 0, 0), new Vector3(1609, 0, 0), t);
-                inventory.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(0, 0), new Vector2(inventory.GetComponent<Image>().preferredWidth, 0), t);
-                yield return null;
-            }
-        }
-        else
-        {
-            while (timer <= durtion)
-            {
-                Map.instance.isOutofUI = true;
-                isOpen = true;
-                timer += Time.deltaTime;
-                t = timer / durtion;
-                //inventory.transform.localPosition = Vector3.Lerp(new Vector3(1609, 0, 0), new Vector3(960, 0, 0), t);
-                inventory.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(inventory.GetComponent<Image>().preferredWidth, 0), new Vector2(0, 0), t);
-                yield return null;
-            }
-        }
-        yield return null;
-    }
-
-    public void ButtonCoroutie()
-    {
-        StartCoroutine(OpenCloseLerp());
     }
 
     public void SetItemButton()
     {
         //SetInvenItem(12001001, 10);
         SetInvenItem(12001012, 10);
-        SortingTotal();
     }
     private void Update()
     {
         if(likedPlayer.GetComponent<Character>().isMyturn)
         {
-            inventory.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetKeyDown(KeyCode.I) && !inventory.activeInHierarchy)
             {
-                StartCoroutine(OpenCloseLerp());
+                Map.instance.isOutofUI = true;
+                inventory.SetActive(true);
+            }
+            else if (Input.GetKeyDown(KeyCode.I) && inventory.activeInHierarchy)
+            {
+                Map.instance.isOutofUI = false;
+                inventory.SetActive(false);
             }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.L))
             {
-                SetInvenItem(12001002, 10);
-                SortingTotal();
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                SetInvenItem(12001001, 10);
-                SetInvenItem(22000001, 10);
-                SetInvenItem(22000002, 10);
-                SetInvenItem(22000020, 10);
-                SetInvenItem(12000001, 10);
-                SortingTotal();
+                if (likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Fighter)
+                {
+                    SetInvenItem(12001001, 10);
+                    SetInvenItem(22000001, 10);
+                    SetInvenItem(22000002, 10);
+                }
+                else if(likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Wizard)
+                {
+                    SetInvenItem(12001018, 10);
+                    SetInvenItem(22000021, 10);
+                    SetInvenItem(22000022, 10);
+                }
+                else if (likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Cleric)
+                {
+                    SetInvenItem(12001026, 10);
+                    SetInvenItem(12001016, 10);
+                    SetInvenItem(22000001, 10);
+                    SetInvenItem(22000002, 10);
+                }
             }
         }
         else if(!likedPlayer.GetComponent<Character>().isMyturn)

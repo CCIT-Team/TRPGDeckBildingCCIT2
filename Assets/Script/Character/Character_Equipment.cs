@@ -5,15 +5,23 @@ using UnityEditor;
 
 public class Character_Equipment : MonoBehaviour
 {
+    public bool isHelmet;
+    public bool isArmor;
+    public bool isLeftWeapon;
     public bool isRightWeapon;
-    public List<int> rightWeaponCard = new List<int>();
+    public bool[] isJewel = new bool[4];
     public GameObject[] equipments = new GameObject[8];
-    
-    public Transform[] position = new Transform[4];
 
     private void Start()
     {
+        isHelmet = false;
+        isArmor = false;
+        isLeftWeapon = false;
         isRightWeapon = false;
+        isJewel[0] = false;
+        isJewel[1] = false;
+        isJewel[2] = false;
+        isJewel[3] = false;
     }
 
     public void AddStat(int[] _weaponStsts)
