@@ -4653,6 +4653,7 @@ GameObject:
   - component: {fileID: 220813357751414139}
   - component: {fileID: 7289995377463313549}
   - component: {fileID: 8612274723609316677}
+  - component: {fileID: 1384993993656794659}
   m_Layer: 5
   m_Name: Player_TrunEnd_Background
   m_TagString: Untagged
@@ -4718,6 +4719,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1384993993656794659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8436597134415095126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5676b70237eae54ab75372bf997ec68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8877945861981976622
 GameObject:
   m_ObjectHideFlags: 0
