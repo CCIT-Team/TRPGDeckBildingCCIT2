@@ -29,6 +29,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     bool isTurnAnnounce = false;
     public bool isBuffRun_All = false;
     public bool isHandOver = false;
+    [HideInInspector]
+    public bool isDragonLanding = false;
 
     public bool IsAction
     {
@@ -296,7 +298,18 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     }
     
     IEnumerator PlayTurn()
-    {  
+    {
+        if(!isDragonLanding)
+        {
+            foreach (Unit unit in units)
+            {
+                if (unit.gameObject.name.Contains("드래곤"))
+                {
+                    yield return new WaitForSeconds(3f);
+                }
+            }
+            isDragonLanding = true;
+        }    
         currentUnit = units[0];
         units.Remove(currentUnit);
         //Camera.main.GetComponent<BattleCameraMove>().MovePosition(currentUnit.gameObject);

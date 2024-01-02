@@ -12,7 +12,7 @@ public class DragonAnimationControl : UnitAnimationControl
         defaultPosition = new Vector3(0,0,0);
         transform.position += new Vector3(0, startHeight, 0);
         StartCoroutine(Landing());
-        BreathParticle = transform.GetChild(transform.childCount -1).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject;
+        BreathParticle = transform.GetChild(transform.childCount -2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject;
     }
 
     // Update is called once per frame
