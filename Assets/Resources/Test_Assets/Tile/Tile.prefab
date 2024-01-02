@@ -1073,7 +1073,7 @@ MonoBehaviour:
   kingdomObject: {fileID: 9098414221162056004}
   burnkingdomObject: {fileID: 4844715495114773210}
   vileageObject: {fileID: 6999595973709876128}
-  burnVileageObject: {fileID: 4844715495114773210}
+  burnVileageObject: {fileID: 3400252708149811857}
   monsterObject: {fileID: 2448469394476614732}
   monsterPosition: {fileID: 6874330325127027872}
   monsterNum: 0

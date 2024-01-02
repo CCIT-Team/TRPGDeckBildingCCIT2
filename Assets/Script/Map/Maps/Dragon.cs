@@ -58,11 +58,11 @@ public class Dragon : MonoBehaviour
         //{
         //    RestNest();
         //}
-        if (Map.instance.wolrdMission.mainMissionNum == 9)
+        if (Map.instance.missionNum == 10)
         {
-            if (!isTargetSetting && currentDragonTile != null && Map.instance.totalTileObjectList[216].GetComponent<Tile>() != null)
+            if (!isTargetSetting && currentDragonTile != null && Map.instance.totalTileObjectList[248].GetComponent<Tile>() != null)
             {
-                targetPosition = Map.instance.totalTileObjectList[216].GetComponent<Tile>();
+                targetPosition = Map.instance.totalTileObjectList[248].GetComponent<Tile>();
                 moveList = astar.FindPath(currentDragonTile, targetPosition);
                 dragonState = DragonState.IDLE;
                 dragonAni.SetTrigger("Idle");
@@ -104,7 +104,7 @@ public class Dragon : MonoBehaviour
             moveList[moveList.Count - 1].GetComponent<Tile>().DestroyVilege();
             moveList.Clear();
             currentDragonTile = Map.instance.dragonStartTile;
-            Map.instance.wolrdMission.mainMissionNum = 10;
+            Map.instance.wolrdMission.NextMission();
             targetPosition = nestTile;
             moveList = astar.FindPath(currentDragonTile, nestTile);
             isBack = true;
@@ -120,7 +120,6 @@ public class Dragon : MonoBehaviour
         nextTilePosition.y = nextTilePosition.y + 2f;
         transform.rotation = Quaternion.LookRotation(nextTilePosition - transform.position).normalized;
         transform.position = Vector3.MoveTowards(transform.position, nextTilePosition, dragonSpeed * Time.deltaTime);
-
         if (moveList.Count > 0 && Vector3.Distance(moveList[moveList.Count - 1].transform.position, transform.position) <= 2f)
         {
             currentPositionNum = 1;

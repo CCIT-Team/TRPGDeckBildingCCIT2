@@ -1220,7 +1220,7 @@ MonoBehaviour:
   major: 0
   gender: 0
   avatarType: 0
-  inventory: {fileID: 3909863699009919076, guid: 26a8b160351fad243aa0e1ecc6921ba6,
+  inventory: {fileID: 1592645736662786378, guid: 9edeb272ff049d844bce0cb618bc5e28,
     type: 3}
   invenUI: {fileID: 0}
   weaponPosition:
@@ -1251,6 +1251,7 @@ MonoBehaviour:
   battleState: 0
   hp: 0
   maxHp: 0
+  simpleUI: {fileID: 0}
   strength: 0
   intelligence: 0
   luck: 0

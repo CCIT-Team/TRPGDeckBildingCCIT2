@@ -44,7 +44,12 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
     public int buygold;
     public int sellgold;
 
+    public TMP_Text cardCount;
 
+    private void Start()
+    {
+        cardCount.text = "x0";
+    }
     public void SetWeaponType(WeaponData weapon)
     {
         //playernum 플레이어연결하고 값 넣기
@@ -79,7 +84,11 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
         buygold = weapon.buyGold;
         sellgold = weapon.sellGold;
+
+        int temp = card1Count + card2Count + card3Count + card4Count + card5Count + card6Count + card7Count + card8Count;
+        cardCount.text = "x" + temp.ToString();
     }
+
     public int[] GetStats()
     {
         int index = 0;
@@ -160,6 +169,7 @@ public class EquipmentSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon = false;
         rootObject.likedPlayer.GetComponent<Character_Equipment>().DiscardStat(stats);
         rootObject.likedPlayer.GetComponent<Character_Equipment>().DiscardCard(weaponCard);
+        rootObject.UpdateStat();
         ClearData();
     }
 
