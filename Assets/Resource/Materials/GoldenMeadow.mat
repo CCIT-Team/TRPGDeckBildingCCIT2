@@ -61,6 +61,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emission:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -93,6 +97,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: eba873ff4be31d44b9779b24a97df0df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_092db1eeb5a34d2aaad491cc047842ea_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 952b125a3099aef4c9722e563b703be6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_238bb01888164d3fa71e6d6cd108c5ea_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 47b0e61840b0be24b9213a1e10c6dea9, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -109,12 +117,24 @@ Material:
         m_Texture: {fileID: 2800000, guid: 47b0e61840b0be24b9213a1e10c6dea9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5309bb89203d4958b570f81b8cc6b8da_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5db2b555b0d39374f85aa2170ab71f33, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_5d17c627cf0c4ee8a2c841a53cf031f8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 47b0e61840b0be24b9213a1e10c6dea9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_6180027bf78d41c5ab86ea5a0fe32c02_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 47b0e61840b0be24b9213a1e10c6dea9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_adbf2b0f4bba40d197c1755b23d7976b_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 47b0e61840b0be24b9213a1e10c6dea9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_afee9d695d714447b52854705193f37b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5db2b555b0d39374f85aa2170ab71f33, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -171,5 +191,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TileColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TileColor: {r: 0.5, g: 0.35157192, b: 0, a: 1}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_BuildTextureStacks: []
