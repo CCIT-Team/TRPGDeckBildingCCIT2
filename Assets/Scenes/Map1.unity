@@ -6902,7 +6902,6 @@ MonoBehaviour:
   - {fileID: 6124566929585799547, guid: a0d59f7c9c73ca8498fc9187765e3d29, type: 3}
   - {fileID: 1709659028461558467, guid: 6cdc20fedd762d84f86e8b8b51eba43e, type: 3}
   monsterIDList: 81c3c90182c3c90183c3c90184c3c90185c3c901
-  mapUI: {fileID: 0}
   wolrdTurn: {fileID: 1461956040}
   currentInteracteUITile: {fileID: 0}
   wolrdMission: {fileID: 1550965600}
@@ -10337,63 +10336,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 913818425143384331, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2645dddcbf4b45845acf6bcc3d6e3e0f,
-        type: 3}
-    - target: {fileID: 913818425143384331, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2192120228072270279, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2192120228072270279, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3215660080881434582, guid: 3a16cb9077c516c4582805c43c0f173b,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 78f0e5df205be384fb630385ac2f3c66,
         type: 3}
-    - target: {fileID: 3893430831824253991, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 112.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893430831824253991, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 113.1297
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893430831824253991, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893430831824253991, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893430831824253991, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.000043869
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893430831824253991, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 2.2168
-      objectReference: {fileID: 0}
     - target: {fileID: 3989502567026635459, guid: 3a16cb9077c516c4582805c43c0f173b,
         type: 3}
       propertyPath: m_Name
@@ -10444,82 +10392,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 232
       objectReference: {fileID: 0}
-    - target: {fileID: 5671678713051842562, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 168
-      objectReference: {fileID: 0}
-    - target: {fileID: 5671678713051842562, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 196
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544685495276077636, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 56.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544685495276077636, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 56.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544685495276077636, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 16777215
-      objectReference: {fileID: 0}
     - target: {fileID: 6722646701331322172, guid: 3a16cb9077c516c4582805c43c0f173b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 35.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 112.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 125.4724
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.3103237
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4066685
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.278
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918906919311231106, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 7200005464176717278, guid: 3a16cb9077c516c4582805c43c0f173b,
         type: 3}
       propertyPath: m_Name
       value: Turn Start UI
       objectReference: {fileID: 0}
-    - target: {fileID: 8948160030139112188, guid: 3a16cb9077c516c4582805c43c0f173b,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 14dc32b36e7147243b682b5049c6b940,
-        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 16585386251336252, guid: 3a16cb9077c516c4582805c43c0f173b, type: 3}
