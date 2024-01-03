@@ -5,7 +5,6 @@ using UnityEngine;
 public class CardAnimation : MonoBehaviour
 {
     public GameObject backSide;
-    public GameObject[] FrontParts;
 
     public float distance = 1;
     public float drawSpeed = 0.25f;
@@ -31,8 +30,7 @@ public class CardAnimation : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 180, 0);
         transform.localScale *= 0.7f;
         backSide.SetActive(true);
-        foreach (GameObject part in FrontParts)
-            part.SetActive(false);
+
         while(transform.rotation.y >= 0.65f)
         {
             yield return new WaitForSeconds(0.05f);
@@ -41,8 +39,7 @@ public class CardAnimation : MonoBehaviour
             transform.localScale = new Vector3(0.7f, 0.7f, 0.7f) + Vector3.one * Mathf.Lerp(0, 0.6f, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position)));
         }
         backSide.SetActive(false);
-        foreach (GameObject part in FrontParts)
-            part.SetActive(true);
+
         while (Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position) >= distance)
         {
             yield return new WaitForSeconds(0.05f);

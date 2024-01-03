@@ -57,7 +57,6 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public void CardEffect()
     {
-        BattleUI.instance.AddLog(playerUI.boundCharacter.name + "이(가) " + cardTarget.name + "에게 " + cardData.name + "을(를) 사용");
         var skill = CardSkills.SearchSkill(cardData.variableName);
         skill.Invoke(null, new object[] { playerUI.boundCharacter,          //사용자
                                          cardTarget.GetComponent<Unit>(),   //사용 대상
@@ -142,6 +141,51 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
         yield return new WaitForSeconds(token * 0.5f);
         token_Fail = BattleUI.instance.faildTokens;
         playerUI.boundCharacter.GetComponent<UnitAnimationControl>().AttackAnimation();
+    }
+
+    int TypeSelectByNo()
+    {
+        int number = int.Parse(cardData.no.ToString().Substring(0, 2) + cardData.variableName.ToString().Substring(cardData.no.ToString().Length - 2));
+        switch (cardData.no)
+        {
+            default:
+                return 0;
+            case 1:
+            case 91:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 3;
+            case 4:
+                return 4;
+            case 5:
+                return 5;
+            case 6:
+                return 6;
+            case 7:
+                return 7;
+            case 8:
+                return 8;
+            case 9:
+                return 9;
+            case 10:
+                return 10;
+            case 11:
+                return 11;
+            case 12:
+                return 12;
+            case 13:
+                return 13;
+            case 14:
+                return 14;
+            case 15:
+                return 15;
+            case 16:
+                return 16;
+            case 17:
+                return 17;
+        }
     }
 
     int SimpleTypeSelect()

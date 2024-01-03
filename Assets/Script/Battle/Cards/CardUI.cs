@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler,IPointerEnterHandler,IPointerExitHandler
 {
-    public Image backGroundImage;
-    public RawImage image;
-    public Text cardName;
-    public Image nameBoxImage;
-    public Image typeImage;
-    public Text cost;
-    public Text description;
+    public List<GameObject> backGround;
+    public Image image;
+    public TMP_Text cardName;
+    public Transform cost;
+    public TMP_Text description;
+    string[] descripion_Text = new string[3];
     public GameObject backSide;
-
-    [Header("리소스")]
-    public Sprite[] nameBoxSprits;
-    public Sprite[] typeSprits;
-    public Sprite[] backGroundSprites;
 
     public N_Card bindCard;
 
@@ -48,55 +43,47 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     {
         defaultSize = new Vector2(GetComponent<RectTransform>().rect.width, GetComponent<RectTransform>().rect.height);
 
-        //이름상자,타입
+        SetBackGround();
+        SetImage();
+        SetLayerMask();
+        cardName.text = bindCard.cardData.name;
+        gameObject.name = bindCard.cardData.variableName;
+        SetDescription();
+        StartCoroutine(UpdateCardData());
+    }
+
+    void SetBackGround()
+    {
         switch (bindCard.cardData.attackType)
         {
             case CardData.AttackType.Attack:
-                nameBoxImage.sprite = nameBoxSprits[0];
-                typeImage.sprite = typeSprits[0];
-                backGroundImage.sprite = backGroundSprites[0];
-                layerMask = 1 << LayerMask.NameToLayer("Monster");
+                backGround[0].SetActive(true);
                 break;
             case CardData.AttackType.Defence:
-                nameBoxImage.sprite = nameBoxSprits[1];
-                typeImage.sprite = typeSprits[1];
-                backGroundImage.sprite = backGroundSprites[1];
-                layerMask = 1 << LayerMask.NameToLayer("Player");
+                backGround[1].SetActive(true);
                 break;
             case CardData.AttackType.Endow:
-                nameBoxImage.sprite = nameBoxSprits[2];
-                typeImage.sprite = typeSprits[2];
-                backGroundImage.sprite = backGroundSprites[2];
-                layerMask = 1 << LayerMask.NameToLayer("Player");
+                backGround[2].SetActive(true);
                 break;
             case CardData.AttackType.Increase:
-                nameBoxImage.sprite = nameBoxSprits[3];
-                typeImage.sprite = typeSprits[3];
-                backGroundImage.sprite = backGroundSprites[3];
-                layerMask = 1 << LayerMask.NameToLayer("Player");
+                backGround[3].SetActive(true);
                 break;
             case CardData.AttackType.CardDraw:
-                nameBoxImage.sprite = nameBoxSprits[3];
-                typeImage.sprite = typeSprits[3];
-                backGroundImage.sprite = backGroundSprites[4];
+                backGround[4].SetActive(true);
                 layerMask = 0;
                 break;
         }
-        
-        //이름
-        cardName.text = bindCard.cardData.name;
+    }
 
-        //코스트
-        if (bindCard.cardData.useCost == -1)
-            cost.text = "All";
-        else
-            cost.text = bindCard.cardData.useCost.ToString();
+    void SetImage()
+    {
+        image.sprite = Resources.Load<Sprite>("UI/Cards/" + bindCard.cardData.variableName);
+        if (bindCard.cardData.variableName == "Defcon")
+            image.sprite = Resources.Load<Sprite>("UI/Cards/Defcon_fighter");
+    }
 
-        //이미지
-        image.texture = (Texture)Resources.Load("UI/Cards/" + bindCard.cardData.variableName);
-        if(bindCard.cardData.variableName == "Defcon")
-            image.texture = (Texture)Resources.Load("UI/Cards/Defcon_fighter");
-
+    void SetLayerMask()
+    {
         switch (bindCard.cardData.skillType)
         {
             case CardData.SkillType.MultiEnemy:
@@ -104,34 +91,76 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
                 layerMask = 1 << LayerMask.NameToLayer("Monster");
                 break;
             case CardData.SkillType.SingleFriendly:
-            case CardData.SkillType.MultiMyself:
                 layerMask = 1 << LayerMask.NameToLayer("Player");
                 break;
             case CardData.SkillType.SingleMyself:
+            case CardData.SkillType.MultiMyself:
                 layerMask = 0;
                 break;
+            case CardData.SkillType.All:
+                layerMask = 1 << LayerMask.NameToLayer("Monster");
+                layerMask += 1 << LayerMask.NameToLayer("Player");
+                break;
         }
-
-
-        //설명
-        if (bindCard.cardData.description.Contains("회복"))
-            damageColor = "green";
-        else if (bindCard.cardData.description.Contains("마법")&& bindCard.cardData.description.Contains("물리"))
-            damageColor = "magenta";
-        else if (bindCard.cardData.description.Contains("마법"))
-            damageColor = "#00AFFF";
-        else
-            damageColor = "red";
-        if (!bindCard.cardData.description.Contains("x"))
-            description.text = bindCard.cardData.description;
-        else
-            description.text = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
-                         + "<b><color="+ damageColor + ">"
-                         + (bindCard.CalculateCardValue()).ToString()
-                         + "</color></b>"
-                         + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
-        gameObject.name = bindCard.cardData.variableName;
     }
+
+    void SetCost()
+    {
+        for (int i = 0; i < cost.childCount; i++)
+        {
+            cost.GetChild(i).gameObject.SetActive(false);
+        }
+        for (int i = 0; i < bindCard.cardData.useCost; i++)
+        {
+            cost.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
+    void SetDescription()
+    {
+        if (!bindCard.cardData.description.Contains("x"))
+        {
+            descripion_Text[0] = bindCard.cardData.description;
+            descripion_Text[1] = "";
+            descripion_Text[2] = "";
+        }
+            
+        else
+        {
+            if (bindCard.cardData.description.Contains("회복"))
+                damageColor = "green";
+            else if (bindCard.cardData.description.Contains("마법") && bindCard.cardData.description.Contains("물리"))
+                damageColor = "magenta";
+            else if (bindCard.cardData.description.Contains("마법"))
+                damageColor = "#00AFFF";
+            else
+                damageColor = "red";
+
+            descripion_Text[0] = bindCard.cardData.description.Substring(0, bindCard.cardData.description.IndexOf("x"))
+                               + "<b><color=" + damageColor + ">";
+            descripion_Text[1] = (bindCard.CalculateCardValue()).ToString();
+            descripion_Text[2] = "</color></b>"
+                               + bindCard.cardData.description.Substring(bindCard.cardData.description.IndexOf("x") + 1);
+        }     
+    }
+
+    void UpdateDescription()
+    {
+        descripion_Text[1] = (bindCard.CalculateCardValue()).ToString();
+        description.text = descripion_Text[0] + descripion_Text[1] + descripion_Text[2];
+    }
+
+    IEnumerator UpdateCardData()
+    {
+        while(gameObject.activeSelf)
+        {
+            yield return new WaitForSeconds(0.1f);
+            SetCost();
+            UpdateDescription();
+        }
+    }
+
+
     List<GameObject> tokenPreview = new List<GameObject>();
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
@@ -209,9 +238,10 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             {
                 if (isDumping)
                 {
-                    if (BattleUI.instance.extraCardTransform.GetChild(0) != null)
+                    if (BattleUI.instance.extraCardTransform.GetChild(0) != null && BattleUI.instance.extraCardTransform.GetChild(0) != transform.parent)
                     {
                         bindCard.playerUI.handList.Add(BattleUI.instance.extraCardTransform.GetChild(0).gameObject);
+                        BattleUI.instance.extraCardTransform.GetChild(0).name = "card";
                         BattleUI.instance.extraCardTransform.GetChild(0).SetParent(bindCard.playerUI.hand);
                     }
                     bindCard.playerUI.boundDeck.HandToGrave(bindCard.cardData.no);
@@ -298,4 +328,6 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         Destroy(parent);
         transform.position = new Vector2(Camera.main.pixelWidth*2,0);
     }
+
+    
 }
