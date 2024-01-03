@@ -121,7 +121,8 @@ public class Monster :MonsterStat
         else
         {
             monsterList[int.Parse(no.ToString().Substring(no.ToString().Length - 3)) - 1].SetActive(true);
-            weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
+            if(no != 30000020)
+                weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
         }
         AddActInDeck();
         Hp = maxHp;

@@ -78,6 +78,7 @@ public class UnitAnimationControl : MonoBehaviour
             }
             else if (GetComponent<Monster>().no == 30000020)
             {
+                animator.enabled = false;
                 animator = GetComponent<Monster>().monsterList[19].GetComponent<Animator>();
             }
 
