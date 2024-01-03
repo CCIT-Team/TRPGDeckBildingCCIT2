@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RewardUI : MonoBehaviour
 {
@@ -65,8 +66,14 @@ public class RewardUI : MonoBehaviour
             reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
             foreach (Character character in characters)
             {
+                reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = "Deleted";
                 reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = character.gameObject.name + " È¹µæ";
                 playercount++;
+            }
+            foreach ( TMP_Text text in reward.GetComponent<RewardDisplay>().ButtonTexts)
+            {
+                if (text.text == "Deleted")
+                    text.transform.parent.gameObject.SetActive(false);
             }
             rewardCount++;
         }
@@ -75,8 +82,14 @@ public class RewardUI : MonoBehaviour
         reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold, false);
         foreach (Character character in characters)
         {
+            reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = "Deleted";
             reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = character.gameObject.name + " È¹µæ";
             playercount++;
+        }
+        foreach (TMP_Text text in reward.GetComponent<RewardDisplay>().ButtonTexts)
+        {
+            if (text.text == "Deleted")
+                text.transform.parent.gameObject.SetActive(false);
         }
         rewardCount++;
         playercount = 0;

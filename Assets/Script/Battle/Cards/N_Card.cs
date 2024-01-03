@@ -70,7 +70,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     public float CalculateCardValue()
     {
-        finalVlaue = cardData.defaultXvalue * mainStatus * 0.02f;
+        finalVlaue = Mathf.Round(cardData.defaultXvalue * mainStatus * 0.02f);
         return finalVlaue;
     }
 
