@@ -64,7 +64,7 @@ public class TileUI : MonoBehaviour
     }
     #endregion
     #region 상점 버튼
-    public void OnShop() { shopUI.SetActive(true); Map.instance.isOutofUI = true; }
+    public void OnShop() { shopUI.SetActive(true); Map.instance.isOutofUI = true; shop.currentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString(); }
     public void OffShop()
     {
         SoundManager.instance.PlayUICilckSound();

@@ -23,49 +23,7 @@ public class Shop : MonoBehaviour
         ShopSellItems();
     }
     #region ªÛ¡°
-    public void BuyingRegulerPosion()
-    {
-        if (Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold >= posionRegulerPrice)
-        {
-            Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold -= posionRegulerPrice;
-            Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().portionRegular += 1;
-            if(Map.instance.missionNum == 8) 
-            {
-                Map.instance.currentMissionTile.isMissionOn = false;
-                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-                Map.instance.wolrdMission.NextMission();
-            }
-            //Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.SetInvenItem();
-        }
-        else
-        {
-            StartCoroutine(Comebackwiththemoney());
-        }
-    }
-    public void BuyingLargePosion()
-    {
-        if (Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold >= posionLargePrice)
-        {
-            Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold -= posionLargePrice;
-            Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().portionLarge += 1;
-            if (Map.instance.missionNum == 8)
-            {
-                Map.instance.currentMissionTile.isMissionOn = false;
-                Map.instance.currentMissionTile.MainMissionMarkerOnOff();
-                Map.instance.missionNum = 9;
-                Map.instance.wolrdMission.NextMission();
-            }
-        }
-        else
-        {
-            StartCoroutine(Comebackwiththemoney());
-        }
-    }
 
-    private void Update()
-    {
-        currentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString();
-    }
     public void ShopSellItems()
     {
         GameObject posionR = Instantiate(item, itemListTransform);

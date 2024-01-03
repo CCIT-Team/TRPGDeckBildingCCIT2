@@ -31,6 +31,8 @@ public class GetShopItem : MonoBehaviour
         {
             Map.instance.wolrdTurn.currentPlayer.gold -= item._itemprise;
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.SetInvenItem(item._itemcode,1);
+            Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.UpdateMoneyUI();
+            shop.currentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString();
             gameObject.SetActive(false);
         }
         else

@@ -190,7 +190,7 @@ public class Tile : MonoBehaviour
                 Instantiate(Map.instance.monsterList[7], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 isMonsterSet = true;
             }
-            else
+            else if(climate == Climate.VOLANO)
             {
                 monsterNum = UnityEngine.Random.Range(2, 4);
                 for (int i = 0; i < monsterNum; i++)
@@ -200,7 +200,7 @@ public class Tile : MonoBehaviour
                 Instantiate(Map.instance.monsterList[8], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 isMonsterSet = true;
             }
-            isMonsterSet = true;
+            else { isMonsterSet = true; }
         }
     }
 
