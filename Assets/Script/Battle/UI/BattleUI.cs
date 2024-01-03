@@ -177,11 +177,15 @@ public class BattleUI : MonoBehaviour
 
     public void EndTurn()
     {
+        if (N_BattleManager.instance.isHandOver)
+            return;
         playerBar.linkedPlayerStat.isMyturn = false;
     }
 
     public void DrawCard()
     {
+        if (N_BattleManager.instance.isHandOver)
+            return;
         foreach(PlayerBattleUI playerBattleUI in playerUI)
         {
             if(playerBattleUI.boundCharacter == playerBar.linkedPlayerStat)
