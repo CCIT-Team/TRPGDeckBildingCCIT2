@@ -52,7 +52,7 @@ public class Monster :MonsterStat
     {
         deck = gameObject.AddComponent<Deck>();
         card = gameObject.AddComponent<MonsterCard>();
-        if (no == 30000023)
+        if (no == 30000024)
         {
             Destroy(GetComponent<UnitAnimationControl>());
             gameObject.AddComponent<DragonAnimationControl>().SetAnimator();
@@ -110,7 +110,7 @@ public class Monster :MonsterStat
             }
         }
         monstername.text = gameObject.name;
-        if(no == 30000023)
+        if(no == 30000024)
         {
             Destroy(GetComponent<UnitAnimationControl>());
             gameObject.AddComponent<DragonAnimationControl>().SetAnimator();

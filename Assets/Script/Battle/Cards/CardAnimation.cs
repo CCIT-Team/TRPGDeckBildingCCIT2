@@ -27,16 +27,16 @@ public class CardAnimation : MonoBehaviour
         transform.position = BattleUI.instance.cardStartTransform.position;
         Debug.Log("T:"+BattleUI.instance.cardStartTransform.position);
         Debug.Log("C:" + transform.position);
-        transform.rotation = Quaternion.Euler(0, 180, 0);
-        transform.localScale *= 0.7f;
+        transform.localRotation = Quaternion.Euler(0, 180, 0);
+        transform.localScale *= 0.3f;
         backSide.SetActive(true);
 
         while(transform.rotation.y >= 0.65f)
         {
             yield return new WaitForSeconds(0.05f);
             transform.position = Vector3.Lerp(transform.position, BattleUI.instance.cardHighlightPosition.position, drawSpeed);
-            transform.rotation = Quaternion.Euler(0, Mathf.Lerp(180,0,Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position))), 0);
-            transform.localScale = new Vector3(0.7f, 0.7f, 0.7f) + Vector3.one * Mathf.Lerp(0, 0.6f, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position)));
+            transform.localRotation = Quaternion.Euler(0, Mathf.Lerp(180,0,Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position))), 0);
+            transform.localScale = new Vector3(0.3f, 0.3f, 0.3f) + Vector3.one * Mathf.Lerp(0, 1f, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position)));
         }
         backSide.SetActive(false);
 
@@ -44,10 +44,10 @@ public class CardAnimation : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             transform.position = Vector3.Lerp(transform.position, BattleUI.instance.cardHighlightPosition.position, drawSpeed);
-            transform.rotation = Quaternion.Euler(0, Mathf.Lerp(180, 0, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position))), 0);
-            transform.localScale = new Vector3(0.7f, 0.7f, 0.7f) + Vector3.one * Mathf.Lerp(0, 0.6f, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position)));
+            transform.localRotation = Quaternion.Euler(0, Mathf.Lerp(180, 0, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position))), 0);
+            transform.localScale = new Vector3(0.3f, 0.3f, 0.3f) + Vector3.one * Mathf.Lerp(0, 1f, Mathf.InverseLerp(Vector3.Distance(BattleUI.instance.cardStartTransform.position, BattleUI.instance.cardHighlightPosition.position), 0, Vector3.Distance(transform.position, BattleUI.instance.cardHighlightPosition.position)));
         }
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
         transform.localScale = Vector3.one * 1.3f;
         StartCoroutine(Highlight());
     }

@@ -14,7 +14,7 @@ public class MonsterUIManager : MonoBehaviour
         GameObject childUI;
         for (int i = 0; i < monster.Length; i++)
         {
-            childUI = transform.GetChild(i + 3).gameObject;
+            childUI = transform.GetChild(i).gameObject;
             childUI.SetActive(true);
             childUI.GetComponent<MonsterStatUI>().LinkingMonster(monster[i]);
             childUI.GetComponent<MonsterStatUI>().InitUI();

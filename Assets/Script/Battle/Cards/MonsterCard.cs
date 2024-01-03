@@ -58,73 +58,30 @@ public class MonsterCard : MonoBehaviour
 
     public void SetCardData(int id)
     {
-        int indexNumber = int.Parse(id.ToString().Substring(2));
-        int weaponType = int.Parse(id.ToString().Substring(0, 2));
-        switch (weaponType)
+        cardData = DataBase.instance.cardData.Find(x => x.no == id);
+        
+        switch (cardData.useStatType)
         {
-            case 50:    //워리어
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[0]];
+            case CardData.UseStatType.None:
+                MainStaus = StatusType.Luck;
+                mainStatus = GetComponent<Monster>().luck;
                 break;
-            case 51:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[3]];
+            case CardData.UseStatType.Strength:
+                MainStaus = StatusType.Strength;
+                mainStatus = GetComponent<Monster>().strength;
                 break;
-            case 52:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[4]];
+            case CardData.UseStatType.Intellect:
+                MainStaus = StatusType.Intelligence;
+                mainStatus = GetComponent<Monster>().intelligence;
                 break;
-            case 53:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[5]];
+            default:
                 break;
-            case 54:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[6]];
-                break;
-            case 55:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[7]];
-                break;
-            case 56:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[8]];
-                break;
-            case 57:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[9]];
-                break;
-            case 58:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[10]];
-                break;
-            case 59:
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[11]];
-                break;
-            case 60:    //메지션
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[1]];
-                break;
-            case 70:    //클레릭
-                cardData = DataBase.instance.cardData[indexNumber + N_BattleManager.instance.CardStartIndexOfType[2]];
-                break;
-        }
-        if (cardData.description.Contains("회복"))
-        {
-            MainStaus = StatusType.Intelligence;
-            mainStatus = GetComponent<Monster>().intelligence;
-        }
-        else if (cardData.description.Contains("마법") && cardData.description.Contains("물리"))
-        {
-            MainStaus = StatusType.Intelligence;
-            mainStatus = GetComponent<Monster>().intelligence;
-        }
-        else if (cardData.description.Contains("마법"))
-        {
-            MainStaus = StatusType.Intelligence;
-            mainStatus = GetComponent<Monster>().intelligence;
-        }
-        else
-        {
-            MainStaus = StatusType.Strength;
-            mainStatus = GetComponent<Monster>().strength;
         }
 
-        if (cardData.type != CardData.CardType.SingleAttack && cardData.type != CardData.CardType.MultiAttack && cardData.type != CardData.CardType.AllAttack)
+        if (cardData.skillType == CardData.SkillType.SingleFriendly || cardData.skillType == CardData.SkillType.SingleMyself || cardData.skillType == CardData.SkillType.MultiMyself)
         {
             cardTarget = gameObject;
-        }
-            
+        }  
     }
 
     public int RollToken(StatusType statusType, int mainStatus, int tokenAmount)
@@ -216,6 +173,124 @@ public class MonsterCard : MonoBehaviour
                 return 4;
             case "Flamethrower":
                 return 4;
+            case "Dragon'sScream":
+                return 0;
+            case "Dragon'sClaw":
+                return 1;
+            case "Dragon'sWind":
+                return 2;
+        }
+    }
+
+    public int TypeSelectByNo(int no)
+    {
+        switch(int.Parse(no.ToString().Substring(0, 2) + no.ToString().Substring(no.ToString().Length - 2)))
+        {
+            default:
+                return 0;
+            case 51000001:
+                return 0;
+            case 51000002:
+                return 0;
+            case 51000003:
+                return 0;
+            case 51000004:
+                return 0;
+            case 51000007:
+                return 0;
+            case 51000009:
+                return 0;
+            case 51000010:
+                return 0;
+            case 51000011:
+                return 0;
+            case 51000013:
+                return 0;
+            case 51000015:
+                return 0;
+            case 51000016:
+                return 0;
+            case 51000017:
+                return 0;
+            case 51000018:
+                return 0;
+            case 51000019:
+                return 0;
+            case 52000004:
+                return 0;
+            case 52000010:
+                return 0;
+            case 52000011:
+                return 0;
+            case 52000014:
+                return 0;
+            case 54000002:
+                return 0;
+            case 54000003:
+                return 0;
+            case 54000006:
+                return 0;
+            case 54000007:
+                return 0;
+            case 54000008:
+                return 0;
+            case 54000015:
+                return 0;
+            case 54000017:
+                return 0;
+            case 54000019:
+                return 0;
+            case 54000020:
+                return 0;
+            case 54000021:
+                return 0;
+            case 54000024:
+                return 0;
+            case 54000041:
+                return 0;
+            case 54000043:
+                return 0;
+            case 54000044:
+                return 0;
+            case 54000045:
+                return 0;
+            case 54000046:
+                return 0;
+            case 54000048:
+                return 0;
+            case 54000053:
+                return 0;
+            case 54000054:
+                return 1;
+            case 54000055:
+                return 2;
+            case 56000001:
+                return 0;
+            case 56000005:
+                return 0;
+            case 58000002:
+                return 0;
+            case 58000003:
+                return 0;
+            case 58000007:
+                return 0;
+            case 58000010:
+                return 0;
+            case 58000012:
+                return 0;
+            case 59000002:
+                return 0;
+            case 59000003:
+                return 0;
+            case 59000011:
+                return 0;
+            case 60000001:
+                return 0;
+            case 60000002:
+                return 0;
+            case 60000003:
+                return 0;
+
         }
     }
 }

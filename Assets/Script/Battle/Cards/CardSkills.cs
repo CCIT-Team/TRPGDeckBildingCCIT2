@@ -833,7 +833,15 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Heal(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
-
+        if(totalToken - failedToken <= 0)
+        {
+            target.Hp += 0;
+            return;
+        }
+        else
+        {
+            target.Hp += value;
+        }
     }
     public static void Focus(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {

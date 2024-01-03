@@ -8,30 +8,28 @@ using TMPro;
 public class MonsterStatUI : MonoBehaviour
 {
     public Monster boundMonsterStat;
-    public GameObject selectUI;
-
-    public TMP_Text nickName;
-    public TMP_Text level;
 
     public TMP_Text guard;
     public TMP_Text magicGuard;
 
-    public Slider hpbar;
+    public GameObject buffIcon;
+    public GameObject deBuffIcon;
+
+    public Image hpbar;
     public TMP_Text hpbarText;
 
     public void InitUI()
     {
-        nickName.text = boundMonsterStat.name;
-        level.text = boundMonsterStat.level.ToString();
-
-        hpbar.value = boundMonsterStat.hp / boundMonsterStat.maxHp;
-        hpbarText.text = boundMonsterStat.hp.ToString() + "/" + boundMonsterStat.maxHp.ToString();
+        hpbar.fillAmount = boundMonsterStat.hp / boundMonsterStat.maxHp;
+        hpbarText.text = boundMonsterStat.hp.ToString();
       
         guard.text = "0";
         magicGuard.text = "0";
         guard.transform.parent.gameObject.SetActive(true);
         magicGuard.transform.parent.gameObject.SetActive(true);
-    }
+
+        InitBuffDeBuff();
+        }
 
     public void LinkingMonster(GameObject monster)
     {
@@ -40,29 +38,15 @@ public class MonsterStatUI : MonoBehaviour
 
     private void Update()
     {
-        UpdateSelectUI();
         UpdateHpUI();
         UpdateGuardUI();
     }
 
-    public void UpdateSelectUI()
-    {
-        if (boundMonsterStat.IsMyturn)
-        {
-            selectUI.SetActive(true);
-            transform.localScale = new Vector3(1.2f, 1.2f, 1.0f);
-        }
-        else
-        {
-            selectUI.SetActive(false);
-            transform.localScale = Vector3.one;
-        }
-    }
 
     public void UpdateHpUI()
     {
-        hpbar.value = boundMonsterStat.hp / boundMonsterStat.maxHp;
-        hpbarText.text = boundMonsterStat.hp.ToString("#.#") + "/" + boundMonsterStat.maxHp.ToString();
+        hpbar.fillAmount = boundMonsterStat.hp / boundMonsterStat.maxHp;
+        hpbarText.text = boundMonsterStat.hp.ToString("#.#");
     }
 
 
@@ -70,5 +54,33 @@ public class MonsterStatUI : MonoBehaviour
     {
         guard.text = boundMonsterStat.attackGuard.ToString();
         magicGuard.text = boundMonsterStat.magicGuard.ToString();
+    }
+
+    private void InitBuffDeBuff()
+    {
+        if (GameManager.instance.currentScene == GameManager.SceneType.Battle)
+        {
+            guard.transform.parent.gameObject.SetActive(true);
+            magicGuard.transform.parent.gameObject.SetActive(true);
+        }
+        else if (GameManager.instance.currentScene == GameManager.SceneType.Wolrd)
+        {
+            guard.transform.parent.gameObject.SetActive(false);
+            magicGuard.transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            guard.transform.parent.gameObject.SetActive(false);
+            magicGuard.transform.parent.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < buffIcon.transform.childCount; i++)
+        {
+            buffIcon.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        for (int i = 0; i < deBuffIcon.transform.childCount; i++)
+        {
+            deBuffIcon.transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 }
