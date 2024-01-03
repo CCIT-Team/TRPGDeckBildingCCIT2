@@ -43,7 +43,7 @@ public class DragonAnimationControl : UnitAnimationControl
         animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/Dragon_Battle");
         animator.avatar = Resources.Load<GameObject>("Prefabs/Monster/Dragon_Battle").GetComponent<Animator>().avatar;
-        particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Monster");
+        particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Dragon");
 
         if (TryGetComponent<AudioSource>(out audioSource))
             return;
