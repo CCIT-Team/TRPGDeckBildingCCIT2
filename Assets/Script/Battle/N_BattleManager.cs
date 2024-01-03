@@ -333,6 +333,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             }
             BattleUI.instance.playerBar.LinkingPlayer(currentUnit.gameObject);
             BattleUI.instance.playerBar.InitUI();
+            BattleUI.instance.playerBar.UpdateCostUI();
         }    
         else
             BattleUI.instance.playerBar.gameObject.SetActive(false);

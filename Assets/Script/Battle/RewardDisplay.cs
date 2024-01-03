@@ -66,13 +66,14 @@ public class RewardDisplay : MonoBehaviour
             }
             itemID = rewardID;
         }
-
     }
 
-    public void GetReward()
+    public void GetReward(int i)
     {
         if(itemID == -1)
-            N_BattleManager.instance.units[Random.Range(0, N_BattleManager.instance.units.Count)].GetComponent<Character>().gold += gold;
+            N_BattleManager.instance.units[i].GetComponent<Character>().gold += gold;
+        else
+            N_BattleManager.instance.units[i].GetComponent<Character_type>().invenUI.SetInvenItem(itemID,1);
         N_BattleManager.instance.rewardUI.rewardCount--;
         gameObject.SetActive(false);
     }

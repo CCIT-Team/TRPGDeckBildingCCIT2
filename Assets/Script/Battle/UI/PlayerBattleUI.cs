@@ -159,9 +159,9 @@ public class PlayerBattleUI : MonoBehaviour
             yield return new WaitUntil(() => cardObject.GetComponent<CardAnimation>().isdrawn);
             if (N_BattleManager.instance.isHandOver)
             {
-                BattleUI.instance.cardDumpZone.gameObject.SetActive(true);
+                BattleUI.instance.cardDumpZone.transform.parent.gameObject.SetActive(true);
                 yield return new WaitUntil(() => !N_BattleManager.instance.isHandOver);
-                BattleUI.instance.cardDumpZone.gameObject.SetActive(false);
+                BattleUI.instance.cardDumpZone.transform.parent.gameObject.SetActive(false);
             }
             else
                 cardParent.name = "card";
