@@ -323,8 +323,8 @@ public class Map : MonoBehaviour
         MovePlayer();
         if (Input.GetKeyDown(KeyCode.C))
         {
-            wolrdTurn.currentPlayer.maxCost = 99;
-            wolrdTurn.currentPlayer.cost = 99;
+            wolrdTurn.currentPlayer.maxCost = 5;
+            wolrdTurn.currentPlayer.cost = 5;
         }
         if (Input.GetKeyDown(KeyCode.F1))
         {
