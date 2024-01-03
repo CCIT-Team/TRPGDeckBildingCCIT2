@@ -23,7 +23,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     static float CalculateAttackDamage(Unit target, float damage, int failedToken)
     {
         float finalDamage = damage *= 1 - (0.1f * failedToken);
-        if(target.TryGetComponent(out EffectTurnChecker effectTurnChecker)
+        if (target.TryGetComponent(out EffectTurnChecker effectTurnChecker)
         && effectTurnChecker.isBuffRun[8 + (int)EffectType.Parry]
         && UnityEngine.Random.Range(0, 100) < 10)
         {
@@ -134,7 +134,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     public static void Smite(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out Character character))
         {
             if (character.TryGetComponent(out EffectTurnChecker turnChecker))
@@ -170,7 +170,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             target.Damaged(0);
         else
         {
-            if(performer.TryGetComponent(out Character character))
+            if (performer.TryGetComponent(out Character character))
             {
                 damage += (character.level * 5);
             }
@@ -200,9 +200,9 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                         int matchCardCount = 0;
                         for (int i = 0; i < playerUI.hand.childCount; i++)
                         {
-                            Debug.Log("패 루프"+i);
+                            Debug.Log("패 루프" + i);
                             GameObject card = playerUI.hand.GetChild(i).gameObject;
-                            Debug.Log("카드 : "+ card.GetComponent<N_Card>().cardData.name);
+                            Debug.Log("카드 : " + card.GetComponent<N_Card>().cardData.name);
                             if (card.GetComponent<N_Card>().cardData.attackType == CardData.AttackType.Attack)
                             {
                                 Debug.Log("공격 카드 소모");
@@ -221,7 +221,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void TrickStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         foreach (PlayerBattleUI performerui in BattleUI.instance.playerUI)
         {
             if (!performerui.gameObject.activeSelf)
@@ -239,7 +239,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void EvilStrike(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
             turnChecker.StartEffect(EffectType.Confusion, 0, extraEffect);
         else
@@ -254,9 +254,9 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Bash(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (performer.TryGetComponent(out EffectTurnChecker turnChecker))
-            turnChecker.StartEffect(EffectType.BashEffect,2, extraEffect);
+            turnChecker.StartEffect(EffectType.BashEffect, 2, extraEffect);
         else
         {
             turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
@@ -269,7 +269,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
     }
     public static void Cleave(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
             turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
         else
@@ -324,11 +324,11 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     public static void SpinAttack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        foreach(Unit unit in N_BattleManager.instance.units)
+        foreach (Unit unit in N_BattleManager.instance.units)
         {
-            if(unit.CompareTag(target.tag))
+            if (unit.CompareTag(target.tag))
                 DefaultPhysicalAttack(performer, unit, damage, extraEffect, failedToken, totalToken);
-            
+
         }
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
             DefaultPhysicalAttack(performer, N_BattleManager.instance.currentUnit, damage, extraEffect, failedToken, totalToken);
@@ -365,11 +365,11 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     public static void Brandish(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
     public static void ShieldSlam(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
         {
             turnChecker.StartEffect(EffectType.Faint, 0, extraEffect);
@@ -389,7 +389,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     public static void Judgment(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
         {
             turnChecker.StartEffect(EffectType.Faint, 0, extraEffect);
@@ -421,15 +421,15 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     }
 
-    
+
     public static void Attack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
 
-   
+
     #endregion
-    # region MagicAttack
+    #region MagicAttack
 
     public static void DefaultMagicAttack(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -452,11 +452,11 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateMagicDamage(unit, damage, failedToken);
-                target.Damaged((int)damage);
+                unit.Damaged((int)damage);
             }
         }
     }
-    
+
 
     public static void Pain(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -465,7 +465,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     public static void EnergyBall(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
 
     public static void HolyFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -490,19 +490,19 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 
     public static void FireBall(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
     public static void IceBall(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
     public static void ThunderBolt(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
     public static void ManaBullet(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
     public static void ManaBomb(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -513,19 +513,33 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             if (unit.CompareTag(target.tag))
             {
                 damage = CalculateMagicDamage(unit, damage, failedToken);
-                target.Damaged((int)damage);
+                unit.Damaged((int)damage);
             }
         }
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
         {
-                damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
-                target.Damaged((int)damage);
+            damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
+            N_BattleManager.instance.currentUnit.Damaged((int)damage);
         }
 
     }
+
+    public static void Plague(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        if (totalToken - failedToken <= 0)
+            damage = 0;
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                damage = CalculateMagicDamage(unit, damage, failedToken);
+                unit.Damaged((int)damage);
+            }
+        }
+    }
     public static void ShootingStar(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
     }
     public static void ManaShower(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
@@ -541,8 +555,8 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         }
         if (N_BattleManager.instance.currentUnit.CompareTag(target.tag))
         {
-                damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
-                target.Damaged((int)damage);
+            damage = CalculateMagicDamage(N_BattleManager.instance.currentUnit, damage, failedToken);
+            target.Damaged((int)damage);
         }
     }
     public static void BurningFlame(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -553,7 +567,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition] = false;
         }
 
-        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken,totalToken);
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
         if (target.TryGetComponent(out EffectTurnChecker turnChecker))
         {
             turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
@@ -568,6 +582,23 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
         }
 
+    }
+    public static void BurningDark(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        DefaultMagicAttack(performer, target, damage, extraEffect, failedToken, totalToken);
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+        {
+            turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
+        }
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.Burn, 0.07f, extraEffect);
+        }
     }
     public static void FlameofDragon(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
