@@ -15,7 +15,8 @@ public class Shop : MonoBehaviour
     public GameObject item;
     public Transform itemListTransform;
     public GameObject noMoney;
-    public TMP_Text currentHaveGold;
+    public TMP_Text shopCurrentHaveGold;
+    public TMP_Text hospitalCurrentHaveGold;
 
 
     private void Start()
@@ -87,9 +88,17 @@ public class Shop : MonoBehaviour
     #region 치료소
     public void BuyingHeal()
     {
-        Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().hp =
+        if (Map.instance.wolrdTurn.currentPlayer.gold >= healPrise)
+        {
+            Map.instance.wolrdTurn.currentPlayer.gold -= healPrise;
+            Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().hp =
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().maxHp;
-        Debug.Log("풀피");
+            hospitalCurrentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString();
+        }
+        else
+        {
+            StartCoroutine(Comebackwiththemoney());
+        }
     }
     public void BuyingDeleteCurse()
     {

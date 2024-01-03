@@ -66,7 +66,7 @@ public class TileUI : MonoBehaviour
     }
     #endregion
     #region 상점 버튼
-    public void OnShop() { shopUI.SetActive(true); Map.instance.isOutofUI = true; shop.currentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString(); }
+    public void OnShop() { shopUI.SetActive(true); Map.instance.isOutofUI = true; shop.shopCurrentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString(); }
     public void OffShop()
     {
         SoundManager.instance.PlayUICilckSound();
@@ -76,7 +76,7 @@ public class TileUI : MonoBehaviour
     #endregion
 
     #region 병원 버튼
-    public void OnHospital() { hospital.SetActive(true); Map.instance.isOutofUI = true; }
+    public void OnHospital() { hospital.SetActive(true); Map.instance.isOutofUI = true; shop.hospitalCurrentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString(); }
     public void OffHospital()
     {
         SoundManager.instance.PlayUICilckSound();
