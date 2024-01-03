@@ -1077,7 +1077,7 @@ MonoBehaviour:
   monsterObject: {fileID: 2448469394476614732}
   monsterPosition: {fileID: 6874330325127027872}
   monsterNum: 0
-  monsterID: 81c3c90182c3c90183c3c90184c3c90185c3c901
+  monsterID: 
   monsterGroup: 
   bossObject: {fileID: 3876452998530037959}
   MainMissionMaker: {fileID: 7199390752014767775}

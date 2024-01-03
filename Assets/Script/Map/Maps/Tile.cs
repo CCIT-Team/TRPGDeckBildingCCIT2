@@ -45,6 +45,8 @@ public class Tile : MonoBehaviour
     GameObject tagPlayer;
     GameObject dragon;
 
+    bool isMonsterSet = false;
+
     [SerializeField] MeshRenderer material;
     Color defaultColor;
 
@@ -55,12 +57,7 @@ public class Tile : MonoBehaviour
     [SerializeField] GameObject monsterObject;
     [SerializeField] Transform monsterPosition;
     [SerializeField] int monsterNum;//스폰된 몬스터의 마릿수입니다
-    [SerializeField] int[] monsterID = new int[] 
-    {
-        30000001, 30000002, 30000003, 30000004, 30000005,
-        30000006,30000007, 30000020,30000023,30000024
-
-    };//스폰될 몬스터의 ID입니다
+    [SerializeField] int[] monsterID;//스폰될 몬스터의 ID입니다
     public List<int> monsterGroup = new List<int>();
     [SerializeField] GameObject bossObject;
     [SerializeField] GameObject MainMissionMaker;
@@ -94,6 +91,12 @@ public class Tile : MonoBehaviour
         vileageObject.SetActive(false);
         monsterObject.SetActive(false);
         bossObject.SetActive(false);
+        monsterID = new int[10]
+   {
+        30000001, 30000002, 30000003, 30000004, 30000005,
+        30000006,30000007, 30000020,30000023,30000024
+
+   };//스폰될 몬스터의 ID입니다
     }
 
     private void Start()
@@ -106,68 +109,12 @@ public class Tile : MonoBehaviour
         {
             isSpawnTile = true;
         }
-        else if (tileState == TileState.MonsterTile)
-        {
-            isMonsterTile = true;
-            monsterObject.SetActive(true);
-            //for (int i = 0; i < adjacentTiles.Count; i++)
-            //{
-            //    adjacentTiles[i].tag = "BattleRange";
-            //}
-            if (climate == Climate.GOLDENPLACE)
-            {
-                monsterNum = UnityEngine.Random.Range(1, 4);
-                for (int i = 0; i < monsterNum; i++)
-                {
-                    //monsterGroup.Add(monsterID[UnityEngine.Random.Range(0, 2)]);
-                    monsterGroup.Add(monsterID[2]);
-                }
-                //Instantiate(Map.instance.monsterList[UnityEngine.Random.Range(0, 2)], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-                Instantiate(Map.instance.monsterList[2], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-            }
-            else if (climate == Climate.FORGOTTENFOREST)
-            {
-                monsterNum = UnityEngine.Random.Range(1, 4);
-                for (int i = 0; i < monsterNum; i++)
-                {
-                    monsterGroup.Add(monsterID[5]);
-                }
-                Instantiate(Map.instance.monsterList[5], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-            }
-            else if(climate == Climate.TEADELOSDESERT)
-            {
-                monsterNum = UnityEngine.Random.Range(2, 4);
-                for (int i = 0; i < monsterNum; i++)
-                {
-                    monsterGroup.Add(monsterID[6]);
-                }
-                Instantiate(Map.instance.monsterList[6], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-            }
-            else if (climate == Climate.WITCHSSWAMPLAND)
-            {
-                monsterNum = UnityEngine.Random.Range(2, 4);
-                for (int i = 0; i < monsterNum; i++)
-                {
-                    monsterGroup.Add(monsterID[7]);
-                }
-                Instantiate(Map.instance.monsterList[7], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-            }
-            else
-            {
-                monsterNum = UnityEngine.Random.Range(2, 4);
-                for (int i = 0; i < monsterNum; i++)
-                {
-                    monsterGroup.Add(monsterID[8]);
-                }
-                Instantiate(Map.instance.monsterList[8], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
-            }
-        }
         else if (tileState == TileState.BossTile)
         {
             isBossTile = true;
             bossObject.SetActive(true);
             monsterNum = 1;
-            monsterGroup.Add(monsterID[9]);
+            //monsterGroup.Add(monsterID[9]);
         }
         else if (tileState == TileState.KingdomTile)
         {
@@ -197,6 +144,63 @@ public class Tile : MonoBehaviour
         {
             DestroyMonsterTile();
             GameManager.instance.isVictory = false;
+        }
+
+        if (tileState == TileState.MonsterTile && !isMonsterSet)
+        {
+            isMonsterTile = true;
+            monsterObject.SetActive(true);
+            if (climate == Climate.GOLDENPLACE)
+            {
+                monsterNum = UnityEngine.Random.Range(1, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[2]);
+                }
+                Instantiate(Map.instance.monsterList[2], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                isMonsterSet = true;
+            }
+            else if (climate == Climate.FORGOTTENFOREST)
+            {
+                monsterNum = UnityEngine.Random.Range(1, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[5]);
+                }
+                Instantiate(Map.instance.monsterList[5], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                isMonsterSet = true;
+            }
+            else if (climate == Climate.TEADELOSDESERT)
+            {
+                monsterNum = UnityEngine.Random.Range(2, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[6]);
+                }
+                Instantiate(Map.instance.monsterList[6], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                isMonsterSet = true;
+            }
+            else if (climate == Climate.WITCHSSWAMPLAND)
+            {
+                monsterNum = UnityEngine.Random.Range(2, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[7]);
+                }
+                Instantiate(Map.instance.monsterList[7], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                isMonsterSet = true;
+            }
+            else
+            {
+                monsterNum = UnityEngine.Random.Range(2, 4);
+                for (int i = 0; i < monsterNum; i++)
+                {
+                    monsterGroup.Add(monsterID[8]);
+                }
+                Instantiate(Map.instance.monsterList[8], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
+                isMonsterSet = true;
+            }
+            isMonsterSet = true;
         }
     }
 
@@ -403,7 +407,7 @@ public class Tile : MonoBehaviour
                     Map.instance.OnUIPlayerStop();
                     Map.instance.isOutofUI = true;
                 }
-                if(Map.instance.missionNum == 17)
+                if (Map.instance.missionNum == 17)
                 {
                     Map.instance.wolrdMission.mission.SetActive(true);
                     Map.instance.wolrdMission.mission.GetComponent<Mission>().OnStartMission();
