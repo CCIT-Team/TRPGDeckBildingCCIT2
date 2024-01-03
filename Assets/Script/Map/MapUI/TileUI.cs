@@ -11,11 +11,12 @@ public class TileUI : MonoBehaviour
     public GameObject hospital;
     public GameObject monsterBattleUI;
     public Image missionMark;
-    public GameObject[] monsterNumUI = new GameObject[5];//몬스터 마릿수 타일
-    public GameObject[] players = new GameObject[3];//플레이어
+
     public int playerNumber = 0;
     public GameObject[] playerNumUI = new GameObject[3];//플레이어 마릿수 타일
     public TMP_Text monsterName;
+    public TMP_Text playerNumtext;
+    public TMP_Text monsterNumtext;
 
     public Shop shop;
 
@@ -85,7 +86,10 @@ public class TileUI : MonoBehaviour
     #endregion
 
     #region 몬스터 전투 버튼
-    public void OnMonsterBattle() => monsterBattleUI.SetActive(true);
+    public void OnMonsterBattle()
+    {
+        monsterBattleUI.SetActive(true);
+    }
     public void OffMonsterBattle() => monsterBattleUI.SetActive(false);
     public void Fight()
     {

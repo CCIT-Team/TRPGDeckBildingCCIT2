@@ -29,7 +29,9 @@ public class GetShopItem : MonoBehaviour
     {
         if(Map.instance.wolrdTurn.currentPlayer.gold >= item._itemprise)
         {
+            Map.instance.wolrdTurn.currentPlayer.gold -= item._itemprise;
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.SetInvenItem(item._itemcode,1);
+            gameObject.SetActive(false);
         }
         else
         {

@@ -10,6 +10,7 @@ public class Mission : MonoBehaviour
     public TMP_Text text;
     public TMP_Text nexttext;
     string talk;
+    string mainmissiontext;
     int t = 0;
     int chatint = 0;
 
@@ -18,6 +19,7 @@ public class Mission : MonoBehaviour
     void Start()
     {
         data_Dialog = CSVReader.Read("MissionCSV/MissionDialog");
+        mainmissiontext = "";
         SCVDataReadAndSet();
         t = 0;
         StartCoroutine(Output_text());
@@ -59,7 +61,12 @@ public class Mission : MonoBehaviour
         }
         if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
         {
+            mainmissiontext = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
             Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
+        }
+        if(Map.instance.wolrdMission.mainMissionText.text == "")
+        {
+            Map.instance.wolrdMission.mainMissionText.text = mainmissiontext;
         }
     }
 
@@ -79,6 +86,7 @@ public class Mission : MonoBehaviour
                 gameObject.SetActive(false);
                 if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
                 {
+                    mainmissiontext = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
                     Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
                 }
                 Map.instance.wolrdMission.NextMission();
@@ -96,6 +104,7 @@ public class Mission : MonoBehaviour
         {
             if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
             {
+                mainmissiontext = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
                 Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
             }
             nexttext.enabled = true;

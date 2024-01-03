@@ -70,9 +70,15 @@ public class Dragon : MonoBehaviour
             }
             SpatialMove();
         }
-        if (isBack)
+        if (isBack && moveList.Count > 0)
         {
             BacktoNestAndReadytoStart();
+        }
+        else
+        {
+            targetPosition = nestTile;
+            moveList = astar.FindPath(currentDragonTile, nestTile);
+            dragonAni.SetTrigger("Idle");
         }
 
     }

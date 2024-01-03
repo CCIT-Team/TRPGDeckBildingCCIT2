@@ -26,10 +26,10 @@ public class Map : MonoBehaviour
     [SerializeField] private int _seed = 0;
     Voronoi voronoi;
 
-    [Header("Climate")]
-    public GameObject grass;
-    public GameObject desert;
-    public GameObject jungle;
+    //[Header("Climate")]
+    //public GameObject grass;
+    //public GameObject desert;
+    //public GameObject jungle;
 
     [Header("TileObject")]
     GameObject tileObject;
@@ -146,6 +146,16 @@ public class Map : MonoBehaviour
                 return "살아있는 갑옷";
             case 30000005:
                 return "해골 법사";
+            case 30000006:
+                return "암석 인간";
+            case 30000007:
+                return "레이스";
+            case 30000020:
+                return "늪지대 마녀";
+            case 30000023:
+                return "화산암석 인간";
+            case 30000024:
+                return "레드 드래곤";
             default:
                 return "해당 ID를 가진 몬스터가 없습니다";
         }
