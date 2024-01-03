@@ -72,6 +72,12 @@ public class PlayerBattleUI : MonoBehaviour
 
     public void CostDraw()
     {
+        if (boundCharacter.cost <= 0)
+        {
+            BattleUI.instance.costWarning.gameObject.SetActive(true);
+            BattleUI.instance.costWarning.GetComponent<Animator>().Play("BlinkingText", 0);
+            return;
+        }
         boundCharacter.cost -= 1;
         BattleUI.instance.playerBar.UpdateCostUI();
         DrawCard();
