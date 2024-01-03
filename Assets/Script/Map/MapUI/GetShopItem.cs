@@ -33,6 +33,14 @@ public class GetShopItem : MonoBehaviour
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.SetInvenItem(item._itemcode,1);
             Map.instance.wolrdTurn.currentPlayer.GetComponent<Character_type>().invenUI.UpdateMoneyUI();
             shop.shopCurrentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString();
+            if (Map.instance.missionNum == 8)
+            {
+                if (item._itemcode == 12000001 || item._itemcode == 12000002)
+                {
+                    Map.instance.wolrdMission.NextMission();
+                }
+            }
+               
             gameObject.SetActive(false);
         }
         else
