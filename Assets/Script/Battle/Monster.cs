@@ -79,6 +79,8 @@ public class Monster :MonsterStat
     public void SelectAction()
     {
         int i = Random.Range(0, deck.DeckCount);
+        if (deck.DeckCount <= 0)
+            deck.Refill();
         card.cardID = deck.DrawCard(i);
         while(true)
         {

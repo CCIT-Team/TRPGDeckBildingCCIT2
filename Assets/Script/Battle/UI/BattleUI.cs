@@ -9,6 +9,7 @@ public class BattleUI : MonoBehaviour
     public static BattleUI instance;
     public GameObject inputBlocker;
     public GameObject playeruiPrefab;
+    public PlayerBottomUI playerBar;
 
     public GameObject targetIndicator;
     public GameObject currentTargetIndicator;
@@ -66,17 +67,14 @@ public class BattleUI : MonoBehaviour
 
     public void BindPlayer(GameObject[] playerarray)
     {
-        Debug.Log("first : " + playerarray.Length + ", " + playerUI.Count);
         if (playerarray.Length > playerUI.Count)
         {
             int count = playerarray.Length - playerUI.Count;
             for (int i = 0; i < count; i++)
             {
                 playerUI.Add(Instantiate(playeruiPrefab.GetComponent<PlayerBattleUI>(), playerUI[0].transform.parent));
-                Debug.Log(i);
             }
         } 
-        Debug.Log(playerarray.Length + ", " + playerUI.Count);
         for(int i = 0; i < playerarray.Length; i++)
         {
             playerUI[i].gameObject.SetActive(true);
@@ -124,12 +122,6 @@ public class BattleUI : MonoBehaviour
         for (int i = 0; i < tokenAmount; i++)
             Destroy(tokens[i].gameObject);
         tokens.Clear();
-    }
-
-    public void AddLog(string log)
-    {
-        logText.text += "\n" + log;
-        logSize.sizeDelta += new Vector2(0, 60);
     }
 
     #region ео
@@ -181,5 +173,20 @@ public class BattleUI : MonoBehaviour
         }
     }
 
+    public void EndTurn()
+    {
+        playerBar.linkedPlayerStat.isMyturn = false;
+    }
+
+    public void DrawCard()
+    {
+        foreach(PlayerBattleUI playerBattleUI in playerUI)
+        {
+            if(playerBattleUI.boundCharacter == playerBar.linkedPlayerStat)
+            {
+                playerBattleUI.CostDraw();
+            }
+        }
+    }
     #endregion
 }

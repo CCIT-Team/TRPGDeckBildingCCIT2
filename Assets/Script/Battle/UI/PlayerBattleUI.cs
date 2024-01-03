@@ -25,8 +25,6 @@ public class PlayerBattleUI : MonoBehaviour
 
     public DeckDisplay deckDisplay;
 
-    public TMP_Text playerCost;
-
     bool firstturn = true; //첫 턴 여부 확인
 
     private void Awake()
@@ -58,8 +56,6 @@ public class PlayerBattleUI : MonoBehaviour
             //hand.GetChild(i).localPosition = new Vector2(Mathf.Cos((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2),Mathf.Sin((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2)) * radius;
             //hand.GetChild(i).rotation = Quaternion.Euler(0, 0, (angle));
         }
-
-        playerCost.text = boundCharacter.cost + "/" + boundCharacter.maxCost;
     }
 
     public void DrawCard(int drawCount = 1)
@@ -87,11 +83,6 @@ public class PlayerBattleUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Onclick()
-    {
-        boundCharacter.isMyturn = false;
-    }
-
     public void BindCharacter(Character character)
     {
         boundCharacter = character;
@@ -101,7 +92,7 @@ public class PlayerBattleUI : MonoBehaviour
             boundDeck.AddCard(int.Parse(id.ToString()));
         }
         boundDeck.OrganizeDeck();
-        deckDisplay.SetDeck(boundDeck);
+        //deckDisplay.SetDeck(boundDeck);
         if (!boundCharacter.isMyturn)
             transform.GetChild(0).gameObject.SetActive(false);
     }
@@ -162,7 +153,8 @@ public class PlayerBattleUI : MonoBehaviour
                 yield return new WaitUntil(() => !N_BattleManager.instance.isHandOver);
                 BattleUI.instance.cardDumpZone.gameObject.SetActive(false);
             }
-            cardParent.name = "card";
+            else
+                cardParent.name = "card";
         }
     }
 

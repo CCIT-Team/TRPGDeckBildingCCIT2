@@ -33,7 +33,15 @@ public class TurnSlider : MonoBehaviour
 
             rectTransform.sizeDelta = new Vector2(100 * (N_BattleManager.instance.units.Count + 1), 75);
 
-            if (boundUnit != N_BattleManager.instance.currentUnit)
+            if(N_BattleManager.instance.currentUnit == null)
+            {
+                slider.value = N_BattleManager.instance.units.IndexOf(boundUnit);
+                if (slider.value == 0)
+                    slider.handleRect.localScale = new Vector3(1.3f, 1.3f, 1);
+                else
+                    slider.handleRect.localScale = new Vector3(0.7f, 0.7f, 1);
+            }
+            else if (boundUnit != N_BattleManager.instance.currentUnit)
             {
                 slider.value = 1 + N_BattleManager.instance.units.IndexOf(boundUnit);
                 slider.handleRect.localScale = new Vector3(0.7f, 0.7f, 1);

@@ -2,26 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DeckCardUI : MonoBehaviour
 {
     public CardData cardData;
-    public Image backGround;
-    public Text cost;
-    public Image type;
-    public Image nameBox;
-    public Text cardName;
-    public RawImage image;
-    public Text description;
-    public Text amount;
+    public GameObject[] backGrounds;
+    public Transform cost;
+    public TMP_Text cardName;
+    public Image image;
+    public TMP_Text description;
+    public TMP_Text amount;
 
     int amountValue = 1;
 
-
-    [Header("리소스")]
-    public Sprite[] nameBoxSprits;
-    public Sprite[] typeSprits;
-    public Sprite[] backgroundSprits;
 
     public void SetAmount(int i)
     {
@@ -36,32 +30,25 @@ public class DeckCardUI : MonoBehaviour
     public void LoadCardData(int cardID)    //나중에 두번째 인수 삭제
     {
         cardData = DataBase.instance.cardData.Find(x => x.no == cardID);
+        foreach (GameObject backGround in backGrounds)
+            backGround.SetActive(false);
+
         switch (cardData.attackType)
         {
             case CardData.AttackType.Attack:
-                nameBox.sprite = nameBoxSprits[0];
-                type.sprite = typeSprits[0];
-                backGround.sprite = backgroundSprits[0];
+                backGrounds[0].SetActive(true);
                 break;
             case CardData.AttackType.Defence:
-                nameBox.sprite = nameBoxSprits[1];
-                type.sprite = typeSprits[1];
-                backGround.sprite = backgroundSprits[1];
+                backGrounds[1].SetActive(true);
                 break;
             case CardData.AttackType.Endow:
-                nameBox.sprite = nameBoxSprits[2];
-                type.sprite = typeSprits[2];
-                backGround.sprite = backgroundSprits[2];
+                backGrounds[2].SetActive(true);
                 break;
             case CardData.AttackType.Increase:
-                nameBox.sprite = nameBoxSprits[3];
-                type.sprite = typeSprits[3];
-                backGround.sprite = backgroundSprits[3];
+                backGrounds[3].SetActive(true);
                 break;
             case CardData.AttackType.CardDraw:
-                nameBox.sprite = nameBoxSprits[3];
-                type.sprite = typeSprits[3];
-                backGround.sprite = backgroundSprits[4];
+                backGrounds[4].SetActive(true);
                 break;
         }
 
@@ -69,11 +56,17 @@ public class DeckCardUI : MonoBehaviour
         cardName.text = cardData.name;
 
         //코스트
-        cost.text = cardData.useCost.ToString();
-
-        image.texture = (Texture)Resources.Load("UI/Cards/" + cardData.variableName);
+        for (int i = 0; i < cost.childCount; i++)
+        {
+            cost.GetChild(i).gameObject.SetActive(false);
+        }
+        for (int i = 0; i < cardData.useCost; i++)
+        {
+            cost.GetChild(i).gameObject.SetActive(true);
+        }
+        image.sprite = Resources.Load<Sprite>("UI/Cards/" + cardData.variableName);
         if (cardData.variableName == "Defcon")
-            image.texture = (Texture)Resources.Load("UI/Cards/Defcon_fighter");
+            image.sprite = Resources.Load<Sprite>("UI/Cards/Defcon_fighter");
 
         //설명
         string dummy;
@@ -98,4 +91,24 @@ public class DeckCardUI : MonoBehaviour
         //개수
         amount.text = "x" + amountValue.ToString();
     }
+     public void ResetCardUI()
+    {
+        /*cardNo = 0;
+        SwitchingBG(CardData.AttackType.Attack);
+        cardIcon.sprite = null;
+        for (int i = 0; i < cost.transform.childCount; i++)
+        {
+            cost.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        descrtiption.text = null;
+        inventoryUI = null;*/
+
+        cardData = null;
+        amount.text = null;
+        for (int i = 0; i < cost.childCount; i++)
+        {
+            cost.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
 }

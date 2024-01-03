@@ -107,11 +107,13 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             else
                 monsterAlive = true;
         }
-        if (currentUnit.CompareTag("Player"))
-            playerAlive = true;
-        else
-            monsterAlive = true;
-
+        if (currentUnit != null)
+        {
+            if(currentUnit.CompareTag("Player"))
+                playerAlive = true;
+            else
+                monsterAlive = true;
+        }
         if (playerAlive ^ monsterAlive)
             if (playerAlive)
             {
@@ -154,8 +156,17 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     {
         if (exitUnit == currentUnit)
         {
-            StopCoroutine(PlayTurn());
-            StartCoroutine(PlayTurn());
+            if (currentUnit.TryGetComponent(out Character character))
+            {
+                currentUnit = null;
+                character.isMyturn = false;
+            }
+            else
+            {
+                Monster monster = currentUnit.GetComponent<Monster>();
+                currentUnit = null;
+                monster.IsMyturn = false;
+            }
         }
         exitUnit.gameObject.SetActive(false);
         units.Remove(exitUnit);
@@ -312,7 +323,13 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         }    
         currentUnit = units[0];
         units.Remove(currentUnit);
-        //Camera.main.GetComponent<BattleCameraMove>().MovePosition(currentUnit.gameObject);
+        if (currentUnit.gameObject.CompareTag("Player"))
+        {
+            BattleUI.instance.playerBar.gameObject.SetActive(true);
+            BattleUI.instance.playerBar.LinkingPlayer(currentUnit.gameObject);
+        }    
+        else
+            BattleUI.instance.playerBar.gameObject.SetActive(false);
         Camera.main.GetComponent<BattleCameraMove>().cameratarget = currentUnit.gameObject;
         isTurnAnnounce = true;
         GetComponent<AudioSource>().PlayOneShot(audioClips[1]);
@@ -345,7 +362,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                     break;
             }
         }
-        units.Add(currentUnit);
+        if(currentUnit != null)
+            units.Add(currentUnit);
         currentUnit = null;
         StartCoroutine(PlayTurn());
     }

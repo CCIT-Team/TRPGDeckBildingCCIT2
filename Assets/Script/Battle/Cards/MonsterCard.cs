@@ -36,7 +36,6 @@ public class MonsterCard : MonoBehaviour
     public void CardEffect()
     {
         var skill = CardSkills.SearchSkill(cardData.variableName);
-        BattleUI.instance.AddLog(gameObject.name + "(이)가 " + cardTarget.name + "에게 " + cardData.name + "을(를) 사용");
         skill.Invoke(null, new object[] { GetComponent<MonsterStat>(),      //사용자
                                          cardTarget.GetComponent<Unit>(),   //사용 대상
                                          CalculateCardValue(),              //값

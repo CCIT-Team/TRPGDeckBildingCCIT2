@@ -18,6 +18,7 @@ public class CardDumpZone : MonoBehaviour
         image = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
         rect = new Rect(rectTransform.position,rectTransform.rect.size);
+        image.color = new Color(1, 1, 1, 0.5f);
     }
 
     void Update()
