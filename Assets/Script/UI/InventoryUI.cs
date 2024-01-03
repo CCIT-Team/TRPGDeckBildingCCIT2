@@ -119,7 +119,10 @@ public class InventoryUI : MonoBehaviour
                 break;
         }
     }
-
+    public void UpdateMoneyUI()
+    {
+        money.text = likedPlayer.GetComponent<Character>().gold.ToString();
+    }
     public void ButtonOpen()
     {
         if (likedPlayer.GetComponent<Character>().isMyturn)

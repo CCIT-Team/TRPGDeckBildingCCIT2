@@ -42,6 +42,8 @@ public class Map : MonoBehaviour
     public List<Tile> kingdomTile;
     public List<Tile> monsterTile;
     public List<Tile> missionMonsterTile;
+    public bool isClimateSet = false;
+    public bool isMonsetSet = false;
     int tileNum = 0;
     [Header("Player")]
     public List<GameObject> players = new List<GameObject>();
@@ -55,7 +57,6 @@ public class Map : MonoBehaviour
     public List<GameObject> monsterList;
     public List<int> monsterIDList;
     [Header("Map UI")]
-    public MapUI mapUI;
     public WolrdTurn wolrdTurn;
     public Tile currentInteracteUITile;
     public WolrdMission wolrdMission;
@@ -87,7 +88,7 @@ public class Map : MonoBehaviour
         voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
         GameManager.instance.GetLoadAvatar(
             new Vector3(totalTileObjectList[0].transform.position.x,
-            totalTileObjectList[0].transform.position.y + 0.5f,
+            totalTileObjectList[0].transform.position.y,
             totalTileObjectList[0].transform.position.z));
         players.AddRange(GameManager.instance.players);
         for (int i = 0; i < players.Count; i++)
@@ -111,7 +112,7 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-        mapUI.SetTurnSlider(players);
+
     }
 
     #region 맵 이동시 함수
@@ -178,6 +179,7 @@ public class Map : MonoBehaviour
         totalTileObjectList[302].GetComponent<Tile>().tileState = Tile.TileState.MonsterTile;
         missionMonsterTile.Add(totalTileObjectList[302].GetComponent<Tile>());
         totalTileObjectList[648].GetComponent<Tile>().tileState = Tile.TileState.BossTile;
+        missionMonsterTile.Add(totalTileObjectList[648].GetComponent<Tile>());
         instantiateDragon = Instantiate(dragon, new Vector3(totalTileObjectList[648].gameObject.transform.position.x,
             1.5f, totalTileObjectList[648].gameObject.transform.position.z), Quaternion.identity, transform);
         dragonScript = instantiateDragon.GetComponent<Dragon>();
@@ -281,7 +283,6 @@ public class Map : MonoBehaviour
             isPlayerMoving = true;
             wolrdTurn.currentPlayer.GetComponent<Animator>().SetBool("IsWalk", true);
             Vector3 nextTilePosition = pathTileObjectList[currentPositionNum].gameObject.transform.position;
-            nextTilePosition.y = nextTilePosition.y + .5f;
 
             wolrdTurn.currentPlayer.transform.rotation = Quaternion.LookRotation(nextTilePosition - wolrdTurn.currentPlayer.transform.position).normalized;
             wolrdTurn.currentPlayer.transform.position =
@@ -322,8 +323,8 @@ public class Map : MonoBehaviour
         MovePlayer();
         if (Input.GetKeyDown(KeyCode.C))
         {
-            wolrdTurn.currentPlayer.maxCost = 8;
-            wolrdTurn.currentPlayer.cost = 8;
+            wolrdTurn.currentPlayer.maxCost = 99;
+            wolrdTurn.currentPlayer.cost = 99;
         }
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -342,6 +343,17 @@ public class Map : MonoBehaviour
             GenerateMap();
             voronoi = GenerateVoronoi(size, nodeAmount, lloydIterationCount);
             voronoiMapRenderer.sprite = mapDraw.DrawVoronoiToSprite(voronoi);
+        }
+        if(isClimateSet && !isMonsetSet)
+        {
+            for(int i = 0; i < totalTileObjectList.Count; i++)
+            {
+                totalTileObjectList[i].GetComponent<Tile>().SetMonsterValue();
+                if (i == totalTileObjectList.Count - 1)
+                {
+                    isMonsetSet = true;
+                }
+            }
         }
     }
 
@@ -445,10 +457,6 @@ public class Map : MonoBehaviour
                         totalTileObjectList.Add(tileObject);
                         tileNum += 1;
                     }
-                }
-                else
-                {
-                    Debug.Log("off");
                 }
                 ++index;
             }

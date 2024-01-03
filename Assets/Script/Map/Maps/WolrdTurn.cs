@@ -15,14 +15,12 @@ public class WolrdTurn : MonoBehaviour
     public Texture[] playerRenterTextures = new Texture[3];
     public TMP_Text turnNickName;//누구의 턴인지 알려주는 UI
     public GameObject dragonturn;
-    Transform dragonOriginPos;
 
     bool iscurrentPlayer = false;
     void Start()
     {
         Map.instance.wolrdTurn = this;
         players = Map.instance.players;
-        dragonOriginPos = dragonturn.transform;
         turnNicknameObejct.SetActive(false);
         if(players.Count > 0) { StartCoroutine(PlayTurn()); currentPlayer = players[0].GetComponent<Character>(); }
         else 
@@ -52,6 +50,16 @@ public class WolrdTurn : MonoBehaviour
             }
         }
     }
+
+    public void TurnEnd()
+    {
+        if (!Map.instance.isPlayerMoving)
+        {
+            currentPlayer.isMyturn = false;
+            currentPlayer.GetComponent<Character>().cost = currentPlayer.GetComponent<Character>().maxCost;
+        }
+    }
+
     IEnumerator PlayTurn()
     {
         if (currentPlayer == null) { currentPlayer = players[0].GetComponent<Character>(); }
