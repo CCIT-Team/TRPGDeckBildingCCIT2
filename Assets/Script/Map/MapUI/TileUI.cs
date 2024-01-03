@@ -16,6 +16,8 @@ public class TileUI : MonoBehaviour
     public TMP_Text monsterName;
     public TMP_Text playerNumtext;
     public TMP_Text monsterNumtext;
+    public Image monsterImage;
+    public Sprite[] monsterSprites = new Sprite[7];
 
     public Shop shop;
 

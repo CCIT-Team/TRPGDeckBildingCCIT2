@@ -53,6 +53,7 @@ public class AreaChecker : MonoBehaviour
         if (other.CompareTag("Tile"))
         {
             boxCol.enabled = false;
+            Map.instance.isClimateSet = true;
         }
     }
 }

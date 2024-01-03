@@ -16,7 +16,7 @@ public class MapUI : MonoBehaviour
     public TMP_Text climateName;
     void Start()
     {
-        Map.instance.mapUI = this;
+        //Map.instance.mapUI = this;
     }
 
     // Update is called once per frame

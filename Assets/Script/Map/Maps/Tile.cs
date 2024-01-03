@@ -114,7 +114,7 @@ public class Tile : MonoBehaviour
             isBossTile = true;
             bossObject.SetActive(true);
             monsterNum = 1;
-            //monsterGroup.Add(monsterID[9]);
+            monsterGroup.Add(monsterID[9]);
         }
         else if (tileState == TileState.KingdomTile)
         {
@@ -137,15 +137,8 @@ public class Tile : MonoBehaviour
 
 
     }
-
-    private void Update()
+    public void SetMonsterValue()
     {
-        if (isMonsterTile && Map.instance.currentInteracteUITile == this && GameManager.instance.isVictory)
-        {
-            DestroyMonsterTile();
-            GameManager.instance.isVictory = false;
-        }
-
         if (tileState == TileState.MonsterTile && !isMonsterSet)
         {
             isMonsterTile = true;
@@ -190,7 +183,7 @@ public class Tile : MonoBehaviour
                 Instantiate(Map.instance.monsterList[7], monsterPosition.position, Quaternion.Euler(new Vector3(0, 180, 0)), monsterPosition);
                 isMonsterSet = true;
             }
-            else if(climate == Climate.VOLANO)
+            else if (climate == Climate.VOLANO)
             {
                 monsterNum = UnityEngine.Random.Range(2, 4);
                 for (int i = 0; i < monsterNum; i++)
@@ -201,6 +194,14 @@ public class Tile : MonoBehaviour
                 isMonsterSet = true;
             }
             else { isMonsterSet = true; }
+        }
+    }
+    private void Update()
+    {
+        if (isMonsterTile && Map.instance.currentInteracteUITile == this && GameManager.instance.isVictory)
+        {
+            DestroyMonsterTile();
+            GameManager.instance.isVictory = false;
         }
     }
 
@@ -325,6 +326,7 @@ public class Tile : MonoBehaviour
         Map.instance.isOutofUI = false;
         kingdomObject.SetActive(false);
         burnkingdomObject.SetActive(true);
+        Map.instance.kingdomTile.Remove(this);
     }
     public void DestroyVilege()
     {
@@ -353,26 +355,26 @@ public class Tile : MonoBehaviour
             {
                 tileUI = Map.instance.tileUI;
             }
-            if (climate == Climate.GOLDENPLACE)
-            {
-                Map.instance.mapUI.climateName.text = "È²±Ý µéÆÇ";
-            }
-            else if (climate == Climate.FORGOTTENFOREST)
-            {
-                Map.instance.mapUI.climateName.text = "ÀØÇôÁø ½£";
-            }
-            else if (climate == Climate.TEADELOSDESERT)
-            {
-                Map.instance.mapUI.climateName.text = "Å¸µ¨·Î½º »ç¸·";
-            }
-            else if (climate == Climate.WITCHSSWAMPLAND)
-            {
-                Map.instance.mapUI.climateName.text = "¸¶³àÀÇ ´ËÁö´ë";
-            }
-            else
-            {
-                Map.instance.mapUI.climateName.text = "È­»ê ±â½¾";
-            }
+            //if (climate == Climate.GOLDENPLACE)
+            //{
+            //    Map.instance.mapUI.climateName.text = "È²±Ý µéÆÇ";
+            //}
+            //else if (climate == Climate.FORGOTTENFOREST)
+            //{
+            //    Map.instance.mapUI.climateName.text = "ÀØÇôÁø ½£";
+            //}
+            //else if (climate == Climate.TEADELOSDESERT)
+            //{
+            //    Map.instance.mapUI.climateName.text = "Å¸µ¨·Î½º »ç¸·";
+            //}
+            //else if (climate == Climate.WITCHSSWAMPLAND)
+            //{
+            //    Map.instance.mapUI.climateName.text = "¸¶³àÀÇ ´ËÁö´ë";
+            //}
+            //else
+            //{
+            //    Map.instance.mapUI.climateName.text = "È­»ê ±â½¾";
+            //}
 
             if (Map.instance.startTile == null)
             {
@@ -504,13 +506,25 @@ public class Tile : MonoBehaviour
                 tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
                 Map.instance.isOutofUI = true;
                 tileUI.monsterNumtext.text = monsterNum.ToString();
+                if (monsterGroup[0] == monsterID[2]) { tileUI.monsterImage.sprite = tileUI.monsterSprites[0]; }
+                else if (monsterGroup[0] == monsterID[5]) { tileUI.monsterImage.sprite = tileUI.monsterSprites[2]; }
+                else if (monsterGroup[0] == monsterID[6]) { tileUI.monsterImage.sprite = tileUI.monsterSprites[3]; }
+                else if (monsterGroup[0] == monsterID[7]) { tileUI.monsterImage.sprite = tileUI.monsterSprites[4]; }
+                else if (monsterGroup[0] == monsterID[8]) { tileUI.monsterImage.sprite = tileUI.monsterSprites[5]; }
+
+
             }
             else if (isBossTile && !Map.instance.isOutofUI && !Map.instance.isPlayerMoving)
             {
-                //Map.instance.currentInteracteUITile = this;
-                //Map.instance.OnUIPlayerStop();
-                //tileUI.OnMonsterBattle();
-                //Map.instance.isOutofUI = true;
+                Map.instance.currentInteracteUITile = this;
+                Map.instance.OnUIPlayerStop();
+                if (Map.instance.currentMissionTile == this) { tileUI.missionMark.enabled = true; }
+                else { tileUI.missionMark.enabled = false; }
+                tileUI.OnMonsterBattle();
+                tileUI.monsterName.text = Map.instance.GetMonsterName(monsterGroup[0]);
+                Map.instance.isOutofUI = true;
+                tileUI.monsterNumtext.text = monsterNum.ToString();
+                tileUI.monsterImage.sprite = tileUI.monsterSprites[6];
             }
             else if (isKingdomTile && !Map.instance.isOutofUI && !isMissionOn)
             {
