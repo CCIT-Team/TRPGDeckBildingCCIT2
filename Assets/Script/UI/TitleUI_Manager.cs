@@ -22,6 +22,7 @@ public class TitleUI_Manager : MonoBehaviour
         if (Start_Exception())
         {
             GameManager.instance.LoadScenceName(sceneName);
+            transform.GetChild(0).gameObject.SetActive(false);
         }
         else
         {
@@ -33,11 +34,13 @@ public class TitleUI_Manager : MonoBehaviour
     {
         DataBase.instance.ResetDB();
         GameManager.instance.LoadScenceName(sceneName);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void LoadButton(string sceneName)
     {
         GameManager.instance.LoadScenceName(sceneName);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void GameSetting()
