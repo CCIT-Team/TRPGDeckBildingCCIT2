@@ -69,7 +69,20 @@ public class UnitAnimationControl : MonoBehaviour
             }
         }
         else
+        {
             particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Monster");
+            if(gameObject.CompareTag("Monster") && (GetComponent<Monster>().no == 30000007))
+            {
+                animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/WandStaff");
+                particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Wizard");
+            }
+            else if (GetComponent<Monster>().no == 30000020)
+            {
+                animator = GetComponent<Monster>().monsterList[19].GetComponent<Animator>();
+            }
+
+        }
+            
 
         if (TryGetComponent<AudioSource>(out audioSource))
             return;

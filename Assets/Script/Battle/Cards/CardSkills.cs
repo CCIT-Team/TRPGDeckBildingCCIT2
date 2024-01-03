@@ -8,6 +8,13 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 {
     public static MethodInfo SearchSkill(string SkillName)
     {
+        if (SkillName == "Dragon'sScream")
+            SkillName = "DragonScream";
+        else if (SkillName == "Dragon'sClaw")
+            SkillName = "DragonClaw";
+        else if (SkillName == "Dragon'sWind")
+            SkillName = "DragonWind";
+
         Type type = typeof(CardSkills);
         var method = type.GetMethod(SkillName);
         return method;
@@ -104,6 +111,20 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
             target.Damaged((int)damage);
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();    //임시
+    }
+
+    public static void DragonClaw(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        DefaultPhysicalAttack(performer, target, damage, extraEffect, failedToken, totalToken);
+    }
+
+    public static void DragonWind(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+                DefaultPhysicalAttack(performer, unit, damage, extraEffect, failedToken, totalToken);
+        }
     }
 
     public static void Slash(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
@@ -421,6 +442,21 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         }
         target.GetComponent<UnitAnimationControl>().GetDamage();    //임시
     }
+
+    public static void DragonScream(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
+    {
+        if (totalToken - failedToken <= 0)
+            damage = 0;
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag(target.tag))
+            {
+                damage = CalculateMagicDamage(unit, damage, failedToken);
+                target.Damaged((int)damage);
+            }
+        }
+    }
+    
 
     public static void Pain(Unit performer, Unit target, float damage, int extraEffect, int failedToken, int totalToken)
     {
