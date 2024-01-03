@@ -50,16 +50,34 @@ public class RewardUI : MonoBehaviour
             }
         }
         GameObject reward;
+        int playercount = 0;
         for (int i = 0; i< rewardItem.Count; i++)
         {
             reward = Instantiate(rewardUIPrefab, this.transform);
             reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
+            foreach (Unit unit in N_BattleManager.instance.units)
+            {
+                if (unit.CompareTag("Player"))
+                {
+                    reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = unit.gameObject.name+ " È¹µæ";
+                    playercount++;
+                }
+            }
             rewardCount++;
         }
+        playercount = 0;
         reward = Instantiate(rewardUIPrefab, this.transform);
         reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold, false);
+        foreach (Unit unit in N_BattleManager.instance.units)
+        {
+            if (unit.CompareTag("Player"))
+            {
+                reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = unit.gameObject.name + " È¹µæ";
+                playercount++;
+            }
+        }
         rewardCount++;
-
+        playercount = 0;
         StartCoroutine(WaitGetAllReward());
     }
 

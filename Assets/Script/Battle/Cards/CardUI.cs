@@ -14,6 +14,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     public TMP_Text description;
     string[] descripion_Text = new string[3];
     public GameObject backSide;
+    public GameObject highlight;
 
     public N_Card bindCard;
 
@@ -166,6 +167,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
     {
         if(!isSelected)
         {
+            highlight.SetActive(true);
             for (int i = 0; i < bindCard.cardData.token; i++)
             {
                 Token token = Instantiate(BattleUI.instance.tokenPrefab, BattleUI.instance.tokenPosition.transform);
@@ -181,6 +183,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
+        highlight.SetActive(false);
         for (int i = 0; i < tokenPreview.Count; i++)
         {
             Destroy(tokenPreview[i]);
@@ -195,7 +198,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         if (Input.GetMouseButtonDown(0)&&!isSelected)
         {
             isSelected = true;
-            if(transform.parent.parent != BattleUI.instance.extraCardTransform)
+            highlight.SetActive(false);
+            if (transform.parent.parent != BattleUI.instance.extraCardTransform)
             {
                 listIndex = bindCard.playerUI.handList.FindIndex(x => x == transform.parent.gameObject);
                 bindCard.playerUI.handList.Remove(transform.parent.gameObject);

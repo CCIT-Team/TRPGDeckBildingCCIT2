@@ -316,6 +316,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             {
                 if (unit.gameObject.name.Contains("드래곤"))
                 {
+                    Camera.main.GetComponent<BattleCameraMove>().monsterSight = Camera.main.GetComponent<BattleCameraMove>().playerSight;
                     yield return new WaitForSeconds(3f);
                 }
             }
@@ -326,7 +327,12 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         if (currentUnit.gameObject.CompareTag("Player"))
         {
             BattleUI.instance.playerBar.gameObject.SetActive(true);
+            for (int i = 0; i < BattleUI.instance.playerBar.cost.transform.childCount; i++)
+            {
+                BattleUI.instance.playerBar.cost.transform.GetChild(i).gameObject.SetActive(false);
+            }
             BattleUI.instance.playerBar.LinkingPlayer(currentUnit.gameObject);
+            BattleUI.instance.playerBar.InitUI();
         }    
         else
             BattleUI.instance.playerBar.gameObject.SetActive(false);

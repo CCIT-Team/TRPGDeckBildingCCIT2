@@ -52,6 +52,7 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
             return;
         }
         character.cost -= cardData.useCost;
+        BattleUI.instance.playerBar.UpdateCostUI();
         costUsed = true;
     }
 
@@ -80,27 +81,17 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
         cardData = DataBase.instance.cardData.Find(x => x.no == no);
 
-
-        if (cardData.description.Contains("회복"))
+        switch(cardData.useStatType)
         {
-            MainStaus = StatusType.Intelligence;
-            mainStatus = playerUI.boundCharacter.intelligence;
+            case CardData.UseStatType.Strength:
+                MainStaus = StatusType.Strength;
+                mainStatus = playerUI.boundCharacter.strength;
+                break;
+            case CardData.UseStatType.Intellect:
+                MainStaus = StatusType.Intelligence;
+                mainStatus = playerUI.boundCharacter.intelligence;
+                break;
         }
-        else if (cardData.description.Contains("마법") && cardData.description.Contains("물리"))
-        {
-            MainStaus = StatusType.Intelligence;
-            mainStatus = playerUI.boundCharacter.intelligence;
-        } 
-        else if (cardData.description.Contains("마법"))
-        {
-            MainStaus = StatusType.Intelligence;
-            mainStatus = playerUI.boundCharacter.intelligence;
-        }
-        else
-        {
-            MainStaus = StatusType.Strength;
-            mainStatus = playerUI.boundCharacter.strength;
-        }   
         SetCardAction();
     }
 
@@ -145,19 +136,33 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
 
     int TypeSelectByNo()
     {
-        int number = int.Parse(cardData.no.ToString().Substring(0, 2) + cardData.variableName.ToString().Substring(cardData.no.ToString().Length - 2));
         switch (cardData.no)
         {
             default:
                 return 0;
-            case 1:
-            case 91:
+            case 51000011:
+            case 53000007:
+            case 54000018:
                 return 1;
-            case 2:
+            case 54000027:
+            case 54000029:
+            case 54000030:
+            case 54000031:
+            case 54000032:
+            case 54000033:
+            case 54000034:
+            case 54000036:
+            case 54000039:
+            case 54000052:
                 return 2;
-            case 3:
+            case 51000002:
+            case 51000008:
+            case 51000015:
+            case 52000002:
+            case 52000010:
+            case 53000008:
                 return 3;
-            case 4:
+            case 54000040:
                 return 4;
             case 5:
                 return 5;

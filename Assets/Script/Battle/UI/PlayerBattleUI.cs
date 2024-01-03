@@ -6,6 +6,8 @@ using TMPro;
 
 public class PlayerBattleUI : MonoBehaviour
 {
+
+    public float xvalue = 0.95f;
     public Character boundCharacter;
     public Deck boundDeck;
 
@@ -52,7 +54,8 @@ public class PlayerBattleUI : MonoBehaviour
     {
         for(int i = 0; i < handList.Count; i++)
         {
-            handList[i].transform.localPosition = new Vector2((-handList.Count / 2 + i + (handList.Count + 1) % 2 / 2f) * cardSize.x * 0.95f, 0);
+            handList[i].transform.localPosition = new Vector2((-handList.Count / 2 + i + (handList.Count + 1) % 2 / 2f) * cardSize.x * xvalue, Mathf.Pow(3,Mathf.Ceil(Mathf.Abs(i - handList.Count/2))) * -5);
+            handList[i].transform.localRotation = Quaternion.Euler(0, 0, 7 * (Mathf.Floor(handList.Count / 2)) - 7 * i - (3.5f * ((handList.Count + 1) % 2)));
             //hand.GetChild(i).localPosition = new Vector2(Mathf.Cos((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2),Mathf.Sin((-hand.childCount / 2 + i + (hand.childCount + 1) % 2 / 2f)*angle + Mathf.PI/2)) * radius;
             //hand.GetChild(i).rotation = Quaternion.Euler(0, 0, (angle));
         }
@@ -70,6 +73,7 @@ public class PlayerBattleUI : MonoBehaviour
     public void CostDraw()
     {
         boundCharacter.cost -= 1;
+        BattleUI.instance.playerBar.UpdateCostUI();
         DrawCard();
     }
 
