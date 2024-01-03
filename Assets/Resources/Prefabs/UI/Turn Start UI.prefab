@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 8948160030139112188}
   - component: {fileID: 6668548430703484320}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: SmallTurnImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4261412863
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 913818425143384331}
   - component: {fileID: 7895989988113797006}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TurmImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 5558043497364687122}
   - component: {fileID: 4902220398507270396}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: TextBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

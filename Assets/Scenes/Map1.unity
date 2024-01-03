@@ -6434,7 +6434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1550965599
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6899,8 +6899,8 @@ MonoBehaviour:
   - {fileID: 128260, guid: c9e366d99d367a140bfaf53a8460352a, type: 3}
   - {fileID: 192428, guid: d3b8c5d30d1c21a46b68f369fb8c0c68, type: 3}
   - {fileID: 1709659028461558467, guid: 9e2a9f14c7ffc104e854682e32ba3399, type: 3}
-  - {fileID: 1709659028461558467, guid: 8e4b9b8dc79f6ce4b91c3675e5219eaa, type: 3}
   - {fileID: 6124566929585799547, guid: a0d59f7c9c73ca8498fc9187765e3d29, type: 3}
+  - {fileID: 1709659028461558467, guid: 8e4b9b8dc79f6ce4b91c3675e5219eaa, type: 3}
   - {fileID: 1709659028461558467, guid: 6cdc20fedd762d84f86e8b8b51eba43e, type: 3}
   monsterIDList: 81c3c90182c3c90183c3c90184c3c90185c3c901
   wolrdTurn: {fileID: 1461956040}
@@ -12686,10 +12686,10 @@ RectTransform:
   - {fileID: 9197639783594222232}
   m_Father: {fileID: 1572364504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -93.05}
-  m_SizeDelta: {x: 100, y: 186.1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3198320308281013960
 MonoBehaviour:
