@@ -114,7 +114,7 @@ public class Monster :MonsterStat
         {
             Destroy(GetComponent<UnitAnimationControl>());
             gameObject.AddComponent<DragonAnimationControl>().SetAnimator();
-            monsterList[16].SetActive(true);
+            monsterList[23].SetActive(true);
             GetComponent<BoxCollider>().size = new Vector3(7, 6, 5);
             GetComponent<BoxCollider>().center = new Vector3(0, 3, 0);
         }
