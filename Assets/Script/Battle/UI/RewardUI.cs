@@ -10,6 +10,7 @@ public class RewardUI : MonoBehaviour
     List<int> rewardItem = new List<int>();
     [HideInInspector]
     public int rewardCount = 0;
+    List<Character> characters = new();
     void Start()
     {
         
@@ -42,11 +43,18 @@ public class RewardUI : MonoBehaviour
 
     public void GiveReward()
     {
-        foreach(Unit unit in N_BattleManager.instance.units)
+        if(N_BattleManager.instance.currentUnit.CompareTag("Player"))
+        {
+            N_BattleManager.instance.currentUnit.GetComponent<Character>().SetExp(rewardExp);
+            characters.Add(N_BattleManager.instance.currentUnit.GetComponent<Character>());
+        }
+            
+        foreach (Unit unit in N_BattleManager.instance.units)
         {
             if(unit.CompareTag("Player"))
             {
                 unit.GetComponent<Character>().SetExp(rewardExp);
+                characters.Add(unit.GetComponent<Character>());
             }
         }
         GameObject reward;
@@ -55,26 +63,20 @@ public class RewardUI : MonoBehaviour
         {
             reward = Instantiate(rewardUIPrefab, this.transform);
             reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
-            foreach (Unit unit in N_BattleManager.instance.units)
+            foreach (Character character in characters)
             {
-                if (unit.CompareTag("Player"))
-                {
-                    reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = unit.gameObject.name+ " È¹µæ";
-                    playercount++;
-                }
+                reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = character.gameObject.name + " È¹µæ";
+                playercount++;
             }
             rewardCount++;
         }
         playercount = 0;
         reward = Instantiate(rewardUIPrefab, this.transform);
         reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold, false);
-        foreach (Unit unit in N_BattleManager.instance.units)
+        foreach (Character character in characters)
         {
-            if (unit.CompareTag("Player"))
-            {
-                reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = unit.gameObject.name + " È¹µæ";
-                playercount++;
-            }
+            reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = character.gameObject.name + " È¹µæ";
+            playercount++;
         }
         rewardCount++;
         playercount = 0;
