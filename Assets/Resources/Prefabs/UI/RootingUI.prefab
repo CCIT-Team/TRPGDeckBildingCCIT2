@@ -196,7 +196,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1921965496187416072}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2744791452482760387}
+        m_TargetAssemblyTypeName: RewardDisplay, Assembly-CSharp
+        m_MethodName: GetReward
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1402291961151767496
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1182,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2021358135276838936}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2744791452482760387}
+        m_TargetAssemblyTypeName: RewardDisplay, Assembly-CSharp
+        m_MethodName: GetReward
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6978064126233095863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1316,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1549985871522084458}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2744791452482760387}
+        m_TargetAssemblyTypeName: RewardDisplay, Assembly-CSharp
+        m_MethodName: GetReward
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 32
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7550768807466975996
 GameObject:
   m_ObjectHideFlags: 0
