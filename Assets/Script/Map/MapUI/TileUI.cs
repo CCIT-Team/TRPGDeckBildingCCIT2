@@ -13,7 +13,6 @@ public class TileUI : MonoBehaviour
     public Image missionMark;
 
     public int playerNumber = 0;
-    public GameObject[] playerNumUI = new GameObject[3];//플레이어 마릿수 타일
     public TMP_Text monsterName;
     public TMP_Text playerNumtext;
     public TMP_Text monsterNumtext;
