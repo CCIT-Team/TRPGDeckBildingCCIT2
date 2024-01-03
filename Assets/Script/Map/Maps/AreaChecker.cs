@@ -28,11 +28,11 @@ public class AreaChecker : MonoBehaviour
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[0];
                         break;
                     case 1:
-                        other.GetComponent<Tile>().climate = Tile.Climate.FORGOTTENFOREST;
+                        other.GetComponent<Tile>().climate = Tile.Climate.TEADELOSDESERT; 
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[1];
                         break;
                     case 2:
-                        other.GetComponent<Tile>().climate = Tile.Climate.TEADELOSDESERT;
+                        other.GetComponent<Tile>().climate = Tile.Climate.FORGOTTENFOREST;
                         other.GetComponent<MeshRenderer>().material = other.GetComponent<Tile>().climateMaterials[2];
                         break;
                     case 3:

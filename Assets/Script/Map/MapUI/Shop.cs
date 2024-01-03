@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Shop : MonoBehaviour
 {
@@ -14,10 +15,11 @@ public class Shop : MonoBehaviour
     public GameObject item;
     public Transform itemListTransform;
     public GameObject noMoney;
+    public TMP_Text currentHaveGold;
+
 
     private void Start()
     {
-        itemList.Clear();
         ShopSellItems();
     }
     #region ªÛ¡°
@@ -60,20 +62,24 @@ public class Shop : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        currentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString();
+    }
     public void ShopSellItems()
     {
         GameObject posionR = Instantiate(item, itemListTransform);
         posionR.GetComponent<GetShopItem>().item = itemList[0];
         posionR.GetComponent<GetShopItem>().UpdateItemInfo();
         GameObject posionL = Instantiate(item, itemListTransform);
-        posionR.GetComponent<GetShopItem>().item = itemList[1];
-        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        posionL.GetComponent<GetShopItem>().item = itemList[1];
+        posionL.GetComponent<GetShopItem>().UpdateItemInfo();
         GameObject sword = Instantiate(item, itemListTransform);
-        posionR.GetComponent<GetShopItem>().item = itemList[2];
-        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        sword.GetComponent<GetShopItem>().item = itemList[2];
+        sword.GetComponent<GetShopItem>().UpdateItemInfo();
         GameObject armor = Instantiate(item, itemListTransform);
-        posionR.GetComponent<GetShopItem>().item = itemList[Random.Range(3, 7)];
-        posionR.GetComponent<GetShopItem>().UpdateItemInfo();
+        armor.GetComponent<GetShopItem>().item = itemList[Random.Range(3, 7)];
+        armor.GetComponent<GetShopItem>().UpdateItemInfo();
         //switch (Map.instance.wolrdTurn.currentPlayer.level)
         //{
         //    case 1:
