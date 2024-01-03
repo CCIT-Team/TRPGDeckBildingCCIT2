@@ -59,15 +59,6 @@ public class Mission : MonoBehaviour
         {
             Map.instance.wolrdMission.chracterName.text = data_Dialog[Map.instance.missionChatNum]["ChracterName"].ToString();
         }
-        if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
-        {
-            mainmissiontext = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-            Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-        }
-        if(Map.instance.wolrdMission.mainMissionText.text == "")
-        {
-            Map.instance.wolrdMission.mainMissionText.text = mainmissiontext;
-        }
     }
 
     IEnumerator Output_text()
@@ -83,12 +74,7 @@ public class Mission : MonoBehaviour
                 Map.instance.startTile = null;
                 Map.instance.currentInteracteUITile = null;
                 Map.instance.isOutofUI = false;
-                gameObject.SetActive(false);
-                if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
-                {
-                    mainmissiontext = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-                    Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-                }
+                gameObject.SetActive(false);        
                 Map.instance.wolrdMission.NextMission();
                 StopCoroutine(Output_text());
             }
@@ -102,11 +88,6 @@ public class Mission : MonoBehaviour
         }
         else
         {
-            if (data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString() != "")
-            {
-                mainmissiontext = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-                Map.instance.wolrdMission.mainMissionText.text = data_Dialog[Map.instance.missionChatNum]["MainMissionText"].ToString();
-            }
             nexttext.enabled = true;
         }
     }

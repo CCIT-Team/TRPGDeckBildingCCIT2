@@ -16,6 +16,8 @@ public class TileUI : MonoBehaviour
     public TMP_Text monsterName;
     public TMP_Text playerNumtext;
     public TMP_Text monsterNumtext;
+    public Image monsterImage;
+    public Sprite[] monsterSprites = new Sprite[7];
 
     public Shop shop;
 
@@ -64,7 +66,7 @@ public class TileUI : MonoBehaviour
     }
     #endregion
     #region 상점 버튼
-    public void OnShop() { shopUI.SetActive(true); Map.instance.isOutofUI = true; }
+    public void OnShop() { shopUI.SetActive(true); Map.instance.isOutofUI = true; shop.currentHaveGold.text = Map.instance.wolrdTurn.currentPlayer.GetComponent<Character>().gold.ToString(); }
     public void OffShop()
     {
         SoundManager.instance.PlayUICilckSound();

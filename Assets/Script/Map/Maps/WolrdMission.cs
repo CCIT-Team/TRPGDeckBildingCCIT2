@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 public class WolrdMission : MonoBehaviour
@@ -16,9 +17,14 @@ public class WolrdMission : MonoBehaviour
     public Transform mainMissionUITransform;
     public Transform subMissionUITransform;
 
-    public Sprite[] missionChraterImage = new Sprite[5];
+    public Sprite[] missionChraterImage = new Sprite[8];
 
     public GameObject mission;
+
+
+    public GameObject reward;
+    public TMP_Text expText;
+    public TMP_Text goldText;
 
     public bool missionCleard = false;
 
@@ -162,7 +168,21 @@ public class WolrdMission : MonoBehaviour
         }
         mission.GetComponent<Mission>().isEndScript = false;
         mainMissionUITransform.gameObject.SetActive(true);
-        //mission.SetActive(true);
+    }
+
+    IEnumerator PresentReward(int exp, int gold)
+    {
+        reward.SetActive(true);
+        expText.text = exp.ToString();
+        goldText.text = gold.ToString();
+        for(int i = 0; i<Map.instance.players.Count;i++)
+        {
+            Map.instance.players[i].GetComponent<Character>().exp += exp;
+            Map.instance.players[i].GetComponent<Character>().gold += gold;
+        }
+        yield return new WaitForSeconds(1.5f);
+        reward.SetActive(false);
+        StopCoroutine(PresentReward(exp, gold));
     }
 
     void TurnOnMissionPanel()
@@ -178,6 +198,7 @@ public class WolrdMission : MonoBehaviour
         mainMissionUITransform.gameObject.SetActive(false);
         gameObject.SetActive(true);
         Map.instance.missionNum = 1;
+        mainMissionText.text = "그레고리 신부를 만나세요";
     }
 
 
@@ -191,6 +212,7 @@ public class WolrdMission : MonoBehaviour
 
     void ThirdMainMission()
     {
+        mainMissionText.text = "공동묘지로 향하세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[0];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -201,6 +223,7 @@ public class WolrdMission : MonoBehaviour
             Map.instance.missionMonsterTile[0].MainMissionMarkerOnOff();
             Map.instance.missionMonsterTile[0].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
+            StartCoroutine(PresentReward(30, 20));
             NextMission();
         }
     }
@@ -214,6 +237,7 @@ public class WolrdMission : MonoBehaviour
 
     void FifthMainMission()
     {
+        mainMissionText.text = "해골 병사를 처치하세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[1];
         Map.instance.totalTileObjectList[119].GetComponent<Tile>().tileState = Tile.TileState.VillageTile;
         Map.instance.totalTileObjectList[119].GetComponent<Tile>().isVillageTile = true;
@@ -227,12 +251,14 @@ public class WolrdMission : MonoBehaviour
             Map.instance.missionMonsterTile[1].MainMissionMarkerOnOff();
             Map.instance.missionMonsterTile[1].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
+            StartCoroutine(PresentReward(50,30));
             NextMission();
         }
     }
 
     void SixthMainMission()
     {
+        mainMissionText.text = "마을로 가세요";
         GameManager.instance.isVictory = false;
         Map.instance.OnUIPlayerStop();
         Map.instance.isOutofUI = true;
@@ -249,6 +275,7 @@ public class WolrdMission : MonoBehaviour
 
     void EighthMainMission()
     {
+        mainMissionText.text = "포션을 구입하세요";
         Map.instance.currentMissionTile = Map.instance.kingdomTile[1].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -257,6 +284,7 @@ public class WolrdMission : MonoBehaviour
 
     void NinthMainMission()
     {
+        mainMissionText.text = "포션을 전달하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[248].GetComponent<Tile>();
         Map.instance.currentMissionTile.tileState = Tile.TileState.VillageTile;
         Map.instance.currentMissionTile.isVillageTile = true;
@@ -274,6 +302,7 @@ public class WolrdMission : MonoBehaviour
 
     void TwelfthMainMission()
     {
+        mainMissionText.text = "소식을 전하세요";
         Map.instance.currentMissionTile = Map.instance.totalTileObjectList[248].GetComponent<Tile>();
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -293,6 +322,7 @@ public class WolrdMission : MonoBehaviour
         Map.instance.OnUIPlayerStop();
         Map.instance.isOutofUI = true;
         Map.instance.missionNum = 14;
+        mainMissionText.text = "그레고리 신부를 만나세요";
     }
     void Fifteenth()
     {
@@ -303,6 +333,7 @@ public class WolrdMission : MonoBehaviour
     }
     void Sixteenth()
     {
+        mainMissionText.text = "레벤 광산을 조사하세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[2];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -313,6 +344,7 @@ public class WolrdMission : MonoBehaviour
             Map.instance.missionMonsterTile[2].MainMissionMarkerOnOff();
             Map.instance.missionMonsterTile[2].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
+            StartCoroutine(PresentReward(150, 200));
             NextMission();
         }
     }
@@ -326,6 +358,7 @@ public class WolrdMission : MonoBehaviour
     }
     void Eighteenth()
     {
+        mainMissionText.text = "마법사 라인하르트를 찾으세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[3];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -336,6 +369,7 @@ public class WolrdMission : MonoBehaviour
             Map.instance.missionMonsterTile[3].MainMissionMarkerOnOff();
             Map.instance.missionMonsterTile[3].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
+            StartCoroutine(PresentReward(200, 200));
             NextMission();
         }
     }
@@ -348,6 +382,7 @@ public class WolrdMission : MonoBehaviour
     }
     void Twentieth()
     {
+        mainMissionText.text = "사막의 제단을 조사하세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[4];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -358,6 +393,7 @@ public class WolrdMission : MonoBehaviour
             Map.instance.missionMonsterTile[4].MainMissionMarkerOnOff();
             Map.instance.missionMonsterTile[4].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
+            StartCoroutine(PresentReward(200, 200));
             NextMission();
         }
     }
@@ -384,6 +420,7 @@ public class WolrdMission : MonoBehaviour
     }
     void Twenthfourth()
     {
+        mainMissionText.text = "마스터스미스를 찾아가세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[5];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -394,6 +431,7 @@ public class WolrdMission : MonoBehaviour
             Map.instance.missionMonsterTile[5].MainMissionMarkerOnOff();
             Map.instance.missionMonsterTile[5].DestroyMonsterTile();
             Map.instance.isOutofUI = false;
+            StartCoroutine(PresentReward(300, 300));
             NextMission();
         }
     }
@@ -428,6 +466,7 @@ public class WolrdMission : MonoBehaviour
     }
     void Twenthninth()
     {
+        mainMissionText.text = "레드 드래곤을 처치하세요";
         Map.instance.currentMissionTile = Map.instance.missionMonsterTile[6];
         Map.instance.currentMissionTile.isMissionOn = true;
         Map.instance.currentMissionTile.MainMissionMarkerOnOff();
@@ -446,6 +485,7 @@ public class WolrdMission : MonoBehaviour
         GameManager.instance.isVictory = false;
         Map.instance.OnUIPlayerStop();
         Map.instance.missionNum = 30;
+        SceneManager.LoadScene(4);
     }
     #endregion
 }
