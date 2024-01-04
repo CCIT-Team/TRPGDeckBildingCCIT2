@@ -555,7 +555,7 @@ public class Tile : MonoBehaviour
             new Vector3(0, 0, tagPlayer.transform.position.z)).normalized;
         tagPlayer.transform.position = Vector3.MoveTowards(tagPlayer.transform.position, new Vector3(
              adjacentTiles[0].gameObject.transform.position.x,
-            0.5f,
+            adjacentTiles[0].gameObject.transform.position.y,
              adjacentTiles[0].gameObject.transform.position.z), 0.05f);
         if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
         {
