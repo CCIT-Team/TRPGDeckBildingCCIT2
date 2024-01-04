@@ -70,7 +70,7 @@ public class RewardDisplay : MonoBehaviour
 
     public void GetReward(int i)
     {
-        if(itemID == -1)
+        if (itemID == -1)
             N_BattleManager.instance.units[i].GetComponent<Character>().gold += gold;
         else
             N_BattleManager.instance.units[i].GetComponent<Character_type>().invenUI.SetInvenItem(itemID,1);

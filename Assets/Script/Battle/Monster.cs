@@ -52,7 +52,7 @@ public class Monster :MonsterStat
     {
         deck = gameObject.AddComponent<Deck>();
         card = gameObject.AddComponent<MonsterCard>();
-        if (no == 30000024)
+/*        if (no == 30000024)
         {
             Destroy(GetComponent<UnitAnimationControl>());
             gameObject.AddComponent<DragonAnimationControl>().SetAnimator();
@@ -60,7 +60,7 @@ public class Monster :MonsterStat
         else
         {
             GetComponent<UnitAnimationControl>().SetAnimator();
-        }
+        }*/
     }
 
     private void Update()
@@ -121,8 +121,10 @@ public class Monster :MonsterStat
         else
         {
             monsterList[int.Parse(no.ToString().Substring(no.ToString().Length - 3)) - 1].SetActive(true);
-            if(no != 30000020)
-                weaponList[Random.Range(0, weaponList.Length)].SetActive(true);
+            if (no != 30000020)
+                weaponList[Random.Range(0, weaponList.Length - 1)].SetActive(true);
+            else
+                weaponList[weaponList.Length - 1].SetActive(true);
         }
         AddActInDeck();
         Hp = maxHp;

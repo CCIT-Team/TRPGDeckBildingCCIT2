@@ -11,7 +11,6 @@ public class RewardUI : MonoBehaviour
     List<int> rewardItem = new List<int>();
     [HideInInspector]
     public int rewardCount = 0;
-    List<Character> characters = new();
     void Start()
     {
         
@@ -46,16 +45,15 @@ public class RewardUI : MonoBehaviour
     {
         if(N_BattleManager.instance.currentUnit.CompareTag("Player"))
         {
-            N_BattleManager.instance.currentUnit.GetComponent<Character>().SetExp(rewardExp);
-            characters.Add(N_BattleManager.instance.currentUnit.GetComponent<Character>());
+            if (!N_BattleManager.instance.units.Contains(N_BattleManager.instance.currentUnit))
+                N_BattleManager.instance.units.Add(N_BattleManager.instance.currentUnit);
         }
-            
+
         foreach (Unit unit in N_BattleManager.instance.units)
         {
             if(unit.CompareTag("Player"))
             {
                 unit.GetComponent<Character>().SetExp(rewardExp);
-                characters.Add(unit.GetComponent<Character>());
             }
         }
         GameObject reward;
@@ -63,10 +61,10 @@ public class RewardUI : MonoBehaviour
         {
             reward = Instantiate(rewardUIPrefab, this.transform);
             reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
-            for (int j = 0; j < characters.Count; j++)
+            for (int j = 0; j < N_BattleManager.instance.units.Count; j++)
             {
                 reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = "Deleted";
-                reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = characters[j].gameObject.name + " È¹µæ";
+                reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = N_BattleManager.instance.units[j].gameObject.name + " È¹µæ";
             }
             foreach ( TMP_Text text in reward.GetComponent<RewardDisplay>().ButtonTexts)
             {
@@ -77,10 +75,10 @@ public class RewardUI : MonoBehaviour
         }
         reward = Instantiate(rewardUIPrefab, this.transform);
         reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold, false);
-        for (int j = 0; j < characters.Count; j++)
+        for (int j = 0; j < N_BattleManager.instance.units.Count; j++)
         {
             reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = "Deleted";
-            reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = characters[j].gameObject.name + " È¹µæ";
+            reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = N_BattleManager.instance.units[j].gameObject.name + " È¹µæ";
         }
         foreach (TMP_Text text in reward.GetComponent<RewardDisplay>().ButtonTexts)
         {

@@ -281,6 +281,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             monsterArray[i].transform.localPosition = new Vector3(3 * (i - monsterArray.Length / 2 + (monsterArray.Length + 1) % 2 / 2f), 0, 0);
             monsterArray[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
             units.Add(monsterArray[i].GetComponent<Unit>());
+            monsterArray[i].GetComponent<UnitAnimationControl>().SetAnimator();
         }
         monsterUI.SetMonster(monsterArray);
         BattleUI.instance.BindPlayer(playerarray);
@@ -321,7 +322,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
                 }
             }
             isDragonLanding = true;
-        }    
+        }
         currentUnit = units[0];
         units.Remove(currentUnit);
         if (currentUnit.gameObject.CompareTag("Player"))

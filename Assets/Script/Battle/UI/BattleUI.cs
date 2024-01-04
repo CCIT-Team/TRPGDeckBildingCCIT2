@@ -63,8 +63,11 @@ public class BattleUI : MonoBehaviour
     private void Update()
     {
         announceImage.color = new Color(1,1,1,announceText.color.a);
-        playerBar.guard.text = playerBar.linkedPlayerStat.attackGuard.ToString();
-        playerBar.magicGuard.text = playerBar.linkedPlayerStat.magicGuard.ToString();
+        if(playerBar.linkedPlayerStat != null)
+        {
+            playerBar.guard.text = playerBar.linkedPlayerStat.attackGuard.ToString();
+            playerBar.magicGuard.text = playerBar.linkedPlayerStat.magicGuard.ToString();
+        }
     }
 
     public void BindPlayer(GameObject[] playerarray)
