@@ -557,13 +557,12 @@ public class Tile : MonoBehaviour
              adjacentTiles[0].gameObject.transform.position.x,
             adjacentTiles[0].gameObject.transform.position.y,
              adjacentTiles[0].gameObject.transform.position.z), 0.05f);
-        if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.1f)
+        if (Vector3.Distance(adjacentTiles[0].transform.position, tagPlayer.transform.position) <= 0.05f)
         {
             Map.instance.startTile = adjacentTiles[0];
             Map.instance.pathTileObjectList.Clear();
             Map.instance.isPlayerOnEndTile = true;
             Map.instance.currentInteracteUITile = null;
-            Map.instance.wolrdTurn.currentPlayer.isMyturn = false;
             Map.instance.isOutofUI = false;
         }
     }

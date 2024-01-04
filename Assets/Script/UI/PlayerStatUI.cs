@@ -66,6 +66,8 @@ public class PlayerStatUI : MonoBehaviour
     private void Update()
     {
         UpdateGuardUI();
+        hpbar.fillAmount = linkedPlayerStat.hp / linkedPlayerStat.maxHp;
+        hpbarText.text = linkedPlayerStat.hp.ToString();
     }
 
     public void UpdateHpUI(float value)

@@ -155,22 +155,22 @@ public class InventoryUI : MonoBehaviour
             {
                 if (likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Fighter)
                 {
-                    SetInvenItem(12001001, 10);
-                    SetInvenItem(22000001, 10);
-                    SetInvenItem(22000002, 10);
+                    SetInvenItem(12001039, 10);
+                    SetInvenItem(22000018, 10);
+                    SetInvenItem(22000017, 10);
                 }
                 else if(likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Wizard)
                 {
-                    SetInvenItem(12001018, 10);
-                    SetInvenItem(22000021, 10);
-                    SetInvenItem(22000022, 10);
+                    SetInvenItem(12001019, 10);
+                    SetInvenItem(22000023, 10);
+                    SetInvenItem(22000024, 10);
                 }
                 else if (likedPlayer.GetComponent<Character_type>().major == PlayerType.Major.Cleric)
                 {
-                    SetInvenItem(12001026, 10);
+                    SetInvenItem(12001027, 10);
                     SetInvenItem(12001016, 10);
-                    SetInvenItem(22000001, 10);
-                    SetInvenItem(22000002, 10);
+                    SetInvenItem(22000018, 10);
+                    SetInvenItem(22000017, 10);
                 }
             }
         }
