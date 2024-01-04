@@ -12,8 +12,10 @@ public class TestAnimation : MonoBehaviour
 
     [Header("Controller")]
     [SerializeField][Range(1, 2)] private int sexType;
-    [SerializeField][Range(1, 3)] private int raceType;
+    [SerializeField] private bool changeRaceType;
     [SerializeField][Range(1, 3)] private int classType;
+    [SerializeField] private bool changeEyeColor;
+    [SerializeField] private bool changeSkinColor;
 
     [Header("Others")]
     [SerializeField] private Animator animator2;
@@ -21,6 +23,10 @@ public class TestAnimation : MonoBehaviour
     private Animator animator;
     private SkinnedMeshRenderer raceTarget;
     private List<SkinnedMeshRenderer> sexTarget;
+    private int raceType;
+    private Material eyeMaterial;
+    private Material skinMaterial;
+    private const float offset = -0.015625f;
 
     private void Start()
     {
@@ -40,10 +46,17 @@ public class TestAnimation : MonoBehaviour
         fighter.gameObject.SetActive(true);
         cleric.gameObject.SetActive(false);
         wizard.gameObject.SetActive(false);
+
+        eyeMaterial = characterModel.GetComponent<SkinnedMeshRenderer>().materials[2];
+        skinMaterial = characterModel.GetComponent<SkinnedMeshRenderer>().materials[1];
+
+        raceType = 1;
     }
 
     private void Update()
     {
+        transform.eulerAngles = new Vector3 (0f, -65f + Mathf.PingPong(Time.time * 15f, 130f), 0f);
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             animator.SetTrigger("attack");
@@ -65,21 +78,40 @@ public class TestAnimation : MonoBehaviour
                 target.SetBlendShapeWeight(0, 100f);
             }
         }
+        if (changeRaceType)
+        {
+            raceType++;
+            if (raceType == 5)
+            {
+                raceType = 1;
+            }
 
-        if (raceType == 1)
-        {
-            raceTarget.SetBlendShapeWeight(1, 0f);
-            raceTarget.SetBlendShapeWeight(2, 0f);
-        }
-        else if (raceType == 2)
-        {
-            raceTarget.SetBlendShapeWeight(1, 100f);
-            raceTarget.SetBlendShapeWeight(2, 0f);
-        }
-        else if (raceType == 3)
-        {
-            raceTarget.SetBlendShapeWeight(1, 0f);
-            raceTarget.SetBlendShapeWeight(2, 100f);
+            if (raceType == 1)
+            {
+                raceTarget.SetBlendShapeWeight(1, 0f);
+                raceTarget.SetBlendShapeWeight(2, 0f);
+                skinMaterial.mainTextureOffset = new Vector2(0, offset * 0f);
+            }
+            else if (raceType == 2)
+            {
+                raceTarget.SetBlendShapeWeight(1, 100f);
+                raceTarget.SetBlendShapeWeight(2, 0f);
+                skinMaterial.mainTextureOffset = new Vector2(0, offset * 4f);
+            }
+            else if (raceType == 3)
+            {
+                raceTarget.SetBlendShapeWeight(1, 100f);
+                raceTarget.SetBlendShapeWeight(2, 0f);
+                skinMaterial.mainTextureOffset = new Vector2(0, offset * 7f);
+            }
+            else if (raceType == 4)
+            {
+                raceTarget.SetBlendShapeWeight(1, 0f);
+                raceTarget.SetBlendShapeWeight(2, 100f);
+                skinMaterial.mainTextureOffset = new Vector2(0, offset * 11f);
+            }
+
+            changeRaceType = false;
         }
 
         if (classType == 1)
@@ -105,6 +137,38 @@ public class TestAnimation : MonoBehaviour
             fighter.gameObject.SetActive(false);
             cleric.gameObject.SetActive(false);
             wizard.gameObject.SetActive(true);
+        }
+
+        if (changeEyeColor)
+        {
+            eyeMaterial.mainTextureOffset += new Vector2(0, offset);
+            if (eyeMaterial.mainTextureOffset.y <= -0.1875f)
+            {
+                eyeMaterial.mainTextureOffset = new Vector2(0, 0);
+            }
+            changeEyeColor = false;
+        }
+
+        if (changeSkinColor)
+        {
+            skinMaterial.mainTextureOffset += new Vector2(0, offset);
+            if (raceType == 1 && skinMaterial.mainTextureOffset.y < -0.046875f)
+            {
+                skinMaterial.mainTextureOffset = new Vector2(0, 0);
+            }
+            if (raceType == 2 && skinMaterial.mainTextureOffset.y < -0.09375f)
+            {
+                skinMaterial.mainTextureOffset = new Vector2(0, 0);
+            }
+            if (raceType == 3 && skinMaterial.mainTextureOffset.y < -0.140625f)
+            {
+                skinMaterial.mainTextureOffset = new Vector2(0, 0);
+            }
+            if (raceType == 4 && skinMaterial.mainTextureOffset.y < -0.21875f)
+            {
+                skinMaterial.mainTextureOffset = new Vector2(0, 0);
+            }
+            changeSkinColor = false;
         }
     }
 }
