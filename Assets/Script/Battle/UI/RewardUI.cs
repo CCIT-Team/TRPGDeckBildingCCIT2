@@ -59,16 +59,14 @@ public class RewardUI : MonoBehaviour
             }
         }
         GameObject reward;
-        int playercount = 0;
         for (int i = 0; i< rewardItem.Count; i++)
         {
             reward = Instantiate(rewardUIPrefab, this.transform);
             reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardItem[i]);
-            foreach (Character character in characters)
+            for (int j = 0; j < characters.Count; j++)
             {
-                reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = "Deleted";
-                reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = character.gameObject.name + " È¹µæ";
-                playercount++;
+                reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = "Deleted";
+                reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = characters[j].gameObject.name + " È¹µæ";
             }
             foreach ( TMP_Text text in reward.GetComponent<RewardDisplay>().ButtonTexts)
             {
@@ -77,14 +75,12 @@ public class RewardUI : MonoBehaviour
             }
             rewardCount++;
         }
-        playercount = 0;
         reward = Instantiate(rewardUIPrefab, this.transform);
         reward.GetComponent<RewardDisplay>().DisplayRewardInfo(rewardGold, false);
-        foreach (Character character in characters)
+        for (int j = 0; j < characters.Count; j++)
         {
-            reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = "Deleted";
-            reward.GetComponent<RewardDisplay>().ButtonTexts[playercount].text = character.gameObject.name + " È¹µæ";
-            playercount++;
+            reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = "Deleted";
+            reward.GetComponent<RewardDisplay>().ButtonTexts[j].text = characters[j].gameObject.name + " È¹µæ";
         }
         foreach (TMP_Text text in reward.GetComponent<RewardDisplay>().ButtonTexts)
         {
@@ -92,7 +88,6 @@ public class RewardUI : MonoBehaviour
                 text.transform.parent.gameObject.SetActive(false);
         }
         rewardCount++;
-        playercount = 0;
         StartCoroutine(WaitGetAllReward());
     }
 
