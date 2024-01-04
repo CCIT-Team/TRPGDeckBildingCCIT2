@@ -289,7 +289,7 @@ public class Map : MonoBehaviour
                 Vector3.MoveTowards(wolrdTurn.currentPlayer.transform.position,
                 nextTilePosition, playerSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f && isPlayerMoving)
+            if (Vector3.Distance(pathTileObjectList[currentPositionNum].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f && isPlayerMoving)
             {
                 if (currentPositionNum < pathTileObjectList.Count) { currentPositionNum += 1; }
                 else { currentPositionNum = pathTileObjectList.Count - 1; }
@@ -298,7 +298,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.5f)
+        if (pathTileObjectList.Count > 0 && Vector3.Distance(pathTileObjectList[pathTileObjectList.Count - 1].transform.position, wolrdTurn.currentPlayer.transform.position) <= 0.1f)
         {
             if (!isOutofUI)
             {
@@ -321,6 +321,10 @@ public class Map : MonoBehaviour
     private void Update()
     {
         MovePlayer();
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            wolrdTurn.currentPlayer.gold += 500;
+        }
         if (Input.GetKeyDown(KeyCode.C))
         {
             wolrdTurn.currentPlayer.maxCost = 5;
