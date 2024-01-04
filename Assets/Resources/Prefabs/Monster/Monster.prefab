@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9d7cd1632b6004b9f59e3b40112145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 6805637696104779763}
   targetControler: {fileID: 0}
   monsterBone: {fileID: 6245576000949539150}
   humanBone: {fileID: 7992819214155374189}
@@ -44604,7 +44604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7992819214155007429
 Transform:
   m_ObjectHideFlags: 0
@@ -44717,7 +44717,7 @@ SkinnedMeshRenderer:
   - {fileID: 7992819214155063031}
   - {fileID: 7992819214155048501}
   m_BlendShapeWeights: []
-  m_RootBone: {fileID: 7992819214155029069}
+  m_RootBone: {fileID: 6245576000949374126}
   m_AABB:
     m_Center: {x: 0, y: 94.19189, z: -1.8696165}
     m_Extent: {x: 102.12035, y: 102.584785, z: 31.558674}
