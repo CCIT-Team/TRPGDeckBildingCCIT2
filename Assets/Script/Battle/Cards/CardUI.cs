@@ -81,6 +81,8 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
         image.sprite = Resources.Load<Sprite>("UI/Cards/" + bindCard.cardData.variableName);
         if (bindCard.cardData.variableName == "Defcon")
             image.sprite = Resources.Load<Sprite>("UI/Cards/Defcon_fighter");
+        if (bindCard.cardData.variableName == "Heal")
+            image.sprite = Resources.Load<Sprite>("UI/Cards/Defcon_Blessoflight");
     }
 
     void SetLayerMask()
