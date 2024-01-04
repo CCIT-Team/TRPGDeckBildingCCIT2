@@ -304,6 +304,8 @@ public class N_Card : MonoBehaviour   //카드 정보와 효과 함수만 가질 것
                 return 17;
             case "Attack":
                 return 11;
+            case "Heal":
+                return 17;
         }
     }
 

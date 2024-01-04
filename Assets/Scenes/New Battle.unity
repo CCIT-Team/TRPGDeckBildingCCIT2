@@ -3353,7 +3353,7 @@ MonoBehaviour:
     type: 3}
   currentTargetIndicator: {fileID: 2005228505}
   Accelerator: {fileID: 265545553}
-  cardDumpZone: {fileID: 0}
+  cardDumpZone: {fileID: 1641135599}
   cardHighlightPosition: {fileID: 1002793641}
   cardStartTransform: {fileID: 197696934}
   extraCardTransform: {fileID: 1974570361}

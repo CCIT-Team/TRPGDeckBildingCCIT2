@@ -9,6 +9,8 @@ public class UnitAnimationControl : MonoBehaviour
     public CardAnimationEvent ATEvent;
     public Animator animator;
     public UnitAnimationControl targetControler;
+    public GameObject monsterBone;
+    public GameObject humanBone;
 
 
     public BattleParticleAndSound particleAndSound;
@@ -73,14 +75,18 @@ public class UnitAnimationControl : MonoBehaviour
             particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Monster");
             if(gameObject.CompareTag("Monster") && (GetComponent<Monster>().no == 30000007))
             {
+                Destroy(humanBone);
                 animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/WandStaff");
                 particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Wizard");
             }
             else if (GetComponent<Monster>().no == 30000020)
             {
-                animator.enabled = false;
-                animator = GetComponent<Monster>().monsterList[19].GetComponent<Animator>();
+                Destroy(monsterBone);
+                animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/In Battle/WandStaff");
+                particleAndSound = Resources.Load<BattleParticleAndSound>("SFX & BGM/SFX/Battle/Combat_Wizard");
             }
+            else
+                Destroy(humanBone);
 
         }
             

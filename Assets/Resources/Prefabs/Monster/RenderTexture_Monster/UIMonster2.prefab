@@ -616,7 +616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6749704551761889196}
   - component: {fileID: 3630891947268681399}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Female_Witch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -848,7 +848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5314400496589059346}
   - component: {fileID: 3115676958012845782}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Shaman (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2172,7 +2172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1528537855367665115}
   - component: {fileID: 7185359519863457770}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_WarChief (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2306,7 +2306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5078600841684723931}
   - component: {fileID: 6576637831997888004}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Warrior_Male (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2440,7 +2440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5395019328303523602}
   - component: {fileID: 6798719740977453387}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Warrior_Male (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2783,7 +2783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7171523772011660850}
   - component: {fileID: 786443988993276032}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Warrior_Male (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3523,7 +3523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1094984209589435000}
   - component: {fileID: 7787571209373478443}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_WarChief (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3853,7 +3853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4724856363678781851}
   - component: {fileID: 2698967307666605669}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Rock_Golem (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9453,7 +9453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 845121412087883557}
   - component: {fileID: 6633749416555704694}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_WarChief (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10175,7 +10175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7498617669831295618}
   - component: {fileID: 1654271479294841507}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Shaman (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10730,7 +10730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5764477869040893971}
   - component: {fileID: 1158839818539592346}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Shaman (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

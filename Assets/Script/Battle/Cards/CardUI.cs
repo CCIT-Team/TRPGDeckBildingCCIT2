@@ -131,7 +131,7 @@ public class CardUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBe
             if (bindCard.cardData.description.Contains("회복"))
                 damageColor = "green";
             else if (bindCard.cardData.description.Contains("마법") && bindCard.cardData.description.Contains("물리"))
-                damageColor = "A0009A4";
+                damageColor = "#A009A4";
             else if (bindCard.cardData.description.Contains("마법"))
                 damageColor = "#00AFFF";
             else

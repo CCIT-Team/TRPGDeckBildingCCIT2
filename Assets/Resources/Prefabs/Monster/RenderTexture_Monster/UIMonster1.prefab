@@ -418,140 +418,6 @@ Transform:
   - {fileID: 7894546558066066604}
   m_Father: {fileID: 93257253377052862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &747068750239010688
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2618741084492925276}
-  - component: {fileID: 4120847155364236942}
-  m_Layer: 0
-  m_Name: Character_Rock_Golem (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2618741084492925276
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747068750239010688}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6282089364461282096}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &4120847155364236942
-SkinnedMeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747068750239010688}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 3
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  serializedVersion: 2
-  m_Quality: 0
-  m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300056, guid: b69174d668ba02d44b14a084b217670a, type: 3}
-  m_Bones:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_BlendShapeWeights: []
-  m_RootBone: {fileID: 0}
-  m_AABB:
-    m_Center: {x: 0.005722046, y: 85.23162, z: -2.7237654}
-    m_Extent: {x: 102.46167, y: 96.294106, z: 25.99654}
-  m_DirtyAABB: 0
 --- !u!1 &905609954929981787
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5139575767502143124}
   - component: {fileID: 5999364254965387162}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Warrior_Male (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1377,6 +1243,140 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6245576000949374110}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
+--- !u!1 &1706821995656544375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8650335880309642846}
+  - component: {fileID: 4370407834213813278}
+  m_Layer: 7
+  m_Name: Character_Rock_Golem (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8650335880309642846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706821995656544375}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6282089364461282096}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &4370407834213813278
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706821995656544375}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4300056, guid: b69174d668ba02d44b14a084b217670a, type: 3}
+  m_Bones:
+  - {fileID: 6245576000949374126}
+  - {fileID: 6245576000949374106}
+  - {fileID: 6245576000949374272}
+  - {fileID: 6245576000949374286}
+  - {fileID: 6245576000949374284}
+  - {fileID: 6245576000949374112}
+  - {fileID: 6245576000949374108}
+  - {fileID: 6245576000949374178}
+  - {fileID: 6245576000949374180}
+  - {fileID: 6245576000949374204}
+  - {fileID: 6245576000949374124}
+  - {fileID: 6245576000949374200}
+  - {fileID: 6245576000949374096}
+  - {fileID: 6245576000949374282}
+  - {fileID: 6245576000949374326}
+  - {fileID: 6245576000949374322}
+  - {fileID: 6245576000949374104}
+  - {fileID: 6245576000949374084}
+  - {fileID: 6245576000949374080}
+  - {fileID: 6245576000949374092}
+  - {fileID: 6245576000949374176}
+  - {fileID: 6245576000949374188}
+  - {fileID: 6245576000949374184}
+  - {fileID: 6245576000949374100}
+  - {fileID: 6245576000949374202}
+  - {fileID: 6245576000949374122}
+  - {fileID: 6245576000949374182}
+  - {fileID: 6245576000949374110}
+  - {fileID: 6245576000949374280}
+  - {fileID: 6245576000949374324}
+  - {fileID: 6245576000949374320}
+  - {fileID: 6245576000949374086}
+  - {fileID: 6245576000949374082}
+  - {fileID: 6245576000949374094}
+  - {fileID: 6245576000949374090}
+  - {fileID: 6245576000949374190}
+  - {fileID: 6245576000949374186}
+  - {fileID: 6245576000949374102}
+  - {fileID: 6245576000949374098}
+  - {fileID: 6245576000949374328}
+  - {fileID: 6245576000949374114}
+  - {fileID: 6245576000949374164}
+  - {fileID: 6245576000949374160}
+  - {fileID: 6245576000949374332}
+  - {fileID: 6245576000949374330}
+  - {fileID: 6245576000949374116}
+  - {fileID: 6245576000949374166}
+  - {fileID: 6245576000949374162}
+  - {fileID: 6245576000949374334}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 6245576000949374126}
+  m_AABB:
+    m_Center: {x: 0.005722046, y: 85.23162, z: -2.7237654}
+    m_Extent: {x: 102.46167, y: 96.294106, z: 25.99654}
+  m_DirtyAABB: 0
 --- !u!1 &1709659028461558467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,7 +1406,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5211890152989585819}
   - {fileID: 2575505212814872426}
@@ -1434,7 +1434,7 @@ Transform:
   - {fileID: 6245576000949374198}
   - {fileID: 6245576000949374196}
   - {fileID: 6245576000949374194}
-  - {fileID: 2618741084492925276}
+  - {fileID: 8650335880309642846}
   - {fileID: 6245576000949374192}
   - {fileID: 6245576000949374126}
   - {fileID: 4806165809866774985}
@@ -1498,7 +1498,7 @@ MonoBehaviour:
   - {fileID: 2575488960986565325}
   - {fileID: 6245576000949539068}
   - {fileID: 6245576000949539070}
-  - {fileID: 747068750239010688}
+  - {fileID: 1706821995656544375}
   - {fileID: 4710018514023775602}
   no: 0
 --- !u!1 &1822502144958032002
@@ -1672,7 +1672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3450251724824061905}
   - component: {fileID: 6213272019245891902}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_WarChief (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2347,7 +2347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5211890152989585819}
   - component: {fileID: 3887141235906060042}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Female_Witch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2481,7 +2481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3699209450363333898}
   - component: {fileID: 2998319844991630454}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Shaman (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3208,7 +3208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4600382087232473863}
   - component: {fileID: 153917136473959768}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Warrior_Male (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3727,7 +3727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1518719994600096475}
   - component: {fileID: 8764534366169574646}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Shaman (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4556,7 +4556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 983913657515497244}
   - component: {fileID: 2771273014674644983}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_WarChief (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5369,7 +5369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1880666182924770017}
   - component: {fileID: 5820761984463111686}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Warrior_Male (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10054,7 +10054,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1906880583734890429}
   - component: {fileID: 7212245213040374400}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_WarChief (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10859,7 +10859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8316549916446272462}
   - component: {fileID: 1135724314846904227}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character_Goblin_Shaman (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
