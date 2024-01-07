@@ -40,8 +40,8 @@ namespace EZCameraShake
 
         private void Start()
         {
-            RestPositionOffset = transform.position;
-            RestRotationOffset = transform.eulerAngles;
+            RestPositionOffset = transform.localPosition;
+            RestRotationOffset = transform.localEulerAngles;
         }
 
         void Update()

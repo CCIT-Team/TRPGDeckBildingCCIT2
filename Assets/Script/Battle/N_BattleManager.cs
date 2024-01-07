@@ -1,3 +1,4 @@
+using EZCameraShake;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
     public bool isHandOver = false;
     [HideInInspector]
     public bool isDragonLanding = false;
+
+    [SerializeField] private BattleCameraMove cameraHolder;
 
     public bool IsAction
     {
@@ -317,7 +320,7 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
             {
                 if (unit.gameObject.name.Contains("드래곤"))
                 {
-                    Camera.main.GetComponent<BattleCameraMove>().monsterSight = Camera.main.GetComponent<BattleCameraMove>().playerSight;
+                    cameraHolder.monsterSight = cameraHolder.playerSight;
                     yield return new WaitForSeconds(3f);
                 }
             }
@@ -338,7 +341,8 @@ public class N_BattleManager : MonoBehaviour //전투, 턴 관리
         }    
         else
             BattleUI.instance.playerBar.gameObject.SetActive(false);
-        Camera.main.GetComponent<BattleCameraMove>().cameratarget = currentUnit.gameObject;
+        cameraHolder.cameratarget = currentUnit.gameObject;
+
         isTurnAnnounce = true;
         GetComponent<AudioSource>().PlayOneShot(audioClips[1]);
         StartCoroutine(DisplayCurrentTurn());

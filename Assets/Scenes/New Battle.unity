@@ -4261,6 +4261,7 @@ MonoBehaviour:
   isBuffRun_All: 0
   isHandOver: 0
   isDragonLanding: 0
+  cameraHolder: {fileID: 2105128257}
 --- !u!82 &1509267726
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4370,7 +4371,6 @@ GameObject:
   - component: {fileID: 1576886061}
   - component: {fileID: 1576886064}
   - component: {fileID: 1576886066}
-  - component: {fileID: 1576886067}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4445,13 +4445,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576886060}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07042656, y: -0.83788824, z: 0.11140379, w: 0.529691}
-  m_LocalPosition: {x: 10.13848, y: 4.3, z: 7.061022}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 15.147, y: -115.4, z: 0}
+  m_Father: {fileID: 2105128258}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1576886064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4512,21 +4512,6 @@ MonoBehaviour:
   DefaultRotInfluence: {x: 1, y: 1, z: 1}
   RestPositionOffset: {x: 0, y: 0, z: 0}
   RestRotationOffset: {x: 0, y: 0, z: 0}
---- !u!114 &1576886067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576886060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75d81dc24170a6f488f355ea844ab907, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSight: {fileID: 1862600251}
-  monsterSight: {fileID: 1662270166}
-  cameratarget: {fileID: 0}
 --- !u!1 &1581029884
 GameObject:
   m_ObjectHideFlags: 0
@@ -7843,6 +7828,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a7fd9954f0c824d89ea6954a5aa409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2105128256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105128258}
+  - component: {fileID: 2105128257}
+  m_Layer: 0
+  m_Name: CameraHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2105128257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105128256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75d81dc24170a6f488f355ea844ab907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSight: {fileID: 1862600251}
+  monsterSight: {fileID: 1662270166}
+  cameratarget: {fileID: 0}
+--- !u!4 &2105128258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105128256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.07042657, y: -0.83788824, z: 0.1114038, w: 0.529691}
+  m_LocalPosition: {x: 10.13848, y: 4.3, z: 7.061022}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1576886063}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2114291235
 GameObject:
   m_ObjectHideFlags: 0
@@ -8498,7 +8531,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1773801407}
-  - {fileID: 1576886063}
+  - {fileID: 2105128258}
   - {fileID: 859020883}
   - {fileID: 1043437215}
   - {fileID: 1509267724}
