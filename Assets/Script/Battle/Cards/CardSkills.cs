@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
+using EZCameraShake;
 
 public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
 {
@@ -57,6 +58,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 monster.attackGuard = 0;
             }
         }
+        CameraShaker.Instance.ShakeOnce(finalDamage/2f, 5f, 0.1f, finalDamage/10f);
         return finalDamage;
     }
 
@@ -97,6 +99,7 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                 monster.magicGuard = 0;
             }
         }
+        CameraShaker.Instance.ShakeOnce(finalDamage / 3f, 4f, 0.1f, finalDamage / 6f);
         return finalDamage;
     }
     #region PhysicalAttack
