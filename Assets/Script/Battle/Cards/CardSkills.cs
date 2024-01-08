@@ -200,16 +200,17 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     if (player == playerUI.boundCharacter)
                     {
                         Debug.Log("캐릭 고름");
-                        int matchCardCount = 0;
+                        int matchCardCount = 1;
                         for (int i = 0; i < playerUI.hand.childCount; i++)
                         {
                             Debug.Log("패 루프" + i);
-                            GameObject card = playerUI.hand.GetChild(i).gameObject;
+                            GameObject card = playerUI.hand.GetChild(i).GetChild(0).gameObject;
                             Debug.Log("카드 : " + card.GetComponent<N_Card>().cardData.name);
                             if (card.GetComponent<N_Card>().cardData.attackType == CardData.AttackType.Attack)
                             {
                                 Debug.Log("공격 카드 소모");
                                 matchCardCount++;
+                                card.GetComponent<CardUI>().TransferUI();
                                 playerUI.boundDeck.HandToGrave(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
                             }
@@ -302,16 +303,17 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
                     if (player == playerUI.boundCharacter)
                     {
                         Debug.Log("캐릭 고름");
-                        int matchCardCount = 0;
+                        int matchCardCount = 1;
                         for (int i = 0; i < playerUI.hand.childCount; i++)
                         {
                             Debug.Log("패 루프" + i);
-                            GameObject card = playerUI.hand.GetChild(i).gameObject;
+                            GameObject card = playerUI.hand.GetChild(i).GetChild(0).gameObject;
                             Debug.Log("카드 : " + card.GetComponent<N_Card>().cardData.name);
                             if (card.GetComponent<N_Card>().cardData.name.Contains("일격"))
                             {
                                 Debug.Log("일격 카드 소모");
                                 matchCardCount++;
+                                card.GetComponent<CardUI>().TransferUI();
                                 playerUI.boundDeck.HandToGrave(card.GetComponent<N_Card>().cardData.no);
                                 playerUI.ReturnToInstant(card);
                             }
