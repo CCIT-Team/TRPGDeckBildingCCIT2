@@ -19,13 +19,10 @@ public class PlayerBattleUI : MonoBehaviour
     public Transform emptyCards;
     List<GameObject> cardInstant = new List<GameObject>();
     public Transform hand;
-    public Transform DeckTransform;
     public List<GameObject> handList = new();
 
     public float radius = 0;
     public float angle = 0;
-
-    public DeckDisplay deckDisplay;
 
     bool firstturn = true; //첫 턴 여부 확인
 
@@ -185,41 +182,5 @@ public class PlayerBattleUI : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
         yield return new WaitUntil(() => !boundCharacter.isMyturn);
         transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    bool deckCorutinRunning = false;
-    bool isopen = false;
-    Vector2 targetPosition;
-
-    public void ToggleDeck()
-    {
-        StartCoroutine(ToggleDeckDisplay(!isopen));
-    }
-
-    IEnumerator ToggleDeckDisplay(bool open)
-    {
-        RectTransform deckTransform = deckDisplay.GetComponent<RectTransform>();
-        if (open)
-            targetPosition = Vector2.zero;
-        else
-            targetPosition = new Vector3(600, 0);
-
-        isopen = !isopen;
-
-        if (!deckCorutinRunning)
-        {
-            deckCorutinRunning = true;
-            while (deckCorutinRunning)
-            {
-                yield return new WaitForSeconds(0.1f);
-                deckTransform.anchoredPosition = Vector2.Lerp(deckTransform.anchoredPosition, targetPosition, 0.2f);
-                if(Mathf.Abs(deckTransform.anchoredPosition.x - targetPosition.x) <= 0.3f) 
-                {
-                    deckTransform.anchoredPosition = targetPosition;
-                    deckCorutinRunning = false;
-                    break;
-                }
-            }
-        }
     }
 }

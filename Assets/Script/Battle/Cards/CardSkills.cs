@@ -748,6 +748,32 @@ public class CardSkills     //사용자, 사용 대상, 값, 추가효과 값, 토큰 수
         }
 
     }
+
+    public static void Rampart(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
+    {
+        if (target.TryGetComponent(out EffectTurnChecker turnChecker))
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+        else
+        {
+            turnChecker = target.gameObject.AddComponent<EffectTurnChecker>();
+            if (target.TryGetComponent(out Character character))
+                turnChecker.boundCharacter = character;
+            else
+                turnChecker.boundMonster = target.GetComponent<Monster>(); ;
+            turnChecker.StartEffect(EffectType.AttackGuard, value, extraEffect);
+        }
+
+        foreach (PlayerBattleUI targetui in BattleUI.instance.playerUI)
+        {
+            if (!targetui.gameObject.activeSelf)
+                continue;
+            if (targetui.boundCharacter == target)
+            {
+                targetui.DrawCard(1);
+                return;
+            }
+        }
+    }
     public static void FlameArmor(Unit performer, Unit target, float value, int extraEffect, int failedToken, int totalToken)
     {
         if (target.TryGetComponent(out EffectTurnChecker effectTurnChecker) && effectTurnChecker.isBuffRun[8 + (int)EffectType.Ignition])
