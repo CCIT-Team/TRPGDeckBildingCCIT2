@@ -50,7 +50,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         itemNo = _itemNo;
         amount = _amount;
         int temp = 0;
-        image.sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+        image.sprite = Resources.Load<Sprite>("UI/ItemImage/" + _itemNo.ToString());
         if(itemType == ItemType.helmet)
         {
             nameText.text = DataBase.instance.SelectArmor(_itemNo).name;
@@ -173,7 +173,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
             if (!rootObject.likedPlayer.GetComponent<Character_Equipment>().isHelmet)
             {
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isHelmet = true;
-                rootObject.equipmentSlot[0].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+                rootObject.equipmentSlot[0].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _itemNo.ToString());
                 rootObject.equipmentSlot[0].color = Color.white;
                 rootObject.equipmentSlot[0].gameObject.GetComponent<ArmorEquipmentSlotUI>().SetArmorType(DataBase.instance.SelectArmor(_itemNo));
 
@@ -186,7 +186,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 rootObject.equipmentSlot[0].gameObject.GetComponent<ArmorEquipmentSlotUI>().UnEquip(); //교체되는 부분
 
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isHelmet = true;
-                rootObject.equipmentSlot[0].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+                rootObject.equipmentSlot[0].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _itemNo.ToString());
                 rootObject.equipmentSlot[0].color = Color.white;
                 rootObject.equipmentSlot[0].gameObject.GetComponent<ArmorEquipmentSlotUI>().SetArmorType(DataBase.instance.SelectArmor(_itemNo));
 
@@ -200,7 +200,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
             if (!rootObject.likedPlayer.GetComponent<Character_Equipment>().isArmor)
             {
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isArmor = true;
-                rootObject.equipmentSlot[1].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+                rootObject.equipmentSlot[1].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _itemNo.ToString());
                 rootObject.equipmentSlot[1].color = Color.white;
                 rootObject.equipmentSlot[1].gameObject.GetComponent<ArmorEquipmentSlotUI>().SetArmorType(DataBase.instance.SelectArmor(_itemNo));
 
@@ -213,7 +213,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 rootObject.equipmentSlot[1].gameObject.GetComponent<ArmorEquipmentSlotUI>().UnEquip(); //교체되는 부분
 
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isArmor = true;
-                rootObject.equipmentSlot[1].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+                rootObject.equipmentSlot[1].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _itemNo.ToString());
                 rootObject.equipmentSlot[1].color = Color.white;
                 rootObject.equipmentSlot[1].gameObject.GetComponent<ArmorEquipmentSlotUI>().SetArmorType(DataBase.instance.SelectArmor(_itemNo));
 
@@ -230,7 +230,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 if(!rootObject.likedPlayer.GetComponent<Character_Equipment>().isJewel[i])
                 {
                     rootObject.likedPlayer.GetComponent<Character_Equipment>().isJewel[i] = true;
-                    rootObject.equipmentSlot[i+4].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+                    rootObject.equipmentSlot[i+4].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _itemNo.ToString());
                     rootObject.equipmentSlot[i+4].color = Color.white;
                     rootObject.equipmentSlot[i+4].gameObject.GetComponent<ArmorEquipmentSlotUI>().SetArmorType(DataBase.instance.SelectArmor(_itemNo));
 
@@ -246,7 +246,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 rootObject.equipmentSlot[4].gameObject.GetComponent<ArmorEquipmentSlotUI>().UnEquip(); //교체되는 부분
 
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isArmor = true;
-                rootObject.equipmentSlot[4].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _itemNo.ToString());
+                rootObject.equipmentSlot[4].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _itemNo.ToString());
                 rootObject.equipmentSlot[4].color = Color.white;
                 rootObject.equipmentSlot[4].gameObject.GetComponent<ArmorEquipmentSlotUI>().SetArmorType(DataBase.instance.SelectArmor(_itemNo));
 
@@ -288,7 +288,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
             if (!rootObject.likedPlayer.GetComponent<Character_Equipment>().isLeftWeapon)
             {
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isLeftWeapon = true;
-                rootObject.equipmentSlot[2].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
+                rootObject.equipmentSlot[2].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _no.ToString());
                 rootObject.equipmentSlot[2].color = Color.white;
                 rootObject.equipmentSlot[2].gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));
 
@@ -301,7 +301,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 rootObject.equipmentSlot[2].gameObject.GetComponent<EquipmentSlotUI>().UnEquip(); //교체되는 부분
 
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isLeftWeapon = true;
-                rootObject.equipmentSlot[2].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
+                rootObject.equipmentSlot[2].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _no.ToString());
                 rootObject.equipmentSlot[2].color = Color.white;
                 rootObject.equipmentSlot[2].gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));
 
@@ -315,7 +315,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
             if (!rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon)
             {
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon = true;
-                rootObject.equipmentSlot[3].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
+                rootObject.equipmentSlot[3].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _no.ToString());
                 rootObject.equipmentSlot[3].color = Color.white;
                 rootObject.equipmentSlot[3].gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));
 
@@ -328,7 +328,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
                 rootObject.equipmentSlot[3].gameObject.GetComponent<EquipmentSlotUI>().UnEquip(); //교체되는 부분
 
                 rootObject.likedPlayer.GetComponent<Character_Equipment>().isRightWeapon = true;
-                rootObject.equipmentSlot[3].sprite = Resources.Load<Sprite>("Test_Assets/UI/" + _no.ToString());
+                rootObject.equipmentSlot[3].sprite = Resources.Load<Sprite>("UI/ItemImage/equip/" + _no.ToString());
                 rootObject.equipmentSlot[3].color = Color.white;
                 rootObject.equipmentSlot[3].gameObject.GetComponent<EquipmentSlotUI>().SetWeaponType(DataBase.instance.SelectWeapon(_no));
 
