@@ -5,7 +5,7 @@ using UnityEngine;
 public class DragonAnimationControl : UnitAnimationControl
 {
     public float startHeight = 10;
-    public float landSpeed = 1;
+    public float landSpeed = 0.4f;
     GameObject BreathParticle;
     void Start()
     {
@@ -25,17 +25,17 @@ public class DragonAnimationControl : UnitAnimationControl
     {
         while(transform.position.y >= 2f)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.02f);
             transform.Translate(Vector3.down * landSpeed);
         }
-        transform.localPosition = new Vector3(0, 2, 0);
+        transform.localPosition = new Vector3(transform.localPosition.x, 2, transform.localPosition.z);
         animator.SetTrigger("Landing");
         while (transform.localPosition.y >= 0)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.02f);
             transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0,0,0), 0.1f * landSpeed);
         }
-        transform.localPosition = new Vector3(0,0,0);
+        transform.localPosition = new Vector3(transform.localPosition.x, 0,transform.localPosition.z);
     }
 
     public new void SetAnimator()
