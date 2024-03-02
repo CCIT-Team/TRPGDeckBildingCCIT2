@@ -22,7 +22,7 @@ TRPG의 대표작인 Dungeon and Dragon과 For the King를 레퍼런스하여 �
 
 |<img src="https://github.com/JeonSeaStar/Empathy--VR-2Team/assets/88014706/0d720e06-6b9e-497d-afbd-5922be501f78" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/10797029" width="150" height="150"/>|<img src="https://github.com/JeonSeaStar/Empathy--VR-2Team/assets/88014706/de0481a2-cad9-492f-b6ff-4b3c14bef2c6" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/89560484" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/101385960" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/89765238" width="150" height="150"/>|<img src="https://github.com/JeonSeaStar/Empathy--VR-2Team/assets/88014706/c94f056f-c4a2-4f56-a21b-57c6da366f3f" width="150" height="150"/>|
 |:-----------------:|:-----------------:|:-----------------:|:-----------------:|:-----------------:|:-----------------:|:-----------------:|
-|[tuost](https://github.com/tuost)|[DAEYEONLIM](https://github.com/DAEYEONLIM)|[JeonSeaStar](https://github.com/JeonSeaStar)|[khome7](https://github.com/khome7)|[MoccaHazel](https://github.com/MoccaHazel)|[Kimyangjun](https://github.com/Kimyangjun)|[Toddoward](https://github.com/Toddoward)|
+|[tuost](https://github.com/tuost)|[MoccaHazel](https://github.com/MoccaHazel)|[Toddoward](https://github.com/Toddoward)|
 
 
 ### 사용기술
