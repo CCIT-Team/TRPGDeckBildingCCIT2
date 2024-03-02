@@ -21,7 +21,7 @@ TRPG의 대표작인 Dungeon and Dragon과 For the King를 레퍼런스하여 �
 
 
 |<img src="https://github.com/JeonSeaStar/Empathy--VR-2Team/assets/88014706/0d720e06-6b9e-497d-afbd-5922be501f78" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/89765238" width="150" height="150"/>|<img src="https://github.com/JeonSeaStar/Empathy--VR-2Team/assets/88014706/c94f056f-c4a2-4f56-a21b-57c6da366f3f" width="150" height="150"/>|
-|:-----------------:|:-----------------:|:-----------------:|:
+|:-----------------:|:-----------------:|:-----------------:|
 |[tuost](https://github.com/tuost)|[MoccaHazel](https://github.com/MoccaHazel)|[Toddoward](https://github.com/Toddoward)|
 
 
